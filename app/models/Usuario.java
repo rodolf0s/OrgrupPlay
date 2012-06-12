@@ -1,7 +1,7 @@
 package models;
 
 public class Usuario{
-
+ 
 	private String correo;
 	private String nombre;
 	private String pass;

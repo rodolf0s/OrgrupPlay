@@ -1,7 +1,7 @@
 package models;
 
 public class Documento {
-	
+	 
 	private String fecha;
 	private String nombre;
 	private String ruta;

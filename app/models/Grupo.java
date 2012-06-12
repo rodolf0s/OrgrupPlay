@@ -1,7 +1,7 @@
 package models;
 
 public class Grupo {
-	
+	 
 	private Integer id;
 	private String nombre;
 	private String distintivo;

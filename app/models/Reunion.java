@@ -1,7 +1,7 @@
 package models;
 
 public class Reunion {
-
+ 
 	private String fecha;
 	private String nombre;
 	private String descripcion;

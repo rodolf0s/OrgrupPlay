@@ -17,5 +17,5 @@ public class Agenda {
 	public Grupo listarGrupo(){
 		return grupo;
 	}
-
+ 
 }
