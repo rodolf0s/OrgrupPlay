@@ -51,6 +51,5 @@ public class Reunion {
 	public Documento listarDocumento() {
 		return documento;
 	}
-	}
 		
 }
