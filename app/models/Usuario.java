@@ -41,15 +41,7 @@ public class Usuario{
 		
 	}
 	
-	public void crearGrupo(){
-		
-	}
-	
-	public void abandonarGrupo(){
-		
-	}
-	
-	public void crearTarea(){
+	public void agregarTarea(){
 		
 	}
 	
@@ -60,5 +52,15 @@ public class Usuario{
 	public void editarTarea(){
 		
 	}
+	
+	public void crearGrupo(){
+		
+	}
+	
+	public void abandonarGrupo(){
+		
+	}
+	
+
 	
 }

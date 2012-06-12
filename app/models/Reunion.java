@@ -21,7 +21,7 @@ public class Reunion {
 		return nombre;
 	}
 	
-	public void getNombre(String nombre){
+	public void setNombre(String nombre){
 		this.nombre = nombre;
 	}
 	
@@ -46,6 +46,11 @@ public class Reunion {
 	
 	public void eliminarDocumento(){
 		
+	}
+	
+	public Documento listarDocumento() {
+		return documento;
+	}
 	}
 		
 }

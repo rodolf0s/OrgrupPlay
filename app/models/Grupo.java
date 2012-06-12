@@ -20,7 +20,7 @@ public class Grupo {
 		return nombre;
 	}
 	
-	public void getNombre(String nombre){
+	public void setNombre(String nombre){
 		this.nombre = nombre;
 	}
 	
@@ -44,8 +44,8 @@ public class Grupo {
 		
 	}
 	
-	public void ListarReunion(){
-		
+	public Reunion ListarReunion(){
+		return reunion;
 	}
 	
 }
