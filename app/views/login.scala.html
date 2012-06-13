@@ -1,46 +1,48 @@
 @(loginForm: Form[Usuario])
 @import helper._
 
-@main(title = "Longi") {
+@main(title = "") {
     
     @helper.form(action = routes.Login.login) {
-        
-        <fieldset>
-            <legend>Account informations</legend>
+        <style>
+	.container-fluid
+		{
+		width: 250px;
+		position: relative;
+		margin-top: 0px;
+		margin-left: 65%;
+		margin-right: auto;
+
+		}
+        </style>
+
+
+    
+    <div class="container-fluid" style="background-color: #F2F2F2;">
+    <div class="row-fluid">
+    <div class="span12">
+    <fieldset>
+        	<legend>Ingresar a Orgrup</legend>
             
             @inputText(
-                loginForm("nombre"), 
-                '_label -> "Nombre", 
-                '_help -> "Please choose a valid username.",
-                '_error -> loginForm.globalError
-            )
-            
-            @inputText(
-                loginForm("email"), '_label -> "Email",
-                '_help -> "Enter a valid email address."
+                loginForm("correo"), '_label -> "Correo",
+                '_help -> ""
             )
             
             @inputPassword(
-                loginForm("password"), 
-                '_label -> "Password",
-                '_help -> "A password must be at least 6 characters. "
+                loginForm("pass"), 
+                '_label -> "Contraseña",
+                '_help -> ""
             )
-            
-            @inputPassword(
-                loginForm("repeatPassword"), 
-                '_label -> "Repeat password",
-                '_help -> "Please repeat your password again.",
-                '_error -> loginForm.error("password")
-            )
-            
         </fieldset>
-                
-        <div class="actions">
-            <input type="submit" class="btn primary" value="Sign Up">
-            <a href="@routes.Application.index" class="btn">Cancel</a>
-        </div>
-        
+    <div class="row-fluid">
+    <div class="span6"><input type="submit" class="btn primary" value="Entrar"></div>
+    <div class="span6"><a href="@routes.Application.index" class="btn">Cancel</a></div>
+    </div>
+    </div>
+    </div>
+    </div> 
+
     }
     
 }
-PICOOOOOO!!!
