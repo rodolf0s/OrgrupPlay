@@ -5,40 +5,52 @@
     
     @helper.form(action = routes.Registro.registro) {
         
-        <fieldset>
-            <legend>Account informations</legend>
+        
+        
+    		<div class="row">
+        		<div class="span12" style="float:right">
+            		<div class="span11" style="float:left;">
+            		<div class="container" style="background-color:#f2f2f2; margin:0 auto;">
+            		
+            					<fieldset>
+                		          <legend>Account informations</legend>
             
-            @inputText(
-                registroForm("nombre"), 
-                '_label -> "Nombre", 
-                '_help -> "Please choose a valid username.",
-                '_error -> registroForm.globalError
-            )
+            					  	@inputText(
+               						registroForm("nombre"), 
+                					'_label -> "Nombre", 
+                					'_help -> "Please choose a valid username.",
+                					'_error -> registroForm.globalError
+            						)
             
-            @inputText(
-                registroForm("email"), '_label -> "Email",
-                '_help -> "Enter a valid email address."
-            )
+           							@inputText(
+                					registroForm("email"), '_label -> "Email",
+                					'_help -> "Enter a valid email address."
+            						)
             
-            @inputPassword(
-                registroForm("password"), 
-                '_label -> "Password",
-                '_help -> "A password must be at least 6 characters. "
-            )
+            						@inputPassword(
+                					registroForm("password"), 
+                					'_label -> "Password",
+                					'_help -> "A password must be at least 6 characters. "
+            						)
             
-            @inputPassword(
-                registroForm("repeatPassword"), 
-                '_label -> "Repeat password",
-                '_help -> "Please repeat your password again.",
-                '_error -> registroForm.error("password")
-            )
+            						@inputPassword(
+                					registroForm("repeatPassword"), 
+                					'_label -> "Repeat password",
+                					'_help -> "Please repeat your password again.",
+                					'_error -> registroForm.error("password")
+            						)
             
-        </fieldset>
+       							 </fieldset>
                 
-        <div class="actions">
-            <input type="submit" class="btn primary" value="Registrarse">
-            <a href="@routes.Application.index" class="btn">Cancel</a>
-        </div>
+        							<div class="actions">
+           							<input type="submit" class="btn primary" value="Registrarse">
+            						<a href="@routes.Application.index" class="btn">Cancel</a>
+        							</div>
+           			</div>
+       	 		</div>
+    		</div>
+		</div>
+        
         
     }
     

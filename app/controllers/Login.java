@@ -31,8 +31,6 @@ public class Login extends Controller {
         datos.getCorreo();
         datos.getPass();
         return ok("Weeeena!");
-    }
-  
-  
+    } 
   
 }
