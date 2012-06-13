@@ -1,9 +1,16 @@
 package models;
 
+import play.data.validation.Constraints.Email;
+import play.data.validation.Constraints.Required;
+
 public class Usuario{
  
+	@Required
+	@Email
 	private String correo;
+	@Required
 	private String nombre;
+	@Required
 	private String pass;
 	private Usuario usuario;
 	
@@ -15,8 +22,7 @@ public class Usuario{
 		this.correo = correo;
 	}
 	
-	public String getNombre(){
-		
+	public String getNombre(){		
 		return nombre;
 	}
 	
@@ -60,7 +66,6 @@ public class Usuario{
 	public void abandonarGrupo(){
 		
 	}
-	
 
 	
 }
