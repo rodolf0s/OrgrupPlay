@@ -1,0 +1,45 @@
+@(registroForm: Form[Usuario])
+@import helper._
+
+@main(title = "Registro") {
+    
+    @helper.form(action = routes.Registro.registro) {
+        
+        <fieldset>
+            <legend>Account informations</legend>
+            
+            @inputText(
+                loginForm("nombre"), 
+                '_label -> "Nombre", 
+                '_help -> "Please choose a valid username.",
+                '_error -> loginForm.globalError
+            )
+            
+            @inputText(
+                loginForm("email"), '_label -> "Email",
+                '_help -> "Enter a valid email address."
+            )
+            
+            @inputPassword(
+                loginForm("password"), 
+                '_label -> "Password",
+                '_help -> "A password must be at least 6 characters. "
+            )
+            
+            @inputPassword(
+                loginForm("repeatPassword"), 
+                '_label -> "Repeat password",
+                '_help -> "Please repeat your password again.",
+                '_error -> loginForm.error("password")
+            )
+            
+        </fieldset>
+                
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Registrarse">
+            <a href="@routes.Application.index" class="btn">Cancel</a>
+        </div>
+        
+    }
+    
+}
