@@ -9,28 +9,28 @@
             <legend>Account informations</legend>
             
             @inputText(
-                loginForm("nombre"), 
+                registroForm("nombre"), 
                 '_label -> "Nombre", 
                 '_help -> "Please choose a valid username.",
-                '_error -> loginForm.globalError
+                '_error -> registroForm.globalError
             )
             
             @inputText(
-                loginForm("email"), '_label -> "Email",
+                registroForm("email"), '_label -> "Email",
                 '_help -> "Enter a valid email address."
             )
             
             @inputPassword(
-                loginForm("password"), 
+                registroForm("password"), 
                 '_label -> "Password",
                 '_help -> "A password must be at least 6 characters. "
             )
             
             @inputPassword(
-                loginForm("repeatPassword"), 
+                registroForm("repeatPassword"), 
                 '_label -> "Repeat password",
                 '_help -> "Please repeat your password again.",
-                '_error -> loginForm.error("password")
+                '_error -> registroForm.error("password")
             )
             
         </fieldset>
