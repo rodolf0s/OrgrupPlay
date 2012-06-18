@@ -12,6 +12,6 @@ public class Registro extends Controller {
 	public static Form<Usuario> registroForm = form(Usuario.class);
 	
 	public static Result registro() {
-		return ok(registro.render(registroForm));
+		return ok(registro.render());
 	}
 }

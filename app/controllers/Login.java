@@ -8,29 +8,43 @@ import views.html.*;
 
 import models.*;
 
-public class Login extends Controller {
+public class Login extends Controller{
     
     /**
-     * Define una forma de envolver la clase de usuario.
+     * Declaramos un formulario para el login, con el modelo Usuario.
      */ 
-    final static Form<Usuario> loginForm = form(Usuario.class);
+    //public static Form<Usuario> loginForm = form(Usuario.class);
   
     /**
-     * Mostrar un formulario en blanco.
+     * Mostrar la pagina del formulario.
      */ 
     public static Result login() {
-        return ok(login.render(loginForm));
+        return ok(login.render());
+    }
+
+    public static Result registro() {
+        return ok(registro.render());
     }
   
     /**
-     * Mostrar un formulario pre-llenado con una cuenta existente.
+     * metodo que comprueba el usuario y contraseña.
      */
-    public static Result edit() {
-    	loginForm.bindFromRequest();
-        Usuario datos = loginForm.get();
-        datos.getCorreo();
-        datos.getPass();
-        return ok("Weeeena!");
+    public static Result comprobarLogin() {
+    	String hola = new String();
+        Form<Usuario> form = form(Usuario.class).bindFromRequest();
+        // loginForm.bindFromRequest();
+        Usuario usuario = form.get();
+        
+        if(usuario.correo.equals("rodo")) {
+        	hola = "RODOLFO";
+        }
+        return ok(muestra.render(hola, usuario.pass));
+    } 
+
+    public static Result comprobarRegistro() {
+        // loginForm.bindFromRequest();
+        // Usuario usuario = loginForm.get();
+        return ok();
     } 
   
 }

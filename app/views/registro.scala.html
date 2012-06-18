@@ -1,57 +1,28 @@
-@(registroForm: Form[Usuario])
-@import helper._
-
 @main(title = "Registro") {
-    
-    @helper.form(action = routes.Registro.registro) {
-        
-        
-        
-    		<div class="row"> 
-        		<div class="span12" style="float:right">
-            		<div class="span11" style="float:left;">
-            		<div class="container" style="background-color:#f2f2f2; margin:0 auto;">
-            		
-            					<fieldset>
-                		          <legend>Account informations</legend>
-            
-            					  	@inputText(
-               						registroForm("nombre"), 
-                					'_label -> "Nombre", 
-                					'_help -> "Please choose a valid username.",
-                					'_error -> registroForm.globalError
-            						)
-            
-           							@inputText(
-                					registroForm("email"), '_label -> "Email",
-                					'_help -> "Enter a valid email address."
-            						)
-            
-            						@inputPassword(
-                					registroForm("password"), 
-                					'_label -> "Password",
-                					'_help -> "A password must be at least 6 characters. "
-            						)
-            
-            						@inputPassword(
-                					registroForm("repeatPassword"), 
-                					'_label -> "Repeat password",
-                					'_help -> "Please repeat your password again.",
-                					'_error -> registroForm.error("password")
-            						)
-            
-       							 </fieldset>
-                
-        							<div class="actions">
-           							<input type="submit" class="btn primary" value="Registrarse">
-            						<a href="@routes.Application.index" class="btn">Cancel</a>
-        							</div>
-           			</div>
-       	 		</div>
-    		</div>
-		</div>
-        
-        
-    }
+
+    <!-- Simple Formulario para ingresar -->
+       
+    <div class="container">
+        <div class="row">
+            <div class="span8" style="float:right">
+                <div class="span4" style="float:left;">
+
+                    <fieldset>
+                        <legend>Registro</legend>
+                        <form class="well" action="@routes.Login.comprobarRegistro">
+                            <label>Nombre</label>
+                            <input type="text" class="span3" placeholder="Nombre" name="nombre"><br>
+                            <label>Correo</label>
+                            <input type="text" class="span3" placeholder="Correo" name="correo"><br>
+                            <label>Contraseña</label>
+                            <input type="password" class="span3" placeholder="Contraseña" name="pass"><br>
+                            <button type="submit" class="btn">Submit</button>
+                        </form>
+                    </fieldset>
+
+                </div>
+            </div>
+        </div>
+    </div>
     
 }

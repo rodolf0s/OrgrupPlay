@@ -3,22 +3,18 @@ package models;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 
-public class Usuario{
+public class Usuario {
  
-	@Required
-	@Email
-	private String correo;
-	@Required
-	private String nombre;
-	@Required
-	private String pass;
+	public String correo;
+	public String nombre;
+	public String pass;
 	private Usuario usuario;
 	
 	public String getCorreo(){
 		return correo;
 	}
 
-	public void setCorreo(String correo){
+	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
 	
@@ -26,7 +22,7 @@ public class Usuario{
 		return nombre;
 	}
 	
-	public void setNombre(String nombre){
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 	
@@ -34,16 +30,16 @@ public class Usuario{
 		return pass;
 	}
 	
-	public void setPass(String pass){
+	public void setPass(String pass) {
 		this.pass = pass;
 	}
 	
 		
-	public void agregarContacto(){
+	public void agregarContacto() {
 		
 	}
 	
-	public void eliminarContacto(){
+	public void eliminarContacto() {
 		
 	}
 	
