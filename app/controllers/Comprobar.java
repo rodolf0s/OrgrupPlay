@@ -8,7 +8,7 @@ import views.html.*;
 
 import models.*;
 
-public class Login extends Controller{
+public class Comprobar extends Controller{
     
     /**
      * Declaramos un formulario para el login, con el modelo Usuario.
@@ -38,7 +38,7 @@ public class Login extends Controller{
         if(usuario.correo.equals("rodo")) {
         	hola = "RODOLFO";
         }
-        return ok(muestra.render(hola, usuario.pass));
+        return ok();
     } 
 
     public static Result comprobarRegistro() {

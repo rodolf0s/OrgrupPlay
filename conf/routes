@@ -5,10 +5,10 @@
 # Home page
 GET     /                           controllers.Application.index()
 
-GET     /login                      controllers.Login.login()
-POST     /comprobarL                 controllers.Login.comprobarLogin()
-GET     /comprobarR                 controllers.Login.comprobarRegistro()
-GET 	/registro					controllers.Login.registro()
+GET     /login                      controllers.Comprobar.login()
+POST     /comprobarL                 controllers.Comprobar.comprobarLogin()
+GET     /comprobarR                 controllers.Comprobar.comprobarRegistro()
+GET 	/registro					controllers.Comprobar.registro()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
