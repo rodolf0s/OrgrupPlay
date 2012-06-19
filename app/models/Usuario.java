@@ -1,12 +1,26 @@
 package models;
 
-import play.data.validation.Constraints.Email;
-import play.data.validation.Constraints.Required;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-public class Usuario {
- 
+import play.data.validation.Constraints.Email;
+import play.data.validation.Constraints.MinLength;
+import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
+import play.data.validation.*;
+
+@Entity
+public class Usuario extends Model{
+
+	@Id
+	@Email
+	@MinLength(50)
 	public String correo;
+	@Required
+	@MinLength(50)
 	public String nombre;
+	@Required
+	@MinLength(10) 
 	public String pass;
 	private Usuario usuario;
 	
@@ -33,35 +47,35 @@ public class Usuario {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-	
-		
-	public void agregarContacto() {
-		
-	}
-	
-	public void eliminarContacto() {
-		
-	}
-	
-	public void agregarTarea(){
-		
-	}
-	
-	public void eliminarTarea(){
-		
-	}
-	
-	public void editarTarea(){
-		
-	}
-	
-	public void crearGrupo(){
-		
-	}
-	
-	public void abandonarGrupo(){
-		
-	}
+//	
+//		
+//	public void agregarContacto() {
+//		
+//	}
+//	
+//	public void eliminarContacto() {
+//		
+//	}
+//	
+//	public void agregarTarea(){
+//		
+//	}
+//	
+//	public void eliminarTarea(){
+//		
+//	}
+//	
+//	public void editarTarea(){
+//		
+//	}
+//	
+//	public void crearGrupo(){
+//		
+//	}
+//	
+//	public void abandonarGrupo(){
+//		
+//	}
 
 	
 }
