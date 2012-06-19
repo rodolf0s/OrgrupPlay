@@ -1,7 +1,14 @@
 package models;
 
-public class Grupo {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import play.db.ebean.Model;
+
+@Entity
+public class Grupo extends Model {
 	 
+	@Id
 	private Integer id;
 	private String nombre;
 	private String distintivo;
@@ -15,8 +22,7 @@ public class Grupo {
 		this.id = id;
 	}
 	
-	public String getNombre(){
-		
+	public String getNombre(){		
 		return nombre;
 	}
 	
@@ -30,18 +36,6 @@ public class Grupo {
 	
 	public void setDistintivo(String distintivo){
 		this.distintivo = distintivo;
-	}
-	
-	public void agregarReunion(){
-		
-	}
-	
-	public void eliminarReunion(){
-		
-	}
-	
-	public void editarReunion(){
-		
 	}
 	
 	public Reunion ListarReunion(){

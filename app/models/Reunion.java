@@ -1,12 +1,19 @@
 package models;
 
-public class Reunion {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import play.db.ebean.Model;
+
+@Entity
+public class Reunion extends Model {
  
-	private String fecha;
-	private String nombre;
-	private String descripcion;
-	private String comentario;
-	private Documento documento;
+	@Id
+	public String fecha;
+	public String nombre;
+	public String descripcion;
+	public String comentario;
+	public Documento documento;
 	
 	public String getFecha(){
 		return fecha;
@@ -16,8 +23,7 @@ public class Reunion {
 		this.fecha = fecha;
 	}
 	
-	public String getNombre(){
-		
+	public String getNombre(){		
 		return nombre;
 	}
 	
@@ -40,14 +46,10 @@ public class Reunion {
 	public void setComentario(String descripcion){
 		this.descripcion = descripcion;
 	}
-	public void agregarDocumento(){
-		
-	}
 	
-	public void eliminarDocumento(){
-		
+	public void setDocumento(Documento documento) {
+		this.documento = documento;
 	}
-	
 	public Documento listarDocumento() {
 		return documento;
 	}
