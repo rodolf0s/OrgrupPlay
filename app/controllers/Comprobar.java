@@ -35,10 +35,18 @@ public class Comprobar extends Controller{
         // loginForm.bindFromRequest();
         Usuario usuario = form.get();
         
-        if(usuario.correo.equals("rodo")) {
-        	hola = "RODOLFO";
+        if(usuario.correo.equals("leo")) {
+        	if(usuario.pass.equals("leo")){
+        		hola ="bienvenido";
+        	}
+        	else {
+        		hola ="usuario y/o contraseña invalidos";
+        	}
         }
-        return ok();
+        else {
+        	hola ="usuario y/o contraseña invalidos";
+        }
+        return ok(hola);
     } 
 
     public static Result comprobarRegistro() {
