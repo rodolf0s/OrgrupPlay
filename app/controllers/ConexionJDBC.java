@@ -28,7 +28,7 @@ public class ConexionJDBC {
 		
 		Class.forName("org.postgresql.Driver").newInstance();
 		String url = "jdbc:postgresql://localhost:5432/orgrupdb";
-		conexion = DriverManager.getConnection(url, "postgres", "orgrup");
+		conexion = DriverManager.getConnection(url, "orgrup", "orgrup");
 		
 		return conexion;
 	}

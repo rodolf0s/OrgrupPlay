@@ -122,7 +122,8 @@ public class Application extends Controller {
 						st.executeUpdate();
 						
 						// return ok(test.render(pass, nombre, correo, sql));
-					return redirect(routes.Application.index());
+				//	return redirect(routes.Application.registrado());
+						return ok(registrado.render());
 					} catch (Exception e) {
 						e.printStackTrace();
 						
@@ -144,5 +145,9 @@ public class Application extends Controller {
 		session().clear();
         return redirect(routes.Application.index());
 	}
+	
+//	public static Result registrado() {
+//        return ok(registrado.render());
+//	}
   
 }
