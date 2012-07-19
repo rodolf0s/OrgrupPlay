@@ -4,11 +4,15 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+GET 	/Login						controllers.Application.login()
+POST	/Login						controllers.Application.comprobarLogin()
+GET 	/Registro					controllers.Application.registro()
+POST	/Registro					controllers.Application.comprobarRegistro()
+GET		/Logout						controllers.Application.logout()
 
-GET     /login                      controllers.Comprobar.login()
-POST     /comprobarL                 controllers.Comprobar.comprobarLogin()
-GET     /comprobarR                 controllers.Comprobar.comprobarRegistro()
-GET 	/registro					controllers.Comprobar.registro()
+GET		/App						controllers.Agenda.index()
+GET		/MiCuenta					controllers.Agenda.miCuenta()
+POST	/MiCuenta					controllers.Agenda.configuraCuenta()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

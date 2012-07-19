@@ -1,0 +1,126 @@
+@(title: String, usuario: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html lang="es">
+    <head>
+        <title>@title</title>        
+       <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap-responsive.css")">
+       <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap-responsive-min.css")">
+       <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap.css")">  
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap.min.css")"> 
+        <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap-carousel.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap-transition.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap-dropdown.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap-modal.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap-button.js")" type="text/javascript"></script>
+
+    </head>
+    <body>
+    
+    	<!-- Barra superior -->
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<a class="brand" href="@routes.Agenda.index">Orgrup</a>
+
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li class="active"><a href="#">Home</a></li>
+							<li><a href="#">Link</a></li>
+							<li><a href="#">Link</a></li>
+							<li><a href="#">Link</a></li>
+							<li class="dropdown">
+
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Action</a></li>
+									<li><a href="#">Another action</a></li>
+									<li><a href="#">Something else here</a></li>
+									<li class="divider"></li>
+									<li class="nav-header">Nav header</li>
+
+									<li><a href="#">Separated link</a></li>
+									<li><a href="#">One more separated link</a></li>
+								</ul>
+							</li>
+						</ul>
+						<form class="navbar-search pull-left" action="">
+							<input type="text" class="search-query span2" placeholder="Search">
+						</form>
+						
+						<!-- usuario -->
+						<div class="btn-group pull-right">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="icon-user"></i> @usuario
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="@routes.Agenda.miCuenta">Mi cuenta</a></li>
+								<li class="divider"></li>
+								<li><a href="@routes.Application.logout">Salir</a></li>
+
+							</ul>
+						</div>
+
+<!-- 						<ul class="nav pull-right"> -->
+<!-- 							<li><a href="#">Link</a></li> -->
+<!-- 							<li class="divider-vertical"></li> -->
+<!-- 							<li class="dropdown"> -->
+<!-- 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mi cuenta <b class="caret"></b></a> -->
+<!-- 								<ul class="dropdown-menu"> -->
+<!-- 									<li><a href="#">Action</a></li> -->
+
+<!-- 									<li><a href="#">Another action</a></li> -->
+<!-- 									<li><a href="#">Something else here</a></li> -->
+<!-- 									<li class="divider"></li> -->
+<!--  									<li><a href="@routes.Application.logout">Salir</a></li> -->
+<!-- 								</ul> -->
+<!-- 							</li> -->
+<!-- 						</ul> -->
+
+					</div><!-- /.nav-collapse -->
+				</div>
+			</div><!-- /navbar-inner -->
+		</div><!-- /navbar -->
+		<!-- Fin Barra superior -->
+		
+		
+		<div class="container-fluid">
+			<div class="row-fluid">
+    			<div class="span2" style="border: 2px solid black;">
+    				
+    			</div>
+    			<div class="span8">
+    				@content
+    			</div>
+    			<div class="span2" style="border: 2px solid black;">
+    				
+    			</div>    			
+    		</div>
+    	</div>
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="span12" style="float:right">
+						<div class="span11" style="float:left;">
+							<p>	Todos los Derechos Reservados
+								<a style="float: right;" href="#">About</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+    </body>
+</html>

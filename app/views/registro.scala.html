@@ -1,3 +1,5 @@
+@(error: String)
+
 @main(title = "Registro") {
 
     <!-- Simple Formulario para ingresar -->
@@ -9,13 +11,14 @@
 
                     <fieldset>
                         <legend>Registro</legend>
-                        <form class="well" action="@routes.Comprobar.comprobarRegistro">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" class="span3" placeholder="Nombre" name="nombre" id="nombre"><br>
+                        <form class="well" action="@routes.Application.comprobarRegistro" method="post">
+                        	<label>Nombre</label>
+                        	<input type="text" class="span3" placeholder="Nombre" name="nombre" required/><br>
                             <label for="correo">Correo</label>
-                            <input type="text" class="span3" placeholder="Correo" name="correo" id="correo"><br>
-                            <label for="contraseña">Contraseña</label>
-                            <input type="password" class="span3" placeholder="Contraseña" name="pass" id="contraseña"><br>
+                			<input type="email" class="span3" placeholder="Correo" name="correo" required><br>
+                			<label for="pass">Contraseña</label>
+                			<input type="password" class="span3" placeholder="Contraseña" name="pass" required><br>
+                			<span style="color: red;">@error</span><br>
                             <button type="submit" class="btn">Registrarse</button>
                         </form>
                     </fieldset>

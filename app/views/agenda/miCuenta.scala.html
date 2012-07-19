@@ -1,0 +1,37 @@
+@(nombre: String, correo: String, error1: String, error2: String)
+
+@app(title = "Configurar Cuenta", nombre) {	
+
+	<div class="span6">
+		<fieldset>
+			<legend>Datos Personales</legend>
+				<form class="well" action="@routes.Agenda.configuraCuenta" method="post">
+					<label>Nombre</label>
+					<input class="span10" type="text" name="nombre" value="@nombre" required>
+					<br>
+					<label>Correo</label>
+					<input class="span10" type="mail" name="correo" value="@correo" readonly="readonly">
+					<br>
+					<label>Contraseña anterior</label>
+					<input class="span10" type="password" name="pass">
+					<span style="color: red;">@error1</span>
+					<br><br>
+					<label>Nueva Contraseña</label>
+					<input class="span10" type="password" name="passNew">
+					<span style="color: red;">@error2</span>
+					<br><br>
+<!-- 					<button type="submit" class="btn">Guardar</button> -->
+					<button type="submit" id="fat-btn" class="btn" data-loading-text="Guardando..."> Guardar </button>
+					<a class="btn pull-right" href="@routes.Agenda.index">Cancelar</a>
+					
+                  	
+                  	<script type="text/javascript">
+	                  	$('#fat-btn').on('click', function () {
+	                  	  $(this).button('loading')
+	                  	})
+                  	</script>
+				</form>
+		</fieldset> 
+	</div>
+
+}
