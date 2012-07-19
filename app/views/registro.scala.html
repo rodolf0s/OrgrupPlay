@@ -12,20 +12,67 @@
                     <fieldset>
                         <legend>Registro</legend>
                         <form class="well" action="@routes.Application.comprobarRegistro" method="post">
-                        	<label>Nombre</label>
-                        	<input type="text" class="span3" placeholder="Nombre" name="nombre" required/><br>
+                        	<label for="nombre">Nombre</label>
+                        	<input type="text" class="span3" placeholder="Nombre" name="nombre" id="nombre"required/><br>
                             <label for="correo">Correo</label>
-                			<input type="email" class="span3" placeholder="Correo" name="correo" required><br>
+                			<input type="email" class="span3" placeholder="Correo" name="correo" id="correo" required><br>
                 			<label for="pass">Contraseña</label>
-                			<input type="password" class="span3" placeholder="Contraseña" name="pass" required><br>
-                			<span style="color: red;">@error</span></br>
+                			<input type="password" class="span3" placeholder="Contraseña" name="pass" id="pass" required><br>
+                			<label for="pass2">Confirmar contraseña</label>
+                			<input type="password" class="span3" placeholder="Confirmar contraseña" name="pass2" id="pass2" required><br>
+                   			<span style="color: red;">@error</span><br>
                             <button type="submit" class="btn">Registrarse</button>
                         </form>
                     </fieldset>
+                    
+	<script type="text/javascript"></script>
+	<script type="text/javascript">
 
+		jQuery(function($){
+		//variables
+		var pass1 = $('[name=pass]');
+		var pass2 = $('[name=pass2]');
+		var confirmacion = "Las contraseñas si coinciden";
+		var longitud = "La contraseña debe estar formada entre 6-10 carácteres (ambos inclusive)";
+		var negacion = "No coinciden las contraseñas";
+		var vacio = "La contraseña no puede estar vacía";
+
+		//creo el elemento span
+		var span = $('<span></span>').insertAfter(pass2);
+		//oculto por defecto el elemento span
+		span.hide();
+
+		//función que comprueba las dos contraseñas
+		function coincidePassword(){
+			var valor1 = pass1.val();
+			var valor2 = pass2.val();
+			//muestro el span
+			span.show().removeClass();
+			//condiciones dentro de la función
+			if(valor1 != valor2){
+				span.text(negacion).addClass('negacion');
+			}
+			if(valor1.length==0 || valor1==""){
+				span.text(vacio).addClass('negacion');
+			}
+			if(valor1.length<6 || valor1.length>10){
+				span.text(longitud).addClass('negacion');
+			}
+			if(valor1.length!=0 && valor1==valor2){
+				span.text(confirmacion).addClass('confirmacion');
+			}
+		}
+
+		//ejecuto la función al soltar la tecla
+		pass2.keyup(function(){
+			coincidePassword();
+		});
+	});
+	</script>
+	
                 </div>
             </div>
         </div>
     </div>
     
-}
+} 
