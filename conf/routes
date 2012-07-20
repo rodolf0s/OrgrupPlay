@@ -13,8 +13,8 @@ GET		/Registrado					controllers.Application.comprobarRegistro()
 GET		/About						controllers.Application.about()
 
 GET		/App						controllers.Agenda.index()
-GET		/MiCuenta					controllers.Agenda.miCuenta()
-POST	/MiCuenta					controllers.Agenda.configuraCuenta()
+GET		/MiCuenta					controllers.Cuenta.miCuenta()
+POST	/MiCuenta					controllers.Cuenta.configuraCuenta()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
