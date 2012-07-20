@@ -11,6 +11,8 @@ POST	/Registro					controllers.Application.comprobarRegistro()
 GET		/Logout						controllers.Application.logout()	
 GET		/Registrado					controllers.Application.comprobarRegistro()
 GET		/About						controllers.Application.about()
+GET		/Recuperar					controllers.RecuperarPassword.index()
+POST	/Recuperar					controllers.RecuperarPassword.enviaDatos()
 
 GET		/App						controllers.Agenda.index()
 GET		/MiCuenta					controllers.Cuenta.miCuenta()
