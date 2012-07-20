@@ -16,16 +16,12 @@ import play.mvc.Http.Request;
 
 import views.html.*;
 
+import org.apache.commons.mail.*;
+
 public class Application extends Controller {
 	
 	// Instanciamos la conexion
 	private static ConexionJDBC conexion = ConexionJDBC.getInstancia();
-	
-	
-//	public Application() {
-//		conexion = ConexionJDBC.getInstancia();
-//	}
-
   
 	public static Result index() {
 		return ok(index.render());
@@ -82,8 +78,7 @@ public class Application extends Controller {
 			
 		}
 		return ok();
-	}
-	
+	}	
 	
 	public static Result comprobarRegistro() throws SQLException {
 		String nombre;
@@ -104,8 +99,7 @@ public class Application extends Controller {
 			
 			
 			try {
-				con = conexion.abre();
-				
+				con = conexion.abre();				
 				
 				sql = "SELECT correo FROM usuario WHERE correo = '"+correo+"'";
 				PreparedStatement st = con.prepareStatement(sql);
@@ -121,8 +115,19 @@ public class Application extends Controller {
 						st = con.prepareStatement(sql);
 						st.executeUpdate();
 						
-						// return ok(test.render(pass, nombre, correo, sql));
-				//	return redirect(routes.Application.registrado());
+						// Envia un correo al usuario registrado
+//						Email email = new SimpleEmail();
+//					    email.setSmtpPort(587);
+//					    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
+//					    email.setDebug(false);
+//					    email.setHostName("smtp.gmail.com");
+//					    email.setFrom("orgrup.service@gmail.com");
+//					    email.setSubject("Gracias por Registrarse en Orgrup");
+//					    email.setMsg("Se a registrado en Orgrup. Muchas gracias");
+//					    email.addTo(correo);
+//					    email.setTLS(true);
+//					    email.send();
+						
 						return ok(registrado.render());
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -134,10 +139,8 @@ public class Application extends Controller {
 				e.printStackTrace();
 			}finally{
 				conexion.cierra();
-			}
-			
+			}			
 		}
-
 		return ok();
 	}
 	
@@ -145,9 +148,5 @@ public class Application extends Controller {
 		session().clear();
         return redirect(routes.Application.index());
 	}
-	
-//	public static Result registrado() {
-//        return ok(registrado.render());
-//	}
   
 }
