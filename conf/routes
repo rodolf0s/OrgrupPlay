@@ -10,6 +10,7 @@ GET 	/Registro					controllers.Application.registro()
 POST	/Registro					controllers.Application.comprobarRegistro()
 GET		/Logout						controllers.Application.logout()	
 GET		/Registrado					controllers.Application.comprobarRegistro()
+GET		/About						controllers.Application.about()
 
 GET		/App						controllers.Agenda.index()
 GET		/MiCuenta					controllers.Agenda.miCuenta()
