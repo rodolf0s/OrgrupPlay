@@ -153,5 +153,9 @@ public class Application extends Controller {
         return ok(about.render());
 	}
 	
+	public static Result contacto() {
+		return ok(contacto.render());
+	}
+	
   
 }
