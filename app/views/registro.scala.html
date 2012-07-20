@@ -7,9 +7,6 @@
     <!-- Simple Formulario para ingresar -->
        
     <style type="text/css">
-		form{background:white;border:1px solid #ccc;padding:22px 38px;width:265px}
-		label{color:#d25959;display:block;font-size:.8em;font-weight:600}
-		input{border:1px solid #ccc;box-shadow:inset #ccc 0 0 5px;cursor:pointer;font-style:italic;margin:8px 0 20px;padding:7px;width:250px}
 		.enviar{background:#d25959;box-shadow:none;color:white;margin-bottom:0;width:100px}
 		.enviar:hover{text-decoration:underline}
 		span{display:block;font-size:.8em;margin:0px 0 10px;padding:5px 0 5px 11px;width:200px}
@@ -25,7 +22,7 @@
 
                     <fieldset>
                         <legend>Registro</legend>
-                        <form class="well" action="@routes.Application.comprobarRegistro" method="post">
+                        <form id="form1" class="well" action="@routes.Application.comprobarRegistro" method="post">
                         	<label for="nombre">Nombre</label>
                         	<input type="text" class="span3" placeholder="Nombre" name="nombre" id="nombre"required/><br>
                             <label for="correo">Correo</label>
@@ -42,37 +39,42 @@
 	<script type="text/javascript"></script>
 	<script type="text/javascript">
 
-		jQuery(function($){
+		jQuery(function(){
 		//variables
+		$('#form1').submit(coincidePassword);  
 		var pass1 = $('[name=pass]');
 		var pass2 = $('[name=pass2]');
 		var confirmacion = "Las contraseñas si coinciden";
 		var longitud = "La contraseña debe estar formada entre 6-20 carácteres(ambos inclusive)";
 		var negacion = "No coinciden las contraseñas";
 		var vacio = "La contraseña no puede estar vacía";
-
+		
 		//creo el elemento span
 		var span = $('<span></span>').insertAfter(pass2);
 		//oculto por defecto el elemento span
 		span.hide();
 
 		//función que comprueba las dos contraseñas
-		function coincidePassword(){
+		function coincidePassword(event){
 			var valor1 = pass1.val();
 			var valor2 = pass2.val();
+			var valor;
 			//muestro el span
 			span.show().removeClass();
 			//condiciones dentro de la función
 			if(valor1 != valor2){
 				span.text(negacion).addClass('negacion');
+				event.preventDefault();  
 			}
-			if(valor1.length==0 || valor1==""){
+			else if(valor1.length==0 || valor1==""){
 				span.text(vacio).addClass('negacion');
+				event.preventDefault();  
 			}
-			if(valor1.length<6 || valor1.length>10){
+			else if(valor1==valor2 && valor1.length<6 || valor1.length>20){
 				span.text(longitud).addClass('negacion');
+				event.preventDefault();  
 			}
-			if(valor1.length!=0 && valor1==valor2){
+			else if(valor1.length!=0 && valor1==valor2){
 				span.text(confirmacion).addClass('confirmacion');
 			}
 		}
