@@ -148,5 +148,11 @@ public class Application extends Controller {
 		session().clear();
         return redirect(routes.Application.index());
 	}
+	
+	public static Result about() {
+        return ok(about.render());
+	}
+	
+	
   
 }
