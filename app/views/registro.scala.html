@@ -24,13 +24,13 @@
                         <legend>Registro</legend>
                         <form id="form1" class="well" action="@routes.Application.comprobarRegistro" method="post">
                         	<label for="nombre">Nombre</label>
-                        	<input type="text" class="span3" placeholder="Nombre" name="nombre" id="nombre" max="60" required/><br>
+                        	<input type="text" class="span3" placeholder="Nombre" name="nombre" id="nombre" maxlength="60" required/><br>
                             <label for="correo">Correo</label>
-                			<input type="email" class="span3" placeholder="Correo" name="correo" id="correo" max="50" required><br>
+                			<input type="email" class="span3" placeholder="Correo" name="correo" id="correo" maxlength="50" required><br>
                 			<label for="pass">Contraseña</label>
-                			<input type="password" class="span3" placeholder="Contraseña" name="pass" id="pass" max="20" required><br>
+                			<input type="password" class="span3" placeholder="Contraseña" name="pass" id="pass" maxlength="20" required><br>
                 			<label for="pass2">Confirmar contraseña</label>
-                			<input type="password" class="span3" placeholder="Confirmar contraseña" name="pass2" max="20" id="pass2" required><br><br>
+                			<input type="password" class="span3" placeholder="Confirmar contraseña" name="pass2" maxlength="20" id="pass2" required><br><br>
                    			<span style="color: red;">@error</span><br>
                             <button type="submit" class="btn">Registrarse</button>
                         </form>
