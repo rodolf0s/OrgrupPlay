@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import models.Correo;
 import models.Usuario;
 
 import play.*;
@@ -184,9 +185,39 @@ public class Application extends Controller {
         return ok(about.render());
 	}
 	
+	public static Result guardaMensaje() {
+		String nombre_remitente;
+		String correo;
+		String mensaje;
+		ResultSet rs = null;
+		String sql;
+		
+		Form<Correo> formContacto = form(Correo.class).bindFromRequest();
+		
+		if(formContacto.hasErrors()){
+			return badRequest(contacto.render());
+		} else{
+			Correo mensaje_contacto = formContacto.get();
+			nombre_remitente = mensaje_contacto.remitente;
+			correo = mensaje_contacto.correo;
+			mensaje = mensaje_contacto.mensaje;
+			
+			try {
+				Connection con = conexion.abre();
+				
+				sql = "INSERT INTO correo(id, remitente, correo, mensaje) VALUES(nextval('id_mensaje'), '"+nombre_remitente+"', '"+correo+"', '"+mensaje+"')";
+				PreparedStatement st = con.prepareStatement(sql);
+				st.executeUpdate();
+				return redirect(routes.Application.index());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ok();
+	}
+	
 	public static Result contacto() {
 		return ok(contacto.render());
 	}
-	
-  
 }
+  
