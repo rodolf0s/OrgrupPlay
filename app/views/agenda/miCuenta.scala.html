@@ -105,7 +105,7 @@
     				
 						<fieldset>
 							<legend>Datos Personales</legend>
-								<form class="well" action="@routes.Cuenta.configuraCuenta" method="post">
+								<form class="well" action="@routes.Cuenta.configuraCuenta" enctype="multipart/form-data" method="post">
 									<label>Nombre</label>
 									<input class="span10" type="text" name="nombre" value="@nombre" required>
 									<br>
@@ -118,6 +118,9 @@
 									<br><br>
 									<label>Nueva Contraseña</label>
 									<input class="span10" type="password" name="passNew">
+									<label>Imagen</label>
+									<input class="input-file" type="file" name="imagen">
+									
 									<span style="color: red;">@error2</span>
 									<br><br>
 				<!-- 					<button type="submit" class="btn">Guardar</button> -->
