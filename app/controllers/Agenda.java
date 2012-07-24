@@ -32,9 +32,31 @@ public class Agenda extends Controller {
 
 	public static Result index() throws SQLException {
 		
+		ResultSet rs = null;
+
+
 		if(!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
+
+
+			// try {
+
+			// 	Connection con = conexion.abre();
+			// 	sql = "SELECT descripcion FROM tarea";
+			// 	PreparedStatement st = con.prepareStatement(sql); 
+			// 	rs = st.executeQuery();
+
+			// 	rs.next();
+				
+
+
+			// }catch (Exception e){
+			// 	e.printStackTrace();
+			// }finally{
+			// 	if(rs != null)
+			// 		rs.close();
+			// }
 			
 			return ok(contactos.render("Bienvenido", session("nombre")));
 			

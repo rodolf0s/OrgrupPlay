@@ -20,7 +20,7 @@ import org.apache.commons.mail.*;
 
 public class Application extends Controller {
 	
-	// Instanciamos la conexion
+	// Instancia la conexion
 	private static ConexionJDBC conexion = ConexionJDBC.getInstancia();
   
 	public static Result index() {
@@ -53,17 +53,20 @@ public class Application extends Controller {
 			try {				
 				Connection con = conexion.abre();
 				
-				sql = "SELECT nombre, correo FROM usuario WHERE correo = '"+correo+"' AND password = '"+pass+"' ";
+				sql = "SELECT nombre, correo, estado FROM usuario WHERE correo = '"+correo+"' AND password = '"+pass+"' ";
 				PreparedStatement st = con.prepareStatement(sql); 
 				rs = st.executeQuery();
 				
 				rs.next();
 				if(rs.getRow() == 1) {
-										
-					session("email", correo);
-					session("nombre", rs.getString("nombre"));
-										
-					return redirect(routes.Agenda.index());
+					
+					if(rs.getString("estado").equals("activada")) {
+						session("email", correo);
+						session("nombre", rs.getString("nombre"));
+						return redirect(routes.Agenda.index());
+					} else {
+						return ok(login.render("Esta cuenta no esta activada"));
+					}					
 				} else {
 					
 					return ok(login.render("Correo o contraseña incorrecta"));
@@ -86,6 +89,8 @@ public class Application extends Controller {
 		String pass;
 		String sql = "";
 		Connection con = null;
+		Integer id;
+		Boolean estaId = true;
 		
 		Form<Usuario> formRegistro = form(Usuario.class).bindFromRequest();
 		
@@ -101,6 +106,7 @@ public class Application extends Controller {
 			try {
 				con = conexion.abre();				
 				
+				// Verifica si existe el correo en la BD
 				sql = "SELECT correo FROM usuario WHERE correo = '"+correo+"'";
 				PreparedStatement st = con.prepareStatement(sql);
 				ResultSet rs = st.executeQuery();
@@ -111,24 +117,49 @@ public class Application extends Controller {
 					return ok(registro.render("El correo ya existe"));
 				} else {
 					try {
-						sql = "INSERT INTO usuario(correo, nombre, password) VALUES('"+correo+"', '"+nombre+"', '"+pass+"')";
-						st = con.prepareStatement(sql);
-						st.executeUpdate();
+						
+						/*
+						 * Genera un numero aleatorio de 9 digitos
+						 * y comprueba que no exista en la BD
+						 */
+						do {
+							id = (int)(Math.random()*1000000000);
+							
+							// Verifica si existe el correo en la BD
+							sql = "SELECT id_verificador FROM usuario WHERE id_verificador = '"+id+"'";
+							st = con.prepareStatement(sql);
+							rs = st.executeQuery();
+							
+							rs.next();
+							
+							if(rs.getRow() >= 1) {
+								estaId = true;
+							} else {
+								estaId = false;
+								
+								sql = "INSERT INTO usuario(correo, nombre, password, id_verificador, estado) VALUES('"+correo+"', '"+nombre+"', '"+pass+"', '"+id+"', 'desactivada')";
+								st = con.prepareStatement(sql);
+								st.executeUpdate();
+							}
+							
+						} while(estaId == true);						
+						
 						
 						// Envia un correo al usuario registrado
-//						Email email = new SimpleEmail();
-//					    email.setSmtpPort(587);
-//					    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
-//					    email.setDebug(false);
-//					    email.setHostName("smtp.gmail.com");
-//					    email.setFrom("orgrup.service@gmail.com");
-//					    email.setSubject("Gracias por Registrarse en Orgrup");
-//					    email.setMsg("Se a registrado en Orgrup. Muchas gracias");
-//					    email.addTo(correo);
-//					    email.setTLS(true);
-//					    email.send();
+						Email email = new SimpleEmail();
+					    email.setSmtpPort(587);
+					    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
+					    email.setDebug(false);
+					    email.setHostName("smtp.gmail.com");
+					    email.setFrom("orgrup.service@gmail.com");
+					    email.setSubject("Confirmar Cuenta Orgrup");
+					    email.setMsg("Hola " +nombre +"\nPara completar el registro haga click aqui para activar la cuenta http://localhost:9000/VerificaCuenta?id="+id+"\n\nUn saludo cordial\nEl equipo de Orgrup.");
+					    email.addTo(correo);
+					    email.setTLS(true);
+					    email.send();
 						
 						return ok(registrado.render());
+//						return ok(test.render(sql, "", "", ""));
 					} catch (Exception e) {
 						e.printStackTrace();
 						
