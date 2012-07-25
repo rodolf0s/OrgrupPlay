@@ -21,7 +21,7 @@ POST	/Administrador				controllers.Administrador.comprobarLogin()
 GET		/Mensajes					controllers.Administrador.mensaje()
 
 #agenda
-GET		/App						controllers.Agenda.index()
+GET		/App						controllers.Home.index()
 GET		/MiCuenta					controllers.Cuenta.miCuenta()
 POST	/MiCuenta					controllers.Cuenta.configuraCuenta()
 GET 	/Contactos					controllers.Contacto.contacto()

@@ -16,17 +16,7 @@ import play.mvc.Http.*;
 import views.html.*;
 import views.html.agenda.*;
 
-public class Agenda extends Controller {
-
-	
-	public static class ConfiguraCuenta {
-        
-        public String nombre;
-        public String pass;
-        public String passNew;
-           
-    }
-	
+public class Home extends Controller {	
 	
 	private static ConexionJDBC conexion = ConexionJDBC.getInstancia();
 
@@ -58,7 +48,7 @@ public class Agenda extends Controller {
 			// 		rs.close();
 			// }
 			
-			return ok(contactos.render("Bienvenido", session("nombre")));
+			return ok(home.render(session("nombre")));
 			
 		}
 	}

@@ -64,7 +64,7 @@ public class Application extends Controller {
 					if(rs.getString("estado").equals("activada")) {
 						session("email", correo);
 						session("nombre", rs.getString("nombre"));
-						return redirect(routes.Agenda.index());
+						return redirect(routes.Home.index());
 					} else {
 						return ok(login.render("Esta cuenta no esta activada"));
 					}					

@@ -82,7 +82,7 @@ public class Cuenta extends Controller {
 				    imagen = true;				    
 				    String path = "./public/images/usuarios/";
 				    filename = path + session("email") + extension;
-				    org.apache.commons.io.FileUtils.copyFile(file, new File(filename));
+				    org.apache.commons.io.FileUtils.moveFile(file, new File(filename));
 				} else {
 					imagen = false;
 				}
