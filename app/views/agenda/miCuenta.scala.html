@@ -107,23 +107,22 @@
 							<legend>Datos Personales</legend>
 								<form class="well" action="@routes.Cuenta.configuraCuenta" enctype="multipart/form-data" method="post">
 									<label>Nombre</label>
-									<input class="span10" type="text" name="nombre" value="@nombre" required>
+									<input class="span10" type="text" name="nombre" value="@nombre" maxlength="60" required>
 									<br>
 									<label>Correo</label>
 									<input class="span10" type="mail" name="correo" value="@correo" readonly="readonly">
 									<br>
 									<label>Contraseña anterior</label>
-									<input class="span10" type="password" name="pass">
+									<input class="span10" type="password" name="pass" maxlength="20">
 									<span style="color: red;">@error1</span>
 									<br><br>
 									<label>Nueva Contraseña</label>
-									<input class="span10" type="password" name="passNew">
+									<input class="span10" type="password" name="passNew" maxlength="20">
 									<label>Imagen</label>
 									<input class="input-file" type="file" name="imagen">
 									
 									<span style="color: red;">@error2</span>
 									<br><br>
-				<!-- 					<button type="submit" class="btn">Guardar</button> -->
 									<button type="submit" id="fat-btn" class="btn" data-loading-text="Guardando..."> Guardar </button>
 									<a class="btn pull-right" href="@routes.Agenda.index">Cancelar</a>
 									
