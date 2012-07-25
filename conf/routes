@@ -16,9 +16,14 @@ POST	/Contacto					controllers.Application.guardaMensaje()
 GET		/Recuperar					controllers.Verificador.index()
 POST	/Recuperar					controllers.Verificador.enviaDatos()
 GET		/VerificaCuenta				controllers.Verificador.verificaCuenta(id: Integer)
+
+#admin
 GET		/Administrador				controllers.Administrador.iniciar()
 POST	/Administrador				controllers.Administrador.comprobarLogin()
 GET		/Mensajes					controllers.Administrador.mensaje()
+GET		/Cuentas					controllers.Administrador.cuentas()
+GET		/Administradores			controllers.Administrador.administradores()
+
 
 #agenda
 GET		/App						controllers.Home.index()
