@@ -20,10 +20,11 @@ GET		/Administrador				controllers.Administrador.iniciar()
 POST	/Administrador				controllers.Administrador.comprobarLogin()
 GET		/Mensajes					controllers.Administrador.mensaje()
 
-
+#agenda
 GET		/App						controllers.Agenda.index()
 GET		/MiCuenta					controllers.Cuenta.miCuenta()
 POST	/MiCuenta					controllers.Cuenta.configuraCuenta()
+GET 	/Contactos					controllers.Contacto.contacto()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
