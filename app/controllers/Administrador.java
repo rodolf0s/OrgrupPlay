@@ -15,7 +15,7 @@ import play.mvc.*;
 import play.mvc.Http.Request;
 
 import views.html.*;
-import views.html.administrador.*;
+import views.html.administrar.*;
 import org.apache.commons.mail.*;
 
 public class Administrador extends Controller {
@@ -72,6 +72,14 @@ public class Administrador extends Controller {
 	}
 	
 	public static Result mensaje() {
-		return ok(index.render());
+		return ok(mensaje.render());
+	}
+	
+	public static Result cuentas() {
+		return ok(cuentas.render());
+	}
+	
+	public static Result administradores() {
+		return ok(administradores.render());
 	}
 }
