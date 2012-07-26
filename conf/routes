@@ -29,7 +29,8 @@ GET		/Administradores			controllers.Administrador.administradores()
 GET		/App						controllers.Home.index()
 GET		/MiCuenta					controllers.Cuenta.miCuenta()
 POST	/MiCuenta					controllers.Cuenta.configuraCuenta()
-GET 	/Contactos					controllers.Contacto.contacto()
+GET 	/Contactos					controllers.Contacto.contactos()
+GET 	/Contactos 					controllers.Contacto.buscaContactos()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

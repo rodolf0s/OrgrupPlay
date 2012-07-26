@@ -10,12 +10,13 @@
  
 		<div class="tab-content">
  	 		<div class="tab-pane active" id="buscar_contactos">
- 	 			<form>
- 	 				<input type="text" placeholder="Ingrese el nombre o correo" name="usuario" id="usuario" requerid>
- 	 				<button type="submit" class="btn">Buscar contacto</button>
- 	 			</form>
+ 	 				<form class="form-horizontal" action="@routes.Contacto.buscaContactos" method="post">
+ 	 					<input type="text" class="span5" placeholder="Ingrese el nombre o correo" name="usuario_correo2" id="usuario_correo2" requerid>&nbsp;&nbsp;&nbsp;
+ 	 					<button type="submit" class="btn">Buscar contacto</button>
+ 	 				</form>
+ 	 			</fieldset>	
  	 		</div>
-  			<div class="tab-pane" id="gestionar_contactos">gestiona todo tus contactos</div>
+  			<div class="tab-pane" id="gestionar_contactos">gestiona todoss tus contactos</div>
 
 		</div>
  	</div>
