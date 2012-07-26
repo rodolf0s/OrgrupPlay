@@ -1,5 +1,30 @@
 @(user: String)
-@app(title = "Orgrup", user) {
 
+@app(title = "Orgrup", user) {
+	
+	<div class="container">
+		<ul class="nav nav-tabs" id="myTab">
+  			<li class="active"><a href="#buscar_contactos">Buscar contactos</a></li>
+  			<li><a href="#gestionar_contactos">Gestionar contactos</a></li>
+		</ul>
+ 
+		<div class="tab-content">
+ 	 		<div class="tab-pane active" id="buscar_contactos">
+ 	 			<form>
+ 	 				<input type="text" placeholder="Ingrese el nombre o correo" name="usuario" id="usuario" requerid>
+ 	 				<button type="submit" class="btn">Buscar contacto</button>
+ 	 			</form>
+ 	 		</div>
+  			<div class="tab-pane" id="gestionar_contactos">gestiona todo tus contactos</div>
+
+		</div>
+ 	</div>
+ 		
+	<script>
+		$('#myTab a').click(function (e) {
+			e.preventDefault();
+		  	$(this).tab('show');
+		})
+	</script>
 
 }
