@@ -1,18 +1,16 @@
 package controllers;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
+
+import models.Contacto;
 
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.*;
-import views.html.agenda.*;
+import views.html.agenda.contactos;
 
-import models.Contacto;
-
-public class Contacto extends Controller {
+public class Contactos extends Controller {
 
 	public static ConexionJDBC conexion = ConexionJDBC.getInstancia();
 	
@@ -31,8 +29,8 @@ public class Contacto extends Controller {
 		if(formBuscaContactos.hasErrors()){
 			return badRequest(contactos.render(session("nombre")));
 		} else{
-			Contacto nuevoContacto = formBuscaContactos.get();
-			usuario2 = nuevoContacto.usuario_correo2;
+			Contacto amigos = formBuscaContactos.get();
+			usuario2 = amigos.usuario_correo2;
 			return ok();
 		}
 	}

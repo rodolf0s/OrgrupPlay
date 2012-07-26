@@ -5,6 +5,7 @@ public class Usuario {
 	public String correo;
 	public String nombre;
 	public String pass;
+	public String imagen;
 
 //	public String getCorreo() {
 //		return correo;		
