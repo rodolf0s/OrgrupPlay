@@ -27,9 +27,10 @@ GET		/Administradores			controllers.Administrador.administradores()
 
 #agenda
 GET		/App						controllers.Home.index()
-GET		/MiCuenta					controllers.Cuenta.miCuenta()
-POST	/MiCuenta					controllers.Cuenta.actualizaPerfil()
-POST	/MiCuenta					controllers.Cuenta.actualizaPassword()
+GET		/Configurar/Perfil			controllers.Cuenta.perfil()
+GET		/Configurar/Password		controllers.Cuenta.password()
+POST	/Configurar/Perfil			controllers.Cuenta.actualizaPerfil()
+POST	/Configurar/Password		controllers.Cuenta.actualizaPassword()
 GET 	/Contactos					controllers.Contactos.contactos()
 GET 	/Contactos 					controllers.Contactos.buscaContactos()
 

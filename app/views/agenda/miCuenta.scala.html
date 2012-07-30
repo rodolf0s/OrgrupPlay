@@ -1,4 +1,4 @@
-@(user: String, correo: String, error1: String, imagen: String)
+@(user: String, correo: String, error1: String, error2: String)
 
 @app(title = "Orgrup", user) {
 
@@ -11,7 +11,7 @@
 		<div id="myTabContent" class="tab-content">
 	            <div class="tab-pane fade in active" id="perfil">
 	             
-					<form class="form-horizontal well span6" action="@routes.Cuenta.actualizaPerfil" enctype="multipart/form-data" method="post">
+					<form id="form1" name="form1" class="form-horizontal well span6" action="@routes.Cuenta.actualizaPerfil" enctype="multipart/form-data" method="post">
 						
 						<div class="control-group">
 							<label class="control-label" for="nombre">Nombre Completo</label>
@@ -31,11 +31,9 @@
 							<label class="control-label" for="imagen">Imagen de Perfil</label>
 							<div class="controls">
 								<img style="width: 90px; height: 90px;" src="@routes.Assets.at("images/usuarios/rodolfo.santander06@gmail.com.png")" alt="imagen usuario">
-<!-- 								<img style="width: 90px; height: 90px;" src="@{Cuenta.getPicture()}" alt="imagen usuario"> -->
 								<input class="input-file" id="imagen" type="file" name="imagen"><br>
 								tamaño maximo = 1 MB
-								@imagen
-								@{Cuenta.getPicture()}
+								@{Cuenta.getImagen()}
 							</div>
 						</div>
 						
@@ -57,12 +55,13 @@
 	            
 	            <div class="tab-pane fade" id="password">
 	            
-	            	<form class="form-horizontal well span6" action="@routes.Cuenta.actualizaPassword" enctype="multipart/form-data" method="post">
+	            	<form id="form2" name="form2" class="form-horizontal well span6" action="@routes.Cuenta.actualizaPassword" method="post">
 	            		<div class="control-group">
 							<label class="control-label" for="pass1">Contraseña anterior</label>
 							<div class="controls">
 								<input class="input-xlarge" id="pass1" type="password" name="passOld" maxlength="20" required>
-								<span style="color: red;">@error1</span>
+								<br>
+								<span style="color: red;">@error2</span>
 							</div>
 						</div>
 						
@@ -70,7 +69,7 @@
 							<label class="control-label" for="pass2">Nueva Contraseña</label>
 							<div class="controls">
 								<input class="input-xlarge" id="pass2" type="password" name="passNew" maxlength="20" required>
-								<span style="color: red;">@error1</span>
+								<span style="color: red;">@error2</span>
 							</div>
 						</div>
 						
@@ -78,7 +77,7 @@
 							<label class="control-label" for="pass2">Confirmar Contraseña</label>
 							<div class="controls">
 								<input class="input-xlarge" id="pass2" type="password" name="passNew2" maxlength="20" required>
-								<span style="color: red;">@error1</span>
+								<span style="color: red;">@error2</span>
 							</div>
 						</div>
 						

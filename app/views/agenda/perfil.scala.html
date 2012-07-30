@@ -1,0 +1,59 @@
+@(user: String, correo: String, error1: String)
+
+@app(title = "Orgrup", user) {
+
+	<div class="container">
+		<ul id="myTab" class="nav nav-tabs">
+			<li class="active">
+				<a href="@routes.Cuenta.perfil">Perfil</a>
+			</li>
+			<li>
+				<a href="@routes.Cuenta.password">Contraseña</a>
+			</li>
+		</ul>
+		
+		<form class="form-horizontal well span6" action="@routes.Cuenta.actualizaPerfil" enctype="multipart/form-data" method="post">
+			<div class="control-group">
+				<label class="control-label" for="nombre">Nombre Completo</label>
+				<div class="controls">
+					<input class="input-xlarge" id="nombre" type="text" name="nombre" value="@user" maxlength="60" required>
+				</div>
+			</div>
+						
+			<div class="control-group">
+				<label class="control-label" for="correo">Correo electronico</label>
+				<div class="controls">
+					<input class="input-xlarge disabled" disabled="" id="correo" type="text" name="correo" value="@correo">
+				</div>
+			</div>
+						
+			<div class="control-group">
+				<label class="control-label" for="imagen">Imagen de Perfil</label>
+				<div class="controls">
+<!-- 					<img style="width: 90px; height: 90px;" src="@routes.Assets.at("images/usuarios/rodolfo.santander06@gmail.com.png")" alt="imagen usuario"> -->
+<!-- 					<img style="width: 90px; height: 90px;" src="/assets/images/usuarios/asd.gif" alt="imagen usuario"> -->
+<img style="width: 90px; height: 90px;" src="/assets/images/usuarios/@{Cuenta.getImagen()}" alt="imagen usuario">
+					<input class="input-file" id="imagen" type="file" name="imagen"><br>
+					tamaño maximo = 1 MB
+				</div>
+			</div>
+						
+			<div class="control-group>">
+				<div class="controls">
+					<span style="color: red;">@error1</span>
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<button class="btn btn-primary" type="submit" id="fat-btn" data-loading-text="Guardando..."> Guardar </button>
+				<a class="btn pull-right" href="@routes.Home.index">Cancelar</a>
+			</div>			
+		</form>
+	</div>
+	
+	<script type="text/javascript">
+ 	   	$('#fat-btn').on('click', function () {
+ 	   		$(this).button('loading')
+ 	   	})
+ 	</script>
+}
