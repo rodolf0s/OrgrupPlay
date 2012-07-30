@@ -82,4 +82,12 @@ public class Administrador extends Controller {
 	public static Result administradores() {
 		return ok(administradores.render());
 	}
+	
+//valida la existencia de una sesion
+	public static boolean verificaSession() {
+		if(session("usuario") == null) 
+			return false;
+		else
+			return true;
+	}
 }
