@@ -1,5 +1,7 @@
 package controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -84,7 +86,7 @@ public class Application extends Controller {
 		return ok();
 	}	
 	
-	public static Result comprobarRegistro() throws SQLException {
+	public static Result comprobarRegistro() throws SQLException, IOException {
 		String nombre;
 		String correo;
 		String pass;
@@ -126,7 +128,7 @@ public class Application extends Controller {
 						do {
 							id = (int)(Math.random()*1000000000);
 							
-							// Verifica si existe el correo en la BD
+							// Verifica si existe el id en la BD
 							sql = "SELECT id_verificador FROM usuario WHERE id_verificador = '"+id+"'";
 							st = con.prepareStatement(sql);
 							rs = st.executeQuery();
@@ -138,7 +140,10 @@ public class Application extends Controller {
 							} else {
 								estaId = false;
 								
-								sql = "INSERT INTO usuario(correo, nombre, password, id_verificador, estado) VALUES('"+correo+"', '"+nombre+"', '"+pass+"', '"+id+"', 'desactivada')";
+								String path = "./public/images/usuarios/" + correo + ".gif";
+								org.apache.commons.io.FileUtils.copyFile(new File("./public/images/usuarios/user.gif"), new File(path));
+								
+								sql = "INSERT INTO usuario(correo, nombre, password, imagen, id_verificador, estado) VALUES('"+correo+"', '"+nombre+"', '"+pass+"', '"+correo+".gif', '"+id+"', 'desactivada')";
 								st = con.prepareStatement(sql);
 								st.executeUpdate();
 							}
