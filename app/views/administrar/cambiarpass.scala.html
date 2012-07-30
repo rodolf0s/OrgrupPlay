@@ -1,7 +1,7 @@
+
 @inicioadmin(title = "Administradores"){
 
-    <!-- Simple Formulario para ingresar -->
-       
+   
     <style type="text/css">
 		.enviar{background:#d25959;box-shadow:none;color:white;margin-bottom:0;width:100px}
 		.enviar:hover{text-decoration:underline}
@@ -17,17 +17,16 @@
                 <div class="span4" style="float:left;">
 
                     <fieldset>
-                        <legend>Registro</legend>
-                        <form id="form1" class="well" action="@routes.Application.comprobarRegistro" method="post">
-                        	<label for="nombre">Nombre</label>
-                        	<input type="text" class="span3" placeholder="Nombre" name="nombre" id="nombre" maxlength="60" required/><br>
-                            <label for="pass">Contraseña</label>
-                			<input type="password" class="span3" placeholder="Contraseña" name="pass" id="pass" maxlength="20" required><br>
-                			<label for="pass2">Confirmar contraseña</label>
-                			<input type="password" class="span3" placeholder="Confirmar contraseña" name="pass2" maxlength="20" id="pass2" required>
+                        <legend>Cambiar contraseña</legend>
+                        <form id="form1" class="well" action="@routes.Administrador.nuevoAdmin" method="post">
+                        	<label for="usuario">Contraseña actual</label>
+                        	<input type="text" class="span3" placeholder="Contraseña actual" name="usuario" id="usuario" maxlength="60" required/><br>
+                            <label for="pass">Nueva contraseña</label>
+                			<input type="password" class="span3" placeholder="Nueva contraseña" name="password" id="pass" maxlength="20" required><br>
+                			<label for="pass2">Confirmar nueva contraseña</label>
+                			<input type="password" class="span3" placeholder="Confirmar nueva contraseña" name="pass2" maxlength="20" id="pass2" required>
                    			<span style="color: red;"></span>
-<!--                             <button type="submit" class="btn">Registrarse</button> -->
-                            <button type="submit" id="fat-btn" class="btn" data-loading-text="Registrando..."> Registrarse </button>
+                            <button type="submit" id="fat-btn" class="btn" data-loading-text="Registrando..."> Guardar </button>
                         </form>
                     </fieldset>
                     
@@ -38,10 +37,10 @@
 		//variables
 		$('#form1').submit(coincidePassword);
 		
-		var pass1 = $('[name=pass]');
+		var pass1 = $('[name=password]');
 		var pass2 = $('[name=pass2]');
 		var confirmacion = "Las contraseñas coinciden";
-		var longitud = "La contraseña debe estar formada entre 6-20 carácteres";
+		var longitud = "La contraseña debe estar formada entre 5-10 carácteres";
 		var negacion = "No coinciden las contraseñas";
 		var vacio = "La contraseña no puede estar vacía";
 		
@@ -66,7 +65,7 @@
 				span.text(vacio).addClass('negacion');
 				event.preventDefault();  
 			}
-			else if(valor1==valor2 && valor1.length<6 || valor1.length>20){
+			else if(valor1==valor2 && valor1.length<5 || valor1.length>10){
 				span.text(longitud).addClass('negacion');
 				event.preventDefault();  
 			}

@@ -1,4 +1,4 @@
-
+@(error:String)
 @main(title = "Ingresar") {
 
     <!-- Simple Formulario para ingresar -->
@@ -16,7 +16,7 @@
                 			<input type="text" class="span3" placeholder="Usuario" name="usuario" required><br>
                 			<label for="pass">Contraseña</label>
                 			<input type="password" class="span3" placeholder="Contraseña" name="password" required><br>
-                			<span style="color: red;"></span><br>
+                			<span style="color: red;">@error</span><br>
                 			<button type="submit" class="btn">Entrar</button>
                 			
               			</form>

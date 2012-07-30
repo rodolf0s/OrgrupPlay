@@ -32,6 +32,7 @@
 						</ul>
 						
 						<ul class="nav pull-right">
+							<li> <a href="@routes.Administrador.cerrarSesion"> Cerrar sesión</a>
 							<li> <a href="@routes.Administrador.mensaje"> Mensajes</a>
 <!-- divicion linea vertical<li class="divider-vertical"></li> -->
 							<li> <a href="@routes.Administrador.cuentas"> Cuentas</a>
@@ -39,13 +40,11 @@
 
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Administradores <b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="#">Agregar administrador</a></li>
-									<li><a href="#">Cambiar contraseña</a></li>
-									<li><a href="#">Eliminar esta cuenta</a></li>
+									<li><a href="@routes.Administrador.crearAdmin">Agregar administrador</a></li>
+									<li><a href="@routes.Administrador.cambiarPass">Cambiar contraseña</a></li>
+									<li><a href="@routes.Administrador.eliminaAdmin">Eliminar esta cuenta</a></li>
 								</ul>
 							</li>
-<!-- 							<li class="divider-vertical"></li> -->
-<!-- 							<li> <a href="@routes.Administrador.administradores"> Administradores</a> -->
 						</ul>
 					</div>
 				</div>			

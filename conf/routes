@@ -22,7 +22,11 @@ GET		/Administrador				controllers.Administrador.iniciar()
 POST	/Administrador				controllers.Administrador.comprobarLogin()
 GET		/Mensajes					controllers.Administrador.mensaje()
 GET		/Cuentas					controllers.Administrador.cuentas()
-GET		/Administradores			controllers.Administrador.administradores()
+GET		/Crear_Administrador		controllers.Administrador.crearAdmin()
+POST		/Crear_Administrador		controllers.Administrador.nuevoAdmin()
+GET		/Cambiar_Pass				controllers.Administrador.cambiarPass()
+GET		/Eliminar_Administrador		controllers.Administrador.eliminaAdmin()
+GET		/Index						controllers.Administrador.cerrarSesion()
 
 
 #agenda
