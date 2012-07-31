@@ -3,9 +3,11 @@ package controllers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-import models.Contacto;
+import models.Usuario;
 
 import play.data.Form;
 import play.mvc.Controller;
@@ -18,52 +20,52 @@ public class Contactos extends Controller {
 	public static ConexionJDBC conexion = ConexionJDBC.getInstancia();
 	
 	public static Result contactos(){
-		return ok(contactos.render(session("nombre")));
+		
+		List<String> hola = new ArrayList<String>();
+		
+		return ok(contactos.render(session("nombre"), hola));
 	}
 	
-	public static Result buscaContactos(){
+	public static Result buscaContactos() throws SQLException {
 		String usuario1;
-		String usuario2;
+		String usuarioBusqueda;
 		ResultSet rs = null;
 		String sql = "";
 		Connection con = null;
 
 		//Creo un array
-		ArrayList String = new ArrayList<String>();
+		List<String> lista = new ArrayList<String>();
 		
-		Form<Contacto> formBuscaContactos = form(Contacto.class).bindFromRequest();
+		Form<Usuario> formBuscaContactos = form(Usuario.class).bindFromRequest();
 		
 		if(formBuscaContactos.hasErrors()){
-			return badRequest(contactos.render(session("nombre")));
+//			return badRequest(contactos.render(session("nombre"), null));
+			return ok("2");
 			
 		} else{
 			
-			Contacto amigos = formBuscaContactos.get();
-			usuario2 = amigos.usuario_correo2;
+			Usuario amigos = formBuscaContactos.get();
+			usuarioBusqueda = amigos.nombre;
 			
 			try{
 				con = conexion.abre();
 				
-				sql = "SELECT * FROM usuario WHERE usuario_correo2 = '"+usuario2+"'";
+				sql = "SELECT * FROM usuario WHERE nombre = '"+usuarioBusqueda+"' OR correo = '"+usuarioBusqueda+"' AND nombre = '"+session("email")+"'";
 				PreparedStatement st = con.prepareStatement(sql);
 				rs = st.executeQuery();
 				
 				while(rs.next()){
-					String l = rs.getString("correo");
-					l +=rs.getString("nombre");
+					 lista.add(rs.getString("correo"));
+					 lista.add(rs.getString("nombre"));					 
 				}
+				return ok(contactos.render(session("nombre"), lista));
 				
-				return ok(contactos.render("l"));
-				
-//				if(rs.getRow() >= 1){
-//					rs.getString("nombre");
-//					return ok(contactos.render(l));
-//				}
+//				return ok(lista.get(0).toString());
 				
 			}catch(Exception e){ 
 				e.printStackTrace();
 			}
-			return ok();
+			return ok("111");
 		}
 	}
 }

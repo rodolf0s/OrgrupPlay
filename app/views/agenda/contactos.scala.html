@@ -1,4 +1,4 @@
-@(user: String)
+@(user: String, lista: List[String])
 
 @app(title = "Orgrup", user) {
 	
@@ -10,15 +10,24 @@
  
 		<div class="tab-content">
  	 		<div class="tab-pane active" id="buscar_contactos">
- 	 				<form class="form-horizontal" action="@routes.Contactos.buscaContactos" method="get">
- 	 					<input type="text" class="span5" placeholder="Ingrese el nombre o correo" name="usuario_correo2" id="usuario_correo2" required>&nbsp;&nbsp;&nbsp;
+ 	 				<form class="form-horizontal" action="@routes.Contactos.buscaContactos" method="post">
+ 	 					<input type="text" class="span5" placeholder="Ingrese el nombre o correo" name="nombre" id="nombre" required>&nbsp;&nbsp;&nbsp;
  	 					<button type="submit" class="btn">Buscar contacto</button>
  	 				</form>
  	 				
  	 		</div>
-  			<div class="tab-pane" id="gestionar_contactos">gestiona todoss tus contactos</div>
-
+  			<div class="tab-pane" id="gestionar_contactos">gestiona todos tus contactos</div>
+		
 		</div>
+		@if(lista.isEmpty()){
+ 			<br>
+ 		} else{
+ 			<!-- var c = 0
+ 			@while(lista != null){ -->
+ 				hola
+<!--  			} -->
+
+		} 
  	</div>
  		
 	<script>
