@@ -21,6 +21,11 @@ import org.apache.commons.mail.*;
 
 public class Administrador extends Controller {
 	
+	//Crear clase para extraer contraseña antigua
+	public static class CambioPass{
+		public String old;
+		public String password;
+	}
 	// Instanciamos la conexion
 	private static ConexionJDBC conexion = ConexionJDBC.getInstancia();
 	//Iniciar como administrador	
@@ -176,10 +181,62 @@ public class Administrador extends Controller {
 		} 
 		
 		else {
-		return ok(cambiarpass.render());
+		return ok(cambiarpass.render(""));
 		}
 	}
 	
+	//Cambiar la contraseña
+		public static Result cambioPass() throws SQLException {
+			String usuario = session("usuario");
+			String password = "";
+			String old = "";
+			String sql = "";
+			Connection con = null;
+			
+			Form<CambioPass> formPass = form(CambioPass.class).bindFromRequest();
+			
+			if(formPass.hasErrors()) {
+	            return badRequest(cambiarpass.render(""));
+			} else {
+				CambioPass user = formPass.get();
+				password = user.password;
+				old = user.old;
+				
+				try {
+					con = conexion.abre();				
+					
+					// Verifica si la pass es correcta
+					sql = "SELECT usuario FROM administrador WHERE password = '"+old+"' and usuario = '"+usuario+"'";
+					PreparedStatement st = con.prepareStatement(sql);
+					ResultSet rs = st.executeQuery();
+					
+					rs.next();
+					if(rs.getRow() >= 1) {
+						try {	
+							//Cambia contraseña
+							sql = "UPDATE administrador set password = '"+password+"' where usuario = '"+usuario+"'";
+							st = con.prepareStatement(sql);
+							st.executeUpdate();
+					 }
+
+					catch (Exception e) {
+						e.printStackTrace();
+						
+					}		
+						
+					} else {
+						return ok(cambiarpass.render("Contraseña invalida"));
+					}
+					
+				} catch(Exception e) {
+					e.printStackTrace();
+				}finally{
+					conexion.cierra();
+				}			
+			}
+			return ok(cambiarpass.render("Exito al cambiar la contraseña"));
+		}
+		
 	//redirecciona a eliminar administrador
 		public static Result eliminaAdmin() {
 			
@@ -188,8 +245,60 @@ public class Administrador extends Controller {
 			} 
 			
 			else {
-			return ok(eliminaradmin.render());
+			return ok(eliminaradmin.render(""));
 			}
+		}
+		
+	//Eliminar cuenta
+		public static Result eliminar() throws SQLException {
+//			String usuario = session("usuario");
+//			String password = "";
+//			String old = "";
+//			String sql = "";
+//			Connection con = null;
+//			
+//			Form<CambioPass> formPass = form(CambioPass.class).bindFromRequest();
+//			
+//			if(formPass.hasErrors()) {
+//	            return badRequest(cambiarpass.render(""));
+//			} else {
+//				CambioPass user = formPass.get();
+//				password = user.password;
+//				old = user.old;
+//				
+//				try {
+//					con = conexion.abre();				
+//					
+//					// Verifica si la pass es correcta
+//					sql = "SELECT usuario FROM administrador WHERE password = '"+old+"' and usuario = '"+usuario+"'";
+//					PreparedStatement st = con.prepareStatement(sql);
+//					ResultSet rs = st.executeQuery();
+//					
+//					rs.next();
+//					if(rs.getRow() >= 1) {
+//						try {	
+//							//Cambia contraseña
+//							sql = "UPDATE administrador set password = '"+password+"' where usuario = '"+usuario+"'";
+//							st = con.prepareStatement(sql);
+//							st.executeUpdate();
+//					 }
+//
+//					catch (Exception e) {
+//						e.printStackTrace();
+//						
+//					}		
+//						
+//					} else {
+//						return ok(cambiarpass.render("Contraseña invalida"));
+//					}
+//					
+//				} catch(Exception e) {
+//					e.printStackTrace();
+//				}finally{
+//					conexion.cierra();
+//				}			
+//			}
+			return ok(eliminaradmin.render("bla bla"));
 		}
 	
 //valida la existencia de una sesion

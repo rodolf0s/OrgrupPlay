@@ -1,3 +1,44 @@
+@(error:String)
 @inicioadmin(title = "Administradores"){
-Eliminar
+<style type="text/css">
+		.enviar{background:#d25959;box-shadow:none;color:white;margin-bottom:0;width:100px}
+		.enviar:hover{text-decoration:underline}
+		span{display:block;font-size:.8em;margin:0px 0 10px;padding:5px 0 5px 11px;width:200px}
+		.confirmacion{background:#C6FFD5;border:1px solid green;}
+		.negacion{background:#ffcccc;border:1px solid red}
+    </style> 
+    
+    
+    <div class="container">
+        <div class="row">
+            <div class="span8" style="float:right">
+                <div class="span4" style="float:left;">
+
+                    <fieldset>
+                        <legend>Eliminar cuenta</legend>
+                        <form id="form1" class="well" action="@routes.Administrador.eliminar" method="post">
+                        	<label for="usuario">Ingresar contraseña</label>
+                        	<input type="password" class="span3" placeholder="Contraseña" name="old" id="old" maxlength="60" required/><br>
+                            <span style="color: red;">@error</span>
+                            <button type="submit" id="fat-btn" class="btn" data-loading-text="Registrando..."> Eliminar </button>
+                             <a class="btn" data-toggle="modal" href="#myModal" >Run!!!</a>
+                        </form>
+                    </fieldset>
+                    
+<!-- Prueba                     -->
+<div class="modal hide fade" id="myModal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Modal Heading</h3>
+  </div>
+  <div class="modal-body">
+    <strong>Text in a modal</strong>
+    <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia …</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <a href="#" class="btn btn-primary">Save changes</a>
+  </div>
+  
+ 
 }

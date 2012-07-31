@@ -23,9 +23,11 @@ POST	/Administrador				controllers.Administrador.comprobarLogin()
 GET		/Mensajes					controllers.Administrador.mensaje()
 GET		/Cuentas					controllers.Administrador.cuentas()
 GET		/Crear_Administrador		controllers.Administrador.crearAdmin()
-POST		/Crear_Administrador		controllers.Administrador.nuevoAdmin()
+POST	/Crear_Administrador		controllers.Administrador.nuevoAdmin()
 GET		/Cambiar_Pass				controllers.Administrador.cambiarPass()
+POST	/Cambiar_Pass				controllers.Administrador.cambioPass()
 GET		/Eliminar_Administrador		controllers.Administrador.eliminaAdmin()
+POST	/Eliminar_Administrador		controllers.Administrador.eliminar()
 GET		/Index						controllers.Administrador.cerrarSesion()
 
 
