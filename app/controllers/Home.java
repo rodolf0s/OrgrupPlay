@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import models.Usuario;
 
@@ -19,7 +21,8 @@ import views.html.agenda.*;
 public class Home extends Controller {	
 	
 	private static ConexionJDBC conexion = ConexionJDBC.getInstancia();
-
+	// private static List<String> list = new ArrayList<String>();
+	
 	public static Result index() throws SQLException {
 		
 		ResultSet rs = null;
@@ -29,7 +32,9 @@ public class Home extends Controller {
 			return redirect(routes.Application.index());
 		} else {
 
-
+//			List<String> list = new ArrayList<String>();
+//			list.add("Rodolfo");
+//			list.add("Andres");
 			// try {
 
 			// 	Connection con = conexion.abre();
@@ -53,6 +58,30 @@ public class Home extends Controller {
 		}
 	}
 	
+	public static String getImagen() throws SQLException {
+		String imagen = "";
+		
+        try {
+        	Connection con = conexion.abre();
+        	
+        	String sql = "SELECT imagen FROM usuario WHERE correo = '"+session("email")+"'";
+			
+        	PreparedStatement st = con.prepareStatement(sql);
+        	ResultSet rs = st.executeQuery();
+        	rs.next();
+        	imagen = rs.getString("imagen");
+        	
+        } catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			conexion.cierra();
+		}
+        return imagen;
+    }
+
+    public static String getCorreo() {
+    	return session("email");
+    }
 	
 	public static boolean verificaSession() {
 		if(session("email") == null) 

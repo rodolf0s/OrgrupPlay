@@ -36,7 +36,7 @@
 						<ul class="nav">
 							<li><a href="#">Mi agenda</a></li>
 							<li><a href="#">Reuniones</a></li>
-							<li><a href="#">Contactos</a></li>
+							<li><a href="@routes.Contactos.contactos">Contactos</a></li>
 						</ul>
 						
 						<!-- usuario -->
@@ -59,23 +59,18 @@
 		</div><!-- /navbar -->
 		<!-- Fin Barra superior -->
 		
-		
+		<div class="container-fluid">
 		@content
 
-
+		<hr>
 		<footer>
-			<div class="container">
-				<div class="row">
-					<div class="span12" style="float:right">
-						<div class="span11" style="float:left;">
+
 							<p>	Todos los Derechos Reservados
-								<a style="float: right;" href="#">About</a>
+								<a href="#">About</a>
 							</p>
-						</div>
-					</div>
-				</div>
-			</div>
+
 		</footer>
+		</div>
 
     </body>
 </html>
