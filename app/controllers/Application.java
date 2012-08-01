@@ -203,7 +203,7 @@ public class Application extends Controller {
 			return badRequest(contacto.render());
 		} else{
 			Correo mensaje_contacto = formContacto.get();
-			nombre_remitente = mensaje_contacto.remitente;
+			nombre_remitente = mensaje_contacto.nombre;
 			correo = mensaje_contacto.correo;
 			mensaje = mensaje_contacto.mensaje;
 			
