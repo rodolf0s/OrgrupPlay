@@ -51,7 +51,7 @@ public class Application extends Controller {
 		} else {			
 			Usuario user = formLogin.get();
 			correo = user.correo;
-			pass = user.pass;
+			pass = user.password;
 			
 			try {				
 				Connection con = conexion.abre();
@@ -101,7 +101,7 @@ public class Application extends Controller {
             return badRequest(registro.render(""));
 		} else {
 			Usuario user = formRegistro.get();
-			pass = user.pass;
+			pass = user.password;
 			nombre = user.nombre;
 			correo = user.correo;
 			

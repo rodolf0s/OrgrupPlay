@@ -15,10 +15,10 @@ public class Contacto extends Model {
 	public Long id;
 	
 	@ManyToOne
-	public Usuario usuario_correo1;
+	public Usuario usuario1;
 	
 	@ManyToOne
-	public Usuario usuario_correo2;
+	public Usuario usuario2;
 	
 	// Consultas
 	

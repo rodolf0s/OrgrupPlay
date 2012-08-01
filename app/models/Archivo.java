@@ -38,16 +38,10 @@ public class Archivo extends Model {
 	public Time hora;
 	
 	@ManyToOne
-	public Usuario usuario_correo;
+	public Usuario usuario;
 	
 	@ManyToOne
-	public Reunion reunion_fecha;
-	
-	@ManyToOne
-	public Reunion reunion_hora;
-	
-	@ManyToOne
-	public Reunion reunion_grupo_id;
+	public Reunion reunion;
 	
 	// Consultas
 	

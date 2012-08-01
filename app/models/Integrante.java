@@ -19,12 +19,11 @@ public class Integrante extends Model {
 	@Id
 	public Long id;
 	
+	@ManyToOne
+	public Usuario usuario;
 	
 	@ManyToOne
-	public Usuario usuario_correo;
-	
-	@ManyToOne
-	public Grupo grupo_id;
+	public Grupo grupo;
 	
 	@Constraints.Required
     @Formats.NonEmpty
@@ -35,7 +34,7 @@ public class Integrante extends Model {
     @Formats.NonEmpty
     @Column(nullable=false)
 	@Formats.DateTime(pattern="dd/MM/yyyy")
-	public Date fecha_ngreso;
+	public Date fecha_ingreso;
 	
 	// Consultas
 	

@@ -47,7 +47,7 @@ public class Tarea extends Model {
 	public Integer prioridad;
 	
 	@ManyToOne
-	public Usuario usuario_correo;
+	public Usuario usuario;
 	
 	// Consultas
 	

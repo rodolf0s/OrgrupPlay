@@ -42,7 +42,7 @@ public class Reunion extends Model {
 	public String descripcion;
 
 	@ManyToOne
-	public Grupo grupo_id;
+	public Grupo grupo;
 	
 	// Consultas
 	
