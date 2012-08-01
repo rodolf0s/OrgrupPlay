@@ -1,33 +1,66 @@
 package models;
 
-public class Usuario {
-	
-	public String correo;
-	public String nombre;
-	public String pass;
-	public String imagen;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-//	public String getCorreo() {
-//		return correo;		
-//	}
+import play.data.format.Formats;
+import play.data.validation.Constraints;
+import play.db.ebean.Model;
+
+@Entity
+@Table(name="usuario")
+public class Usuario extends Model {
 	
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
+	@Id
+	@Column(length=50, nullable=false)
+	public String correo;
 	
-//	public String getNombre() {
-//		return nombre;
-//	}
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=60, nullable=false)
+	public String nombre;
 	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=20, nullable=false)
+	public String password;
 	
-//	public String getPass() {
-//		return pass;
-//	}
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=60, nullable=false)
+	public String ciudad;
 	
-	public void setPass(String pass) {
-		this.pass = pass;
-	}
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=300, nullable=true)
+	public String leyenda;
+	
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=350, nullable=false)
+	public String imagen;
+	
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(nullable=false)
+	public Integer id_verificador;
+	
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=11, nullable=false)
+	public String estado;	
+	
+	// Consultas
+	
+	public static Model.Finder<String,Usuario> find = new Model.Finder(String.class, Usuario.class);
+	
+	public static Usuario authenticate(String email, String password) {
+        return find.where()
+            .eq("correo", email)
+            .eq("password", password)
+            .findUnique();
+    }
+
 }

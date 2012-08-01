@@ -11,13 +11,10 @@ import play.db.ebean.Model;
 
 @Entity
 @Table(name="correo")
-public class Correo extends Model{
+public class Correo extends Model {
 	
 	@Id
-	@Constraints.Required
-	@Formats.NonEmpty
-	@Column(nullable=false)
-	public Integer id;
+	public Long id;
 	
 	@Constraints.Required
 	@Formats.NonEmpty
@@ -34,6 +31,6 @@ public class Correo extends Model{
 	@Column(length=500, nullable=false)
 	public String mensaje;
 	
-	public static Model.Finder<Integer,Correo> find = new Model.Finder(Integer.class, Correo.class);
+	public static Model.Finder<Long,Correo> find = new Model.Finder(Long.class, Correo.class);
 	
 }

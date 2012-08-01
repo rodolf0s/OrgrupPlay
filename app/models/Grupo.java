@@ -1,20 +1,32 @@
 package models;
 
-public class Grupo {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import play.data.format.Formats;
+import play.data.validation.Constraints;
+import play.db.ebean.Model;
+
+@Entity
+@Table(name="grupo")
+public class Grupo extends Model {
 	
-	public Integer id;
+	@Id
+	public Long id;
+	
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=25, nullable=false)
 	public String nombre;
+	
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=10, nullable=false)
 	public String distintivo;
 	
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	// Consultas
 	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	public void setDistintivo(String distintivo) {
-		this.distintivo = distintivo;
-	}
+	public static Model.Finder<Long,Grupo> find = new Model.Finder(Long.class, Grupo.class);
 }

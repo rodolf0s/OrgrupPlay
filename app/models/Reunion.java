@@ -14,17 +14,11 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 @Entity
-@Table(name="archivo")
-public class Archivo extends Model {
+@Table(name="reunion")
+public class Reunion extends Model {
 	
 	@Id
-	@Column(length=350, nullable=false)
-	public String ruta;
-	
-	@Constraints.Required
-	@Formats.NonEmpty
-	@Column(length=255, nullable=false)
-	public String nombre;
+	public Long id;
 	
 	@Constraints.Required
 	@Formats.NonEmpty
@@ -37,20 +31,20 @@ public class Archivo extends Model {
 	@Column(nullable=false)
 	public Time hora;
 	
-	@ManyToOne
-	public Usuario usuario_correo;
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=50, nullable=false)
+	public String nombre;
 	
+	@Constraints.Required
+    @Formats.NonEmpty
+    @Column(length=500, nullable=true)
+	public String descripcion;
+
 	@ManyToOne
-	public Reunion reunion_fecha;
-	
-	@ManyToOne
-	public Reunion reunion_hora;
-	
-	@ManyToOne
-	public Reunion reunion_grupo_id;
+	public Grupo grupo_id;
 	
 	// Consultas
 	
-	public static Model.Finder<String,Archivo> find = new Model.Finder(String.class, Archivo.class);
-	
+	public static Model.Finder<Long,Reunion> find = new Model.Finder(Long.class, Reunion.class);
 }

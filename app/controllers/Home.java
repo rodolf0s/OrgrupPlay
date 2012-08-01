@@ -82,6 +82,16 @@ public class Home extends Controller {
     public static String getCorreo() {
     	return session("email");
     }
+
+    public static Integer getNumero() {
+    	int a = 0;
+
+    	while(a < 3) {
+    		a++;
+    		return a;
+    	}
+    	return a;
+    }
 	
 	public static boolean verificaSession() {
 		if(session("email") == null) 
