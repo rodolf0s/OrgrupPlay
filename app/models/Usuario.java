@@ -107,4 +107,15 @@ public class Usuario extends Model {
     			"correo = '"+correo+"' and id_verificador = '"+idVerificador+"'"
     			).execute();
     }
+    
+    /*
+     * verifica que la cuenta este activada
+     */
+    
+    public static boolean cuentaActivada(String correo) {
+    	return find.where()
+    			.eq("correo", correo)
+    			.eq("estado", "Activada")
+    			.findRowCount() == 1;
+    }
 }

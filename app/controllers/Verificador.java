@@ -31,7 +31,7 @@ public class Verificador extends Controller{
 		Form<Usuario> formLogin = form(Usuario.class).bindFromRequest();
 		
 		if(formLogin.hasErrors()) {
-            return badRequest(login.render(""));
+//            return badRequest(login.render(""));
 		} else {			
 			Usuario user = formLogin.get();
 			correo = user.correo;

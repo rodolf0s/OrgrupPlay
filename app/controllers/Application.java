@@ -43,60 +43,31 @@ public class Application extends Controller {
 	}
 	
 	public static Result login() {
-		return ok(login.render(""));
+		return ok(login.render(form(Login.class), ""));
 	}
 	
 	public static Result registro() {
 		return ok(registro.render(form(Usuario.class), ""));
 	}
 	
-	public static Result comprobarLogin() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-//		String correo;
-//		String pass;
-//		String sql;
-//		ResultSet rs = null;
-//		
-//		Form<Usuario> formLogin = form(Usuario.class).bindFromRequest();
-//		
-//		if(formLogin.hasErrors()) {
-//            return badRequest(login.render(""));
-//		} else {			
-//			Usuario user = formLogin.get();
-//			correo = user.correo;
-//			pass = user.password;
-//			
-//			try {				
-//				Connection con = conexion.abre();
-//				
-//				sql = "SELECT nombre, correo, estado FROM usuario WHERE correo = '"+correo+"' AND password = '"+pass+"' ";
-//				PreparedStatement st = con.prepareStatement(sql); 
-//				rs = st.executeQuery();
-//				
-//				rs.next();
-//				if(rs.getRow() == 1) {
-//					
-//					if(rs.getString("estado").equals("activada")) {
-//						session("email", correo);
-//						session("nombre", rs.getString("nombre"));
-//						return redirect(routes.Home.index());
-//					} else {
-//						return ok(login.render("Esta cuenta no esta activada"));
-//					}					
-//				} else {
-//					
-//					return ok(login.render("Correo o contraseña incorrecta"));
-//				}
-//				
-//			} catch (Exception e){
-//				e.printStackTrace();
-//			}finally{
-//				if(rs != null)
-//					rs.close();
-//				}
-//			
-//		}
-		return ok();
-	}	
+	public static Result comprobarLogin() {
+		
+	      Form<Login> loginForm = form(Login.class).bindFromRequest();
+	      
+	      if(loginForm.hasErrors()) {
+	          return badRequest(login.render(loginForm, ""));
+	      } else {
+	    	  Login user = loginForm.get();
+	    	  if(Usuario.cuentaActivada(user.correo)) {
+	    		  session("email", loginForm.get().correo);
+		          return redirect(routes.Home.index());
+	    	  } else {
+	    		  return ok(login.render(form(Login.class), "Esta cuenta no esta activada"));
+	    	  }
+	    	  
+	          
+	      }
+	  }
 	
 	public static Result comprobarRegistro() throws IOException, EmailException {
 		

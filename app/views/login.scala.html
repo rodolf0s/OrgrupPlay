@@ -1,4 +1,4 @@
-@(error: String)
+@(form: Form[Application.Login], error: String)
 
 @main(title = "Ingresar") {
 
@@ -11,13 +11,19 @@
 
                     <fieldset>
                         <legend>Ingresar</legend>
-            			<form class="well" action="@routes.Application.comprobarLogin" method="post">  
-            			         
+            			<form class="well" action="@routes.Application.comprobarLogin" method="post">
+            				
                 			<label for="correo">Correo</label>
                 			<input type="email" class="span3" placeholder="Correo" name="correo" required><br>
                 			<label for="pass">Contraseña</label>
-                			<input type="password" class="span3" placeholder="Contraseña" name="pass" required><br>
-                			<span style="color: red;">@error</span><br>
+                			<input type="password" class="span3" placeholder="Contraseña" name="password" required><br>
+                			<span style="color: red;">@error</span>
+                			@if(form.hasGlobalErrors) { 
+                				<p style="color: red;">
+                    				@form.globalError.message
+                				</p>
+            				}
+            				<br>
                 			<button type="submit" class="btn">Entrar</button>
                 			<a class="pull-right" style="padding-top: 10px;" href="@routes.Verificador.index">Olvidaste tu contraseña</a>
                 			
