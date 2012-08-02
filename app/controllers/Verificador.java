@@ -75,32 +75,5 @@ public class Verificador extends Controller{
 		}
 		return ok();
 	}
-	
-	public static Result verificaCuenta(Integer id) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		ResultSet rs = null;
-		
-		try {
-			Connection con = conexion.abre();
-			
-			String sql = "SELECT id_verificador FROM usuario WHERE id_verificador = '"+id+"' ";
-			PreparedStatement st = con.prepareStatement(sql); 
-			rs = st.executeQuery();
-			
-			rs.next();
-			if(rs.getRow() == 1) {
-				sql = "UPDATE usuario set estado = 'activada' WHERE id_verificador = '"+id+"' ";
-				st = con.prepareStatement(sql);
-				st.executeUpdate();
-				
-				return ok(verificaCuenta.render());
-			}
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}finally{
-			conexion.cierra();
-		}		
-		return ok();
-	}
 
 }

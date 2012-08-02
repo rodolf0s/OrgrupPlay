@@ -23,8 +23,20 @@ import org.apache.commons.mail.*;
 
 public class Application extends Controller {
 	
-	// Instancia la conexion
-	private static ConexionJDBC conexion = ConexionJDBC.getInstancia();
+	// -- Autentificacion
+    
+    public static class Login {
+        
+        public String correo;
+        public String password;
+        
+        public String validate() {
+            if(Usuario.authenticate(correo, password) == null) {
+                return "Correo o contraseña invalido";
+            }
+            return null;
+        }        
+    }
   
 	public static Result index() {
 		return ok(index.render());
@@ -35,150 +47,118 @@ public class Application extends Controller {
 	}
 	
 	public static Result registro() {
-		return ok(registro.render(""));
+		return ok(registro.render(form(Usuario.class), ""));
 	}
 	
 	public static Result comprobarLogin() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		String correo;
-		String pass;
-		String sql;
-		ResultSet rs = null;
-		
-		Form<Usuario> formLogin = form(Usuario.class).bindFromRequest();
-		
-		if(formLogin.hasErrors()) {
-            return badRequest(login.render(""));
-		} else {			
-			Usuario user = formLogin.get();
-			correo = user.correo;
-			pass = user.password;
-			
-			try {				
-				Connection con = conexion.abre();
-				
-				sql = "SELECT nombre, correo, estado FROM usuario WHERE correo = '"+correo+"' AND password = '"+pass+"' ";
-				PreparedStatement st = con.prepareStatement(sql); 
-				rs = st.executeQuery();
-				
-				rs.next();
-				if(rs.getRow() == 1) {
-					
-					if(rs.getString("estado").equals("activada")) {
-						session("email", correo);
-						session("nombre", rs.getString("nombre"));
-						return redirect(routes.Home.index());
-					} else {
-						return ok(login.render("Esta cuenta no esta activada"));
-					}					
-				} else {
-					
-					return ok(login.render("Correo o contraseña incorrecta"));
-				}
-				
-			} catch (Exception e){
-				e.printStackTrace();
-			}finally{
-				if(rs != null)
-					rs.close();
-				}
-			
-		}
+//		String correo;
+//		String pass;
+//		String sql;
+//		ResultSet rs = null;
+//		
+//		Form<Usuario> formLogin = form(Usuario.class).bindFromRequest();
+//		
+//		if(formLogin.hasErrors()) {
+//            return badRequest(login.render(""));
+//		} else {			
+//			Usuario user = formLogin.get();
+//			correo = user.correo;
+//			pass = user.password;
+//			
+//			try {				
+//				Connection con = conexion.abre();
+//				
+//				sql = "SELECT nombre, correo, estado FROM usuario WHERE correo = '"+correo+"' AND password = '"+pass+"' ";
+//				PreparedStatement st = con.prepareStatement(sql); 
+//				rs = st.executeQuery();
+//				
+//				rs.next();
+//				if(rs.getRow() == 1) {
+//					
+//					if(rs.getString("estado").equals("activada")) {
+//						session("email", correo);
+//						session("nombre", rs.getString("nombre"));
+//						return redirect(routes.Home.index());
+//					} else {
+//						return ok(login.render("Esta cuenta no esta activada"));
+//					}					
+//				} else {
+//					
+//					return ok(login.render("Correo o contraseña incorrecta"));
+//				}
+//				
+//			} catch (Exception e){
+//				e.printStackTrace();
+//			}finally{
+//				if(rs != null)
+//					rs.close();
+//				}
+//			
+//		}
 		return ok();
 	}	
 	
-	public static Result comprobarRegistro() throws SQLException, IOException {
-		String nombre;
-		String correo;
-		String pass;
-		String sql = "";
-		Connection con = null;
-		Integer id;
-		Boolean estaId = true;
+	public static Result comprobarRegistro() throws IOException, EmailException {
 		
+		Integer id;
 		Form<Usuario> formRegistro = form(Usuario.class).bindFromRequest();
 		
 		if(formRegistro.hasErrors()) {
-            return badRequest(registro.render(""));
+            return badRequest(registro.render(form(Usuario.class), ""));
 		} else {
 			Usuario user = formRegistro.get();
-			pass = user.password;
-			nombre = user.nombre;
-			correo = user.correo;
 			
-			
-			try {
-				con = conexion.abre();				
+			if(Usuario.esMiembro(user.correo)) {
 				
-				// Verifica si existe el correo en la BD
-				sql = "SELECT correo FROM usuario WHERE correo = '"+correo+"'";
-				PreparedStatement st = con.prepareStatement(sql);
-				ResultSet rs = st.executeQuery();
+				return ok(registro.render(form(Usuario.class), "El correo ya existe"));
 				
-				rs.next();
-				if(rs.getRow() >= 1) {
-							
-					return ok(registro.render("El correo ya existe"));
-				} else {
-					try {
-						
-						/*
-						 * Genera un numero aleatorio de 9 digitos
-						 * y comprueba que no exista en la BD
-						 */
-						do {
-							id = (int)(Math.random()*1000000000);
-							
-							// Verifica si existe el id en la BD
-							sql = "SELECT id_verificador FROM usuario WHERE id_verificador = '"+id+"'";
-							st = con.prepareStatement(sql);
-							rs = st.executeQuery();
-							
-							rs.next();
-							
-							if(rs.getRow() >= 1) {
-								estaId = true;
-							} else {
-								estaId = false;
-								
-								String path = "./public/images/usuarios/" + correo + ".gif";
-								org.apache.commons.io.FileUtils.copyFile(new File("./public/images/usuarios/user.gif"), new File(path));
-								
-								sql = "INSERT INTO usuario(correo, nombre, password, imagen, id_verificador, estado) VALUES('"+correo+"', '"+nombre+"', '"+pass+"', '"+correo+".gif', '"+id+"', 'desactivada')";
-								st = con.prepareStatement(sql);
-								st.executeUpdate();
-							}
-							
-						} while(estaId == true);						
-						
-						
-						// Envia un correo al usuario registrado
-						Email email = new SimpleEmail();
-					    email.setSmtpPort(587);
-					    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
-					    email.setDebug(false);
-					    email.setHostName("smtp.gmail.com");
-					    email.setFrom("orgrup.service@gmail.com");
-					    email.setSubject("Confirmar Cuenta Orgrup");
-					    email.setMsg("Hola " +nombre +"\nPara completar el registro haga click aqui para activar la cuenta http://localhost:9000/VerificaCuenta?id="+id+"\n\nUn saludo cordial\nEl equipo de Orgrup.");
-					    email.addTo(correo);
-					    email.setTLS(true);
-					    email.send();
-						
-						return ok(registrado.render());
-//						return ok(test.render(sql, "", "", ""));
-					} catch (Exception e) {
-						e.printStackTrace();
-						
-					}
-				}
+			} else {
 				
-			} catch(Exception e) {
-				e.printStackTrace();
-			}finally{
-				conexion.cierra();
+				do {
+					/*
+					 * genera un numero de 9 digitos para usarlo posteriormente
+					 * en el enlace que se le envia al correo y validar la cuenta
+					 */
+					id = (int)(Math.random()*1000000000);
+					
+				} while(Usuario.estaIdVerificador(id) == true);
+				
+				String path = "./public/images/usuarios/" + user.correo + ".gif";
+				org.apache.commons.io.FileUtils.copyFile(new File("./public/images/usuarios/user.gif"), new File(path));
+				
+				
+				/*
+				 * Agrega los datos faltantes al modelo usuario. para guardarlos posteriormente a la BD
+				 */
+				user.id_verificador = id;
+				user.imagen = user.correo + ".gif";
+				user.estado = "desactivada";
+				
+				/*
+				 * Guarda el nuevo usuario a la BD
+				 */
+				user.save();
+				
+				/*
+				 * Envia un correo al usuario que se acaba de registrar 
+				 * con un enlace para verificar la cuenta
+				 */
+				Email email = new SimpleEmail();
+			    email.setSmtpPort(587);
+			    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
+			    email.setDebug(false);
+			    email.setHostName("smtp.gmail.com");
+			    email.setFrom("orgrup.service@gmail.com");
+			    email.setSubject("Confirmar Cuenta Orgrup");
+			    email.setMsg("Hola " +user.nombre +"\nPara completar el registro haga click en el siguiente enlace para activar la cuenta http://localhost:9000/VerificaCuenta?correo="+user.correo+"&id="+id+"\n\nUn saludo cordial\nEl equipo de Orgrup.");
+			    email.addTo(user.correo);
+			    email.setTLS(true);
+			    email.send();
+			    
+			    return ok(registrado.render());
 			}			
+			
 		}
-		return ok();
 	}
 	
 	public static Result logout() {
@@ -191,38 +171,52 @@ public class Application extends Controller {
 	}
 	
 	public static Result guardaMensaje() {
-		String nombre_remitente;
-		String correo;
-		String mensaje;
-		ResultSet rs = null;
-		String sql;
-		
-		Form<Correo> formContacto = form(Correo.class).bindFromRequest();
-		
-		if(formContacto.hasErrors()){
-			return badRequest(contacto.render());
-		} else{
-			Correo mensaje_contacto = formContacto.get();
-			nombre_remitente = mensaje_contacto.nombre;
-			correo = mensaje_contacto.correo;
-			mensaje = mensaje_contacto.mensaje;
-			
-			try {
-				Connection con = conexion.abre();
-				
-				sql = "INSERT INTO correo(id, remitente, correo, mensaje) VALUES(nextval('id_mensaje'), '"+nombre_remitente+"', '"+correo+"', '"+mensaje+"')";
-				PreparedStatement st = con.prepareStatement(sql);
-				st.executeUpdate();
-				return redirect(routes.Application.index());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+//		String nombre_remitente;
+//		String correo;
+//		String mensaje;
+//		ResultSet rs = null;
+//		String sql;
+//		
+//		Form<Correo> formContacto = form(Correo.class).bindFromRequest();
+//		
+//		if(formContacto.hasErrors()){
+//			return badRequest(contacto.render());
+//		} else{
+//			Correo mensaje_contacto = formContacto.get();
+//			nombre_remitente = mensaje_contacto.nombre;
+//			correo = mensaje_contacto.correo;
+//			mensaje = mensaje_contacto.mensaje;
+//			
+//			try {
+//				Connection con = conexion.abre();
+//				
+//				sql = "INSERT INTO correo(id, remitente, correo, mensaje) VALUES(nextval('id_mensaje'), '"+nombre_remitente+"', '"+correo+"', '"+mensaje+"')";
+//				PreparedStatement st = con.prepareStatement(sql);
+//				st.executeUpdate();
+//				return redirect(routes.Application.index());
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 		return ok();
 	}
 	
 	public static Result contacto() {
 		return ok(contacto.render());
+	}
+	
+	/*
+	 * Metodo para validar al usuario anteriormente registrado
+	 * comparando el id llegado por la url al que esta en la BD
+	 */
+	public static Result verificaCuenta(String correo, Integer id) {
+		
+		if(Usuario.verificaCuenta(correo, id)) {
+			Usuario.actualizaEstado(correo, id);
+			return ok(verificaCuenta.render());
+		}
+
+		return ok();
 	}
 }
   
