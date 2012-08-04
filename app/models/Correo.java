@@ -31,6 +31,10 @@ public class Correo extends Model {
 	@Column(length=500, nullable=false)
 	public String mensaje;
 	
+	// Consultas 
+	
 	public static Model.Finder<Long,Correo> find = new Model.Finder(Long.class, Correo.class);
+	
+	
 	
 }

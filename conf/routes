@@ -13,8 +13,8 @@ GET		/Logout						controllers.Application.logout()
 GET		/About						controllers.Application.about()
 GET		/Contacto					controllers.Application.contacto()
 POST	/Contacto					controllers.Application.guardaMensaje()
-GET		/Recuperar					controllers.Verificador.index()
-POST	/Recuperar					controllers.Verificador.enviaDatos()
+GET		/Recuperar					controllers.Application.recuperar()
+POST	/Recuperar					controllers.Application.recuperarPassword()
 GET		/VerificaCuenta				controllers.Application.verificaCuenta(correo: String, id: Integer)
 
 #admin

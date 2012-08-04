@@ -19,17 +19,14 @@ public class Usuario extends Model {
 	@Column(length=50, nullable=false)
 	public String correo;
 	
-	@Constraints.Required
     @Formats.NonEmpty
     @Column(length=60, nullable=false)
 	public String nombre;
 	
-	@Constraints.Required
     @Formats.NonEmpty
     @Column(length=20, nullable=false)
 	public String password;
 	
-	@Constraints.Required
     @Formats.NonEmpty
     @Column(length=60, nullable=false)
 	public String ciudad;
@@ -117,5 +114,24 @@ public class Usuario extends Model {
     			.eq("correo", correo)
     			.eq("estado", "Activada")
     			.findRowCount() == 1;
+    }
+    
+    /*
+     * consulta para recuperar la password de un determinado usuario
+     */
+    
+    public static String recuperarPassword(String correo) {
+    	Usuario usuario = Ebean.find(Usuario.class)  
+    	        .select("password")  
+    	        .where().eq("correo", correo)  
+    	        .findUnique();
+    	try {
+	    	if(usuario.password.isEmpty()) {
+	    		return "";
+	    	} else {
+	    		return usuario.password;
+	    	}
+    	} catch(Exception e) {}
+		return "";
     }
 }

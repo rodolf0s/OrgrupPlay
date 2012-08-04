@@ -2,20 +2,12 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import models.Correo;
 import models.Usuario;
 
-import play.*;
 import play.data.Form;
 import play.mvc.*;
-import play.mvc.Http.Request;
 
 import views.html.*;
 
@@ -23,7 +15,7 @@ import org.apache.commons.mail.*;
 
 public class Application extends Controller {
 	
-	// -- Autentificacion
+	// -- Autentificacion.
     
     public static class Login {
         
@@ -50,6 +42,27 @@ public class Application extends Controller {
 		return ok(registro.render(form(Usuario.class), ""));
 	}
 	
+	public static Result recuperar() {		
+		return ok(olvidoPassword.render(""));
+	}	
+	
+	public static Result contacto() {
+		return ok(contacto.render());
+	}
+	
+	public static Result about() {
+        return ok(about.render());
+	}
+	
+	public static Result logout() {
+		session().clear();
+        return redirect(routes.Application.index());
+	}
+	
+	
+	/*
+	 * Comprueba el Login y si la cuenta esta activada o no.
+	 */	
 	public static Result comprobarLogin() {
 		
 	      Form<Login> loginForm = form(Login.class).bindFromRequest();
@@ -58,17 +71,21 @@ public class Application extends Controller {
 	          return badRequest(login.render(loginForm, ""));
 	      } else {
 	    	  Login user = loginForm.get();
+
 	    	  if(Usuario.cuentaActivada(user.correo)) {
 	    		  session("email", loginForm.get().correo);
 		          return redirect(routes.Home.index());
 	    	  } else {
 	    		  return ok(login.render(form(Login.class), "Esta cuenta no esta activada"));
-	    	  }
-	    	  
-	          
+	    	  }	          
 	      }
 	  }
 	
+	
+	/*
+	 * comprueba el registro del usuario, enviandole a la cuenta un enlace para que
+	 * posteriormente active la cuenta.
+	 */
 	public static Result comprobarRegistro() throws IOException, EmailException {
 		
 		Integer id;
@@ -88,18 +105,22 @@ public class Application extends Controller {
 				do {
 					/*
 					 * genera un numero de 9 digitos para usarlo posteriormente
-					 * en el enlace que se le envia al correo y validar la cuenta
+					 * en el enlace que se le envia al correo y validar la cuenta.
 					 */
 					id = (int)(Math.random()*1000000000);
 					
 				} while(Usuario.estaIdVerificador(id) == true);
 				
+				/*
+				 * Crea una imagen para el usuario por defecto, guardandola en /images/usuarios,
+				 * con el nombre del correo + las extension (.gif).
+				 */
 				String path = "./public/images/usuarios/" + user.correo + ".gif";
 				org.apache.commons.io.FileUtils.copyFile(new File("./public/images/usuarios/user.gif"), new File(path));
 				
 				
 				/*
-				 * Agrega los datos faltantes al modelo usuario. para guardarlos posteriormente a la BD
+				 * Agrega los datos faltantes al modelo usuario. para guardarlos posteriormente a la BD.
 				 */
 				user.id_verificador = id;
 				user.imagen = user.correo + ".gif";
@@ -112,7 +133,7 @@ public class Application extends Controller {
 				
 				/*
 				 * Envia un correo al usuario que se acaba de registrar 
-				 * con un enlace para verificar la cuenta
+				 * con un enlace para verificar la cuenta.
 				 */
 				Email email = new SimpleEmail();
 			    email.setSmtpPort(587);
@@ -126,55 +147,68 @@ public class Application extends Controller {
 			    email.setTLS(true);
 			    email.send();
 			    
-			    return ok(registrado.render());
-			}			
-			
+			    return ok(informaciones.render("Bienvenidos a la red de Orgrup, red de agendas que te permitirá " +
+			    		"llevar un registro de todas tus actividades, podrás buscar amigos y colegas para gestionar " +
+			    		"reuniones de forma automática, subir apuntes, documentos y más!. " +
+			    		"Confirme su cuenta a través del enlace enviado a su correo.", "Registro"));
+//			    return ok(registrado.render());
+			}		
 		}
 	}
 	
-	public static Result logout() {
-		session().clear();
-        return redirect(routes.Application.index());
+	
+	/*
+	 * Metodo que envia la contraseña al usuario por correo electronico.
+	 */
+	public static Result recuperarPassword() throws EmailException {
+		Form<Usuario> formLogin = form(Usuario.class).bindFromRequest();
+		
+		if(formLogin.hasErrors()) {
+          return badRequest(olvidoPassword.render(""));
+		} else {
+			String correo = formLogin.get().correo;
+			String password = Usuario.recuperarPassword(correo);
+			
+			// si la password no esta vacia envia el correo con dicha password
+			if (!password.isEmpty()) {
+				
+				// Envia un correo al usuario registrado para recuperar contraseña
+				Email email = new SimpleEmail();
+			    email.setSmtpPort(587);
+			    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
+			    email.setDebug(false);
+			    email.setHostName("smtp.gmail.com");
+			    email.setFrom("orgrup.service@gmail.com");
+			    email.setSubject("Recuperar Contraseña");
+			    email.setMsg("Ud a solicitado su clave de ingreso, su clave es '"+password+"'");
+			    email.addTo(correo);
+			    email.setTLS(true);
+			    email.send();
+			    
+			    return ok(informaciones.render("Su contraseña a sido enviada a su correo electronico.", "Recuperar Contraseña"));
+			} else {
+				return ok(olvidoPassword.render("Correo incorrecto"));
+			}
+		}
 	}
 	
-	public static Result about() {
-        return ok(about.render());
-	}
-	
+	/*
+	 * guarda el mensaje del usuario en la BD
+	 */
 	public static Result guardaMensaje() {
-//		String nombre_remitente;
-//		String correo;
-//		String mensaje;
-//		ResultSet rs = null;
-//		String sql;
-//		
-//		Form<Correo> formContacto = form(Correo.class).bindFromRequest();
-//		
-//		if(formContacto.hasErrors()){
-//			return badRequest(contacto.render());
-//		} else{
-//			Correo mensaje_contacto = formContacto.get();
-//			nombre_remitente = mensaje_contacto.nombre;
-//			correo = mensaje_contacto.correo;
-//			mensaje = mensaje_contacto.mensaje;
-//			
-//			try {
-//				Connection con = conexion.abre();
-//				
-//				sql = "INSERT INTO correo(id, remitente, correo, mensaje) VALUES(nextval('id_mensaje'), '"+nombre_remitente+"', '"+correo+"', '"+mensaje+"')";
-//				PreparedStatement st = con.prepareStatement(sql);
-//				st.executeUpdate();
-//				return redirect(routes.Application.index());
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-		return ok();
+	
+		Form<Correo> formContacto = form(Correo.class).bindFromRequest();
+		
+		if(formContacto.hasErrors()){
+			return badRequest(contacto.render());
+		} else{
+			Correo mensaje = formContacto.get();
+
+			mensaje.save();
+			return ok(informaciones.render("Su mensaje a sido enviado exitosamente.", "Contacto"));
+		}
 	}
 	
-	public static Result contacto() {
-		return ok(contacto.render());
-	}
 	
 	/*
 	 * Metodo para validar al usuario anteriormente registrado
@@ -186,8 +220,6 @@ public class Application extends Controller {
 			Usuario.actualizaEstado(correo, id);
 			return ok(verificaCuenta.render());
 		}
-
 		return ok();
 	}
-}
-  
+}  
