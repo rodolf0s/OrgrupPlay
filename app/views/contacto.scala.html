@@ -10,8 +10,8 @@
 	
 	<div class="container">
 		<div class="row">
-			<div class="span9" style="float:right;">
-				<div class="span6" style="float:left;" id="estilo">
+			<div class="span8" style="float:right;">
+				<div class="span4" style="float:left;" id="estilo">
 					<fieldset>
 						<legend>Contacto</legend>
 							<form id="form1" action="@routes.Application.guardaMensaje" class="well" method="post">
@@ -20,7 +20,7 @@
 								<label for="correo">Correo</label>
 								<input type="text" class="span3" placeholder="correo" name="correo" id="correo" required><br>
 								<label for="mensaje">Mensaje</label>
-								<textarea name="mensaje" id="mensaje" class="input-xlarge" rows="4"></textarea><br>
+								<textarea name="mensaje" id="mensaje" required></textarea><br>
 								<button type="submit" class="btn">Enviar mensaje</button>
 							</form>
 					</fieldset>
