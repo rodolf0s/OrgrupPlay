@@ -2,10 +2,6 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import models.Usuario;
 
@@ -14,7 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import views.html.agenda.miCuenta;
+
 import views.html.agenda.*;
 
 public class Cuenta extends Controller {
@@ -24,14 +20,12 @@ public class Cuenta extends Controller {
         public String passNew;
         public String passNew2;           
     }
-
-	private static ConexionJDBC conexion = ConexionJDBC.getInstancia();
 	
 	public static Result perfil() {
 		if(!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(perfil.render(session("nombre"), session("email"), ""));
+			return ok(perfil.render(Usuario.find.byId(session("email")), ""));
 		}
 	}
 	
@@ -39,36 +33,15 @@ public class Cuenta extends Controller {
 		if(!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(password.render(session("nombre"), session("email"), "", "", "", "", ""));
+			return ok(password.render(Usuario.find.byId(session("email")), "", "", "", "", ""));
 		}
 	}
+
 	
-	public static String getImagen() throws SQLException {
-		String imagen = "";
-		
-        try {
-        	Connection con = conexion.abre();
-        	
-        	String sql = "SELECT imagen FROM usuario WHERE correo = '"+session("email")+"'";
-			
-        	PreparedStatement st = con.prepareStatement(sql);
-        	ResultSet rs = st.executeQuery();
-        	rs.next();
-        	imagen = rs.getString("imagen");
-        	
-        } catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			conexion.cierra();
-		}
-        return imagen;
-    }
-	
-	// Actualiza los datos de perfil del usuario, nombre e imagen.
-	public static Result actualizaPerfil() throws SQLException, IOException {
-		PreparedStatement st = null;
-		String sql = "";
-		String nombre = "";
+	/*
+	 * Actualiza el nombre del usuario y la imagen de la cuenta.
+	 */
+	public static Result actualizaPerfil() throws IOException {
 		String fileName = "";
 		String extension = "";
 
@@ -78,71 +51,70 @@ public class Cuenta extends Controller {
 			Form<Usuario> formPerfil = form(Usuario.class).bindFromRequest();
 
 			if(formPerfil.hasErrors()) {
-	            return badRequest(perfil.render(session("nombre"), session("email"), ""));
+				return ok(perfil.render(Usuario.find.byId(session("email")), ""));
 			} else {
 				Usuario user = formPerfil.get();
-				nombre = user.nombre;
-								
+						
+				/*
+				 * obtiene la imagen de la vista perfil.
+				 */
 				MultipartFormData body = request().body().asMultipartFormData();
-				FilePart picture = body.getFile("imagen");				
-				try {
-					Connection con = conexion.abre();
+				FilePart picture = body.getFile("imagen");
+				
+				/*
+				 * revisa si la imagen viene nula o no, si es distinto de null
+				 * es porque el usuario actualizara su imagen.
+				 */
+				if(picture != null) {
+					String contentType = picture.getContentType();
+					File file = picture.getFile();
 					
-					if(picture != null) {
-						String contentType = picture.getContentType(); 
-					    File file = picture.getFile();
-					    Long size = file.length();
-					    
-					    // comprueba que el tamaño de la imagen no supere 1 MB
-					    if(size > 1000000) {
-					    	return ok(perfil.render(session("nombre"), session("email"), "La imagen supera el limite"));
-					    } else {
-					    	// verifica el tipo de imagen de la imagen a subir.
-						    if(contentType.equals("image/png")) {
-						    	extension = ".png";
-						    }
-						    else if(contentType.equals("image/jpeg")) {
-						    	extension = ".jpg";
-						    }
-						    else if(contentType.equals("image/gif")) {
-						    	extension = ".gif";
-						    }
-						    
-						    
-						    fileName = session("email") + extension;
-						    String path = "./public/images/usuarios/" + session("email") + extension;
-						    org.apache.commons.io.FileUtils.copyFile(file, new File(path));
-						    
-						    sql = "UPDATE usuario SET nombre = '"+nombre+"', imagen = '"+fileName+"' WHERE correo = '"+session("email")+"'";
-							st = con.prepareStatement(sql);
-							st.executeUpdate();
-							session("nombre", nombre);
-							return redirect (routes.Cuenta.perfil());
+					/*
+					 * si el tamaño de la imagen supera 1 MB, redirecciona a perfil
+					 * notificando el error.
+					 */
+					if(file.length() > 1000000) {
+						return ok(perfil.render(Usuario.find.byId(session("email")), "La imagen supera el limite"));
+					} else {
+						/*
+						 * revisa que extension tiene la imagen subida por
+						 * el usuario para agregarle la extension.
+						 */
+					    if(contentType.equals("image/png")) {
+					    	extension = ".png";
+					    }
+					    else if(contentType.equals("image/jpeg")) {
+					    	extension = ".jpg";
+					    }
+					    else if(contentType.equals("image/gif")) {
+					    	extension = ".gif";
 					    }
 					    
-					} else {
-						sql = "UPDATE usuario SET nombre = '"+nombre+"' WHERE correo = '"+session("email")+"'";
-						st = con.prepareStatement(sql);
-						st.executeUpdate();
-						session("nombre", nombre);
-						return redirect (routes.Cuenta.perfil());
+					    /*
+					     * crea el nombre del archivo con el correo del usuario mas la extension
+					     * y luego sube la imagen y la guarda en el disco.
+					     */
+					    fileName = session("email") + extension;
+					    String path = "./public/images/usuarios/" + session("email") + extension;
+					    org.apache.commons.io.FileUtils.copyFile(file, new File(path));
+					    
+					    /*
+					     * finalmente actualiza la imagen y redirecciona a perfil.
+					     */
+					    user.setImagen(session("email"), user.nombre, fileName);
+					    return redirect (routes.Cuenta.perfil());
 					}
-				} catch(Exception e) {
-					e.printStackTrace();
-				} finally {
-					conexion.cierra();
-				}
-				
+					
+				} else {
+					user.setNombre(user.nombre, session("email"));
+				    return redirect (routes.Cuenta.perfil());
+				}			
 			}
 		}
-		return ok();
 	}
 	
 	// Actualiza la contraseña del usuario
-	public static Result actualizaPassword() throws SQLException {
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		String sql = "";
+	public static Result actualizaPassword() {
 		
 		if(!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -150,41 +122,31 @@ public class Cuenta extends Controller {
 			Form<CambioPassword> formPassword = form(CambioPassword.class).bindFromRequest();
 
 			if(formPassword.hasErrors()) {
-	            return badRequest(password.render(session("nombre"), session("email"), "", "", "", "", ""));
+				return ok(password.render(Usuario.find.byId(session("email")), "", "", "", "", ""));
 			} else {				
 				CambioPassword claves = formPassword.get();
 				
-				try {
-					Connection con = conexion.abre();
-				
-					sql = "SELECT password FROM usuario WHERE correo = '"+session("email")+"'";
+				/*
+				 * verifica que la contraseña anterior sea la misma de la BD.
+				 */
+				if(Usuario.recuperarPassword(session("email")).equals(claves.passOld)) {
 					
-					st = con.prepareStatement(sql);
-					rs = st.executeQuery();
-					
-					rs.next();
-					
-					if(claves.passOld.equals(rs.getString("password"))) {
-						
-						if(claves.passNew.equals(claves.passNew2)) {
-							sql = "UPDATE usuario SET password = '"+claves.passNew+"' WHERE correo = '"+session("email")+"'";
-							st = con.prepareStatement(sql);
-							st.executeUpdate();
-							return redirect (routes.Cuenta.password());
-						} else {
-							return ok(password.render(session("nombre"), session("email"), "", "Las Contraseñas no coinciden", claves.passOld, claves.passNew, claves.passNew2));
-						}													
+					/*
+					 * comprueba que las nuevas contraseñas sean iguales.
+					 */
+					if(claves.passNew.equals(claves.passNew2)) {
+						Usuario usuario = new Usuario();
+						usuario.setPassword(session("email"), claves.passNew);
+						return redirect (routes.Cuenta.password());
 					} else {
-						return ok(password.render(session("nombre"), session("email"), "La contraseña es incorrecta", "", claves.passOld, claves.passNew, claves.passNew2));
+						return ok(password.render(Usuario.find.byId(session("email")), "", "Las Contraseñas no coinciden", claves.passOld, claves.passNew, claves.passNew2));
 					}
-				} catch(Exception e) {
-					e.printStackTrace();
-				} finally {
-					conexion.cierra();
-				}				
+					
+				} else {
+					return ok(password.render(Usuario.find.byId(session("email")), "La contraseña es incorrecta", "", claves.passOld, claves.passNew, claves.passNew2));
+				}
 			}
 		}
-		return ok();
 	}
 
 	public static boolean verificaSession() {

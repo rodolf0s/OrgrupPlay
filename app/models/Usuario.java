@@ -134,4 +134,35 @@ public class Usuario extends Model {
     	} catch(Exception e) {}
 		return "";
     }
+    
+    /*
+     * Actualiza el nombre de usuario
+     */
+    
+    public void setNombre(String nombre, String correo) {
+        Usuario usuario = find.ref(correo);
+        usuario.nombre = nombre;
+        usuario.update();    
+    }
+    
+    /*
+     * Actualiza el nombre y la imagen del usuario
+     */
+    
+    public void setImagen(String correo, String nombre, String imagen) {
+        Usuario usuario = find.ref(correo);
+        usuario.nombre = nombre;
+        usuario.imagen = imagen;
+        usuario.update();    
+    }
+    
+    /*
+     * Actualiza la contraseña del usuario
+     */
+    
+    public void setPassword(String correo, String password) {
+    	Usuario usuario = find.ref(correo);
+    	usuario.password = password;
+    	usuario.update();
+    }
 }

@@ -1,15 +1,15 @@
-@(usuario: String)
+@(usuario: Usuario)
 
 
-@app(title = "Orgrup", usuario) {
+@app(title = "Orgrup", usuario.nombre) {
 	
 
 		<div class="row-fluid">
 			<div class="span2">
 				<div class="well sidebar-nav">
 					<ul class="nav nav-list">
-						<li> <img style="width: 90px; height: 90px;" src="/assets/images/usuarios/@{Home.getImagen()}" alt="imagen usuario"> </li>
-						<li><b>@usuario</b></li>						
+						<li> <img style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
+						<li><b>@usuario.nombre</b></li>						
 					</ul>
 				</div>								 
 			</div>
