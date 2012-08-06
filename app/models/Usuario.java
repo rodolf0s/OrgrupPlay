@@ -1,11 +1,14 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 
 import play.data.format.Formats;
 import play.data.validation.Constraints;
@@ -164,5 +167,10 @@ public class Usuario extends Model {
     	Usuario usuario = find.ref(correo);
     	usuario.password = password;
     	usuario.update();
+    }
+    
+    public static List<Usuario> listaUsuarios(String nombre){
+    	return find.where().or(Expr.like("nombre", "%"+nombre+"%"),  Expr.like("correo", "%"+nombre+"%")).findList();
+  	
     }
 }
