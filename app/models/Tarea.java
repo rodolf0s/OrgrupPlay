@@ -24,12 +24,23 @@ public class Tarea extends Model {
 	@Formats.NonEmpty
 	@Column(nullable=false)
 	@Formats.DateTime(pattern="dd/MM/yyyy")
-	public Date fecha;
+	public Date fecha_inicio;
 	
 	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(nullable=false)
-	public Time hora;
+	public Time hora_inicio;
+	
+	@Constraints.Required
+	@Formats.NonEmpty
+	@Column(nullable=false)
+	@Formats.DateTime(pattern="dd/MM/yyyy")
+	public Date fecha_fin;
+	
+	@Constraints.Required
+	@Formats.NonEmpty
+	@Column(nullable=false)
+	public Time hora_fin;
 	
 	@Constraints.Required
     @Formats.NonEmpty
