@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Contacto;
 import models.Usuario;
 
 import play.data.Form;
@@ -21,51 +22,47 @@ public class Contactos extends Controller {
 	
 	public static Result contactos(){
 		
-		List<String> hola = new ArrayList<String>();
-		
-		return ok(contactos.render(session("nombre"), hola));
+		List<Usuario> usuarioVacio = new ArrayList<Usuario>();
+		try{
+			return ok(contactos.render(Usuario.find.byId(session("email")), usuarioVacio));	
+		}catch(Exception e){
+			
+		}
+		return ok();
 	}
 	
 	public static Result buscaContactos() throws SQLException {
-		String usuario1;
-		String usuarioBusqueda;
-		ResultSet rs = null;
-		String sql = "";
-		Connection con = null;
-
-		//Creo un array
-		List<String> lista = new ArrayList<String>();
+		
+		List<Usuario> usuarioVacio = new ArrayList<Usuario>();
 		
 		Form<Usuario> formBuscaContactos = form(Usuario.class).bindFromRequest();
 		
 		if(formBuscaContactos.hasErrors()){
-//			return badRequest(contactos.render(session("nombre"), null));
-			return ok("2");
-			
+			return badRequest(contactos.render(Usuario.find.byId(session("email")), usuarioVacio));
 		} else{
-			
 			Usuario amigos = formBuscaContactos.get();
-			usuarioBusqueda = amigos.nombre;
-			
-			try{
-				con = conexion.abre();
-				
-				sql = "SELECT * FROM usuario WHERE nombre = '"+usuarioBusqueda+"' OR correo = '"+usuarioBusqueda+"' AND nombre = '"+session("email")+"'";
-				PreparedStatement st = con.prepareStatement(sql);
-				rs = st.executeQuery();
-				
-				while(rs.next()){
-					 lista.add(rs.getString("correo"));
-					 lista.add(rs.getString("nombre"));					 
-				}
-				return ok(contactos.render(session("nombre"), lista));
-				
-//				return ok(lista.get(0).toString());
-				
-			}catch(Exception e){ 
-				e.printStackTrace();
-			}
-			return ok("111");
+			return ok(contactos.render(Usuario.find.byId(session("email")), Usuario.listaUsuarios(amigos.nombre)));
 		}
+	}
+	
+	public static Result agregaContacto(){
+		
+		List<Usuario> usuarioVacio = new ArrayList<Usuario>();
+		
+		Form<Contacto> formAgregaContacto = form(Contacto.class).bindFromRequest();
+		
+		if(formAgregaContacto.hasErrors()){
+			return badRequest(contactos.render(Usuario.find.byId(session("email")), usuarioVacio));
+		}else{
+			Contacto amigoEncontrado = formAgregaContacto.get();
+//			return ok(amigoEncontrado.usuario1.toString());
+			amigoEncontrado.save();
+			try{
+				return ok(contactos.render(Usuario.find.byId(session("email")), usuarioVacio));
+			}catch(Exception e){
+			
+			}			
+		}
+		return ok("2222");
 	}
 }

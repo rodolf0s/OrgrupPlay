@@ -1,6 +1,6 @@
-@(user: String, lista: List[String])
+@(user: Usuario, lista: List[Usuario])
 
-@app(title = "Orgrup", user) {
+@app(title = "Orgrup", user.nombre) {
 	
 	<div class="container">
 		<ul class="nav nav-tabs" id="myTab">
@@ -9,24 +9,52 @@
 		</ul>
  
 		<div class="tab-content">
- 	 		<div class="tab-pane active" id="buscar_contactos">
- 	 				<form class="form-horizontal" action="@routes.Contactos.buscaContactos" method="post">
+ 	 		<div class="tab-pane active" id="buscar_contactos" ">
+ 	 				<form name="form0" action="@routes.Contactos.buscaContactos" method="post">
  	 					<input type="text" class="span5" placeholder="Ingrese el nombre o correo" name="nombre" id="nombre" required>&nbsp;&nbsp;&nbsp;
- 	 					<button type="submit" class="btn">Buscar contacto</button>
+ 	 					<input type="submit" class="btn" value="Buscar contacto">
  	 				</form>
  	 				
  	 		</div>
-  			<div class="tab-pane" id="gestionar_contactos">gestiona todos tus contactos</div>
+ 	 		
+ 	 		<div class="tab-pane" id="gestionar_contactos">gestiona todos tus contactos</div>
+ 	 	
+ 	 	</div>
+ 	 	
+  			<form name="form1" action="@routes.Contactos.agregaContacto" method="post">
 		
+				@if(lista.isEmpty()){
+					<br>
+				}else {
+					<table class="table">
+						<tr>	
+							<td><h3>Imagen</h3></td>
+							<td><h3>Nombre</h3></td>
+							<td><h3>Correo</h3></td>
+						</tr>
+						@for(p<-lista){
+							<tr>		
+								<input type="hidden" name="usuario1.correo" value="@user.correo">
+								<input type="hidden" name="usuario2.correo" value="@p.correo">
+								<td><img style="width: 90px; height: 90px;" src="/assets/images/usuarios/@p.imagen" alt="imagen usuario"></td>
+								<td>@p.nombre</td>
+								<td>@p.correo</td>								
+								<td><input type="submit" class="btn" value="Agregar contacto"></td>
+							</tr>					
+						}	
+					</table>
+				}
+			</form>
+
+
 		</div>
 		
- 	</div>
- 		
 	<script>
 		$('#myTab a').click(function (e) {
 			e.preventDefault();
 		  	$(this).tab('show');
 		})
+		
 	</script>
 
 }

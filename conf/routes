@@ -39,6 +39,7 @@ POST	/Configurar/Perfil			controllers.Cuenta.actualizaPerfil()
 POST	/Configurar/Password		controllers.Cuenta.actualizaPassword()
 GET 	/Contactos					controllers.Contactos.contactos()
 POST 	/Contactos 					controllers.Contactos.buscaContactos()
+POST	/Contactos2					controllers.Contactos.agregaContacto()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
