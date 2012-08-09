@@ -13,6 +13,7 @@ import com.avaje.ebean.Expr;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 @Table(name="usuario")
@@ -52,7 +53,8 @@ public class Usuario extends Model {
 	
 	// Consultas
 	
-	public static Model.Finder<String,Usuario> find = new Model.Finder(String.class, Usuario.class);
+	public static Finder<String,Usuario> find = new Finder<String,Usuario>(String.class, Usuario.class);
+
 	
 	/**
 	 *	Auntentifica el usuario	
@@ -97,9 +99,10 @@ public class Usuario extends Model {
     		.findRowCount() == 1;
     }
     
-    /*
+    /**
      * acutializa el estado del usuario, una vez activada
      */
+ 
     
     public static void actualizaEstado(String correo, Integer idVerificador) {
     	Ebean.createSqlUpdate(
@@ -108,7 +111,7 @@ public class Usuario extends Model {
     			).execute();
     }
     
-    /*
+    /**
      * verifica que la cuenta este activada
      */
     
@@ -119,11 +122,11 @@ public class Usuario extends Model {
     			.findRowCount() == 1;
     }
     
-    /*
-     * consulta para recuperar la password de un determinado usuario
+    /**
+     * Obtiene la password de la BD de un determiando usuario
      */
     
-    public static String recuperarPassword(String correo) {
+    public static String getPassword(String correo) {
     	Usuario usuario = Ebean.find(Usuario.class)  
     	        .select("password")  
     	        .where().eq("correo", correo)  
@@ -138,7 +141,7 @@ public class Usuario extends Model {
 		return "";
     }
     
-    /*
+    /**
      * Actualiza el nombre de usuario
      */
     
@@ -148,7 +151,7 @@ public class Usuario extends Model {
         usuario.update();    
     }
     
-    /*
+    /**
      * Actualiza el nombre y la imagen del usuario
      */
     
@@ -159,7 +162,7 @@ public class Usuario extends Model {
         usuario.update();    
     }
     
-    /*
+    /**
      * Actualiza la contraseña del usuario
      */
     
@@ -169,6 +172,9 @@ public class Usuario extends Model {
     	usuario.update();
     }
     
+    /**
+     * Obtiene una lista de los usuarios, para agregar a sus contactos
+     */
     public static List<Usuario> listaUsuarios(String nombre){
     	return find.where().or(Expr.like("nombre", "%"+nombre+"%"),  Expr.like("correo", "%"+nombre+"%")).findList();
   	

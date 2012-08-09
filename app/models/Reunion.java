@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 @Table(name="reunion")
@@ -46,5 +47,5 @@ public class Reunion extends Model {
 	
 	// Consultas
 	
-	public static Model.Finder<Long,Reunion> find = new Model.Finder(Long.class, Reunion.class);
+	public static Finder<Long,Reunion> find = new Finder<Long,Reunion>(Long.class, Reunion.class);
 }

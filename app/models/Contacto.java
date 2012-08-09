@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 @Table(name="contacto")
@@ -22,6 +23,5 @@ public class Contacto extends Model {
 	
 	// Consultas
 	
-	public static Model.Finder<Long,Contacto> find = new Model.Finder(Long.class, Contacto.class);	
-	
+	public static Finder<Long,Contacto> find = new Finder<Long,Contacto>(Long.class, Contacto.class);	
 }
