@@ -1,7 +1,6 @@
 package models;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,14 +24,16 @@ public class Tarea extends Model {
 	public Date fecha_inicio;
 	
 	@Column(nullable=false)
-	public Time hora_inicio;
+	@Formats.DateTime(pattern="HH:mm:ss")
+	public Date hora_inicio;
 	
 	@Column(nullable=false)
 	@Formats.DateTime(pattern="dd/MM/yyyy")
 	public Date fecha_fin;
 	
 	@Column(nullable=false)
-	public Time hora_fin;
+	@Formats.DateTime(pattern="HH:mm:ss")
+	public Date hora_fin;
 	
 	@Constraints.Required
     @Column(length=60, nullable=false)
