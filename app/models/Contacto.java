@@ -1,10 +1,13 @@
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import play.data.format.Formats;
+import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 @Entity
@@ -19,6 +22,10 @@ public class Contacto extends Model {
 	
 	@ManyToOne
 	public Usuario usuario2;
+	
+	@Formats.NonEmpty
+	@Column(nullable=false)
+	public String amigos;
 	
 	// Consultas
 	

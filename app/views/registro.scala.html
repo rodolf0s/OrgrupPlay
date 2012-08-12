@@ -44,17 +44,25 @@
     <script type="text/javascript">
 		$('.error').hide();
 		
- 	   	$('#fat-btn').on('click', function () {
+ 	   	$('#fat-btn').on('click', function() {
  	   		 	   		
 	 	   	var pass = $("input#password").val().length;
 	 	   	
-			if (pass < 6) {
-	 	       $("label#username_length").show();
-	 	       $("input#password").focus();
-	 	       return false;
-			}
-			else {
-				$(this).button('loading')
+// 	 	   	Prueba
+	 	   	var nombre = $("input#nombre").val().length;
+	 	  	var correo = $("input#correo").val().length;
+	 	 	var ciudad = $("input#ciudad").val().length;
+
+	 	
+			if(nombre != "" && correo != "" && pass != "" && ciudad != ""){ 	   	
+				if(pass < 6) {
+	 	       		$("label#username_length").show();
+	 	       		$("input#password").focus();
+	 	       		return false;
+				}
+				else{
+					$(this).button('loading');
+				}
 			}
  	   	})
  	   	

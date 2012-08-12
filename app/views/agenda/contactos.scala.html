@@ -26,23 +26,25 @@
 				@if(lista.isEmpty()){
 					<br>
 				}else {
-					<table class="table">
-						<tr>	
-							<td><h3>Imagen</h3></td>
-							<td><h3>Nombre</h3></td>
-							<td><h3>Correo</h3></td>
-						</tr>
-						@for(p<-lista){
-							<tr>		
-								<input type="hidden" name="usuario1.correo" value="@user.correo">
-								<input type="hidden" name="usuario2.correo" value="@p.correo">
-								<td><img style="width: 90px; height: 90px;" src="/assets/images/usuarios/@p.imagen" alt="imagen usuario"></td>
-								<td>@p.nombre</td>
-								<td>@p.correo</td>								
-								<td><input type="submit" class="btn" value="Agregar contacto"></td>
-							</tr>					
-						}	
-					</table>
+						<h3>Busqueda</h3>
+						<div class=span8>
+							<table class="table">
+							@for(p<-lista){
+								<tr>		
+									<input type="hidden" name="usuario1.correo" value="@user.correo">
+									<input type="hidden" name="usuario2.correo" value="@p.correo">
+									<input type="hidden" name="amigos" value="no">
+									<td><img style="width: 48px; height: 48px;" src="/assets/images/usuarios/@p.imagen" alt="imagen usuario"></td>
+									<td><font size="4">@p.nombre</font><br>Correo: @p.correo<br>Vive en: @p.ciudad</font></td>
+									@if(p.correo != user.correo){										
+									<td><input type="submit" class="btn" value="Agregar contacto"></td>
+									}else{
+										<td></td>
+									}
+								</tr>					
+							}	
+						</table>
+					</div>
 				}
 			</form>
 
