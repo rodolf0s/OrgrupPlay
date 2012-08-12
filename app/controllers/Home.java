@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Contacto;
 import models.Tarea;
 import models.Usuario;
 
@@ -60,6 +61,9 @@ public class Home extends Controller {
 		}
 	}
 	
+	public static Integer notificacionAmigos(){
+		return Contacto.find.where().eq("usuario2_correo", session("email")).findRowCount();
+	}
 
 	
 	

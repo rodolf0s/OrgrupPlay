@@ -31,4 +31,5 @@ public class Contacto extends Model {
 	// Consultas
 	
 	public static Finder<Long,Contacto> find = new Finder<Long,Contacto>(Long.class, Contacto.class);	
+	
 }
