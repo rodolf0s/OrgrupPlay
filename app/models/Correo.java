@@ -8,6 +8,7 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 @Table(name="correo")
@@ -33,8 +34,5 @@ public class Correo extends Model {
 	
 	// Consultas 
 	
-	public static Model.Finder<Long,Correo> find = new Model.Finder(Long.class, Correo.class);
-	
-	
-	
+	public static Finder<Long,Correo> find = new Finder<Long,Correo>(Long.class, Correo.class);	
 }

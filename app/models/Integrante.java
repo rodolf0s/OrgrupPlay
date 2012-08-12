@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 @Table(name="integrante")
@@ -38,5 +39,5 @@ public class Integrante extends Model {
 	
 	// Consultas
 	
-	public static Model.Finder<Long,Integrante> find = new Model.Finder(Long.class, Integrante.class);
+	public static Finder<Long,Integrante> find = new Finder<Long,Integrante>(Long.class, Integrante.class);
 }

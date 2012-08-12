@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 @Table(name="archivo")
@@ -45,6 +46,5 @@ public class Archivo extends Model {
 	
 	// Consultas
 	
-	public static Model.Finder<String,Archivo> find = new Model.Finder(String.class, Archivo.class);
-	
+	public static Finder<String,Archivo> find = new Finder<String,Archivo>(String.class, Archivo.class);	
 }
