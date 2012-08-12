@@ -1,31 +1,220 @@
-@(usuario: Usuario)
+@(usuario: Usuario, tareas: List[Tarea])
 
 
 @app(title = "Orgrup", usuario.nombre) {
 	
+<script type='text/javascript'>
 
-		<div class="row-fluid">
-			<div class="span2">
-				<div class="well sidebar-nav">
-					<ul class="nav nav-list">
-						<li> <img style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
-						<li><b>@usuario.nombre</b></li>						
-					</ul>
-				</div>								 
-			</div>
+	$(document).ready(function() {
+	
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+		
+		var calendar = $('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			selectable: true,
+			selectHelper: true,
+			select: function(start, end, allDay) {
+				var title = prompt('Event Title:');
+				if (title) {
+					calendar.fullCalendar('renderEvent',
+						{
+							title: title,
+							start: start,
+							end: end,
+							allDay: allDay
+						},
+						true // make the event "stick"
+					);
+				}
+				calendar.fullCalendar('unselect');
+			},
+			editable: true,
+			events: [
+				{
+					title: 'All Day Event',
+					start: new Date(y, m, 1)
+				},
+				{
+					title: 'Long Event',
+					start: new Date(y, m, d-5),
+					end: new Date(y, m, d-2)
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d-3, 16, 0),
+					allDay: false
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d+4, 16, 0),
+					allDay: false
+				},
+				{
+					title: 'Meeting',
+					start: new Date(y, m, d, 10, 30),
+					allDay: false
+				},
+				{
+					title: 'Lunch',
+					start: new Date(y, m, d, 12, 0),
+					end: new Date(y, m, d, 14, 0),
+					allDay: false
+				},
+				{
+					title: 'Birthday Party',
+					start: new Date(y, m, d+1, 19, 0),
+					end: new Date(y, m, d+1, 22, 30),
+					allDay: false
+				},
+				{
+					title: 'Click for Google',
+					start: new Date(y, m, 28),
+					end: new Date(y, m, 29),
+					url: 'http://google.com/'
+				}
+			]
+		});
+		
+	});
+
+</script>
+
+<style type='text/css'>
+
+	#calendar {
+		width: 900px;
+		margin: 0 auto;
+		}
+
+</style>
+
+
+	<div class="row-fluid">
+		<div class="span2">
+			<div class="well sidebar-nav">
+				<ul class="nav nav-list">
+					<li> <img style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
+					<li><b>@usuario.nombre</b></li>						
+				</ul>
+		</div>								 
+		</div>
 			
-			<div class="span8">
-				<div class="well">
-
-				</div>    
-			</div>
-
-			<div class="span2">
-    			<div class="well">
-    				Grupos
-    			</div>
-			</div>
+		<div class="span8">
+			<div>
+			
+				<div id='calendar'></div>
+			
+			
+			
+				<a class="btn" data-toggle="modal" href="#myModal" >Nueva Tarea</a>
+				<br><br><br>
+				@if(tareas.isEmpty()) {
+				
+				} else {
+					<table class="table">
+						<tr>
+							<td>Id</td>
+							<td>Nombre</td>
+							<td></td>
+							<td></td>
+						</tr>
+						
+						@for(tarea <- tareas) {
+							<tr>
+								<td>@tarea.id</td>
+								<td>@tarea.nombre</td>
+								<td><button class="btn primary">Editar</button></td>
+								<td><button class="btn primary">Eliminar</button></td>
+							</tr>
+						}
+					
+					</table>
+				}				
+				
+			</div>    
 		</div>
 
+<!-- 		<div class="span2"> -->
+<!--    			<div class="well"> -->
+<!--    				Grupos -->
+<!--    			</div> -->
+<!-- 		</div> -->
+	</div>
+	
+	<!-- 	Modal pop-up -->
+	<div class="modal hide" id="myModal">
+	
+	
+		<form action="@routes.Home.guardaTarea" method="post">
+			
+			<div class="modal-header">
+	    		<button type="button" class="close" data-dismiss="modal">×</button>
+	    		<h3>Nueva Tarea</h3>
+	    	</div>
+	    		    
+	    	<div class="modal-body">
+	    	
+	    		<div class="control-group">
+	    			<label class="control-label">Nombre Tarea</label>
+	    			<div class="controls">
+	    				<input class="input-medium" type="text" name="nombre" required>
+	    			</div>
+	    		</div>
+	    		
+	    		<div class="control-group">
+		    		<label class="control-label">Duracion Tarea</label>
+		    		<div class="controls">
+			    		<input class="input-mini" type="text" name="fecha_inicio">
+			    		<input class="input-mini" type="text" name="hora_inicio">
+			    		a
+			    		<input class="input-mini" type="text" name="fecha_fin">
+			    		<input class="input-mini" type="text" name="hora_fin">
+			    	</div>
+	    		</div>
+	    		
+	    		<div class="control-group">
+	    			<label class="control-label">Descripción</label>
+	    			<div class="controls">
+	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500"></textarea>
+	    			</div>
+	    		</div>
+ 	    		
+ 	    		<div class="control-group">
+	 	    		<label class="control-label">Prioridad Tarea</label>
+	 	    		<div class="controls">
+	 	    			<select class="span1" name="prioridad">
+		 	    			<option value="1">1</option>
+		 	    			<option value="2">2</option>
+		 	    			<option value="3">3</option>
+		 	    		</select>
+		 	    	</div>
+		 	    </div>
+		 	    
+		 	    <input type="hidden" name="usuario.correo" value="@usuario.correo">
+	    		
+	    	</div>
+	    
+	    	<div class="modal-footer">
+	    		<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+	    		<button type="submit" class="btn btn-primary">Crear</button>
+	    	</div>
+    	</form>			
+			
+    </div>
+    
+    <script>
+    	$(document).ready(function() {
+			$('#myModal').bind('show');
+		});
+    </script>
 	
 }

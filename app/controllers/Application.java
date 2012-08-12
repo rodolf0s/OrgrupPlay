@@ -167,7 +167,7 @@ public class Application extends Controller {
           return badRequest(olvidoPassword.render(""));
 		} else {
 			String correo = formLogin.get().correo;
-			String password = Usuario.recuperarPassword(correo);
+			String password = Usuario.getPassword(correo);
 			
 			// si la password no esta vacia envia el correo con dicha password
 			if (!password.isEmpty()) {

@@ -33,6 +33,7 @@ GET		/Index						controllers.Administrador.cerrarSesion()
 
 #agenda
 GET		/App						controllers.Home.index()
+POST	/App						controllers.Home.guardaTarea()
 GET		/Configurar/Perfil			controllers.Cuenta.perfil()
 GET		/Configurar/Password		controllers.Cuenta.password()
 POST	/Configurar/Perfil			controllers.Cuenta.actualizaPerfil()

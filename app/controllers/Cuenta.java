@@ -33,7 +33,7 @@ public class Cuenta extends Controller {
 		if(!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(password.render(Usuario.find.byId(session("email")), "", "", "", "", ""));
+			return ok(password.render(Usuario.find.byId(session("email")), "", "", "", "", "", ""));
 		}
 	}
 
@@ -122,14 +122,14 @@ public class Cuenta extends Controller {
 			Form<CambioPassword> formPassword = form(CambioPassword.class).bindFromRequest();
 
 			if(formPassword.hasErrors()) {
-				return ok(password.render(Usuario.find.byId(session("email")), "", "", "", "", ""));
+				return ok(password.render(Usuario.find.byId(session("email")), "", "", "", "", "", ""));
 			} else {				
 				CambioPassword claves = formPassword.get();
 				
 				/*
 				 * verifica que la contraseña anterior sea la misma de la BD.
 				 */
-				if(Usuario.recuperarPassword(session("email")).equals(claves.passOld)) {
+				if(Usuario.getPassword(session("email")).equals(claves.passOld)) {
 					
 					/*
 					 * comprueba que las nuevas contraseñas sean iguales.
@@ -137,13 +137,14 @@ public class Cuenta extends Controller {
 					if(claves.passNew.equals(claves.passNew2)) {
 						Usuario usuario = new Usuario();
 						usuario.setPassword(session("email"), claves.passNew);
-						return redirect (routes.Cuenta.password());
+//						return redirect (routes.Cuenta.password());
+						return ok(password.render(Usuario.find.byId(session("email")), "", "",  "", "", "", "Tu contraseña a sido cambiada"));
 					} else {
-						return ok(password.render(Usuario.find.byId(session("email")), "", "Las Contraseñas no coinciden", claves.passOld, claves.passNew, claves.passNew2));
+						return ok(password.render(Usuario.find.byId(session("email")), "", "Las Contraseñas no coinciden", claves.passOld, claves.passNew, claves.passNew2, ""));
 					}
 					
 				} else {
-					return ok(password.render(Usuario.find.byId(session("email")), "La contraseña es incorrecta", "", claves.passOld, claves.passNew, claves.passNew2));
+					return ok(password.render(Usuario.find.byId(session("email")), "La contraseña es incorrecta", "", claves.passOld, claves.passNew, claves.passNew2, ""));
 				}
 			}
 		}
