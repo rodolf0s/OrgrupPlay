@@ -1,5 +1,10 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.avaje.ebean.Ebean;
+
 import models.Contacto;
 import models.Tarea;
 import models.Usuario;
@@ -15,15 +20,18 @@ import views.html.agenda.*;
 public class Home extends Controller {	
 	
 	public static Result index() {
-
+		List<Tarea> tareaVacia = new ArrayList<Tarea>();
+		Tarea t = new Tarea();
+		
 		if(!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
 			return ok(home.render(
 					Usuario.find.byId(session("email")),
-					Tarea.find.where().eq("usuario_correo", session("email")).findList()
+					Tarea.find.where().eq("usuario_correo", session("email")).findList(),
+//					tareaVacia
+					t
 					));
-			
 		}
 	}
 	
@@ -39,32 +47,65 @@ public class Home extends Controller {
 //				return badRequest(home.render(Usuario.find.byId(session("email")), tareaForm));
 			} else {
 				tareaForm.get().save();
-				return ok(home.render(
-						Usuario.find.byId(session("email")), 
-						Tarea.find.where().eq("usuario_correo", session("email")).findList()
-						));
-//				Tarea tarea = tareaForm.get();
-				
-//				int hora = tarea.hora_inicio.getHours();
-//				
-//				String hours = hora+"";
-//				tarea.save();
-//				return ok("nombre: "+ tarea.nombre
-//						+ "\n fecha inicio: " + tarea.fecha_inicio.toString()
-//						+ "\n hora inicio: " + tarea.hora_inicio.toString()
-//						+ "\n fecha fin: " + tarea.fecha_fin.toString()
-//						+ "\n hora fin: " + tarea.hora_fin.toString()
-//						+ "\n Descripcion: " + tarea.descripcion
-//						+ "\n Prioridad: " + tarea.prioridad+"");
+				return redirect(routes.Home.index());
 			}
 
 		}
 	}
+
+	public static Result editaTarea() {
+		if(!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Tarea> editaForm = form(Tarea.class).bindFromRequest();
+
+			if(editaForm.hasErrors()) {
+				return ok("Error edita");
+			} else {
+				
+				editaForm.get().update();
+				return redirect(routes.Home.index());
+			}
+		}
+	}
 	
-	public static Integer notificacionAmigos(){
-		return Contacto.find.where().eq("usuario2_correo", session("email")).eq("amigos", "no").findRowCount();
+	public static Result eliminaTarea() {
+		if(!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Tarea> eliminaForm = form(Tarea.class).bindFromRequest();
+
+			if(eliminaForm.hasErrors()) {
+				return ok("Error elimina");
+			} else {
+				Tarea.eliminaTarea(eliminaForm.get().id);
+				
+//				eliminaForm.get().delete();
+				return redirect(routes.Home.index());
+			}
+		}
 	}
 
+	public static Result prueba() {
+		Form<Tarea> mostrarForm = form(Tarea.class).bindFromRequest();
+		if(mostrarForm.hasErrors()) {
+			return ok("Error edita");
+		} else {
+			return ok(home.render(
+					Usuario.find.byId(session("email")), 
+					Tarea.find.where().eq("usuario_correo", session("email")).findList(),
+	//				Tarea.find.where().eq("id", mostrarForm.get().id).findList()
+					Tarea.find.byId(mostrarForm.get().id)
+					));
+		}
+	}
+	
+	public static Integer notificacionAmigos(){
+		return Contacto.find.where().eq("usuario2_correo", session("email")).findRowCount();
+	}
+
+	
+	
 	public static boolean verificaSession() {
 		if(session("email") == null) 
 			return false;

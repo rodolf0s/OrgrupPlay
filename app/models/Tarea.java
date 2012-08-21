@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
+
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -51,4 +53,18 @@ public class Tarea extends Model {
 	// Consultas
 	
 	public static Finder<Long,Tarea> find = new Finder<Long,Tarea>(Long.class, Tarea.class);
+	
+	public static String getDescripcion(Long id) {
+		Tarea tarea = Ebean.find(Tarea.class)
+				.select("descripcion")
+				.where().eq("id", id)
+				.findUnique();
+		return tarea.descripcion.toString();
+	}
+
+	 public static void eliminaTarea(Long id) {
+		 Ebean.createSqlUpdate(
+		            "delete from tarea where id = :id"
+		        ).setParameter("id", id).execute();
+	 }
 }
