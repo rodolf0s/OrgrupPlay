@@ -176,7 +176,34 @@ public class Usuario extends Model {
      * Obtiene una lista de los usuarios, para agregar a sus contactos
      */
     public static List<Usuario> listaUsuarios(String nombre){
-    	return find.where().or(Expr.like("nombre", "%"+nombre+"%"),  Expr.like("correo", "%"+nombre+"%")).findList();
+    	return find.where()
+    			.or(Expr.like("nombre", "%"+nombre+"%"),  Expr.like("correo", "%"+nombre+"%")).findList();
   	
     }
+    
+    /**
+     * Muestra nombre de usuario atraves del email
+     */
+    
+	public static String muestraNombre(String email){
+	    Usuario usuario = Ebean.find(Usuario.class)
+	    		.select("nombre")
+	    		.where()
+	    		.eq("correo", email)
+	    		.findUnique();
+	    return usuario.nombre;
+	}
+	
+	/**
+	 * Obtiene imagen de usuario a traves del correo
+	 */
+	
+	public static String muestraImagen(String email) {
+		Usuario usuario = Ebean.find(Usuario.class)
+				.select("imagen")
+				.where()
+				.eq("correo", email)
+				.findUnique();
+		return usuario.imagen;
+	}
 }

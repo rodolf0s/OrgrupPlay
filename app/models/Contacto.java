@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -32,4 +34,25 @@ public class Contacto extends Model {
 	
 	public static Finder<Long,Contacto> find = new Finder<Long,Contacto>(Long.class, Contacto.class);	
 	
+	
+	public static List<Contacto> listaContactosPendientes(String email){
+		return Contacto.find.where().eq("usuario2_correo", email).eq("amigos", "no").findList();
+	}
+	
+	public static void estado(Long id){
+		Contacto contacto = find.ref(id);
+		contacto.amigos = "si";
+		contacto.update();
+	}
+	
+	/**
+	 * 
+	 * Listo contactos(destinario) para enviar mensaje
+	 */
+	
+	public static List<Contacto> listaAmigos(Usuario email) {
+		return find.where()
+				.eq("usuario1", email)
+				.findList();
+	}
 }

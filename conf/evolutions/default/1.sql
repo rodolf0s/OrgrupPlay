@@ -23,6 +23,7 @@ create table contacto (
   id                        bigint not null,
   usuario1_correo           varchar(50),
   usuario2_correo           varchar(50),
+  amigos                    varchar(255) not null,
   constraint pk_contacto primary key (id))
 ;
 
@@ -50,6 +51,16 @@ create table integrante (
   constraint pk_integrante primary key (id))
 ;
 
+create table mensaje (
+  id                        bigint not null,
+  fecha                     timestamp not null,
+  remitente_correo          varchar(50),
+  destinatario              varchar(255) not null,
+  asunto                    varchar(100) not null,
+  mensaje                   varchar(255) not null,
+  constraint pk_mensaje primary key (id))
+;
+
 create table reunion (
   id                        bigint not null,
   fecha                     date not null,
@@ -62,8 +73,10 @@ create table reunion (
 
 create table tarea (
   id                        bigint not null,
-  fecha                     date not null,
-  hora                      time not null,
+  fecha_inicio              timestamp not null,
+  hora_inicio               timestamp not null,
+  fecha_fin                 timestamp not null,
+  hora_fin                  timestamp not null,
   nombre                    varchar(60) not null,
   descripcion               varchar(500),
   prioridad                 integer not null,
@@ -95,6 +108,8 @@ create sequence grupo_seq;
 
 create sequence integrante_seq;
 
+create sequence mensaje_seq;
+
 create sequence reunion_seq;
 
 create sequence tarea_seq;
@@ -113,10 +128,12 @@ alter table integrante add constraint fk_integrante_usuario_5 foreign key (usuar
 create index ix_integrante_usuario_5 on integrante (usuario_correo);
 alter table integrante add constraint fk_integrante_grupo_6 foreign key (grupo_id) references grupo (id);
 create index ix_integrante_grupo_6 on integrante (grupo_id);
-alter table reunion add constraint fk_reunion_grupo_7 foreign key (grupo_id) references grupo (id);
-create index ix_reunion_grupo_7 on reunion (grupo_id);
-alter table tarea add constraint fk_tarea_usuario_8 foreign key (usuario_correo) references usuario (correo);
-create index ix_tarea_usuario_8 on tarea (usuario_correo);
+alter table mensaje add constraint fk_mensaje_remitente_7 foreign key (remitente_correo) references usuario (correo);
+create index ix_mensaje_remitente_7 on mensaje (remitente_correo);
+alter table reunion add constraint fk_reunion_grupo_8 foreign key (grupo_id) references grupo (id);
+create index ix_reunion_grupo_8 on reunion (grupo_id);
+alter table tarea add constraint fk_tarea_usuario_9 foreign key (usuario_correo) references usuario (correo);
+create index ix_tarea_usuario_9 on tarea (usuario_correo);
 
 
 
@@ -133,6 +150,8 @@ drop table if exists correo cascade;
 drop table if exists grupo cascade;
 
 drop table if exists integrante cascade;
+
+drop table if exists mensaje cascade;
 
 drop table if exists reunion cascade;
 
@@ -151,6 +170,8 @@ drop sequence if exists correo_seq;
 drop sequence if exists grupo_seq;
 
 drop sequence if exists integrante_seq;
+
+drop sequence if exists mensaje_seq;
 
 drop sequence if exists reunion_seq;
 

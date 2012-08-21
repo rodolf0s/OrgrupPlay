@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +22,6 @@ public class Mensaje extends Model{
 	@Id
 	public Long id;
 	
-	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(nullable=false)
 	@Formats.DateTime(pattern="dd/MM/yyyy HH:mm:ss")
@@ -37,9 +37,31 @@ public class Mensaje extends Model{
 	
 	@Constraints.Required
 	@Formats.NonEmpty
+	@Column(length=100, nullable=false)
+	public String asunto;
+	
+	@Constraints.Required
+	@Formats.NonEmpty
 	@Column(nullable=false)
 	public String mensaje;
 	
 	public static Finder<Long,Mensaje> find = new Finder<Long,Mensaje>(Long.class, Mensaje.class);
 	
+	public static List<Mensaje> listaMensajesRecibidos(String email){
+		return find.where()
+				.eq("destinatario", email)
+				.findList();		
+	}
+	
+	public static List<Mensaje> muestraId(Long id) {
+		return find.where()
+				.eq("id", id)
+				.findList();
+	}
+	
+	public static List<Mensaje> listaMensajesEnviados(Usuario email) {
+		return find.where()
+				.eq("remitente", email)
+				.findList();
+	}
 }

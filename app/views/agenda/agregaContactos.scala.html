@@ -1,0 +1,37 @@
+@(user: Usuario, lista: List[Contacto])
+
+@app(title = "Orgrup", user.nombre){
+
+
+	<div class="container">
+		<fieldset>
+			<legend>Solicitudes pendientes</legend>
+				<div class="span8">	
+					<table class="table">
+						@for(p<-lista){
+							<form action="@routes.Contactos.agregaContactoBd" method="post" onSubmit="ejecutaCambiarEstado(@p.id)">
+								<tr>
+									<td>@{Usuario.muestraNombre(p.usuario1.correo)}</td>
+									<td>@p.usuario1.correo<td>
+									<input type="hidden" name="usuario1.correo" value="@user.correo">
+									<input type="hidden" name="usuario2.correo" value="@p.usuario1.correo">
+									<input type="hidden" name="amigos" value="si">
+									<td><input type="submit" class="btn" value="Agregar">
+									
+									</td>
+								</tr>
+							</form>
+						}				
+					</table>
+				</div>	
+		</fieldset>
+	</div>
+
+ 	<script type="text/javascript"> 
+ 	
+		function ejecutaCambiarEstado(id){
+ 			alert(id);
+ 		}
+		
+	 </script> 
+}

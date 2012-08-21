@@ -1,0 +1,24 @@
+@(user: Usuario, list: List[Mensaje])
+
+@app(title = "Orgrup", user.nombre) {
+
+	<div class="container well">
+		<div class="row">
+	 		<div class="span11" style="float:right">
+              	  <div class="span9" style="float:left;">
+	 				@for(p<-list){
+	 					<fieldset>
+	 						<legend>@p.asunto</legend>
+	 							<img style="width: 48px; height: 48px;" src="/assets/images/usuarios/@{Usuario.muestraImagen(p.remitente.correo)}">
+	 							<b>@{Usuario.muestraNombre(p.remitente.correo)}</b>
+								@p.remitente.correo<br>
+								<div class="well">
+									@p.mensaje
+								</div>
+							}
+	 				</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+}

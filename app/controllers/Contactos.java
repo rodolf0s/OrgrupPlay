@@ -14,7 +14,9 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.agenda.contactos;
+import views.html.agenda.*;
+
+
 
 public class Contactos extends Controller {
 
@@ -64,5 +66,27 @@ public class Contactos extends Controller {
 			}			
 		}
 		return ok("2222");
+	}
+	
+	public static Result muestraAgregarContactos(){
+		return ok(agregaContactos.render(Usuario.find.byId(session("email")), Contacto.listaContactosPendientes(session("email"))));
+	}
+	
+	public static Result agregaContactoBd(){
+		Form<Contacto> formAgregaContactoBd = form(Contacto.class).bindFromRequest();
+		
+		if(formAgregaContactoBd.hasErrors()){
+			return badRequest(agregaContactos.render(Usuario.find.byId(session("email")), Contacto.listaContactosPendientes(session("email"))));
+		}else{
+			Contacto amigoGuardar = formAgregaContactoBd.get();
+			amigoGuardar.save();
+			
+			try{
+				return ok(agregaContactos.render(Usuario.find.byId(session("email")), Contacto.listaContactosPendientes(session("email"))));
+			}catch(Exception e){
+			
+			}
+		}
+		return ok();
 	}
 }
