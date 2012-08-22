@@ -8,6 +8,30 @@
 
 	$(document).ready(function() {
 		
+		$("#fechaI1").datepicker({
+			dateFormat: "dd/mm/yy",
+			firstDay: 1,
+			dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"]
+		});
+		
+		$("#fechaF1").datepicker({
+			dateFormat: "dd/mm/yy", 
+			firstDay: 1,
+			dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"]
+		});
+		
+		$("#fechaI2").datepicker({
+			dateFormat: "dd/mm/yy",
+			firstDay: 1,
+			dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"]
+		});
+		
+		$("#fechaF2").datepicker({
+			dateFormat: "dd/mm/yy",
+			firstDay: 1,
+			dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"]
+		});
+		
 		$('#inicio').timepicker({
 		    showPeriodLabels: false,
 		    hourText: 'Hora',
@@ -190,10 +214,10 @@
 	    		<div class="control-group">
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
-			    		<input class="input-small" type="text" name="fecha_inicio">
+			    		<input class="input-small" type="text" id="fechaI1" name="fecha_inicio">
 			    		<input class="input-mini" type="text" id="inicio" name="hora_inicio">
 			    		a
-			    		<input class="input-small" type="text" name="fecha_fin">
+			    		<input class="input-small" type="text" id="fechaF1" name="fecha_fin">
 			    		<input class="input-mini" type="text" id="fin" name="hora_fin">
 			    		
 			    	</div>
@@ -253,10 +277,10 @@
 	    		<div class="control-group">
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
-			    		<input class="input-small" type="text" name="fecha_inicio" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}'>
+			    		<input class="input-small" type="text" name="fecha_inicio" id="fechaI2" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}'>
 			    		<input class="input-mini" type="text" name="hora_inicio" id="inicio2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm:ss")}'>
 			    		a
-			    		<input class="input-small" type="text" name="fecha_fin" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
+			    		<input class="input-small" type="text" name="fecha_fin" id="fechaF2" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
 			    		<input class="input-mini" type="text" name="hora_fin" id="fin2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm:ss")}'>
 			    	</div>
 	    		</div>
