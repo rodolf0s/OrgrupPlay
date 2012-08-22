@@ -26,4 +26,15 @@ public class Administrador extends Model {
 	// Consultas
 	
 	public static Finder<String,Administrador> find = new Finder<String,Administrador>(String.class, Administrador.class);
+	
+	/**
+	 *	Auntentificar Administrador	
+	 */
+
+	public static Administrador authenticate(String usuario, String password) {
+        return find.where()
+            .eq("usuario", usuario)
+            .eq("password", password)
+            .findUnique();
+    }
 }

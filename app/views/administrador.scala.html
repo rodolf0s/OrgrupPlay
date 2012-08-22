@@ -1,4 +1,5 @@
-@(error:String)
+@(form: Form[Admin.LoginAdmin], error: String)
+
 @main(title = "Ingresar") {
 
     <!-- Simple Formulario para ingresar -->
@@ -10,7 +11,7 @@
 
                     <fieldset>
                         <legend>Ingresar</legend>
-            			<form class="well" action="@routes.Administrador.comprobarLogin" method="post">  
+            			<form class="well" action="@routes.Admin.comprobarLogin" method="post">  
             			         
                 			<label for="usuario">Usuario</label>
                 			<input type="text" class="span3" placeholder="Usuario" name="usuario" required><br>

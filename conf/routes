@@ -18,17 +18,17 @@ POST	/Recuperar					controllers.Application.recuperarPassword()
 GET		/VerificaCuenta				controllers.Application.verificaCuenta(correo: String, id: Integer)
 
 #admin
-GET		/Administrador				controllers.Administrador.iniciar()
-POST	/Administrador				controllers.Administrador.comprobarLogin()
-GET		/Mensajes					controllers.Administrador.mensaje()
-GET		/Cuentas					controllers.Administrador.cuentas()
-GET		/Crear_Administrador		controllers.Administrador.crearAdmin()
-POST	/Crear_Administrador		controllers.Administrador.nuevoAdmin()
-GET		/Cambiar_Pass				controllers.Administrador.cambiarPass()
-POST	/Cambiar_Pass				controllers.Administrador.cambioPass()
-GET		/Eliminar_Administrador		controllers.Administrador.eliminaAdmin()
-POST	/Eliminar_Administrador		controllers.Administrador.eliminar()
-GET		/Index						controllers.Administrador.cerrarSesion()
+GET		/Administrador				controllers.Admin.iniciar()
+POST	/Administrador				controllers.Admin.comprobarLogin()
+GET		/Mensajes					controllers.Admin.mensaje()
+GET		/Cuentas					controllers.Admin.cuentas()
+GET		/Crear_Administrador		controllers.Admin.crearAdmin()
+POST	/Crear_Administrador		controllers.Admin.nuevoAdmin()
+GET		/Cambiar_Pass				controllers.Admin.cambiarPass()
+POST	/Cambiar_Pass				controllers.Admin.cambioPass()
+GET		/Eliminar_Administrador		controllers.Admin.eliminaAdmin()
+POST	/Eliminar_Administrador		controllers.Admin.eliminar()
+GET		/Index						controllers.Admin.cerrarSesion()
 
 
 #agenda
