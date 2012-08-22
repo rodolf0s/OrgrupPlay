@@ -120,10 +120,16 @@
 	 }
 	
 	function formatea_envia() {
-		document.forms.tarea.hora_inicio.value = document.forms.tarea.hora_inicio.value + ":00";
-		document.forms.tarea.hora_fin.value = document.forms.tarea.hora_fin.value + ":00";
-		document.tarea.action = "@routes.Home.guardaTarea";
-	    document.tarea.submit();
+		if(document.forms.tarea.hora_inicio.value.length <= 5) {
+			document.forms.tarea.hora_inicio.value = document.forms.tarea.hora_inicio.value + ":00";
+			document.forms.tarea.hora_fin.value = document.forms.tarea.hora_fin.value + ":00";
+			document.tarea.action = "@routes.Home.guardaTarea";
+		    document.tarea.submit();
+		} else {
+			document.tarea.action = "@routes.Home.guardaTarea";
+		    document.tarea.submit();
+		}
+		
 	}
 	
 	function redireccionar() {
