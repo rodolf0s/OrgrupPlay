@@ -8,20 +8,49 @@
 
 	$(document).ready(function() {
 		
-		$('#time1').ptTimeSelect({
-			containerClass: "timeCntr", 
-			containerWidth: "350px", 
-			setButtonLabel: "Select", 
-			minutesLabel: "min", 
-			hoursLabel: "Hrs"
+		$('#inicio').timepicker({
+		    showPeriodLabels: false,
+		    hourText: 'Hora',
+		    minuteText: 'Minutos'
 		});
 		
-    	$('#inicio').timepickr({
-    		trigger: 'click',
-    		seconds: false,
-			convention: 24
-    	});
-    	$('#fin').timepickr().focus();
+		$('#fin').timepicker({
+		    showPeriodLabels: false,
+		    hourText: 'Hora',
+		    minuteText: 'Minutos'
+		});
+		
+ 		$('#inicio2').timepicker({
+		    showPeriodLabels: false,
+		    hourText: 'Hora',
+		    minuteText: 'Minutos'
+		});
+		
+		$('#fin2').timepicker({
+		    showPeriodLabels: false,
+		    hourText: 'Hora',
+		    minuteText: 'Minutos'
+		});
+		
+		
+// 		$('#timepicker').timepicker({
+// 		    showPeriodLabels: false,
+// 		});
+		
+// 		$('#time1').ptTimeSelect({
+// 			containerClass: "timeCntr", 
+// 			containerWidth: "350px", 
+// 			setButtonLabel: "Select", 
+// 			minutesLabel: "min", 
+// 			hoursLabel: "Hrs"
+// 		});
+		
+//     	$('#inicio').timepickr({
+//     		trigger: 'click',
+//     		seconds: false,
+// 			convention: 24
+//     	});
+//     	$('#fin').timepickr().focus();
 		
 		// si hace click en un evento muestra el modal con los datos.
 		@if(tareaMostrar.nombre != null) {
@@ -131,7 +160,8 @@
 		<div class="span8">
 			<div>
 <!-- 				<input type="text" id="time1"><br><br><br><br> -->
-			
+<!-- 				<input type="text" id="timepicker"><br><br><br><br> -->
+				
 				<div id='calendar'></div>
 			
 				<!-- <a class="btn" data-toggle="modal" href="#myModal" >Nueva Tarea</a> -->
@@ -232,10 +262,10 @@
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
 			    		<input class="input-small" type="text" name="fecha_inicio" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}'>
-			    		<input class="input-mini" type="text" name="hora_inicio" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("hh:mm:ss")}'>
+			    		<input class="input-mini" type="text" name="hora_inicio" id="inicio2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm:ss")}'>
 			    		a
 			    		<input class="input-small" type="text" name="fecha_fin" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
-			    		<input class="input-mini" type="text" name="hora_fin" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("hh:mm:ss")}'>
+			    		<input class="input-mini" type="text" name="hora_fin" id="fin2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm:ss")}'>
 			    	</div>
 	    		</div>
 	    		
