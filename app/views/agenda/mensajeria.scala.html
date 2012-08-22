@@ -40,37 +40,40 @@
  	 				</div>
  	 				
  	 				<div class="tab-pane" id="redactar_mensaje">
- 	 					@for(p3<-lista3){
- 	 					<form action="@routes.Mensajes.enviaMensaje" method="post">
- 	 						<input type="hidden" name="remitente.correo" value="@user.correo">
- 	 						<table class="span5">
+ 	 					<table class="span5">
+ 	 						<tr>
+ 	 			 	 			<td><label>Para: </label> </td>
+ 	 			 	 		<td>
  	 						
- 			 	 				<tr>
- 	 			 	 				<td><label>Para: </label> </td>
- 	 			 	 				<td>
+ 	 								<form action="@routes.Mensajes.enviaMensaje" method="post">
  	 			 	 					<select name="destinatario">
- 	 			 	 							<option value="@p3.usuario2.correo">@p3.usuario2.correo</option>	
+ 	 			 	 						@for(p3<-lista3){
+ 	 			 	 						<option value="@p3.usuario2.correo">@p3.usuario2.correo</option>	
+ 	 			 	 						}
  	 			 	 					</select>
- 	 			 	 				</td>
- 	 			 	 			</tr>
+ 	 			 	 				
+ 	 			 	 		</td>
+ 	 			 	 		</tr>
  	 			 	 		
- 	 			 	 			<tr>
- 	 			 	 				<td><label for="asunto">Asunto</label></td>
- 	 			 	 				<td><input type="text" name="asunto" id="asunto"></td>
- 	 			 				</tr>
+ 	 			 	 		<tr>
+ 	 			 	 			<td><label for="asunto">Asunto</label></td>
+ 	 			 	 			<td><input type="text" name="asunto" id="asunto"></td>
+ 	 			 			</tr>
  	 			 			
- 	 			 				<tr>
- 	 			 					<td>Mensaje</td>
- 	 			 					<td><textarea rows="6" name="mensaje"></textarea></td>
- 	 			 				</tr>
+ 	 			 			<tr>
+ 	 			 				<td>Mensaje</td>
+ 	 			 				<td><textarea rows="6" name="mensaje"></textarea></td>
+ 	 			 			</tr>
+ 	 			 					
+ 	 			 			<input type="hidden" name="remitente.correo" value="@user.correo">
+ 	 			 					
+ 	 			 			<tr>
+ 	 			 				<td><br><input type="submit" class="btn" value="Enviar mensaje"></td>
+ 	 			 				<td></td>
+ 	 			 			</tr>
  	 			 			
- 	 			 				<tr>
- 	 			 					<td><br><input type="submit" class="btn" value="Enviar mensaje"></td>
- 	 			 					<td></td>
- 	 			 				</tr>
- 	 			 			</table>
- 	 			 		</form>
- 	 			 		}	
+ 	 			 			</form>
+ 	 			 		</table>
  	 				</div>
  	 				
   	 			</div>				
