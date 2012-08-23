@@ -30,6 +30,7 @@ create table contacto (
 create table correo (
   id                        bigint not null,
   nombre                    varchar(60) not null,
+  asunto                    varchar(60) not null,
   correo                    varchar(50) not null,
   mensaje                   varchar(500) not null,
   constraint pk_correo primary key (id))

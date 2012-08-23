@@ -56,7 +56,7 @@ public class Admin extends Controller {
 		      } else {
 		    	  LoginAdmin user = loginForm.get();
 		    	  session ("usuario",user.usuario);
-		    		  return ok(cambiarpass.render(""));
+		    		  return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
 		    	  }	          
 		      }
 	
@@ -72,17 +72,7 @@ public class Admin extends Controller {
 	}
 	
 	//Redirecciona a la pagina mensajes
-//	public static Result mensaje() {
-//		
-//		if(!verificaSession()) {
-//			return redirect(routes.Application.index());
-//		} 
-//		
-//		else {
-//		return ok(mensaje.render());
-//		}
-//	}
-//	
+
 	public static Result mensaje() throws SQLException {
 		if(!verificaSession()) {
 			return redirect(routes.Application.index());

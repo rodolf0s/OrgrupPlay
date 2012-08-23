@@ -29,6 +29,11 @@ public class Correo extends Model {
 	
 	@Constraints.Required
 	@Formats.NonEmpty
+	@Column(length=60, nullable=false)
+	public String asunto;
+	
+	@Constraints.Required
+	@Formats.NonEmpty
 	@Column(length=50, nullable=false)
 	public String correo;
 	

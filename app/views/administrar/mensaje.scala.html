@@ -1,20 +1,15 @@
 @(user: Administrador, lista: List[Correo])
 @inicioadmin(title = "Mensajes"){
-Mensajes
 @if(lista.isEmpty()){
 					<br>
 				}else {
-						<h3>Busqueda</h3>
+						<h3>Mensajes</h3>
 						<div class=span8>
 							<table class="table">
 							@for(p<-lista){
 								<tr>
-										<input type="hidden" name="usuario1.correo" value="@user.usuario">
-										<input type="hidden" name="usuario2.correo" value="@p.correo">
-										<input type="hidden" name="amigos" value="no">
-										<td>@{Contacto.compruebaUsuarioExistente(user.usuario, p.correo)}I</td>
 										<td><font size="4">@p.nombre</font><br>Correo: @p.correo</font></td>
-										
+			
 									</tr>
 															}					
 						</table>
