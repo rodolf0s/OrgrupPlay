@@ -8,31 +8,14 @@
 
 	$(document).ready(function() {
 		
+		$('#horaI1, #horaF1, #horaI2, #horaF2, #fechaI1, #fechaI2, #fechaF1, #fechaF2').keypress(function(e) {
+		    if(e.which > 0) return false;
+		});
+		
 		/**
 		* muestra los modal de los calendarios y fechas
 		*/
-		$("#fechaI1").datepicker({
-			dateFormat: "dd/mm/yy",
-			firstDay: 1,
-			dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-			monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-		});
-		
-		$("#fechaF1").datepicker({
-			dateFormat: "dd/mm/yy", 
-			firstDay: 1,
-			dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-			monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-		});
-		
-		$("#fechaI2").datepicker({
-			dateFormat: "dd/mm/yy",
-			firstDay: 1,
-			dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-			monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-		});
-		
-		$("#fechaF2").datepicker({
+		$("#fechaI1, #fechaI2, #fechaF1, #fechaF2").datepicker({
 			dateFormat: "dd/mm/yy",
 			firstDay: 1,
 			dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
@@ -173,20 +156,15 @@
 						},
 					}
 				}
-
 			],
-			
-
-		});
-		
+		});		
 	});
 	
 	function buscaDatos() {
 		document.edita.action = "@routes.Home.prueba";
 	    document.edita.submit();
 	}
-	
-	
+		
 	function enviar_a(url){
 		if(document.forms.edita.hora_inicio.value.length <= 5) {
 	 		document.forms.edita.hora_inicio.value = document.forms.edita.hora_inicio.value + ":00";
@@ -326,11 +304,11 @@
 	    		<div class="control-group">
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
-			    		<input class="input-small" type="text" id="fechaI1" name="fecha_inicio">
-			    		<input class="input-mini" type="text" id="horaI1" name="hora_inicio">
+			    		<input class="input-small" type="text" id="fechaI1" maxlength="10" name="fecha_inicio" autocomplete="off">
+			    		<input class="input-mini" type="text" id="horaI1" maxlength="8" name="hora_inicio" autocomplete="off">
 			    		a
-			    		<input class="input-small" type="text" id="fechaF1" name="fecha_fin">
-			    		<input class="input-mini" type="text" id="horaF1" name="hora_fin">
+			    		<input class="input-small" type="text" id="fechaF1" maxlength="10" name="fecha_fin" autocomplete="off">
+			    		<input class="input-mini" type="text" id="horaF1" maxlength="8" name="hora_fin" autocomplete="off">
 			    		
 			    	</div>
 	    		</div>
@@ -389,11 +367,11 @@
 	    		<div class="control-group">
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
-			    		<input class="input-small" type="text" name="fecha_inicio" id="fechaI2" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}'>
-			    		<input class="input-mini" type="text" name="hora_inicio" id="horaI2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm")}'>
+			    		<input class="input-small" type="text" name="fecha_inicio" maxlength="10" autocomplete="off" id="fechaI2" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}'>
+			    		<input class="input-mini" type="text" name="hora_inicio" maxlength="8" autocomplete="off" id="horaI2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm")}'>
 			    		a
-			    		<input class="input-small" type="text" name="fecha_fin" id="fechaF2" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
-			    		<input class="input-mini" type="text" name="hora_fin" id="horaF2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm")}'>
+			    		<input class="input-small" type="text" name="fecha_fin" maxlength="10" autocomplete="off" id="fechaF2" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
+			    		<input class="input-mini" type="text" name="hora_fin" maxlength="8" autocomplete="off" id="horaF2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm")}'>
 			    	</div>
 	    		</div>
 	    		
