@@ -1,9 +1,14 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.avaje.ebean.Expr;
+
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -34,5 +39,12 @@ public class Correo extends Model {
 	
 	// Consultas 
 	
-	public static Finder<Long,Correo> find = new Finder<Long,Correo>(Long.class, Correo.class);	
+	public static Finder<Long,Correo> find = new Finder<Long,Correo>(Long.class, Correo.class);
+	
+	  /**
+     * Lista todos los mensajes recibidos
+     */
+    public static List<Correo> listaCorreos(){
+    	return find.all();
+  	}
 }

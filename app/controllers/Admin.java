@@ -6,9 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import models.Administrador;
 import models.Usuario;
+import models.Correo;
 
 import play.*;
 import play.data.Form;
@@ -53,7 +56,7 @@ public class Admin extends Controller {
 		      } else {
 		    	  LoginAdmin user = loginForm.get();
 		    	  session ("usuario",user.usuario);
-		    		  return ok(mensaje.render());
+		    		  return ok(cambiarpass.render(""));
 		    	  }	          
 		      }
 	
@@ -69,17 +72,29 @@ public class Admin extends Controller {
 	}
 	
 	//Redirecciona a la pagina mensajes
-	public static Result mensaje() {
-		
+//	public static Result mensaje() {
+//		
+//		if(!verificaSession()) {
+//			return redirect(routes.Application.index());
+//		} 
+//		
+//		else {
+//		return ok(mensaje.render());
+//		}
+//	}
+//	
+	public static Result mensaje() throws SQLException {
 		if(!verificaSession()) {
 			return redirect(routes.Application.index());
 		} 
 		
-		else {
-		return ok(mensaje.render());
+		else{
+		List<Correo> listaCorreo = new ArrayList<Correo>();
+	
+		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
 		}
 	}
-	
+
 	//Redirecciona a la pagina cuentas
 	public static Result cuentas() {
 		
