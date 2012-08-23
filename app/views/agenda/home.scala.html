@@ -158,6 +158,15 @@
 						{
 							id: @l.id,
 							title: '@l.nombre',
+							@if(l.prioridad == 1) {
+								color: '#B71616',
+							}
+							@if(l.prioridad == 2) {
+								color: '#381BCA',
+							} 
+							@if(l.prioridad == 3) {
+								color: '#EBDF32',
+							}
 							start: new Date(y, @l.fecha_inicio.getMonth(), @l.fecha_inicio.getDate(), @l.hora_inicio.getHours(), @l.hora_inicio.getMinutes()),
 							end: new Date(y, @l.fecha_fin.getMonth(), @l.fecha_fin.getDate(), @l.hora_fin.getHours(), @l.hora_fin.getMinutes()),
 							allDay: false
@@ -166,6 +175,8 @@
 				}
 
 			],
+			
+
 		});
 		
 	});
@@ -334,10 +345,10 @@
  	    		<div class="control-group">
 	 	    		<label class="control-label">Prioridad Tarea</label>
 	 	    		<div class="controls">
-	 	    			<select class="span1" name="prioridad">
-		 	    			<option value="1">1</option>
-		 	    			<option value="2">2</option>
-		 	    			<option value="3">3</option>
+	 	    			<select class="span2" name="prioridad">
+		 	    			<option value="1">Alta</option>
+		 	    			<option value="2">Media</option>
+		 	    			<option value="3">Baja</option>
 		 	    		</select>
 		 	    	</div>
 		 	    </div>
@@ -396,20 +407,20 @@
  	    		<div class="control-group">
 	 	    		<label class="control-label">Prioridad Tarea</label>
 	 	    		<div class="controls">
-	 	    			<select class="span1" name="prioridad">
+	 	    			<select class="span2" name="prioridad">
 	 	    				<script type="text/javascript">
 	 	    					if (@tareaMostrar.prioridad == 1) {
-	 	    						document.write("<option value='1' selected='selected'>1</option>");
-	 	    						document.write("<option value='2'>2</option>");
-	 	    						document.write("<option value='3'>3</option>");
+	 	    						document.write("<option value='1' selected='selected'>Alta</option>");
+	 	    						document.write("<option value='2'>Media</option>");
+	 	    						document.write("<option value='3'>Baja</option>");
 	 	    					} else if(@tareaMostrar.prioridad == 2) {
-	 	    						document.write("<option value='1'>1</option>");
-	 	    						document.write("<option value='2' selected='selected'>2</option>");
-	 	    						document.write("<option value='3'>3</option>");
+	 	    						document.write("<option value='1'>Alta</option>");
+	 	    						document.write("<option value='2' selected='selected'>Media</option>");
+	 	    						document.write("<option value='3'>Baja</option>");
 	 	    					} else {
-	 	    						document.write("<option value='1'>1</option>");
-	 	    						document.write("<option value='2'>2</option>");
-	 	    						document.write("<option value='3' selected='selected'>3</option>");
+	 	    						document.write("<option value='1'>Alta</option>");
+	 	    						document.write("<option value='2'>Media</option>");
+	 	    						document.write("<option value='3' selected='selected'>Baja</option>");
 	 	    					}
 	 	    				</script>
 		 	    		</select>
