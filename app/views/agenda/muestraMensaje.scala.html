@@ -7,16 +7,19 @@
 	 		<div class="span11" style="float:right">
               	  <div class="span9" style="float:left;">
 	 				@for(p<-list){
-	 					<fieldset>
-	 						<legend>@p.asunto</legend>
-	 							<img style="width: 48px; height: 48px;" src="/assets/images/usuarios/@{Usuario.muestraImagen(p.remitente.correo)}">
-	 							<b>@{Usuario.muestraNombre(p.remitente.correo)}</b>
-								@p.remitente.correo<br>
-								<div class="well">
-									@p.mensaje
-								</div>
-							}
-	 				</fieldset>
+	 					<form>
+	 						<fieldset>
+	 							<legend>@p.asunto</legend>
+	 								<img style="width: 48px; height: 48px;" src="/assets/images/usuarios/@{Usuario.muestraImagen(p.remitente.correo)}">
+	 								<b>@{Usuario.muestraNombre(p.remitente.correo)}</b>
+									@p.remitente.correo<br>
+									<div class="well">
+										@p.mensaje
+									</div>
+							<input type="button" onclick="history.back(-1)" value="Atras">
+						</form>
+					}
+	 					</fieldset>
 				</div>
 			</div>
 		</div>

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
+
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -55,4 +57,32 @@ public class Contacto extends Model {
 				.eq("usuario1", email)
 				.findList();
 	}
+	
+	/**
+	 * Busca si es usuario ya esta agregado, para mostrar o no el boton agregar al buscar usuarios
+	 */
+	public static String compruebaUsuarioExistente(String usuario1, String usuario2) {
+		Contacto contacto = Ebean.find(Contacto.class)
+				.select("usuario2_correo")
+				.where()
+				.eq("usuario1_correo", usuario1)
+				.eq("usuario2_correo", usuario2)
+				.findUnique();
+		try {
+	    	if(contacto.usuario2.correo.toString().isEmpty()) {
+	    		return "";
+	    	} else {
+	    		return contacto.usuario2.correo.toString();
+	    	}
+    	} catch(Exception e) {}
+		return "";
+    }
+	
+	
+//	public static void cambiaEstado(Usuario usuario1, Usuario usuario2) {
+//		Contacto contacto = find.ref(i)
+//		contacto.estado = 
+//	}
+	
+	
 }

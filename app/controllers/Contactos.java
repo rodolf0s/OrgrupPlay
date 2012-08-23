@@ -79,6 +79,7 @@ public class Contactos extends Controller {
 			return badRequest(agregaContactos.render(Usuario.find.byId(session("email")), Contacto.listaContactosPendientes(session("email"))));
 		}else{
 			Contacto amigoGuardar = formAgregaContactoBd.get();
+//			cambiaEstado(amigoGuardar.usuario1, amigoGuardar.usuario2);
 			amigoGuardar.save();
 			
 			try{
