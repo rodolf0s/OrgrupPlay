@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
+
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -37,4 +39,34 @@ public class Administrador extends Model {
             .eq("password", password)
             .findUnique();
     }
+	
+	/**
+     * Actualiza la contraseña del administrador
+     */
+    
+    public void setPassword(String usuario, String password) {
+    	Administrador admin = find.ref(usuario);
+    	admin.password = password;
+    	admin.update();
+    }
+    
+    /**
+     * Obtiene la password de la BD del administrador
+     */
+    
+    public static String getPassword(String usuario) {
+    	Administrador admin = Ebean.find(Administrador.class)  
+    	        .select("password")  
+    	        .where().eq("usuario", usuario)  
+    	        .findUnique();
+    	try {
+	    	if(admin.password.isEmpty()) {
+	    		return "";
+	    	} else {
+	    		return admin.password;
+	    	}
+    	} catch(Exception e) {}
+		return "";
+    }
+    
 }
