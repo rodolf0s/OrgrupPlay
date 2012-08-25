@@ -84,7 +84,7 @@ public class Usuario extends Model {
      * no exista en la BD, para asignarselo a otro usuario.
      * 
      * @param idVerificador
-     * 			Parametro que es generado desde Application.java
+     * 		Parametro que es generado desde Application.java
      * @return si es mayor que cero el id_verificador ya se encuentra
      * en la BD, por lo tanto se genera otro en el Controlador.
      */
@@ -100,7 +100,7 @@ public class Usuario extends Model {
      * 
      * @param correo
      * @param idVerificador
-     * 			llega desde la url enviada al correo del usuario registrado
+     * 		llega desde la url enviada al correo del usuario registrado
      * @return si es unico retorna un 1.
      */
     public static boolean verificaCuenta(String correo, Integer idVerificador) {
