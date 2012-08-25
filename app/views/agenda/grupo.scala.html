@@ -1,0 +1,10 @@
+@(usuario: Usuario, grupo: SqlRow)
+
+@app(title = "Orgrup", usuario.nombre) {
+
+	@grupo.getString("nombre")<br>
+	@grupo.getString("usuario_correo")<br>
+	@grupo.getString("tipo")<br>
+	@grupo.getString("id")<br>
+	@grupo.getString("distintivo")<br>
+}
