@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 @Entity
@@ -25,12 +24,10 @@ public class Integrante extends Model {
 	@ManyToOne
 	public Grupo grupo;
 	
-	@Constraints.Required
     @Formats.NonEmpty
     @Column(nullable=false)
 	public Integer tipo;
 	
-	@Constraints.Required
     @Formats.NonEmpty
     @Column(nullable=false)
 	@Formats.DateTime(pattern="dd/MM/yyyy")
