@@ -42,6 +42,11 @@ public class Correo extends Model {
 	@Column(length=500, nullable=false)
 	public String mensaje;
 	
+	@Constraints.Required
+	@Formats.NonEmpty
+	@Column(nullable=false)
+	public Integer estado;
+	
 	// Consultas 
 	
 	public static Finder<Long,Correo> find = new Finder<Long,Correo>(Long.class, Correo.class);
@@ -52,4 +57,14 @@ public class Correo extends Model {
     public static List<Correo> listaCorreos(){
     	return find.all();
   	}
+    
+    /**
+     * Busca el mensaje que se leera
+     */
+    public static List<Correo> muestraId(Long id) {
+		return find.where()
+				.eq("id", id)
+				.findList();
+	}
+
 }

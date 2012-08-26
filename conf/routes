@@ -21,6 +21,8 @@ GET		/VerificaCuenta				controllers.Application.verificaCuenta(correo: String, i
 GET		/Administrador				controllers.Admin.iniciar()
 POST	/Administrador				controllers.Admin.comprobarLogin()
 GET		/Mensajes					controllers.Admin.mensaje()
+GET		/Leer_Mensaje				controllers.Admin.leerMensaje(id: Long)
+POST 	/Mensajes					controllers.Admin.eliminarMensaje(id: Long)
 GET		/Cuentas					controllers.Admin.cuentas()
 GET		/Cambiar_Pass				controllers.Admin.cambiarPass()
 POST	/Cambiar_Pass				controllers.Admin.cambioPass()

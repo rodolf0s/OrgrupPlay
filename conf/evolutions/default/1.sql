@@ -33,6 +33,7 @@ create table correo (
   asunto                    varchar(60) not null,
   correo                    varchar(50) not null,
   mensaje                   varchar(500) not null,
+  estado                    integer not null,
   constraint pk_correo primary key (id))
 ;
 

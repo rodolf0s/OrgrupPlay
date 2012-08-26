@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Administrador;
+import models.Mensaje;
 import models.Usuario;
 import models.Correo;
 
@@ -79,11 +80,40 @@ public class Admin extends Controller {
 		} 
 		
 		else{
-		List<Correo> listaCorreo = new ArrayList<Correo>();
-	
 		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
 		}
 	}
+	
+	//Leer los mensajes
+	public static Result leerMensaje(Long id) {
+		if(!verificaSession()) {
+			return redirect(routes.Application.index());
+		} 
+				
+		else{
+		List<Correo> listaCorreo = new ArrayList<Correo>();
+			
+		return ok(leermensaje.render(Administrador.find.byId(session("usuario")),Correo.muestraId(id),""));
+		}
+	}
+	
+	//Eliminar el mensaje que se esta leyendo
+			public static Result eliminarMensaje(Long id){
+				Form<Correo> formElimina = form(Correo.class).bindFromRequest();
+				
+				if(formElimina.hasErrors()) {
+					List<Correo> listaCorreo = new ArrayList<Correo>();
+		            return ok(leermensaje.render(Administrador.find.byId(session("usuario")),Correo.muestraId(id),"Error al eliminar"));
+				} else {
+					
+					Correo elimina = Correo.find.byId(id);
+					elimina.delete();
+					
+				}
+				return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
+				
+				
+					}
 
 	//Redirecciona a la pagina cuentas
 	public static Result cuentas() {
@@ -137,6 +167,8 @@ public class Admin extends Controller {
 			}
 			return ok(cambiarpass.render(""));
 		}
+	
+	
 		
 	
 //valida la existencia de una sesion

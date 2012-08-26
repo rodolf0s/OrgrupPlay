@@ -1,18 +1,26 @@
 @(user: Administrador, lista: List[Correo])
+
 @inicioadmin(title = "Mensajes"){
+
 @if(lista.isEmpty()){
-					<br>
+					<h3>Mensajes</h3>
 				}else {
 						<h3>Mensajes</h3>
 						<div class=span8>
 							<table class="table">
 							@for(p<-lista){
 								<tr>
-										<td><font size="4">@p.nombre</font><br>Correo: @p.correo</font></td>
+										<td><font size="4"><a href="@routes.Admin.leerMensaje(p.id)">@p.nombre </a></font></td>
+										<td>Asunto: @p.asunto </td>
+										<td>Correo: @p.correo</td>
+										<td>Imagen de leido o no leido</td>
+										<td>aqui ira el checkbox</td>
 			
 									</tr>
 															}					
 						</table>
 					</div>
 				}
+
+
 }
