@@ -31,10 +31,12 @@ GET		/Index						controllers.Admin.cerrarSesion()
 
 #agenda
 GET		/App						controllers.Home.index()
+POST	/App						controllers.Home.getTarea()
 POST	/App1						controllers.Home.guardaTarea()
 POST	/App2						controllers.Home.editaTarea()
 POST	/App3						controllers.Home.eliminaTarea()
-POST	/App						controllers.Home.prueba()
+POST	/crearGrupo					controllers.Grupos.crearGrupo()
+GET		/Grupo						controllers.Grupos.index(id: String)
 GET		/Configurar/Perfil			controllers.Cuenta.perfil()
 GET		/Configurar/Password		controllers.Cuenta.password()
 POST	/Configurar/Perfil			controllers.Cuenta.actualizaPerfil()
