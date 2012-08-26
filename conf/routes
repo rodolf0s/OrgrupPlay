@@ -32,11 +32,10 @@ GET		/Index						controllers.Admin.cerrarSesion()
 #agenda
 GET		/App						controllers.Home.index()
 POST	/App						controllers.Home.getTarea()
-POST	/App1						controllers.Home.guardaTarea()
-POST	/App2						controllers.Home.editaTarea()
-POST	/App3						controllers.Home.eliminaTarea()
-POST	/crearGrupo					controllers.Grupos.crearGrupo()
-GET		/Grupo						controllers.Grupos.index(id: String)
+POST	/App/nueva-tarea			controllers.Home.guardaTarea()
+POST	/App/edita-tarea			controllers.Home.editaTarea()
+POST	/App/elimina-tarea			controllers.Home.eliminaTarea()
+POST	/crear-grupo-home			controllers.Home.crearGrupo()
 GET		/Configurar/Perfil			controllers.Cuenta.perfil()
 GET		/Configurar/Password		controllers.Cuenta.password()
 POST	/Configurar/Perfil			controllers.Cuenta.actualizaPerfil()
@@ -49,6 +48,12 @@ POST	/agregaContacto				controllers.Contactos.agregaContactoBd()
 GET 	/mensajes					controllers.Mensajes.mensajesRecibidos()
 GET		/muestraMensaje				controllers.Mensajes.leerMensaje(id: Long)
 POST	/enviaMensaje				controllers.Mensajes.enviaMensaje()
+
+#grupo
+
+POST	/crear-grupo				controllers.Grupos.crearGrupo()
+GET		/grupo/:id					controllers.Grupos.index(id: Long)
+POST	/grupo/agregar-integrante	controllers.Grupos.agregaIntegrante()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
