@@ -248,4 +248,18 @@ public class Usuario extends Model {
 				.findUnique();
 		return usuario.imagen;
 	}
+	
+	/**
+	 * Obtiene el correo de un usuario por el nombre.
+	 * @param nombre
+	 * @return el nombre de usuario
+	 */
+	public static String getCorreo(String nombre) {
+		Usuario usuario = Ebean.find(Usuario.class)
+				.select("correo")
+				.where()
+				.eq("nombre", nombre)
+				.findUnique();
+		return usuario.correo;
+	}
 }

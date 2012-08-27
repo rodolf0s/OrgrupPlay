@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlRow;
 
 import play.data.format.Formats;
 import play.data.validation.Constraints;
@@ -84,5 +85,18 @@ public class Contacto extends Model {
 //		contacto.estado = 
 //	}
 	
+	/**
+	 * Busca una lista con todos los contactos que tiene el usuario
+	 * pero que no esten en el grupo.
+	 * 
+	 * Importante: aun no funciona, la lista la retorna vacia
+	 * @param correo
+	 * @return empty. esta mal el INNER JOIN
+	 */
+	public static List<SqlRow> getContactos(String correo) {
+		String sql = "SELECT c.id, c.usuario2_correo FROM contacto c INNER JOIN integrante i on c.usuario2_correo = i.usuario_correo WHERE c.usuario1_correo = :correo AND c.usuario2_correo != i.usuario_correo";
+		
+		return Ebean.createSqlQuery(sql).setParameter("correo", correo).findList();
+	}
 	
 }

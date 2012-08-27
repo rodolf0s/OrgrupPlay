@@ -259,33 +259,48 @@
 	}
 
 	function crea_grupo() {
-		document.grupo.action = "@routes.Grupos.crearGrupo";
+		document.grupo.action = "@routes.Home.crearGrupo";
 	    document.grupo.submit();
 	}
 </script>
 
 	<div class="row-fluid">
-		<div class="span2">
-			<div class="well sidebar-nav">
+		<div class="span3">
+			<div class="well well-small">
 				<ul class="nav nav-list">
 					<li> <img class="img-polaroid" style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
 					<li><b>@usuario.nombre</b></li>					
 				</ul>
 			</div>
 
-			<div class="well">
-				contactos
-				    <ul class="nav nav-pills nav-stacked">
-    					<li class="nav-header">
-    						<a href="#">Home</a>
-    					</li>
-    					<li><a href="#">11111</a></li>
-    					<li><a href="#">22222</a></li>
-    				</ul>
-			</div>							 
+			<div class="well well-small"> 
+   				<form name="muestraGrupo">
+	   				<ul class="nav nav-pills nav-stacked">
+	   					<li class="nav-header">
+	   						Grupos					
+	   					</li>
+	   					@if(!grupos.isEmpty()) {
+		   					@for(g <- grupos) {		   						
+			   					<li>
+			   						<a href='@routes.Grupos.index(g.getString("id").toLong)'>@g.getString("nombre")</a>
+			   					</li>		   						
+		   					}
+	   					}
+	   				</ul>
+   				</form>
+   				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modal() >crear grupo</a>
+   			</div>						 
+
+   			<div class="well well-small">
+				<ul class="nav nav-pills nav-stacked">
+					<li class="nav-header">
+						contactos
+					</li>
+				</ul>
+			</div>	
 		</div>
 			
-		<div class="span8">
+		<div class="span9">
 			<div>			
 				<div id='calendar'></div>
 			
@@ -294,25 +309,9 @@
 			</div>    
 		</div>
 
-		<div class="span2">
-   			<div class="well well-small"> 
-   				<form name="muestraGrupo">
-	   				<ul class="nav nav-pills nav-stacked">
-	   					<li class="nav-header">
-	   						<a href="#">Grupos</a>   						
-	   					</li>
-	   					@if(!grupos.isEmpty()) {
-		   					@for(g <- grupos) {		   						
-			   					<li>
-			   						<a href='@routes.Grupos.index(g.getString("id"))'>@g.getString("nombre")</a>
-			   					</li>		   						
-		   					}
-	   					}
-	   				</ul>
-   				</form>
-   				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modal() >crear grupo</a>
-   			</div>
-		</div>
+<!-- 		<div class="span2">
+   			
+		</div> -->
 	</div>
 
 
@@ -341,8 +340,7 @@
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
 				<input type="button" onClick=crea_grupo() class="btn btn-primary" value="Crear">
 			</div>
-		</form>
-		
+		</form>		
 	</div>
 	
 	<!-- 	Modal  guarda -->

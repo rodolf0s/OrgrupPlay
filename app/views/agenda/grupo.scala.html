@@ -1,10 +1,160 @@
-@(usuario: Usuario, grupo: SqlRow)
+@(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto])
 
-@app(title = "Orgrup", usuario.nombre) {
+@app(title = grupo.getString("nombre"), usuario.nombre) {
+	
+	<script type="text/javascript">
+	
+		$(document).ready(function() {
 
-	@grupo.getString("nombre")<br>
-	@grupo.getString("usuario_correo")<br>
-	@grupo.getString("tipo")<br>
-	@grupo.getString("id")<br>
-	@grupo.getString("distintivo")<br>
+			
+		});
+		
+		function modalMiembros() {
+			$('#agregaIntegrantes').modal('show');
+		}
+		function modalGrupos() {
+			$('#creaGrupo').modal('show');
+		}
+	</script>
+
+	<div class="row-fluid">
+		<div class="span3">
+
+			<div class="well well-small">
+				<ul class="nav nav-list">
+					<li> <img class="img-polaroid" style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
+					<li><b>@usuario.nombre</b></li>					
+				</ul>
+			</div>
+
+			<div class="well well-small"> 
+   				<form name="muestraGrupo">
+	   				<ul class="nav nav-pills nav-stacked">
+	   					<li class="nav-header">
+	   						Grupos				
+	   					</li>
+	   					@if(!grupos.isEmpty()) {
+		   					@for(g <- grupos) {		   						
+			   					<li @if(grupo.getString("id") == g.getString("id")) { class="active" })>
+			   						<a href='@routes.Grupos.index(g.getString("id").toLong)'>@g.getString("nombre")</a>
+			   					</li>		   						
+		   					}
+	   					}
+	   				</ul>
+   				</form>
+   				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
+   			</div>
+
+   			<div class="well well-small">
+   				<ul class="nav nav-pills nav-stacked">
+   					<li class="nav-header">Miembros</li>
+   				</ul>
+   				<ul class="unstyled">
+   					
+	   				@if(!integrantes.isEmpty()) {
+	   					@for(a <- integrantes) {
+	   						<li>
+		   						@if(a.tipo == 1) {
+		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.muestraImagen(a.usuario.correo)" alt="imagen usuario">
+		   							@Usuario.muestraNombre(a.usuario.correo) (Administrador)
+		   						}
+	   						</li>
+	   					}
+	   				
+	   					@for(i <- integrantes) {
+	   						@if(i.tipo != 1) {
+		   						<li>
+		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.muestraImagen(i.usuario.correo)" alt="imagen usuario">
+		   							@Usuario.muestraNombre(i.usuario.correo)	
+		   						</li>
+	   						}
+	   					}
+	   				}
+   				</ul>
+   				<a href="#" role="button" class="btn btn-mini" data-toggle="modal" onClick=modalMiembros() >agregar miembros</a>
+   			</div>
+
+			<div class="well sidebar-nav">
+				@grupo.getString("nombre")<br>
+				@grupo.getString("usuario_correo")<br>
+				@grupo.getString("tipo")<br>
+				id @grupo.getString("id")<br>
+				@grupo.getString("distintivo")<br><br>
+			</div>
+			
+		</div>
+	</div>
+	
+	
+	<!-- Modal agrega miembros -->
+	<div class="modal hide fade" id="agregaIntegrantes">
+		<form action="@routes.Grupos.agregaIntegrante" class="form-horizontal" name="integrante" method="post">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Agregar Miembros</h3>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+	    			<label class="control-label">Nombre del miembro</label>
+	    			<div class="controls">
+
+
+						<!-- 
+						Esta enviando solo el nombre del usuario, en el controlador
+						hace una consulta para obtener el correo del usuario.
+						
+						Importante. solo sirve si el nombre es unico,	
+						 -->
+	    				<input type="text" id="search" data-provide="typeahead" data-items="4" autocomplete="off" name="usuario.correo">
+	    			</div>
+	    		</div>
+	    		<script type="text/javascript">
+		    		var contactos = [
+		 							@if(!contactos.isEmpty()) {
+		 								@for(c <- contactos) {
+		 									'@Usuario.muestraNombre(c.usuario2.correo)',																	
+		 								}
+		 							}
+		 						];
+		 			$('#search').typeahead({
+		 				source: contactos
+		 			});
+	    		</script>
+	    		<input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+				<input type="submit" class="btn btn-primary" value="Agregar">
+			</div>
+		</form>		
+	</div>
+	
+	<!-- Modal crear grupo -->
+	<div class="modal hide fade" id="creaGrupo">
+		<form action="@routes.Grupos.crearGrupo" class="form-horizontal" name="grupo" method="post">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Grupo Nuevo</h3>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+	    			<label class="control-label">Nombre del grupo</label>
+	    			<div class="controls">
+	    				<input class="input-medium" type="text" name="nombre" required>
+	    			</div>
+	    		</div>
+	    		<div class="control-group">
+	    			<label class="control-label">Distintivo para el grupo</label>
+	    			<div class="controls">
+	    				<input class="input-medium" type="text" name="distintivo" required>
+	    			</div>
+	    		</div>
+	    		<input type="hidden" name="grupoId" value='@grupo.getString("id")'>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+				<input type="submit" class="btn btn-primary" value="Crear">
+			</div>
+		</form>		
+	</div>
 }

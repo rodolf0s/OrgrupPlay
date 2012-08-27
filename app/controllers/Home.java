@@ -1,6 +1,9 @@
 package controllers;
 
+import java.util.Date;
+
 import models.Contacto;
+import models.Integrante;
 import models.Tarea;
 import models.Usuario;
 import models.Grupo;
@@ -115,6 +118,46 @@ public class Home extends Controller {
 					Tarea.find.byId(mostrarForm.get().id),
 					Grupo.getGrupos(session("email"))
 					));
+		}
+	}
+	
+	/**
+	 * Crea un grupo nuevo.
+	 * 
+	 * @return redirecciona al home.
+	 */
+	public static Result crearGrupo() {
+		
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Grupo> creaGrupo = form(Grupo.class).bindFromRequest();
+
+			if (creaGrupo.hasErrors()) {
+				return redirect(routes.Home.index());
+			} else {
+				Grupo nuevoGrupo = creaGrupo.get();
+				nuevoGrupo.save();
+				
+				/*
+				 * Crea objetos para agregar posteriormente al usuario
+				 * que creo el grupo a la tabla integrante
+				 */
+				Usuario user = new Usuario();
+				Integrante nuevoIntegrante = new Integrante();
+				Date fecha = new Date();
+				
+				user.correo = session("email");				
+				
+				// crea el nuevo integrante pasando los datos correspondientes
+				nuevoIntegrante.grupo = nuevoGrupo;
+				nuevoIntegrante.usuario = user;
+				nuevoIntegrante.tipo = 1;
+				nuevoIntegrante.fecha_ingreso = fecha;
+				nuevoIntegrante.save();
+
+				return redirect(routes.Home.index());
+			}
 		}
 	}
 	
