@@ -66,5 +66,16 @@ public class Correo extends Model {
 				.eq("id", id)
 				.findList();
 	}
+    
+    /**
+     * Actualizar estado a leido
+     */
+    
+    public void setEstado(Long id) {
+        Correo correo = find.ref(id);
+        correo.estado = 2;
+        correo.update();    
+    }
+    
 
 }

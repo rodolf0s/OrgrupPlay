@@ -54,7 +54,8 @@ public class Admin extends Controller {
 		      
 		      if(loginForm.hasErrors()) {
 		          return badRequest(administrador.render(loginForm, "Usuario o contraseña invalido"));
-		      } else {
+		      } 
+		      else {
 		    	  LoginAdmin user = loginForm.get();
 		    	  session ("usuario",user.usuario);
 		    		  return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
@@ -92,7 +93,8 @@ public class Admin extends Controller {
 				
 		else{
 		List<Correo> listaCorreo = new ArrayList<Correo>();
-			
+		Correo correo = new Correo();
+		correo.setEstado(id);
 		return ok(leermensaje.render(Administrador.find.byId(session("usuario")),Correo.muestraId(id),""));
 		}
 	}

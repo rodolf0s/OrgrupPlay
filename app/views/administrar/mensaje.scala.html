@@ -5,21 +5,37 @@
 @if(lista.isEmpty()){
 					<h3>Mensajes</h3>
 				}else {
-						<h3>Mensajes</h3>
-						<div class=span8>
-							<table class="table">
+					<form id="form1" class="well" action="" method="post">
+					<h3>Mensajes <button type="submit" id="fat-btn" class="btn" data-loading-text="Eliminando..."> Eliminar </button></h3>
+					<div class=span8>
+						<table class="table">
 							@for(p<-lista){
-								<tr>
-										<td><font size="4"><a href="@routes.Admin.leerMensaje(p.id)">@p.nombre </a></font></td>
-										<td>Asunto: @p.asunto </td>
-										<td>Correo: @p.correo</td>
-										<td>Imagen de leido o no leido</td>
-										<td>aqui ira el checkbox</td>
+<!-- 							1 mensaje no leido, 2 mensaje leido -->
+								@if(p.estado == 1){
+									<tr>
+											<td><font size="4"><a href="@routes.Admin.leerMensaje(p.id)">@p.nombre </a></font></td>
+											<td>Asunto: @p.asunto </td>
+											<td>Correo: @p.correo</td>
+											<td><img src="@routes.Assets.at("images/envelope.gif")"></td>
+											<td><input type="checkbox" name=mybox value="1"></td>
 			
 									</tr>
+									}else{
+									
+									<tr>
+											<td><font size="4"><a href="@routes.Admin.leerMensaje(p.id)">@p.nombre </a></font></td>
+											<td>Asunto: @p.asunto </td>
+											<td>Correo: @p.correo</td>
+											<td><img src="@routes.Assets.at("images/envelope_open.gif")"></td>
+											<td><input type="checkbox" name=mybox value="1"></td>
+			
+										</tr>
+									}
+									
 															}					
 						</table>
 					</div>
+					</form>
 				}
 
 

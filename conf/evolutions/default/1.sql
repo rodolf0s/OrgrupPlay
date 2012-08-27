@@ -49,7 +49,7 @@ create table integrante (
   usuario_correo            varchar(50),
   grupo_id                  bigint,
   tipo                      integer not null,
-  fecha_ingreso             date not null,
+  fecha_ingreso             timestamp not null,
   constraint pk_integrante primary key (id))
 ;
 

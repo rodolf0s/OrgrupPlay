@@ -1,0 +1,34 @@
+@(user: Administrador, lista: List[Correo], error:String)
+
+@inicioadmin(title = "Mensajes"){
+
+	<div class="container well">
+		<div class="row">
+	 		<div class="span11" style="float:right">
+              	  <div class="span9" style="float:left;">
+	 				@for(p<-lista){
+	 					<form id="form1" class="well" action="@routes.Admin.eliminarMensaje(p.id)" method="post">
+	 						<fieldset>
+	 							<legend>@p.nombre</legend>
+	 								<b>@p.correo</b>
+									<div class="well">
+										@p.mensaje
+									</div>
+									<input type="hidden" name="nombre" value="@p.nombre">
+									<input type="hidden" name="asunto" value="@p.asunto">
+									<input type="hidden" name="correo" value="@p.correo">
+									<input type="hidden" name="mensaje" value="@p.mensaje">
+									<input type="hidden" name="estado" value="@p.estado">
+									<span style="color: red;">@error</span>
+							<input type="button" class="btn" onclick="location='@routes.Admin.mensaje()'" value="Atras">
+							<button type="submit" id="fat-btn" class="btn" data-loading-text="Eliminando..."> Eliminar </button>
+						</form>
+					}
+	 					</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+}
