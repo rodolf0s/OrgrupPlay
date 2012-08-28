@@ -9,7 +9,7 @@
 	 				@for(p<-lista){
 	 					<form id="form1" class="well" action="@routes.Admin.eliminarMensaje(p.id)" method="post">
 	 						<fieldset>
-	 							<legend>@p.nombre</legend>
+	 							<legend><i class="icon-envelope"></i> @p.nombre</legend>
 	 								<b>@p.correo</b>
 									<div class="well">
 										@p.mensaje
@@ -20,7 +20,7 @@
 									<input type="hidden" name="mensaje" value="@p.mensaje">
 									<input type="hidden" name="estado" value="@p.estado">
 									<span style="color: red;">@error</span>
-							<input type="button" class="btn" onclick="location='@routes.Admin.mensaje()'" value="Atras">
+							<input type="button" class="btn" onclick="location='@routes.Admin.responder(p.id)'" value="Responder">
 							<button type="submit" id="fat-btn" class="btn" data-loading-text="Eliminando..."> Eliminar </button>
 						</form>
 					}

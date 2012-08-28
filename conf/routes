@@ -27,6 +27,8 @@ GET		/Cuentas					controllers.Admin.cuentas()
 GET		/Cambiar_Pass				controllers.Admin.cambiarPass()
 POST	/Cambiar_Pass				controllers.Admin.cambioPass()
 GET		/Index						controllers.Admin.cerrarSesion()
+GET		/Responder					controllers.Admin.responder(id: Long)
+POST	/Correo						controllers.Admin.enviarRespuesta(id: Long)
 
 
 #agenda

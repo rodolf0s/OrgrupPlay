@@ -1,3 +1,30 @@
+@(user: Administrador, lista: List[Usuario])
+
 @inicioadmin(title = "Cuentas"){
-Cuentas
+
+@if(lista.isEmpty()){
+					<h3>Cuentas</h3>
+				}else {
+					
+					<h3>Cuentas <button type="submit" id="fat-btn" class="btn" data-loading-text="Eliminando..."> Eliminar </button></h3>
+					<div class=span8>
+						<table class="table">
+							@for(p<-lista){
+								<form id="form1" class="well" action="" method="post">
+								<tr>
+											<td><font size="4">@p.nombre</font></td>
+											<td>Correo: @p.correo </td>
+											<td>Estado: @p.estado</td>
+											<td><input type="checkbox" name=mybox value="1"></td>
+			
+								</tr>
+								</form>
+									
+															}					
+						</table>
+					</div>
+					
+				}
+
+
 }

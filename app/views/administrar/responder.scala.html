@@ -1,0 +1,38 @@
+@(respuesta: Correo, error: String)
+
+@inicioadmin(title = "Responder") {	
+
+	<style type="text/css">
+		#estilo {
+		border-radious:12px;
+		}
+
+		
+	</style>
+	
+	<div class="container">
+		<div class="row">
+			<div class="span8" style="float:right;">
+				<div class="span4" style="float:left;" id="estilo">
+					<fieldset>
+						<legend>Responder</legend>
+							<form id="form1" action="@routes.Admin.enviarRespuesta(respuesta.id)" class="well" method="post">
+								<label for="nombre">Para: @respuesta.nombre</label>
+								<label for="nombre">Asunto: @respuesta.asunto</label>
+								<label for="correo">Correo: @respuesta.correo</label>
+								<label for="mensaje">Mensaje</label>
+								<textarea name="mensaje" id="mensaje" required></textarea><br>
+								<span style="color: red;">@error</span>
+								<input type="hidden" name="nombre" value="@respuesta.nombre">
+								<input type="hidden" name="asunto" value="@respuesta.asunto">
+								<input type="hidden" name="correo" value="@respuesta.correo">
+								<input type="hidden" name="estado" value="@respuesta.estado">
+								<button type="submit" class="btn">Enviar mensaje</button>
+							</form>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+}

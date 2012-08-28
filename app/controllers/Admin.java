@@ -1,5 +1,7 @@
 package controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -81,6 +83,7 @@ public class Admin extends Controller {
 		} 
 		
 		else{
+				
 		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
 		}
 	}
@@ -99,34 +102,74 @@ public class Admin extends Controller {
 		}
 	}
 	
-	//Eliminar el mensaje que se esta leyendo
-			public static Result eliminarMensaje(Long id){
-				Form<Correo> formElimina = form(Correo.class).bindFromRequest();
+	//Eliminar mensaje
+	public static Result eliminarMensaje(Long id){
+		Form<Correo> formElimina = form(Correo.class).bindFromRequest();
 				
-				if(formElimina.hasErrors()) {
-					List<Correo> listaCorreo = new ArrayList<Correo>();
-		            return ok(leermensaje.render(Administrador.find.byId(session("usuario")),Correo.muestraId(id),"Error al eliminar"));
-				} else {
+		if(formElimina.hasErrors()) {
+			List<Correo> listaCorreo = new ArrayList<Correo>();
+	           return ok(leermensaje.render(Administrador.find.byId(session("usuario")),Correo.muestraId(id),"Error al eliminar"));
+		} else {
 					
-					Correo elimina = Correo.find.byId(id);
-					elimina.delete();
+			Correo elimina = Correo.find.byId(id);
+			elimina.delete();
 					
-				}
-				return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
+		}
+		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
 				
 				
-					}
-
-	//Redirecciona a la pagina cuentas
-	public static Result cuentas() {
-		
-
+			}
+			
+	//Redireccionar a responder
+	public static Result responder(Long id) throws SQLException {
 		if(!verificaSession()) {
 			return redirect(routes.Application.index());
 		} 
+				
+		else{
+		Correo respuesta = Correo.find.byId(id);
+		return ok(responder.render(respuesta,""));
+		}
+	}
+	
+	//Responder mensaje
+	public static Result enviarRespuesta(Long id) throws IOException, EmailException {		
+		Form<Correo> formRespuesta = form(Correo.class).bindFromRequest();
 		
-		else {
-		return ok(cuentas.render());
+		if (formRespuesta.hasErrors()) {
+			Correo respuesta = Correo.find.byId(id);
+			return ok(responder.render(respuesta,"Problemas al enviar el correo"));
+		} else {
+			Correo respuesta = formRespuesta.get();
+			
+				// Envia un correo para responder el mensaje
+				Email email = new SimpleEmail();
+			    email.setSmtpPort(587);
+			    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
+			    email.setDebug(false);
+			    email.setHostName("smtp.gmail.com");
+			    email.setFrom("orgrup.service@gmail.com");
+			    email.setSubject(respuesta.asunto);
+			    email.setMsg(respuesta.mensaje);
+			    email.addTo(respuesta.correo);
+			    email.setTLS(true);
+			    email.send();
+			    
+			    respuesta.setRespuesta(id);
+			    
+			    return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
+			}		
+		}
+	
+	
+	//Redirecciona a la pagina cuentas
+	public static Result cuentas() throws SQLException {
+		if(!verificaSession()) {
+			return redirect(routes.Application.index());
+		} 
+				
+		else{
+		return ok(cuentas.render(Administrador.find.byId(session("usuario")),Usuario.listarUsuarios()));
 		}
 	}
 	

@@ -77,5 +77,17 @@ public class Correo extends Model {
         correo.update();    
     }
     
+    /**
+     * Actualizar estado a respondido
+     */
+    
+    public void setRespuesta(Long id) {
+        Correo correo = find.ref(id);
+        correo.estado = 3;
+        correo.update();    
+    }
+    
+
+    
 
 }

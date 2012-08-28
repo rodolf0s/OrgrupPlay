@@ -262,4 +262,11 @@ public class Usuario extends Model {
 				.findUnique();
 		return usuario.correo;
 	}
+	
+	/**
+     * Obtiene todos los usuarios.
+     */
+    public static List<Usuario> listarUsuarios(){
+    	return find.all();
+  	}
 }
