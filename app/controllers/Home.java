@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import models.Contacto;
@@ -54,6 +55,37 @@ public class Home extends Controller {
 				return redirect(routes.Home.index());
 			} else {
 				tareaForm.get().save();
+
+				// Si el checkbox de repetir esta seleccionado, repite la tarea.
+				if (tareaForm.get().repetir != null) {
+					if (tareaForm.get().repetir == 1) {
+						
+						// Si elije repetir cada dia.
+						if (tareaForm.get().op_repetir == 1) {
+
+							Integer fin = tareaForm.get().fecha_termino.getDate();
+							Calendar nuevaFechaInicio = Calendar.getInstance();
+							Calendar nuevaFechaFin = Calendar.getInstance();
+							
+							// Pasa Date to Calendar. la fecha de inicio y fin.
+							// para despues sumar dias.
+							nuevaFechaInicio.setTime(tareaForm.get().fecha_inicio);
+							nuevaFechaFin.setTime(tareaForm.get().fecha_inicio);
+							
+							// Itera la cantidad de dias a repetir, depende de la fecha de fin de la tarea y de termino.
+							for (Integer dia = tareaForm.get().fecha_fin.getDate(); dia < fin; dia++) {
+								// suma un dia a la fecha de inicio y fin
+								nuevaFechaInicio.add(Calendar.DATE, 1);
+								nuevaFechaFin.add(Calendar.DATE, 1);
+
+								// Pasa los datos mas la nueva fecha al metodo setTare, para que la guarde.
+								Tarea.setTarea(tareaForm.get().nombre, tareaForm.get().descripcion, tareaForm.get().prioridad, 
+										tareaForm.get().usuario, tareaForm.get().hora_inicio, tareaForm.get().hora_fin,
+										nuevaFechaInicio.getTime(), nuevaFechaFin.getTime());		
+							}
+						}					
+					}			
+				}					
 				return redirect(routes.Home.index());
 			}
 		}
