@@ -32,6 +32,10 @@ public class Usuario extends Model {
     @Formats.NonEmpty
     @Column(length=60, nullable=false)
 	public String ciudad;
+    
+    @Formats.NonEmpty
+    @Column(nullable=true)
+	public Integer telefono;
 	
     @Formats.NonEmpty
     @Column(length=300, nullable=true)

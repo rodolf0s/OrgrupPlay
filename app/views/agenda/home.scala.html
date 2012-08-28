@@ -209,6 +209,10 @@
 		location.href="@routes.Home.index";
 	}
 	
+	function modal() {
+		$('#creaGrupo').modal('show');
+	}
+	
 	function tpStartOnHourShowCallback(hour) {
 	    var tpEndHour = $('#horaF1').timepicker('getHour');
 	    if ($('#horaF1').val() == '') { return true; }
@@ -321,7 +325,7 @@
 	
 		<!-- Modal crear grupo -->
 	<div class="modal hide fade" id="creaGrupo">
-		<form class="form-horizontal" name="grupo" method="post">
+		<form action="@routes.Home.crearGrupo"class="form-horizontal" name="grupo" method="post">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3>Grupo Nuevo</h3>
@@ -342,7 +346,7 @@
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="button" onClick=crea_grupo() class="btn btn-primary" value="Crear">
+				<input type="submit" class="btn btn-primary" value="Crear">
 			</div>
 		</form>		
 	</div>
