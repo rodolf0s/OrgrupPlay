@@ -1,0 +1,33 @@
+@(user: Usuario, list: List[Contacto])
+
+@app(title = "Orgrup", user.nombre) {
+
+<div class="container">
+		<div class="tabbable">
+			<ul class="nav nav-tabs">
+  				<li ><a href="@routes.Contactos.contactos">Buscar contactos</a></li>
+  				<li class="active"><a href="@routes.Contactos.gestionaContactos">Gestionar contactos</a></li>
+			</ul>
+ 
+			<div class="tab-content">
+ 	 			<div class="tab-pane active">
+ 	 				<table class="table table-hover">
+ 	 					@for(p<-list) {
+ 	 						<form name="form0" action="@routes.Contactos.eliminaContacto" method="post">
+ 	 							<tr>
+ 	 								<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@{Usuario.muestraImagen(p.usuario2.correo)}" class="img-polaroid" alt="imagen usuario"></td>
+ 	 								<td><font size="4">@{Usuario.muestraNombre(p.usuario2.correo)}</font><br>
+ 	 								Correo: @p.usuario2.correo <br>
+ 	 								Vive en: @{Usuario.obtieneCiudad(p.usuario2.correo)}</td>
+ 	 								<input type="hidden" name="usuario1.correo" value="@user.correo">
+ 	 								<input type="hidden" name="usuario2.correo" value="@p.usuario2.correo">
+ 	 								<td><input type="submit" class="btn" value="Eliminar"></td>
+ 	 							</tr>
+ 	 						</form>
+ 	 					}
+ 	 				</table>
+ 	 			</div>
+ 	 		</div>
+ 	 	</div>
+ 	 </div>
+}
