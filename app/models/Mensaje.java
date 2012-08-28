@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
+
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -45,6 +47,10 @@ public class Mensaje extends Model{
 	@Column(nullable=false)
 	public String mensaje;
 	
+	@Formats.NonEmpty
+	@Column(nullable=false)
+	public String leido;
+	
 	public static Finder<Long,Mensaje> find = new Finder<Long,Mensaje>(Long.class, Mensaje.class);
 	
 	public static List<Mensaje> listaMensajesRecibidos(String email){
@@ -63,5 +69,18 @@ public class Mensaje extends Model{
 		return find.where()
 				.eq("remitente", email)
 				.findList();
+	}
+	
+	public static List<Mensaje> mensajesNuevosRecibidos(String email) {
+		return find.where()
+				.eq("destinatario", email)
+				.eq("leido", "no")
+				.findList();
+	}
+	
+	public static void cambiaEstadoLeido(Long id) {
+		Mensaje mensaje = find.ref(id);
+				mensaje.leido = "si";
+				mensaje.update();
 	}
 }

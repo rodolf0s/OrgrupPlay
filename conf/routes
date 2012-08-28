@@ -47,9 +47,16 @@ POST 	/Contactos 					controllers.Contactos.buscaContactos()
 POST	/Contactos2					controllers.Contactos.agregaContacto()
 GET 	/agregaContactos			controllers.Contactos.muestraAgregarContactos()
 POST	/agregaContacto				controllers.Contactos.agregaContactoBd()
+POST	/eliminaSolicitud			controllers.Contactos.eliminaSolicitud()
+GET  	/gestionarContactos			controllers.Contactos.gestionaContactos()
+POST	/eliminaContacto			controllers.Contactos.eliminaContacto()
 GET 	/mensajes					controllers.Mensajes.mensajesRecibidos()
+GET		/mensajesEnviados			controllers.Mensajes.mensajesEnviados()
+GET		/crearMensaje				controllers.Mensajes.crearMensaje()
 GET		/muestraMensaje				controllers.Mensajes.leerMensaje(id: Long)
 POST	/enviaMensaje				controllers.Mensajes.enviaMensaje()
+GET 	/mensajesNuevos				controllers.Mensajes.mensajesNuevos()
+POST	/muestraMensaje2	        controllers.Mensajes.cambiaEstadoMensaje(id: Long)
 
 #grupo
 

@@ -9,29 +9,31 @@
 				<div class="span8">	
 					<table class="table">
 						@for(p<-lista){
-							<form action="@routes.Contactos.agregaContactoBd" method="post" onSubmit="ejecutaCambiarEstado(@p.id)">
-								<tr>
+							<tr>
+								<form action="@routes.Contactos.agregaContactoBd" method="post">
+								
+									<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@Usuario.muestraImagen(p.usuario1.correo)" class="img-polaroid" alt="imagen usuario"></td>
 									<td>@{Usuario.muestraNombre(p.usuario1.correo)}</td>
-									<td>@p.usuario1.correo<td>
+									<td>@p.usuario1.correo<td> 
 									<input type="hidden" name="usuario1.correo" value="@user.correo">
 									<input type="hidden" name="usuario2.correo" value="@p.usuario1.correo">
 									<input type="hidden" name="amigos" value="si">
+									
 									<td><input type="submit" class="btn" value="Agregar">
 									
 									</td>
-								</tr>
-							</form>
+								
+								</form>
+							
+								<form action="@routes.Contactos.eliminaSolicitud" method="post">
+									<input type="hidden" name="usuario1.correo" value="@p.usuario1.correo">
+									<input type="hidden" name="usuario2.correo" value="@user.correo">
+									<td><input type="submit" value="X" class="btn"></td>
+								</form>
+							</tr>
 						}				
 					</table>
 				</div>	
 		</fieldset>
 	</div>
-
- 	<script type="text/javascript"> 
- 	
-		function ejecutaCambiarEstado(id){
- 			alert(id);
- 		}
-		
-	 </script> 
 }

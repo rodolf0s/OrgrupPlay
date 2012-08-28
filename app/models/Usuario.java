@@ -270,4 +270,16 @@ public class Usuario extends Model {
     public static List<Usuario> listarUsuarios(){
     	return find.all();
   	}
+    
+	/**
+	 * Obtiene la ciudad del contacto a traves del correo
+	 */
+	public static String obtieneCiudad(String email) {
+		Usuario usuario = Ebean.find(Usuario.class)
+				.select("ciudad")
+				.where()
+				.eq("correo", email)
+				.findUnique();
+		return usuario.ciudad;
+	}
 }

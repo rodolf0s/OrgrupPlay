@@ -72,7 +72,7 @@ public class Contactos extends Controller {
 		return ok(agregaContactos.render(Usuario.find.byId(session("email")), Contacto.listaContactosPendientes(session("email"))));
 	}
 	
-	public static Result agregaContactoBd(){
+	public static Result agregaContactoBd() {
 		Form<Contacto> formAgregaContactoBd = form(Contacto.class).bindFromRequest();
 		
 		if(formAgregaContactoBd.hasErrors()){
@@ -81,7 +81,7 @@ public class Contactos extends Controller {
 			Contacto amigoGuardar = formAgregaContactoBd.get();
 //			cambiaEstado(amigoGuardar.usuario1, amigoGuardar.usuario2);
 			amigoGuardar.save();
-			
+			Contacto.cambiaEstado(amigoGuardar.usuario2.correo, amigoGuardar.usuario1.correo);
 			try{
 				return ok(agregaContactos.render(Usuario.find.byId(session("email")), Contacto.listaContactosPendientes(session("email"))));
 			}catch(Exception e){
@@ -90,4 +90,44 @@ public class Contactos extends Controller {
 		}
 		return ok();
 	}
+	
+	public static Result eliminaSolicitud() {
+		Form<Contacto> formEliminaSolicitud = form(Contacto.class).bindFromRequest();
+		
+		if(formEliminaSolicitud.hasErrors()){
+			return badRequest(agregaContactos.render(Usuario.find.byId(session("email")), Contacto.listaContactosPendientes(session("email"))));
+		}else {
+			Contacto solicitudEliminar = formEliminaSolicitud.get();
+			Contacto.eliminaSolicitudAmistad(Contacto.obtieneId(solicitudEliminar.usuario1.correo, solicitudEliminar.usuario2.correo));
+			try {
+				return ok(agregaContactos.render(Usuario.find.byId(session("email")), Contacto.listaContactosPendientes(session("email"))));
+			}catch(Exception e){
+				
+			}
+		}
+		return ok();
+	}
+	
+	public static Result gestionaContactos() {
+		return ok(gestionarContactos.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+	}
+	
+	public static Result eliminaContacto() {
+		Form<Contacto> formEliminaContacto = form(Contacto.class).bindFromRequest();
+		
+		if(formEliminaContacto.hasErrors()){
+			return ok(gestionarContactos.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+		}else {
+			Contacto eliminaContacto = formEliminaContacto.get();
+			Contacto.eliminaContacto(Contacto.obtieneId(eliminaContacto.usuario1.correo, eliminaContacto.usuario2.correo));
+			Contacto.eliminaContacto(Contacto.obtieneId2(eliminaContacto.usuario1.correo, eliminaContacto.usuario2.correo));
+			try{
+				return ok(gestionarContactos.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+			}catch(Exception e){
+				
+			}
+		}
+		return ok();
+	}
+	
 }

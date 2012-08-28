@@ -5,6 +5,7 @@ import java.util.Date;
 
 import models.Contacto;
 import models.Integrante;
+import models.Mensaje;
 import models.Tarea;
 import models.Usuario;
 import models.Grupo;
@@ -200,7 +201,10 @@ public class Home extends Controller {
 	 * @return el numero de solicitudes encontradas.
 	 */
 	public static Integer notificacionAmigos(){
-		return Contacto.find.where().eq("usuario2_correo", session("email")).findRowCount();
+		return Contacto.find.where()
+				.eq("usuario2_correo", session("email"))
+				.eq("amigos", "no")
+				.findRowCount();
 	}
 
 	/**
@@ -214,5 +218,15 @@ public class Home extends Controller {
 			return false;
 		else
 			return true;
+	}
+	
+	/**
+	 * Obtiene el numero de notificaciones de mensajes nuevos
+	 */
+	public static Integer notificacionesMensajes() {
+		return Mensaje.find.where()
+				.eq("destinatario", session("email"))
+				.eq("leido", "no")
+				.findRowCount();
 	}
 }
