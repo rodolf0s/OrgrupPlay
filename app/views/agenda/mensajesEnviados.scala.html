@@ -1,0 +1,28 @@
+@(user: Usuario, lista: List[Mensaje])
+
+@app(title = "Orgrup", user.nombre) {
+
+	<div class="container">
+		<div class="tabbable">
+			<ul class="nav nav-tabs" id="myTab">
+  				<li><a href="@routes.Mensajes.mensajesRecibidos">Mensajes recibidos</a></li>
+  				<li class="active"><a href="@routes.Mensajes.mensajesEnviados">Mensajes enviados</a></li>
+  				<li><a href="@routes.Mensajes.crearMensaje">Redactar mensaje</a></li>
+  			</ul>
+  			
+  				<div class="tab-pane" id="mensajes_enviados">
+ 	 					<table class="table table-hover">
+ 	 						@for(p<-lista){
+ 	 			 	 			<tr>
+ 	 			 	 				<td><b>Para: </b><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.muestraNombre(p.destinatario)}</a></td>
+ 	 			 	 				<td>@p.asunto</td>	
+ 	 			 	 				<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>
+ 	 			 	 			</tr>
+ 	 			 	 		}			 	 		
+ 	 			 		</table>
+ 	 				</div>
+ 	 				
+  			
+  		</div>
+  	</div>
+ }

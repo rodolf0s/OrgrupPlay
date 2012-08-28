@@ -1,0 +1,44 @@
+@(user: Usuario, lista: List[Mensaje])
+
+
+@app(title = "Orgrup", user.nombre){
+
+	<div class="container">
+		<div class="tabbable">
+			<ul class="nav nav-tabs" id="myTab">
+  				<li class="active"><a href="@routes.Mensajes.mensajesRecibidos" >Mensajes recibidos</a></li>
+  				<li><a href="@routes.Mensajes.mensajesEnviados" >Mensajes enviados</a></li>
+  				<li><a href="@routes.Mensajes.crearMensaje" >Redactar mensaje</a></li>
+  			</ul>
+  			
+  				<div class="tab-content">
+ 	 				<div class="tab-pane active" id="mensajes_recibidos">
+ 	 					<table class="table table-hover">
+ 	 			 	 			@for(p<-lista){
+ 	 			 	 				<form>
+ 	 			 	 					@if(p.leido == "no"){
+ 	 			 	 					<tr style="background-color: #BDBDBD">
+ 	 			 	 						<td><input type="checkbox" value="@p.id"></td>
+ 	 			 	 						<td><b>De:</b> <a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.muestraNombre(p.remitente.correo)}</a></td>
+ 	 			 	 						<td>@p.asunto</td>
+ 	 			 	 						<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>	
+ 	 			 	 					</tr>
+ 	 			 	 					}else {
+ 	 			 	 						<tr>
+ 	 			 	 							<td><input type="checkbox" value="@p.id"></td>
+ 	 			 	 							<td><b>De:</b> <a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.muestraNombre(p.remitente.correo)}</a></td>
+ 	 			 	 							<td>@p.asunto</td>
+ 	 			 	 							<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>	
+ 	 			 	 						</tr>
+ 	 			 	 					}
+ 	 			 	 				</form>	
+ 	 			 	 			}  			 	 		
+ 	 			 		</table>
+ 	 				</div>
+ 	 				
+  	 			</div>				
+ 	 	</div>
+	</div>
+		
+		
+}
