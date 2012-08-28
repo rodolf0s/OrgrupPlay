@@ -28,6 +28,7 @@ public class Mensajes extends Controller {
 	}
 	
 	public static Result leerMensaje(Long id) {
+		Mensaje.cambiaEstadoLeido(id, session("email"));
 		return ok(muestraMensaje.render(Usuario.find.byId(session("email")), Mensaje.muestraId(id)));
 	}
 	
@@ -47,19 +48,6 @@ public class Mensajes extends Controller {
 	
 	public static Result mensajesNuevos() {
 		return ok(mensajesNuevos.render(Usuario.find.byId(session("email")), Mensaje.mensajesNuevosRecibidos(session("email"))));
-	}
-	
-	public static Result cambiaEstadoMensaje(Long id) {
-		Form<Mensaje> mensajeForm2 = form(Mensaje.class).bindFromRequest();
-		
-		if(mensajeForm2.hasErrors()) {
-			return ok("1");
-		}else {	
-			return ok("2");
-//			Mensaje mensaje = mensajeForm2.get();
-//			Mensaje.cambiaEstadoLeido(mensaje.id.longValue());			
-		}		
-//		return ok(muestraMensaje.render(Usuario.find.byId(session("email")), Mensaje.muestraId(id)));
 	}
 	
 }

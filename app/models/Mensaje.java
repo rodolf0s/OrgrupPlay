@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.annotation.Where;
 
 import play.data.format.Formats;
 import play.data.validation.Constraints;
@@ -78,9 +79,13 @@ public class Mensaje extends Model{
 				.findList();
 	}
 	
-	public static void cambiaEstadoLeido(Long id) {
-		Mensaje mensaje = find.ref(id);
-				mensaje.leido = "si";
-				mensaje.update();
+	/**
+	 * Cambia el estado del mensaje(campo leido), cuando lo lee el usuario
+	 */
+	public static void cambiaEstadoLeido(Long id, String email) {
+		Ebean.createSqlUpdate(
+				"update mensaje set leido = 'si' where " +
+				"remitente_correo != '"+email+"' and id = '"+id+"'"
+				).execute();
 	}
 }

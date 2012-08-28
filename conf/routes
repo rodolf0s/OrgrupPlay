@@ -56,7 +56,7 @@ GET		/crearMensaje				controllers.Mensajes.crearMensaje()
 GET		/muestraMensaje				controllers.Mensajes.leerMensaje(id: Long)
 POST	/enviaMensaje				controllers.Mensajes.enviaMensaje()
 GET 	/mensajesNuevos				controllers.Mensajes.mensajesNuevos()
-POST	/muestraMensaje2	        controllers.Mensajes.cambiaEstadoMensaje(id: Long)
+
 
 #grupo
 
