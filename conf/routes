@@ -38,10 +38,6 @@ POST	/App/nueva-tarea			controllers.Home.guardaTarea()
 POST	/App/edita-tarea			controllers.Home.editaTarea()
 POST	/App/elimina-tarea			controllers.Home.eliminaTarea()
 POST	/crear-grupo-home			controllers.Home.crearGrupo()
-GET		/Configurar/Perfil			controllers.Cuenta.perfil()
-GET		/Configurar/Password		controllers.Cuenta.password()
-POST	/Configurar/Perfil			controllers.Cuenta.actualizaPerfil()
-POST	/Configurar/Password		controllers.Cuenta.actualizaPassword()
 GET 	/Contactos					controllers.Contactos.contactos()
 POST 	/Contactos 					controllers.Contactos.buscaContactos()
 POST	/Contactos2					controllers.Contactos.agregaContacto()
@@ -57,9 +53,15 @@ GET		/muestraMensaje				controllers.Mensajes.leerMensaje(id: Long)
 POST	/enviaMensaje				controllers.Mensajes.enviaMensaje()
 GET 	/mensajesNuevos				controllers.Mensajes.mensajesNuevos()
 
+#Cuenta
+GET		/configurar/perfil			controllers.Cuenta.perfil()
+POST	/configurar/perfil			controllers.Cuenta.actualizaPerfil()
+GET		/configurar/password		controllers.Cuenta.password()
+POST	/configurar/password		controllers.Cuenta.actualizaPassword()
+GET		/configurar/colores			controllers.Cuenta.colores()
+POST	/configurar/colores			controllers.Cuenta.actualizaColores()
 
-#grupo
-
+#Grupo
 POST	/crear-grupo				controllers.Grupos.crearGrupo()
 GET		/grupo/:id					controllers.Grupos.index(id: Long)
 POST	/grupo/agregar-integrante	controllers.Grupos.agregaIntegrante()

@@ -1,0 +1,62 @@
+@(usuario: Usuario, error: String)
+
+@app(title = "Orgrup", usuario.nombre) {
+
+	<div class="container">
+		<ul id="myTab" class="nav nav-tabs">
+			<li>
+				<a href="@routes.Cuenta.perfil">Perfil</a>
+			</li>
+			<li>
+				<a href="@routes.Cuenta.password">Contraseña</a>
+			</li>
+			<li class="active">
+				<a href="@routes.Cuenta.colores">Agenda</a>
+			</li>
+		</ul>
+		
+		<form class="form-horizontal well span6" action="@routes.Cuenta.actualizaColores" enctype="multipart/form-data" method="post">
+			<div class="control-group">
+				<label class="control-label" for="colorA">Color tarea alta</label>
+				<div class="controls">
+					<input class="input-mini uneditable-input" id="colorA" value="@usuario.colorTareaAlta" type="text" name="colorTareaAlta"  maxlength="7" required>
+					<div id="color1"></div>
+				</div>				
+			</div>
+			<hr>
+			<div class="control-group">
+				<label class="control-label" for="colorM">Color tarea media</label>
+				<div class="controls">
+					<input class="input-mini uneditable-input" id="colorM" value="@usuario.colorTareaMedia" type="text" name="colorTareaMedia" maxlength="7" required>
+					<div id="color2"></div>
+				</div>				
+			</div>
+			<hr>
+			<div class="control-group">
+				<label class="control-label" for="colorB">Color tarea baja</label>
+				<div class="controls">
+					<input class="input-mini uneditable-input" id="colorB" value="@usuario.colorTareaBaja" type="text" name="colorTareaBaja" maxlength="7" required>
+					<div id="color3"></div>
+				</div>				
+			</div>
+
+
+			<div class="form-actions">
+				<button class="btn btn-primary" type="submit" id="fat-btn" data-loading-text="Guardando..."> Guardar </button>
+				<a class="btn pull-right" href="@routes.Home.index">Cancelar</a>
+			</div>			
+		</form>
+	</div>
+
+	<script type="text/javascript">
+ 	   	$('#fat-btn').on('click', function () {
+ 	   		$(this).button('loading')
+ 	   	});
+ 	   	
+		$('#color1').farbtastic('#colorA');
+ 	   
+		$('#color2').farbtastic('#colorM');
+ 	  
+		$('#color3').farbtastic('#colorB');
+ 	</script>
+}

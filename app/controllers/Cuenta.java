@@ -34,7 +34,7 @@ public class Cuenta extends Controller {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(perfil.render(Usuario.find.byId(session("email")), ""));
+			return ok(cuenta_perfil.render(Usuario.find.byId(session("email")), ""));
 		}
 	}
 	
@@ -47,7 +47,15 @@ public class Cuenta extends Controller {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(password.render(Usuario.find.byId(session("email")), "", "", "", "", "", ""));
+			return ok(cuenta_password.render(Usuario.find.byId(session("email")), "", "", "", "", "", ""));
+		}
+	}
+	
+	public static Result colores() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			return ok(cuenta_agenda.render(Usuario.find.byId(session("email")), ""));
 		}
 	}
 
@@ -67,7 +75,7 @@ public class Cuenta extends Controller {
 			Form<Usuario> formPerfil = form(Usuario.class).bindFromRequest();
 
 			if (formPerfil.hasErrors()) {
-				return ok(perfil.render(Usuario.find.byId(session("email")), ""));
+				return ok(cuenta_perfil.render(Usuario.find.byId(session("email")), ""));
 			} else {
 				Usuario user = formPerfil.get();
 						
@@ -84,7 +92,7 @@ public class Cuenta extends Controller {
 					// Si el tamaño de la imagen supera 1 MB, redirecciona a perfil
 					// notificando el error.
 					if (file.length() > 1000000) {
-						return ok(perfil.render(Usuario.find.byId(session("email")), "La imagen supera el limite"));
+						return ok(cuenta_perfil.render(Usuario.find.byId(session("email")), "La imagen supera el limite"));
 					} else {
 						
 						// Revisa que extension tiene la imagen subida por
@@ -130,7 +138,7 @@ public class Cuenta extends Controller {
 			Form<CambioPassword> formPassword = form(CambioPassword.class).bindFromRequest();
 
 			if (formPassword.hasErrors()) {
-				return ok(password.render(Usuario.find.byId(session("email")), "", "", "", "", "", ""));
+				return ok(cuenta_password.render(Usuario.find.byId(session("email")), "", "", "", "", "", ""));
 			} else {				
 				CambioPassword claves = formPassword.get();
 				
@@ -141,7 +149,7 @@ public class Cuenta extends Controller {
 					if (claves.passNew.equals(claves.passNew2)) {
 						Usuario usuario = new Usuario();
 						usuario.setPassword(session("email"), claves.passNew);
-						return ok(password.render(Usuario.find.byId(session("email")), 
+						return ok(cuenta_password.render(Usuario.find.byId(session("email")), 
 								"", 
 								"",  
 								"", 
@@ -149,7 +157,7 @@ public class Cuenta extends Controller {
 								"", 
 								"Tu contraseña a sido cambiada"));
 					} else {
-						return ok(password.render(Usuario.find.byId(session("email")), 
+						return ok(cuenta_password.render(Usuario.find.byId(session("email")), 
 								"", 
 								"Las Contraseñas no coinciden", 
 								claves.passOld, 
@@ -158,7 +166,7 @@ public class Cuenta extends Controller {
 								""));
 					}					
 				} else {
-					return ok(password.render(Usuario.find.byId(session("email")), 
+					return ok(cuenta_password.render(Usuario.find.byId(session("email")), 
 							"La contraseña es incorrecta", 
 							"", 
 							claves.passOld, 
@@ -166,6 +174,22 @@ public class Cuenta extends Controller {
 							claves.passNew2, 
 							""));
 				}
+			}
+		}
+	}
+	
+	public static Result actualizaColores() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Usuario> formColores = form(Usuario.class).bindFromRequest();
+
+			if (formColores.hasErrors()) {
+				return badRequest();
+			} else {	
+				Usuario nuevoColores = formColores.get();
+				nuevoColores.setColores(session("email"), nuevoColores.colorTareaAlta, nuevoColores.colorTareaMedia, nuevoColores.colorTareaBaja);
+				return redirect(routes.Cuenta.colores());
 			}
 		}
 	}

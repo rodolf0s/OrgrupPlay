@@ -159,13 +159,13 @@
 							id: @l.id,
 							title: '@l.nombre',
 							@if(l.prioridad == 1) {
-								color: '#B71616',
+								color: '@usuario.colorTareaAlta',
 							}
 							@if(l.prioridad == 2) {
-								color: '#381BCA',
+								color: '@usuario.colorTareaMedia',
 							} 
 							@if(l.prioridad == 3) {
-								color: '#EBDF32',
+								color: '@usuario.colorTareaBaja',
 							}
 							start: new Date(y, @l.fecha_inicio.getMonth(), @l.fecha_inicio.getDate(), @l.hora_inicio.getHours(), @l.hora_inicio.getMinutes()),
 							end: new Date(y, @l.fecha_fin.getMonth(), @l.fecha_fin.getDate(), @l.hora_fin.getHours(), @l.hora_fin.getMinutes()),
