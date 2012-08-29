@@ -217,6 +217,22 @@ public class Usuario extends Model {
     	usuario.password = password;
     	usuario.update();
     }
+    
+    /**
+     * Actualiza los colores de las tareas del usuario.
+     * 
+     * @param correo
+     * @param colorA Color de la tarea alta.
+     * @param colorM Color de la tarea media.
+     * @param colorB Color de la tarea baja.
+     */
+    public void setColores(String correo, String colorA, String colorM, String colorB) {
+	    Usuario usuario = find.ref(correo);
+	    usuario.colorTareaAlta = colorA;
+	    usuario.colorTareaMedia = colorM;
+	    usuario.colorTareaBaja = colorB;
+	    usuario.update();
+    }
 
     /**
      * Obtiene una lista de los usuario donde sea igual
@@ -229,8 +245,7 @@ public class Usuario extends Model {
     public static List<Usuario> listaUsuarios(String nombre){
     	return find.where()
     			.or(Expr.like("nombre", "%"+nombre+"%"),  Expr.like("correo", "%"+nombre+"%"))
-    			.findList();
-  	
+    			.findList();  	
     }
     
     /**
