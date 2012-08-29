@@ -44,6 +44,18 @@ public class Usuario extends Model {
     @Formats.NonEmpty
     @Column(length=350, nullable=false)
 	public String imagen;
+    
+    @Formats.NonEmpty
+    @Column(length=7, nullable=false)
+	public String colorTareaAlta;
+    
+    @Formats.NonEmpty
+    @Column(length=7, nullable=false)
+	public String colorTareaMedia;
+    
+    @Formats.NonEmpty
+    @Column(length=7, nullable=false)
+	public String colorTareaBaja;    
 	
     @Formats.NonEmpty
     @Column(nullable=false)
