@@ -121,7 +121,9 @@ public class Application extends Controller {
 				user.id_verificador = id;
 				user.imagen = user.correo + ".gif";
 				user.estado = "desactivada";
-				
+				user.colorTareaAlta = "#B71616";
+				user.colorTareaMedia = "#381BCA";
+				user.colorTareaBaja = "#EBDF32";				
 				
 				//Guarda el nuevo usuario a la BD
 				user.save();
