@@ -51,6 +51,11 @@ public class Cuenta extends Controller {
 		}
 	}
 	
+	/**
+	 * Muestra la pagina de edicion de colores.
+	 * 
+	 * @return
+	 */
 	public static Result colores() {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -178,6 +183,11 @@ public class Cuenta extends Controller {
 		}
 	}
 	
+	/**
+	 * Actualiza los colores de las tareas.
+	 * 
+	 * @return
+	 */
 	public static Result actualizaColores() {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
