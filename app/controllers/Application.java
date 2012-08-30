@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import models.Correo;
 import models.Usuario;
@@ -124,7 +125,7 @@ public class Application extends Controller {
 				user.colorTareaAlta = "#B71616";
 				user.colorTareaMedia = "#381BCA";
 				user.colorTareaBaja = "#EBDF32";				
-				
+				user.inicio_sesion = new Date();
 				//Guarda el nuevo usuario a la BD
 				user.save();
 				
