@@ -11,6 +11,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 
+import views.html.informaciones;
 import views.html.cuenta.*;
 
 public class Cuenta extends Controller {
@@ -61,6 +62,14 @@ public class Cuenta extends Controller {
 			return redirect(routes.Application.index());
 		} else {
 			return ok(cuenta_agenda.render(Usuario.find.byId(session("email")), ""));
+		}
+	}
+	
+	public static Result cuenta() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			return ok(cuenta_desactivar.render(Usuario.find.byId(session("email")), ""));
 		}
 	}
 
@@ -200,6 +209,21 @@ public class Cuenta extends Controller {
 				Usuario nuevoColores = formColores.get();
 				nuevoColores.setColores(session("email"), nuevoColores.colorTareaAlta, nuevoColores.colorTareaMedia, nuevoColores.colorTareaBaja);
 				return redirect(routes.Cuenta.colores());
+			}
+		}
+	}
+	
+	public static Result desactivarCuenta() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Usuario> formCuenta = form(Usuario.class).bindFromRequest();
+
+			if (formCuenta.hasErrors()) {
+				return badRequest();
+			} else {
+				Usuario.desactivarCuenta(session("email"));
+				return ok(views.html.informaciones.render("Su cuenta a sido desactivada satisfactoriamente.", "Cuenta desactivada"));
 			}
 		}
 	}

@@ -60,6 +60,8 @@ GET		/configurar/password		controllers.Cuenta.password()
 POST	/configurar/password		controllers.Cuenta.actualizaPassword()
 GET		/configurar/colores			controllers.Cuenta.colores()
 POST	/configurar/colores			controllers.Cuenta.actualizaColores()
+GET		/configurar/cuenta			controllers.Cuenta.cuenta()
+POST	/configurar/cuenta			controllers.Cuenta.desactivarCuenta()
 
 #Grupo
 POST	/crear-grupo				controllers.Grupos.crearGrupo()

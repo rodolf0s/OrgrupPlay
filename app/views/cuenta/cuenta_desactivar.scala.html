@@ -1,0 +1,43 @@
+@(usuario: Usuario, error: String)
+
+@app(title = "Desactivar la cuenta", usuario.nombre) {
+
+	<div class="container">
+		<ul id="myTab" class="nav nav-tabs">
+			<li>
+				<a href="@routes.Cuenta.perfil">Perfil</a>
+			</li>
+			<li>
+				<a href="@routes.Cuenta.password">Contraseña</a>
+			</li>
+			<li>
+				<a href="@routes.Cuenta.colores">Agenda</a>
+			</li>
+			<li class="active">
+				<a href="@routes.Cuenta.cuenta">Cuenta</a>
+			</li>
+		</ul>
+		
+		<form class="form-horizontal well span6" action="@routes.Cuenta.desactivarCuenta" enctype="multipart/form-data" method="post">
+
+			<blockquote>
+  				<h4>¿Seguro que quieres desactivar tu cuenta?</h4><br>
+				<p>
+					Al desactivar tu cuenta desactivarás tu perfil, tu nombre, foto y demás cosas que hayas guardado 
+					en Orgrup. Alguna información tuya aún puede ser visible a otros, como tu nombre y mensajes que enviaste.
+				</p>
+			</blockquote>
+			
+			<div class="form-actions">
+				<button class="btn btn-primary" type="submit" id="fat-btn" data-loading-text="Desactivando..."> Desactivar </button>
+				<a class="btn pull-right" href="@routes.Home.index">Cancelar</a>
+			</div>			
+		</form>
+	</div>
+
+	<script type="text/javascript">
+ 	   	$('#fat-btn').on('click', function () {
+ 	   		$(this).button('loading')
+ 	   	});
+ 	</script>
+}
