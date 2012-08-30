@@ -3,7 +3,12 @@
 @inicioadmin(title = "Mensajes"){
 
 @if(lista.isEmpty()){
-					<h3>Mensajes</h3>
+					<table align="center">
+						<tr>
+							<td><h3>Mensajes</h3></td>
+							
+						</tr>
+					</table>
 				}else {
 					<table align="center">
 						<tr>
@@ -19,7 +24,7 @@
 						<table class="table">
 					
 							@for(p<-lista){
-<!-- 							1 mensaje no leido, 2 mensaje leido -->
+<!-- 							1 mensaje no leido, 2 mensaje leido, 3 respondido -->
 								@if(p.estado == 1){
 									<form id="form1" class="well" action="" method="post">
 									<tr>

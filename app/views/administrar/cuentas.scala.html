@@ -3,10 +3,20 @@
 @inicioadmin(title = "Cuentas"){
 
 @if(lista.isEmpty()){
-					<h3>Cuentas</h3>
+					<table align="center">
+						<tr>
+							<td><h3>Cuentas</h3></td>
+						</tr>
+					</table>
 				}else {
 					
-					<h3>Cuentas <button type="submit" id="fat-btn" class="btn" data-loading-text="Eliminando..."> Eliminar </button></h3>
+					<table align="center">
+						<tr>
+							<td><h3>Cuentas</h3></td>
+							
+						</tr>
+					</table>
+					<div class="container well">
 					<div class=span8>
 						<table class="table">
 							@for(p<-lista){
@@ -15,7 +25,8 @@
 											<td><font size="4">@p.nombre</font></td>
 											<td>Correo: @p.correo </td>
 											<td>Estado: @p.estado</td>
-											<td><input type="checkbox" name=mybox value="1"></td>
+											<td>Tiempo sin usar</td>
+											<td>Eliminar</td>
 			
 								</tr>
 								</form>
@@ -23,7 +34,7 @@
 															}					
 						</table>
 					</div>
-					
+					</div>
 				}
 
 

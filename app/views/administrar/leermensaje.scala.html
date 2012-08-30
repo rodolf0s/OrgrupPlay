@@ -20,6 +20,7 @@
 									<input type="hidden" name="mensaje" value="@p.mensaje">
 									<input type="hidden" name="estado" value="@p.estado">
 									<span style="color: red;">@error</span>
+							<input type="button" class="btn" onclick="location='@routes.Admin.mensaje()'" value="Atras">
 							<input type="button" class="btn" onclick="location='@routes.Admin.responder(p.id)'" value="Responder">
 							<button type="submit" id="fat-btn" class="btn" data-loading-text="Eliminando..."> Eliminar </button>
 						</form>
