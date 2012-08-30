@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -63,7 +64,12 @@ public class Usuario extends Model {
 	
 	@Formats.NonEmpty
     @Column(length=11, nullable=false)
-	public String estado;	
+	public String estado;
+	
+	
+	@Formats.DateTime(pattern="dd/MM/yyyy")
+	@Column(nullable=true)
+	public Date inicio_sesion;
 	
 	// Consultas
 	
