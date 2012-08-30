@@ -60,6 +60,7 @@ create table mensaje (
   destinatario              varchar(255) not null,
   asunto                    varchar(100) not null,
   mensaje                   varchar(255) not null,
+  leido                     varchar(255) not null,
   constraint pk_mensaje primary key (id))
 ;
 
@@ -83,6 +84,9 @@ create table tarea (
   descripcion               varchar(500),
   prioridad                 integer not null,
   usuario_correo            varchar(50),
+  repetir                   integer,
+  op_repetir                integer,
+  fecha_termino             timestamp,
   constraint pk_tarea primary key (id))
 ;
 
@@ -91,8 +95,12 @@ create table usuario (
   nombre                    varchar(60) not null,
   password                  varchar(20) not null,
   ciudad                    varchar(60) not null,
+  telefono                  integer,
   leyenda                   varchar(300),
   imagen                    varchar(350) not null,
+  color_tarea_alta          varchar(7) not null,
+  color_tarea_media         varchar(7) not null,
+  color_tarea_baja          varchar(7) not null,
   id_verificador            integer not null,
   estado                    varchar(11) not null,
   constraint pk_usuario primary key (correo))
