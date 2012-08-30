@@ -213,6 +213,11 @@ public class Cuenta extends Controller {
 		}
 	}
 	
+	/**
+	 * Desactiva la cuenta del usuario.
+	 * 
+	 * @return
+	 */
 	public static Result desactivarCuenta() {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
