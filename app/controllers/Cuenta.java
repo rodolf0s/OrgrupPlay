@@ -11,7 +11,6 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 
-import views.html.informaciones;
 import views.html.cuenta.*;
 
 public class Cuenta extends Controller {
@@ -65,6 +64,11 @@ public class Cuenta extends Controller {
 		}
 	}
 	
+	/**
+	 * Muestra la pagina de desctivar cuenta.
+	 * 
+	 * @return
+	 */
 	public static Result cuenta() {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());

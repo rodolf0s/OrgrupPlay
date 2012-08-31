@@ -1,5 +1,7 @@
 package controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,6 +15,8 @@ import models.Grupo;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 
 import views.html.agenda.*;
 
@@ -25,7 +29,6 @@ public class Home extends Controller {
 	 * un objeto tarea vacio y los grupos que pertenece.
 	 */
 	public static Result index() {
-
 		Tarea t = new Tarea();
 		
 		if (!verificaSession()) {
@@ -45,8 +48,7 @@ public class Home extends Controller {
 	 * 
 	 * @return redirecciona al home.
 	 */
-public static Result guardaTarea() {
-		
+	public static Result guardaTarea() {		
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
@@ -183,8 +185,9 @@ public static Result guardaTarea() {
 	 * Crea un grupo nuevo.
 	 * 
 	 * @return redirecciona al home.
+	 * @throws IOException 
 	 */
-	public static Result crearGrupo() {
+	public static Result crearGrupo() throws IOException {
 		
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -194,13 +197,57 @@ public static Result guardaTarea() {
 			if (creaGrupo.hasErrors()) {
 				return redirect(routes.Home.index());
 			} else {
-				Grupo nuevoGrupo = creaGrupo.get();
-				nuevoGrupo.save();
+				String fileName = "";
+				String extension = "";
 				
-				/*
-				 * Crea objetos para agregar posteriormente al usuario
-				 * que creo el grupo a la tabla integrante
-				 */
+				Grupo nuevoGrupo = creaGrupo.get();
+				
+				// Obtiene la imagen de la vista perfil.
+				MultipartFormData body = request().body().asMultipartFormData();
+				FilePart picture = body.getFile("imagen");
+				
+				// Revisa si la imagen viene nula o no, si es distinto de null
+				if (picture != null) {
+					String contentType = picture.getContentType();
+					File file = picture.getFile();
+					
+					// Si el tamaño de la imagen supera 1 MB, redirecciona a perfil
+					// notificando el error.
+					if (file.length() > 1000000) {
+						return redirect(routes.Home.index());
+					} else {
+						
+						// Revisa que extension tiene la imagen subida por
+						// el usuario para agregarle la extension.
+					    if (contentType.equals("image/png")) {
+					    	extension = ".png";
+					    }
+					    else if (contentType.equals("image/jpeg")) {
+					    	extension = ".jpg";
+					    }
+					    else if (contentType.equals("image/gif")) {
+					    	extension = ".gif";
+					    }
+					    
+					    nuevoGrupo.imagen = "group.png";
+					    nuevoGrupo.save();
+					    
+					    // crea el nombre de la imagen + la extension.
+					    fileName = nuevoGrupo.id.toString() + extension;
+					    
+					    String path = "./public/grupos/" + fileName;
+					    org.apache.commons.io.FileUtils.copyFile(file, new File(path));
+					    
+					    nuevoGrupo.imagen = fileName;
+					    nuevoGrupo.update();
+					}
+				} else {
+					nuevoGrupo.imagen = "group.png";
+				    nuevoGrupo.save();
+				}				
+				
+				// Crea objetos para agregar posteriormente al usuario
+				// que creo el grupo a la tabla integrante
 				Usuario user = new Usuario();
 				Integrante nuevoIntegrante = new Integrante();
 				Date fecha = new Date();

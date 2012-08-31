@@ -26,10 +26,13 @@ public class Grupo extends Model {
     @Column(length=25, nullable=false)
 	public String nombre;
 	
-	@Constraints.Required
-    @Formats.NonEmpty
-    @Column(length=10, nullable=false)
-	public String distintivo;
+	@Formats.NonEmpty
+    @Column(length=255, nullable=true)
+	public String descripcion;
+
+	@Formats.NonEmpty
+    @Column(length=350, nullable=false)
+	public String imagen;
 	
 	// Consultas
 	
@@ -42,7 +45,8 @@ public class Grupo extends Model {
 	 * @return una lista con todos los grupos encontrados.
 	 */
 	public static List<SqlRow> getGrupos(String correo) {
-		String sql = "select g.id, g.nombre from grupo g inner join integrante i on g.id = i.grupo_id where i.usuario_correo = :correo";
+		String sql = "SELECT g.id, g.nombre, g.imagen FROM grupo g INNER JOIN integrante i ON g.id = i.grupo_id " +
+				"WHERE i.usuario_correo = :correo";
 		
 		return Ebean.createSqlQuery(sql).setParameter("correo", correo).findList();
 	}
@@ -57,7 +61,9 @@ public class Grupo extends Model {
 	 * @return un objeto con el grupo encontrado.
 	 */
 	public static SqlRow getGrupo(String correo, Long id) {
-		String sql = "SELECT i.usuario_correo, i.tipo, g.id, g.nombre, g.distintivo FROM grupo g INNER JOIN integrante i ON g.id = i.grupo_id WHERE i.usuario_correo = :correo AND g.id = :id";
+		String sql = "SELECT i.usuario_correo, i.tipo, g.id, g.nombre, g.descripcion, g.imagen " +
+				"FROM grupo g INNER JOIN integrante i ON g.id = i.grupo_id " +
+				"WHERE i.usuario_correo = :correo AND g.id = :id";
 		
 		return Ebean.createSqlQuery(sql).setParameter("correo", correo).setParameter("id", id).findUnique();
 	}
