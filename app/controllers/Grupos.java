@@ -16,7 +16,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 
 public class Grupos extends Controller {
-	
+
 	/**
 	 * clase para crear un nuevo grupo en la vista "/grupo/?"
 	 *
@@ -27,7 +27,7 @@ public class Grupos extends Controller {
 		public String imagen;
 		public Long grupoId;
 	}
-	
+
 	public static Result index(Long id) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -48,7 +48,7 @@ public class Grupos extends Controller {
 			}
 		}			
 	}
-	
+
 	/**
 	 * Crea un grupo nuevo.
 	 * 
@@ -56,7 +56,7 @@ public class Grupos extends Controller {
 	 * @throws IOException 
 	 */
 	public static Result crearGrupo() throws IOException {
-		
+
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
@@ -67,24 +67,24 @@ public class Grupos extends Controller {
 			} else {
 				String fileName = "";
 				String extension = "";
-				
+
 				Grupo nuevoGrupo = new Grupo();
-				
+
 				// Obtiene la imagen de la vista perfil.
 				MultipartFormData body = request().body().asMultipartFormData();
 				FilePart picture = body.getFile("imagen");
-				
+
 				// Revisa si la imagen viene nula o no, si es distinto de null
 				if (picture != null) {
 					String contentType = picture.getContentType();
 					File file = picture.getFile();
-					
+
 					// Si el tamaño de la imagen supera 1 MB, redirecciona a perfil
 					// notificando el error.
 					if (file.length() > 1000000) {
 						return redirect(routes.Home.index());
 					} else {
-						
+
 						// Revisa que extension tiene la imagen subida por
 						// el usuario para agregarle la extension.
 					    if (contentType.equals("image/png")) {
@@ -96,18 +96,18 @@ public class Grupos extends Controller {
 					    else if (contentType.equals("image/gif")) {
 					    	extension = ".gif";
 					    }
-					    
+
 					    nuevoGrupo.nombre = creaGrupo.get().nombre;
 						nuevoGrupo.descripcion = creaGrupo.get().descripcion;
 					    nuevoGrupo.imagen = "group.png";
 					    nuevoGrupo.save();
-					    
+
 					    // crea el nombre de la imagen + la extension.
 					    fileName = nuevoGrupo.id.toString() + extension;
-					    
+
 					    String path = "./public/grupos/" + fileName;
 					    org.apache.commons.io.FileUtils.copyFile(file, new File(path));
-					    
+
 					    nuevoGrupo.imagen = fileName;
 					    nuevoGrupo.update();
 					}
@@ -117,15 +117,15 @@ public class Grupos extends Controller {
 				    nuevoGrupo.imagen = "group.png";
 				    nuevoGrupo.save();
 				}	
-				
+
 				// Crea objetos para agregar posteriormente al usuario
 				// que creo el grupo a la tabla integrante
 				Usuario user = new Usuario();
 				Integrante nuevoIntegrante = new Integrante();
 				Date fecha = new Date();
-				
+
 				user.correo = session("email");				
-				
+
 				// crea el nuevo integrante pasando los datos correspondientes
 				nuevoIntegrante.grupo = nuevoGrupo;
 				nuevoIntegrante.usuario = user;
@@ -137,7 +137,7 @@ public class Grupos extends Controller {
 			}
 		}
 	}
-	
+
 	/**
 	 * agrega un nuevo integrante al grupo.
 	 * 
@@ -153,24 +153,24 @@ public class Grupos extends Controller {
 				return badRequest();
 			} else {
 				Date fecha = new Date();
-				
+
 				// Importante: aqui solo crea un objeto tipo usuario para buscar en la 
 				// BD el correo, ya que solo llega el nombre del usuario. 
 				// Esto solo funciona si el nombre fuera unico.
 				Usuario user = new Usuario();
 				user.correo = Usuario.getCorreo(agregaIntegrante.get().usuario.correo);				
 				agregaIntegrante.get().usuario.correo = user.correo;
-				
+
 				agregaIntegrante.get().tipo = 2;
 				agregaIntegrante.get().fecha_ingreso = fecha;
 				agregaIntegrante.get().save();
-				
+
 				Long id = agregaIntegrante.get().grupo.id;
 				return redirect(routes.Grupos.index(id));
 			}
 		}
 	}
-	
+
 	/**
 	 * Comprueba la variable de session del usuario.
 	 * 
