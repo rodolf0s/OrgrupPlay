@@ -260,7 +260,7 @@ public class Usuario extends Model {
      * 		Busca el nombre por el correo del usuario.
      * @return el nombre de usuario.
      */
-	public static String muestraNombre(String email){
+	public static String getNombre(String email){
 	    Usuario usuario = Ebean.find(Usuario.class)
 	    		.select("nombre")
 	    		.where()
@@ -276,7 +276,7 @@ public class Usuario extends Model {
 	 * 		Busca una imagen por el correo del usuario.
 	 * @return la imagen del usuario.
 	 */
-	public static String muestraImagen(String email) {
+	public static String getImagen(String email) {
 		Usuario usuario = Ebean.find(Usuario.class)
 				.select("imagen")
 				.where()
@@ -310,7 +310,7 @@ public class Usuario extends Model {
 	/**
 	 * Obtiene la ciudad del contacto a traves del correo
 	 */
-	public static String obtieneCiudad(String email) {
+	public static String getCiudad(String email) {
 		Usuario usuario = Ebean.find(Usuario.class)
 				.select("ciudad")
 				.where()
