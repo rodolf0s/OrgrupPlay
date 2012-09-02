@@ -28,6 +28,12 @@ public class Grupos extends Controller {
 		public Long grupoId;
 	}
 
+	/**
+	 * Muestra la pagina principal de un grupo.
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static Result index(Long id) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -40,13 +46,90 @@ public class Grupos extends Controller {
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
 						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.find.where().eq("usuario1_correo", session("email")).findList()
-						// Contacto.getContactos(session("email"))
+						Contacto.listaAmigos(Usuario.find.byId(session("email")))
 						));
 			} else {
 				return redirect(routes.Home.index());
 			}
 		}			
+	}
+	
+	/**
+	 * Muestra las reuniones del grupo.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Result muestraReuniones(Long id) {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			// verifica que el usuario pertenesca al grupo. haciendo un INNER JOIN grupo con integrante
+			// si no pertenece al grupo lo redirecciona al home "/App"
+			if (Grupo.getGrupo(session("email"), id) != null) {
+				return ok(views.html.grupo.grupo_reuniones.render(
+						Usuario.find.byId(session("email")),
+						Grupo.getGrupo(session("email"), id),
+						Grupo.getGrupos(session("email")),
+						Integrante.find.where().eq("grupo_id", id).findList(),
+						Contacto.listaAmigos(Usuario.find.byId(session("email")))
+						));
+			} else {
+				return redirect(routes.Home.index());
+			}
+		}	
+	}
+	
+	/**
+	 * Muestra los documentos del grupo.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Result muestraDocumentos(Long id) {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			// verifica que el usuario pertenesca al grupo. haciendo un INNER JOIN grupo con integrante
+			// si no pertenece al grupo lo redirecciona al home "/App"
+			if (Grupo.getGrupo(session("email"), id) != null) {
+				return ok(views.html.grupo.grupo_documentos.render(
+						Usuario.find.byId(session("email")),
+						Grupo.getGrupo(session("email"), id),
+						Grupo.getGrupos(session("email")),
+						Integrante.find.where().eq("grupo_id", id).findList(),
+						Contacto.listaAmigos(Usuario.find.byId(session("email")))
+						));
+			} else {
+				return redirect(routes.Home.index());
+			}
+		}	
+	}
+	
+	/**
+	 * Muestra los miembros del grupo.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Result muestraMiembros(Long id) {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			// verifica que el usuario pertenesca al grupo. haciendo un INNER JOIN grupo con integrante
+			// si no pertenece al grupo lo redirecciona al home "/App"
+			if (Grupo.getGrupo(session("email"), id) != null) {
+				return ok(views.html.grupo.grupo_miembros.render(
+						Usuario.find.byId(session("email")),
+						Grupo.getGrupo(session("email"), id),
+						Grupo.getGrupos(session("email")),
+						Integrante.find.where().eq("grupo_id", id).findList(),
+						Contacto.listaAmigos(Usuario.find.byId(session("email")))
+						));
+			} else {
+				return redirect(routes.Home.index());
+			}
+		}	
 	}
 
 	/**
