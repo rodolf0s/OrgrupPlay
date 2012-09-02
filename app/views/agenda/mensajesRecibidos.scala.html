@@ -19,14 +19,14 @@
  	 			 	 					@if(p.leido == "no"){
  	 			 	 					<tr style="background-color: #BDBDBD">
  	 			 	 						<td><input type="checkbox" value="@p.id"></td>
- 	 			 	 						<td><b>De:</b> <a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.muestraNombre(p.remitente.correo)}</a></td>
+ 	 			 	 						<td><b>De:</b> <a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.remitente.correo)}</a></td>
  	 			 	 						<td>@p.asunto</td>
  	 			 	 						<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>	
  	 			 	 					</tr>
  	 			 	 					}else {
  	 			 	 						<tr>
  	 			 	 							<td><input type="checkbox" value="@p.id"></td>
- 	 			 	 							<td><b>De:</b> <a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.muestraNombre(p.remitente.correo)}</a></td>
+ 	 			 	 							<td><b>De:</b> <a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.remitente.correo)}</a></td>
  	 			 	 							<td>@p.asunto</td>
  	 			 	 							<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>	
  	 			 	 						</tr>
