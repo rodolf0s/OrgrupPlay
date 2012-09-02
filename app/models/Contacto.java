@@ -35,8 +35,7 @@ public class Contacto extends Model {
 	
 	// Consultas
 	
-	public static Finder<Long,Contacto> find = new Finder<Long,Contacto>(Long.class, Contacto.class);	
-	
+	public static Finder<Long,Contacto> find = new Finder<Long,Contacto>(Long.class, Contacto.class);
 	
 	public static List<Contacto> listaContactosPendientes(String email){
 		return Contacto.find.where().eq("usuario2_correo", email).eq("amigos", "no").findList();
@@ -133,6 +132,7 @@ public class Contacto extends Model {
 				.findUnique();
 		return contacto.id;				
 	}
+	
 	/**
 	* Tambien se usa para obtener el id y luego usarlo para eliminar el campo de contacto (usuario1, usuario2) #PARTE2
 	*/	
@@ -163,6 +163,5 @@ public class Contacto extends Model {
 				"delete from contacto where " +
 				"id = '"+id+"'"
 				).execute();
-	}
-	
+	}	
 }
