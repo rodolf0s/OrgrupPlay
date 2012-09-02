@@ -15,8 +15,8 @@
  	 					@for(p<-list) {
  	 						<form name="form0" action="@routes.Contactos.eliminaContacto" method="post">
  	 							<tr>
- 	 								<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@{Usuario.muestraImagen(p.usuario2.correo)}" class="img-polaroid" alt="imagen usuario"></td>
- 	 								<td><font size="4">@{Usuario.muestraNombre(p.usuario2.correo)}</font><br>
+ 	 								<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@{Usuario.getImagen(p.usuario2.correo)}" class="img-polaroid" alt="imagen usuario"></td>
+ 	 								<td><font size="4">@{Usuario.getNombre(p.usuario2.correo)}</font><br>
  	 								Correo: @p.usuario2.correo <br>
  	 								Vive en: @{Usuario.obtieneCiudad(p.usuario2.correo)}</td>
  	 								<input type="hidden" name="usuario1.correo" value="@user.correo">
