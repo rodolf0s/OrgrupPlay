@@ -9,7 +9,7 @@
 					<table class="table table-hover">
 						@for(p<-list) {
 								<tr>
-									<td><b>De</b>: <a href="@routes.Mensajes.leerMensaje(p.id)">@Usuario.muestraNombre(p.remitente.correo)</a></td>
+									<td><b>De</b>: <a href="@routes.Mensajes.leerMensaje(p.id)">@Usuario.getNombre(p.remitente.correo)</a></td>
 									<td>@p.asunto</td>
 									<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>
 								</tr>
