@@ -14,7 +14,7 @@
  	 					<table class="table table-hover">
  	 						@for(p<-lista){
  	 			 	 			<tr>
- 	 			 	 				<td><b>Para: </b><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.muestraNombre(p.destinatario)}</a></td>
+ 	 			 	 				<td><b>Para: </b><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.destinatario)}</a></td>
  	 			 	 				<td>@p.asunto</td>	
  	 			 	 				<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>
  	 			 	 			</tr>
