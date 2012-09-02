@@ -58,8 +58,8 @@
 	   					@for(a <- integrantes) {
 	   						<li>
 		   						@if(a.tipo == 1) {
-		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.muestraImagen(a.usuario.correo)" alt="imagen usuario">
-		   							@Usuario.muestraNombre(a.usuario.correo) (Administrador)
+		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(a.usuario.correo)" alt="imagen usuario">
+		   							@Usuario.getNombre(a.usuario.correo) (Administrador)
 		   						}
 	   						</li>
 	   					}
@@ -67,8 +67,8 @@
 	   					@for(i <- integrantes) {
 	   						@if(i.tipo != 1) {
 		   						<li>
-		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.muestraImagen(i.usuario.correo)" alt="imagen usuario">
-		   							@Usuario.muestraNombre(i.usuario.correo)	
+		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(i.usuario.correo)" alt="imagen usuario">
+		   							@Usuario.getNombre(i.usuario.correo)	
 		   						</li>
 	   						}
 	   					}
@@ -77,18 +77,28 @@
    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal" onClick=modalMiembros() >agregar miembros</a>
    			</div>
 
-			<div class="well sidebar-nav">
-				@grupo.getString("nombre")<br>
-				@grupo.getString("usuario_correo")<br>
-				@grupo.getString("tipo")<br>
-				id @grupo.getString("id")<br>
-				@grupo.getString("distintivo")<br><br>
-			</div>
+<!-- 			<div class="well sidebar-nav"> -->
+<!-- 				@grupo.getString("nombre")<br> -->
+<!-- 				@grupo.getString("usuario_correo")<br> -->
+<!-- 				@grupo.getString("tipo")<br> -->
+<!-- 				id @grupo.getString("id")<br> -->
+<!-- 				@grupo.getString("distintivo")<br><br> -->
+<!-- 			</div> -->
 			
 		</div>
 		
-		<div class="span9">
+		<div class="span6">
+			
 		</div>	
+		
+		<div class="span3">
+			<ul class="nav nav-tabs nav-stacked">
+				<li class="active"><a href="#">@grupo.getString("nombre")</a></li>
+				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
+				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
+				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
+			</ul>
+		</div>
 	</div>
 	
 	
@@ -118,7 +128,7 @@
 		    		var contactos = [
 		 							@if(!contactos.isEmpty()) {
 		 								@for(c <- contactos) {
-		 									'@Usuario.muestraNombre(c.usuario2.correo)',																	
+		 									'@Usuario.getNombre(c.usuario2.correo)',																	
 		 								}
 		 							}
 		 						];
