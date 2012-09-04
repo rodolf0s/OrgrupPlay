@@ -13,8 +13,9 @@
 								<form action="@routes.Contactos.agregaContactoBd" method="post">
 								
 									<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@Usuario.getImagen(p.usuario1.correo)" class="img-polaroid" alt="imagen usuario"></td>
-									<td>@{Usuario.getNombre(p.usuario1.correo)}</td>
-									<td>@p.usuario1.correo<td> 
+									<td><font size="4">@{Usuario.getNombre(p.usuario1.correo)}</font><br>
+									Correo: @p.usuario1.correo<br>
+									Vive en: @{Usuario.getCiudad(p.usuario1.correo)}<td> 
 									<input type="hidden" name="usuario1.correo" value="@user.correo">
 									<input type="hidden" name="usuario2.correo" value="@p.usuario1.correo">
 									<input type="hidden" name="amigos" value="si">

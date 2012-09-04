@@ -33,17 +33,14 @@ public class Mensaje extends Model{
 	@ManyToOne
 	public Usuario remitente;
 	
-	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(nullable=false)
 	public String destinatario;
 	
-	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(length=100, nullable=false)
 	public String asunto;
 	
-	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(nullable=false)
 	public String mensaje;
@@ -51,6 +48,10 @@ public class Mensaje extends Model{
 	@Formats.NonEmpty
 	@Column(nullable=false)
 	public String leido;
+	
+	@Formats.NonEmpty
+	@Column(nullable=false)
+	public String estado;
 	
 	public static Finder<Long,Mensaje> find = new Finder<Long,Mensaje>(Long.class, Mensaje.class);
 	
@@ -86,6 +87,16 @@ public class Mensaje extends Model{
 		Ebean.createSqlUpdate(
 				"update mensaje set leido = 'si' where " +
 				"remitente_correo != '"+email+"' and id = '"+id+"'"
+				).execute();
+	}
+
+	/**
+	 * Elimina mensajes a atraves del id 
+	 */
+	public static void eliminaMensaje(Long id) {
+		Ebean.createSqlUpdate(
+				"delete from mensaje where " +
+				"id = "+id+""
 				).execute();
 	}
 }

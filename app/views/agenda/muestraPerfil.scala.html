@@ -1,0 +1,35 @@
+@(user: Usuario, user2: Usuario)
+
+@app(title = "Orgrup", user.nombre) {
+
+	<div class="row-fluid">
+		<div class="span3">
+				<div class="well well-small">
+				<img  style="width: 290px; height: 270px;" src="/assets/images/usuarios/@user2.imagen" alt="imagen usuario"><br>
+				</div>
+		</div>
+		
+			<div class="span9 well well-small">
+					<table>
+						<tr>
+							<td><font size="5">@user2.nombre</font></td>
+						</tr>
+					</table>
+			</div>
+			
+			<div class="span9 well well-small">
+				<table>
+						<tr>
+							<td><b>Información</b><br><br></td>
+						</tr>
+						<tr>
+							<td>Sobre mi</td>
+						</tr>
+						<tr>
+							<td>@user2.leyenda</td>
+						</tr>
+				</table>
+			</div>
+	
+	</div>
+}

@@ -130,4 +130,7 @@ public class Contactos extends Controller {
 		return ok();
 	}
 	
+	public static Result muestraElPerfil(String email) {
+		return ok(muestraPerfil.render(Usuario.find.byId(session("email")), Usuario.find.byId(email)));
+	}
 }

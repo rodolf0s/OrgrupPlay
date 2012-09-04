@@ -3,6 +3,7 @@ package controllers;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 import models.Contacto;
 import models.Mensaje;
@@ -48,6 +49,29 @@ public class Mensajes extends Controller {
 	
 	public static Result mensajesNuevos() {
 		return ok(mensajesNuevos.render(Usuario.find.byId(session("email")), Mensaje.mensajesNuevosRecibidos(session("email"))));
+	}
+	
+	public static Result eliminaMensajes() {
+		
+		Form<Mensaje> mensajeAEliminar = form(Mensaje.class).bindFromRequest();
+		
+		if(mensajeAEliminar.hasErrors()){
+			return ok(mensajesRecibidos.render(Usuario.find.byId(session("email")), Mensaje.listaMensajesRecibidos(session("email"))));
+//			return ok("error");
+		}else {
+			Mensaje mensaje = mensajeAEliminar.get();
+			separa(mensaje.id.toString());			
+		}
+		return ok(mensajesRecibidos.render(Usuario.find.byId(session("email")), Mensaje.listaMensajesRecibidos(session("email"))));
+	}
+	
+	public static Result separa(String valor){
+		StringTokenizer st = new StringTokenizer(valor, "00");
+		while(st.hasMoreTokens()){
+			String id = st.nextToken();
+			Mensaje.eliminaMensaje(Long.parseLong(id));
+		}
+		return ok();	
 	}
 	
 }
