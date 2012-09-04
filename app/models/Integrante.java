@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
+
 import play.data.format.Formats;
 import play.db.ebean.Model;
 
@@ -36,4 +38,15 @@ public class Integrante extends Model {
 	// Consultas
 	
 	public static Finder<Long,Integrante> find = new Finder<Long,Integrante>(Long.class, Integrante.class);
+	
+	/**
+	 * Elimina un integrante del grupo.
+	 * 
+	 * @param id
+	 * 		Es el id del integrante dentro del grupo.
+	 */
+	public static void eliminaIntegrante(Long id) {
+		Integrante integrante = find.ref(id);
+		integrante.delete();
+	}
 }

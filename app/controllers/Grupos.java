@@ -253,6 +253,26 @@ public class Grupos extends Controller {
 			}
 		}
 	}
+	
+	/**
+	 * Elimina un integrante del grupo.
+	 * 
+	 * @return
+	 */
+	public static Result eliminaIntegrante() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Integrante> eliminaIntegrante = form(Integrante.class).bindFromRequest();
+			if (eliminaIntegrante.hasErrors()) {
+				return badRequest();
+			} else {
+				Integrante.eliminaIntegrante(eliminaIntegrante.get().id);
+				
+				return redirect(routes.Grupos.muestraMiembros(eliminaIntegrante.get().grupo.id));
+			}			
+		}
+	}
 
 	/**
 	 * Comprueba la variable de session del usuario.

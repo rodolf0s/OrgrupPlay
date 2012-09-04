@@ -5,7 +5,7 @@
 	<script type="text/javascript">
 	
 		$(document).ready(function() {
-			
+
 		});
 		
 		function modalMiembros() {
@@ -13,7 +13,16 @@
 		}
 		function modalGrupos() {
 			$('#creaGrupo').modal('show');
-		}		
+		}
+		function modalAlerta() {
+			$('#alerta').modal('show');
+		}
+		function elimina() {
+			alert("1");
+			document.integrante.action = "@routes.Grupos.eliminaIntegrante";
+			document.integrante.submit();
+			alert("SII");
+		}
 		
 	</script>
 
@@ -93,14 +102,33 @@
 				<ul class="thumbnails">
 					@for(m <- integrantes) {
 						<li class="span3">
-						<div class="thumbnail">
-							<img style="width: 52px; height: 52px;" src="/assets/images/usuarios/@Usuario.getImagen(m.usuario.correo)" alt="imagen usuario">
-							@Usuario.getNombre(m.usuario.correo)							
-						</div>
+							<form action="@routes.Grupos.eliminaIntegrante" name="integrante" method="post">
+								<div class="thumbnail">
+									<button type="submit" class="close" aria-hidden="true">&times;</button>
+									<img style="width: 52px; height: 52px;" src="/assets/images/usuarios/@Usuario.getImagen(m.usuario.correo)" alt="imagen usuario">
+									@Usuario.getNombre(m.usuario.correo)
+									<input type="hidden" name="id" value="@m.id">
+									<input type="hidden" name="usuario.correo" value="@m.usuario.correo">
+									<input type="hidden" name="grupo.id" value='@m.grupo.id'>						
+								</div>
+							</form>
 						</li>
+						<div class="modal hide fade" id="alerta">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h3>Eliminar miembro</h3>
+								<div class="modal-body">
+									<h5>¿Esta seguro de eliminar a @Usuario.getNombre(m.usuario.correo) ?</h5>
+								</div>
+								<div class="modal-footer">
+									<a href="#" class="btn" data-dismiss="modal">No</a>
+									<input type="button" class="btn btn-primary" value="Si" onClick=elimina()>
+								</div>
+							</div>
+						</div>
 					}
 				
-				</ul>
+				</ul>	
 			</div>
 		</div>	
 		
@@ -113,6 +141,8 @@
 			</ul>
 		</div>
 	</div>
+	
+	
 	
 	
 	<!-- Modal agrega miembros -->
