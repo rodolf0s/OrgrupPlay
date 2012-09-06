@@ -104,7 +104,9 @@
 						<li class="span3">
 							<form action="@routes.Grupos.eliminaIntegrante" name="integrante" method="post">
 								<div class="thumbnail">
-									<button type="submit" class="close" aria-hidden="true">&times;</button>
+									@if(Integrante.esAdmin(m.grupo.id, usuario.correo)) {
+										<button type="submit" class="close" aria-hidden="true">&times;</button>
+									}
 									<img style="width: 52px; height: 52px;" src="/assets/images/usuarios/@Usuario.getImagen(m.usuario.correo)" alt="imagen usuario">
 									@Usuario.getNombre(m.usuario.correo)
 									<input type="hidden" name="id" value="@m.id">
@@ -138,6 +140,7 @@
 				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
 				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
+				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
 			</ul>
 		</div>
 	</div>

@@ -88,17 +88,56 @@
 		</div>
 		
 		<div class="span6">
+			<div class="page-header">
+				<form action="@routes.Grupos.eliminaGrupo" method="post">
+					<h1>				
+						@grupo.getString("nombre")					
+						<input type="hidden" name="id" value='@grupo.getString("id")'>
+						<input class="btn btn-danger pull-right" type="submit" value="Eliminar grupo">
+					
+					</h1>
+				</form> 
+			</div>
 			
+			<form class="form-horizontal" action="@routes.Grupos.editaGrupo" enctype="multipart/form-data" method="post">
+				<div class="control-group">
+					<label class="control-label" for="nombre">Nombre del grupo</label>
+					<div class="controls">
+						<input type="text" id="nombre" name="nombre" value="@grupo.getString("nombre")" required>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="descripcion">Descripcion del grupo</label>
+					<div class="controls">
+						<textarea id="descripcion" name="descripcion" rows="3" cols="3">@grupo.getString("descripcion")</textarea>
+					</div>
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="imagen">Imagen del grupo</label>
+					<div class="controls">
+						<img style="width: 90px; height: 90px;" src='/assets/grupos/@grupo.getString("imagen")' alt="imagen grupo">
+						<br>
+						<input class="input-file" id="imagen" type="file" name="imagen"><br>
+						tamaño maximo = 1 MB
+					</div>
+				</div>
+				<input type="hidden" name="id" value='@grupo.getString("id").toLong'>
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+				</div>
+			</form>
 		</div>	
 		
 		<div class="span3">
-			<ul class="nav nav-tabs nav-stacked">
-				<li class="active"><a href="#">@grupo.getString("nombre")</a></li>
+			<div class="tabbable tabs-right">
+			<ul class="nav nav-tabs">
+<!-- 				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
 				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
 				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
-				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
+				<li class="active"><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
 			</ul>
+			</div>
 		</div>
 	</div>
 	

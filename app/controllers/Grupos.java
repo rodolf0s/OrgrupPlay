@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+import com.avaje.ebean.Ebean;
+
 import models.Contacto;
 import models.Grupo;
 import models.Integrante;
@@ -120,6 +122,26 @@ public class Grupos extends Controller {
 			// si no pertenece al grupo lo redirecciona al home "/App"
 			if (Grupo.getGrupo(session("email"), id) != null) {
 				return ok(views.html.grupo.grupo_miembros.render(
+						Usuario.find.byId(session("email")),
+						Grupo.getGrupo(session("email"), id),
+						Grupo.getGrupos(session("email")),
+						Integrante.find.where().eq("grupo_id", id).findList(),
+						Contacto.listaAmigos(Usuario.find.byId(session("email")))
+						));
+			} else {
+				return redirect(routes.Home.index());
+			}
+		}	
+	}
+	
+	public static Result muestraPreferencias(Long id) {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			// verifica que el usuario pertenesca al grupo. haciendo un INNER JOIN grupo con integrante
+			// si no pertenece al grupo lo redirecciona al home "/App"
+			if (Grupo.getGrupo(session("email"), id) != null) {
+				return ok(views.html.grupo.grupo_preferencias.render(
 						Usuario.find.byId(session("email")),
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
@@ -271,6 +293,83 @@ public class Grupos extends Controller {
 				
 				return redirect(routes.Grupos.muestraMiembros(eliminaIntegrante.get().grupo.id));
 			}			
+		}
+	}
+	
+	public static Result editaGrupo() throws IOException {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Grupo> editaGrupo = form(Grupo.class).bindFromRequest();
+			if (editaGrupo.hasErrors()) {
+				return badRequest();
+			} else {
+//				Grupo grupo = new Grupo();
+				Grupo grupo = Grupo.find.ref(editaGrupo.get().id);
+				String extension = "";
+				String fileName = "";
+				
+				// Obtiene la imagen de la vista perfil.
+				MultipartFormData body = request().body().asMultipartFormData();
+				FilePart picture = body.getFile("imagen");
+				
+				if (picture != null) {
+					String contentType = picture.getContentType();
+					File file = picture.getFile();
+
+					// Si el tamaño de la imagen supera 1 MB, redirecciona a perfil
+					// notificando el error.
+					if (file.length() > 1000000) {
+						return redirect(routes.Home.index());
+					} else {
+
+						// Revisa que extension tiene la imagen subida por
+						// el usuario para agregarle la extension.
+					    if (contentType.equals("image/png")) {
+					    	extension = ".png";
+					    }
+					    else if (contentType.equals("image/jpeg")) {
+					    	extension = ".jpg";
+					    }
+					    else if (contentType.equals("image/gif")) {
+					    	extension = ".gif";
+					    }
+
+					    // crea el nombre de la imagen + la extension.
+					    fileName = editaGrupo.get().id.toString() + extension;
+
+					    String path = "./public/grupos/" + fileName;
+					    org.apache.commons.io.FileUtils.copyFile(file, new File(path));
+
+					    grupo.nombre = editaGrupo.get().nombre;
+					    grupo.descripcion = editaGrupo.get().descripcion;
+					    grupo.imagen = fileName;
+					    grupo.update();
+					}
+				} else {
+					grupo.nombre = editaGrupo.get().nombre;
+				    grupo.descripcion = editaGrupo.get().descripcion;
+				    grupo.update();
+				}
+				return redirect(routes.Grupos.muestraPreferencias(editaGrupo.get().id));
+			}			
+		}
+	}
+	
+	public static Result eliminaGrupo() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Grupo> eliminaGrupo = form(Grupo.class).bindFromRequest();
+			if (eliminaGrupo.hasErrors()) {
+				return badRequest();
+			} else {
+				Long id = eliminaGrupo.get().id;
+				
+				Integrante.eliminaTodos(id);
+				Grupo.find.ref(id).delete();				
+				return redirect(routes.Home.index());	
+			}
 		}
 	}
 
