@@ -1,7 +1,6 @@
 package models;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 @Table(name="reunion")
@@ -21,23 +18,30 @@ public class Reunion extends Model {
 	@Id
 	public Long id;
 	
-	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(nullable=false)
 	@Formats.DateTime(pattern="dd/MM/yyyy")
-	public Date fecha;
+	public Date fecha_inico;
 	
-	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(nullable=false)
-	public Time hora;
+	@Formats.DateTime(pattern="dd/MM/yyyy")
+	public Date fecha_fin;
 	
-	@Constraints.Required
+	@Formats.NonEmpty
+	@Column(nullable=false)
+	@Formats.DateTime(pattern="HH:mm:ss")
+	public Date hora_inicio;
+	
+	@Formats.NonEmpty
+	@Column(nullable=false)
+	@Formats.DateTime(pattern="HH:mm:ss")
+	public Date hora_fin;
+	
     @Formats.NonEmpty
     @Column(length=50, nullable=false)
 	public String nombre;
 	
-	@Constraints.Required
     @Formats.NonEmpty
     @Column(length=500, nullable=true)
 	public String descripcion;
