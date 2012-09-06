@@ -49,4 +49,34 @@ public class Integrante extends Model {
 		Integrante integrante = find.ref(id);
 		integrante.delete();
 	}
+	
+	/**
+	 * Elimina todos los integrantes de un grupo.
+	 * 
+	 * @param id es el id del grupo.
+	 */
+	public static void eliminaTodos(Long id) {
+		String sql = "DELETE FROM integrante WHERE grupo_id = "+id;
+		Ebean.createSqlUpdate(sql).execute();
+	}
+	
+	/**
+	 * Verifica si el usuario es Admin del grupo.
+	 * 
+	 * @param id del correo a evaluar
+	 * @param correo del usuario
+	 * @return si es admin devuelve true.
+	 */
+	public static boolean esAdmin(Long id, String correo) {
+		Integrante integrante = Ebean.find(Integrante.class)  
+    	        .select("tipo")  
+    	        .where()
+    	        .eq("grupo_id", id)
+    	        .eq("usuario_correo", correo)
+    	        .findUnique();
+		if(integrante.tipo == 1)
+			return true;
+		else
+			return false;
+	}
 }
