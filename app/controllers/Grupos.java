@@ -443,6 +443,6 @@ public class Grupos extends Controller {
 	 * @return
 	 */
 	public static Result muestraGrupos() {
-		return ok(muestraGrupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email"))));
+		return ok(muestra_grupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email"))));
 	}
 }

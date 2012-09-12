@@ -15,7 +15,7 @@ GET		/contacto					controllers.Application.contacto()
 POST	/contacto					controllers.Application.guardaMensaje()
 GET		/recuperar					controllers.Application.recuperar()
 POST	/recuperar					controllers.Application.recuperarPassword()
-GET		/verificar-cuenta				controllers.Application.verificaCuenta(correo: String, id: Integer)
+GET		/verificar-cuenta			controllers.Application.verificaCuenta(correo: String, id: Integer)
 
 #admin
 GET		/administrador				controllers.Admin.iniciar()
@@ -71,6 +71,7 @@ GET		/configurar/cuenta			controllers.Cuenta.cuenta()
 POST	/configurar/cuenta			controllers.Cuenta.desactivarCuenta()
 
 #Grupo
+GET		/grupos						controllers.Grupos.muestraGrupos()
 POST	/crear-grupo				controllers.Grupos.crearGrupo()
 GET		/grupo/:id					controllers.Grupos.index(id: Long)
 POST	/grupo/agregar-integrante	controllers.Grupos.agregaIntegrante()
@@ -82,7 +83,6 @@ POST	/grupo/:id/reuniones		controllers.Grupos.getArchivo(id: Long)
 GET		/grupo/:id/documentos		controllers.Grupos.muestraDocumentos(id: Long)
 GET		/grupo/:id/miembros			controllers.Grupos.muestraMiembros(id: Long)
 GET		/grupo/:id/preferencias		controllers.Grupos.muestraPreferencias(id: Long)
-GET		/grupos						controllers.Grupos.muestraGrupos()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

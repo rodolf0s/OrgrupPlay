@@ -96,13 +96,16 @@
 			
 		</div>
 		
-		<div class="span8">
+		<div class="span7">
 			<div class="page-header">
 				<form action="#" method="post">
 					<h1>				
 						@grupo.getString("nombre") <small> Miembros </small>					
 						<input type="hidden" name="id" value='@grupo.getString("id")'>
-						<input class="btn btn-success pull-right" type="submit" value="Agregar miembro">					
+						<a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick=modalMiembros() >
+							<i class="icon-plus"> </i>
+							Agregar miembro
+						</a>					
 					</h1>
 				</form> 
 			</div>
@@ -143,7 +146,7 @@
 			</div>
 		</div>	
 
-		<div class="span1">
+		<div class="span2">
 			<div class="tabbable tabs-right">
 			<ul class="nav nav-tabs">
 <!--				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
