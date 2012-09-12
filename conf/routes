@@ -60,7 +60,6 @@ GET 	/mensajesNuevos				controllers.Mensajes.mensajesNuevos()
 POST	/eliminaMensajes			controllers.Mensajes.eliminaMensajes()
 POST	/enviaMensajeModal			controllers.Mensajes.enviaMensajeModal(email: String)
 
-
 #Cuenta
 GET		/configurar/perfil			controllers.Cuenta.perfil()
 POST	/configurar/perfil			controllers.Cuenta.actualizaPerfil()
@@ -79,6 +78,7 @@ POST	/grupo/elimina-integrante	controllers.Grupos.eliminaIntegrante()
 POST	/grupo/edita-grupo			controllers.Grupos.editaGrupo()
 POST	/grupo/elimina-grupo		controllers.Grupos.eliminaGrupo()
 GET		/grupo/:id/reuniones		controllers.Grupos.muestraReuniones(id: Long)
+POST	/grupo/:id/reuniones		controllers.Grupos.getArchivo(id: Long)
 GET		/grupo/:id/documentos		controllers.Grupos.muestraDocumentos(id: Long)
 GET		/grupo/:id/miembros			controllers.Grupos.muestraMiembros(id: Long)
 GET		/grupo/:id/preferencias		controllers.Grupos.muestraPreferencias(id: Long)

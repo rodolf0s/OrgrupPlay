@@ -45,6 +45,10 @@ public class Reunion extends Model {
     @Formats.NonEmpty
     @Column(length=500, nullable=true)
 	public String descripcion;
+    
+    @Formats.NonEmpty
+    @Column(length=20, nullable=false)
+	public String estado;
 
 	@ManyToOne
 	public Grupo grupo;

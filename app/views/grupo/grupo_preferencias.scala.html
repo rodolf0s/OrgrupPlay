@@ -48,34 +48,34 @@
    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
    			</div>
 
-   			<div class="well well-small">
-   				<ul class="nav nav-pills nav-stacked">
-   					<li class="nav-header">Miembros</li>
-   				</ul>
-   				<ul class="unstyled">
+<!--    			<div class="well well-small"> -->
+<!--    				<ul class="nav nav-pills nav-stacked"> -->
+<!--    					<li class="nav-header">Miembros</li> -->
+<!--    				</ul> -->
+<!--    				<ul class="unstyled"> -->
    					
-	   				@if(!integrantes.isEmpty()) {
-	   					@for(a <- integrantes) {
-	   						<li>
-		   						@if(a.tipo == 1) {
-		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(a.usuario.correo)" alt="imagen usuario">
-		   							@Usuario.getNombre(a.usuario.correo) (Administrador)
-		   						}
-	   						</li>
-	   					}
+<!-- 	   				@if(!integrantes.isEmpty()) { -->
+<!-- 	   					@for(a <- integrantes) { -->
+<!-- 	   						<li> -->
+<!-- 		   						@if(a.tipo == 1) { -->
+<!-- 		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(a.usuario.correo)" alt="imagen usuario"> -->
+<!-- 		   							@Usuario.getNombre(a.usuario.correo) (Administrador) -->
+<!-- 		   						} -->
+<!-- 	   						</li> -->
+<!-- 	   					} -->
 	   				
-	   					@for(i <- integrantes) {
-	   						@if(i.tipo != 1) {
-		   						<li>
-		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(i.usuario.correo)" alt="imagen usuario">
-		   							@Usuario.getNombre(i.usuario.correo)	
-		   						</li>
-	   						}
-	   					}
-	   				}
-   				</ul>
-   				<a href="#" role="button" class="btn btn-mini" data-toggle="modal" onClick=modalMiembros() >agregar miembros</a>
-   			</div>
+<!-- 	   					@for(i <- integrantes) { -->
+<!-- 	   						@if(i.tipo != 1) { -->
+<!-- 		   						<li> -->
+<!-- 		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(i.usuario.correo)" alt="imagen usuario"> -->
+<!-- 		   							@Usuario.getNombre(i.usuario.correo)	 -->
+<!-- 		   						</li> -->
+<!-- 	   						} -->
+<!-- 	   					} -->
+<!-- 	   				} -->
+<!--    				</ul> -->
+<!--    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal" onClick=modalMiembros() >agregar miembros</a> -->
+<!--    			</div> -->
 
 <!-- 			<div class="well sidebar-nav"> -->
 <!-- 				@grupo.getString("nombre")<br> -->
@@ -87,14 +87,13 @@
 			
 		</div>
 		
-		<div class="span6">
+		<div class="span7">
 			<div class="page-header">
 				<form action="@routes.Grupos.eliminaGrupo" method="post">
 					<h1>				
-						@grupo.getString("nombre")					
+						@grupo.getString("nombre") <small> Preferencias </small>					
 						<input type="hidden" name="id" value='@grupo.getString("id")'>
-						<input class="btn btn-danger pull-right" type="submit" value="Eliminar grupo">
-					
+						<input class="btn btn-danger pull-right" type="submit" value="Eliminar grupo">					
 					</h1>
 				</form> 
 			</div>
@@ -128,10 +127,10 @@
 			</form>
 		</div>	
 		
-		<div class="span3">
+		<div class="span2">
 			<div class="tabbable tabs-right">
 			<ul class="nav nav-tabs">
-<!-- 				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
+<!--				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
 				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
 				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
@@ -139,6 +138,16 @@
 			</ul>
 			</div>
 		</div>
+		
+<!-- 		<div class="span3"> -->
+<!-- 			<ul class="nav nav-tabs nav-stacked"> -->
+<!-- 				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
+<!-- 				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li> -->
+<!-- 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li> -->
+<!-- 				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li> -->
+<!-- 				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li> -->
+<!-- 			</ul> -->
+<!-- 		</div> -->
 	</div>
 	
 	
@@ -196,7 +205,7 @@
 				<div class="control-group">
 	    			<label class="control-label">Nombre del grupo</label>
 	    			<div class="controls">
-	    				<input class="input-medium" type="text" name="nombre" required>
+	    				<input class="input-medium" type="text" name="nombre" autofocus="autofocus" required>
 	    			</div>
 	    		</div>
 	    		

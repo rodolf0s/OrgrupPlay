@@ -1,7 +1,6 @@
 package models;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,31 +11,28 @@ import javax.persistence.Table;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 @Table(name="archivo")
 public class Archivo extends Model {
 	
 	@Id
-	@Column(length=350, nullable=false)
-	public String ruta;
+	public Long id;
 	
 	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(length=255, nullable=false)
 	public String nombre;
 	
-	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(nullable=false)
 	@Formats.DateTime(pattern="dd/MM/yyyy")
 	public Date fecha;
 	
-	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(nullable=false)
-	public Time hora;
+	@Formats.DateTime(pattern="HH:mm:ss")
+	public Date hora;
 	
 	@ManyToOne
 	public Usuario usuario;
@@ -46,5 +42,5 @@ public class Archivo extends Model {
 	
 	// Consultas
 	
-	public static Finder<String,Archivo> find = new Finder<String,Archivo>(String.class, Archivo.class);	
+	public static Finder<Long,Archivo> find = new Finder<Long,Archivo>(Long.class, Archivo.class);	
 }

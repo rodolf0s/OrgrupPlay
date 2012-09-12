@@ -1,11 +1,18 @@
-@(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto])
+@(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto], reuniones: List[Reunion], archivos: List[Archivo])
 
 @app(title = grupo.getString("nombre"), usuario.nombre) {
-	
+
 	<script type="text/javascript">
-	
 		$(document).ready(function() {
+			$("[rel=tooltip]").tooltip();
+			$("[rel=popover]").popover({
+				trigger: 'focus',
+				animate: false
+			});
 			
+			@if(!archivos.isEmpty()) {
+				$('#document').modal('show');
+			}
 		});
 		
 		function modalMiembros() {
@@ -13,7 +20,13 @@
 		}
 		function modalGrupos() {
 			$('#creaGrupo').modal('show');
-		}		
+		}
+		function modalDocumentos() {
+			$('#document').modal('show');
+		}
+		function enviarReunion() {
+			document.reunion.submit();
+		}
 		
 	</script>
 
@@ -48,34 +61,34 @@
    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
    			</div>
 
-   			<div class="well well-small">
-   				<ul class="nav nav-pills nav-stacked">
-   					<li class="nav-header">Miembros</li>
-   				</ul>
-   				<ul class="unstyled">
+<!--    			<div class="well well-small"> -->
+<!--    				<ul class="nav nav-pills nav-stacked"> -->
+<!--    					<li class="nav-header">Miembros</li> -->
+<!--    				</ul> -->
+<!--    				<ul class="unstyled"> -->
    					
-	   				@if(!integrantes.isEmpty()) {
-	   					@for(a <- integrantes) {
-	   						<li>
-		   						@if(a.tipo == 1) {
-		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(a.usuario.correo)" alt="imagen usuario">
-		   							@Usuario.getNombre(a.usuario.correo) (Administrador)
-		   						}
-	   						</li>
-	   					}
+<!-- 	   				@if(!integrantes.isEmpty()) { -->
+<!-- 	   					@for(a <- integrantes) { -->
+<!-- 	   						<li> -->
+<!-- 		   						@if(a.tipo == 1) { -->
+<!-- 		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(a.usuario.correo)" alt="imagen usuario"> -->
+<!-- 		   							@Usuario.getNombre(a.usuario.correo) (Administrador) -->
+<!-- 		   						} -->
+<!-- 	   						</li> -->
+<!-- 	   					} -->
 	   				
-	   					@for(i <- integrantes) {
-	   						@if(i.tipo != 1) {
-		   						<li>
-		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(i.usuario.correo)" alt="imagen usuario">
-		   							@Usuario.getNombre(i.usuario.correo)	
-		   						</li>
-	   						}
-	   					}
-	   				}
-   				</ul>
-   				<a href="#" role="button" class="btn btn-mini" data-toggle="modal" onClick=modalMiembros() >agregar miembros</a>
-   			</div>
+<!-- 	   					@for(i <- integrantes) { -->
+<!-- 	   						@if(i.tipo != 1) { -->
+<!-- 		   						<li> -->
+<!-- 		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(i.usuario.correo)" alt="imagen usuario"> -->
+<!-- 		   							@Usuario.getNombre(i.usuario.correo)	 -->
+<!-- 		   						</li> -->
+<!-- 	   						} -->
+<!-- 	   					} -->
+<!-- 	   				} -->
+<!--    				</ul> -->
+<!--    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal" onClick=modalMiembros() >agregar miembros</a> -->
+<!--    			</div> -->
 
 <!-- 			<div class="well sidebar-nav"> -->
 <!-- 				@grupo.getString("nombre")<br> -->
@@ -87,19 +100,93 @@
 			
 		</div>
 		
-		<div class="span6">
-			<h1>Reuniones</h1>
-		</div>	
-		
-		<div class="span3">
-			<ul class="nav nav-tabs nav-stacked">
-				<li class="active"><a href="#">@grupo.getString("nombre")</a></li>
-				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
+		<div class="span7">
+			<div class="page-header">
+				<form action="#" method="post">
+					<h1>				
+						@grupo.getString("nombre") <small> Reuniones </small>				
+						<input type="hidden" name="id" value='@grupo.getString("id")'>
+						<input class="btn btn-success pull-right" type="submit" value="Crear reunion">					
+					</h1>
+				</form> 
+			</div>
+			
+<!-- 				@if(!reuniones.isEmpty()) { -->
+<!-- 					@for(r <- reuniones) { -->
+<!-- 						<div class="well"> -->
+<!-- 							<p><h4>@r.nombre</h4></p> -->
+<!-- 						</div> -->
+<!-- 					} -->
+<!-- 				} -->
+				<div>
+					@if(!reuniones.isEmpty()) {
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Fecha inicio</th>
+									<th>Fecha fin</th>
+									<th>Hora inicio</th>
+									<th>Hora fin</th>
+									<th>Descripcion</th>
+									<th>Documentos</th>
+								</tr>
+							</thead>
+							
+							<tbody>
+								@for(r <- reuniones) { 
+								<form name="reunion" action="@routes.Grupos.getArchivo(r.grupo.id)" method="post">
+									<tr>
+										<td> 
+											<input type="hidden" name="id" value="@r.id">
+											<input type="hidden" name="grupo.id" value="@r.grupo.id">
+											<a href="#" rel="tooltip" title="@r.nombre" data-content="@r.nombre" data-placement="top">
+												@if(r.nombre.length < 11) {@r.nombre} else {@r.nombre.substring(0, 10)...}
+											</a>
+										</td>
+										<td>@r.fecha_inico.format("dd/MM/yyyy")</td>
+										<td>@r.fecha_fin.format("dd/MM/yyyy")</td>
+										<td>@r.hora_inicio.format("HH:mm")</td>
+										<td>@r.hora_fin.format("HH:mm")</td>
+										<td>
+											<a href="#" rel="tooltip" title="@r.descripcion" data-content="@r.nombre" data-placement="top">
+												@if(r.descripcion.length < 25) {@r.descripcion} else {@r.descripcion.substring(0, 24)...}
+											</a>
+										</td>
+										<td>
+											<button type="submit" rel="tooltip" title="Ver documentos"><i class="icon-eye-open"></i></button>
+<!-- 												<a href="#" rel="tooltip" title="Ver documentos" onClick=enviarReunion()><i class="icon-eye-open"></i></a> -->
+										</td>									
+									</tr>
+								</form>
+								}
+							</tbody>
+						</table>
+					}
+				</div>			
+		</div>
+
+		<div class="span2">
+			<div class="tabbable tabs-right">
+			<ul class="nav nav-tabs">
+<!--				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
+				<li class="active"><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
 				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
 				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
 			</ul>
+			</div>
 		</div>
+		
+<!-- 		<div class="span3"> -->
+<!-- 			<ul class="nav nav-tabs nav-stacked"> -->
+<!-- 				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
+<!-- 				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li> -->
+<!-- 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li> -->
+<!-- 				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li> -->
+<!-- 				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li> -->
+<!-- 			</ul> -->
+<!-- 		</div> -->
 	</div>
 	
 	
@@ -177,6 +264,44 @@
 					</div>
 				</div>
 				<input type="hidden" value='@grupo.getString("id")' name="grupoId">
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+				<input type="submit" class="btn btn-primary" value="Crear">
+			</div>
+		</form>	
+	</div>
+	
+	<!-- Modal documentos -->
+	<div class="modal hide fade" id="document">
+		<form action="#"class="form-horizontal" name="documentos" enctype="multipart/form-data" method="post">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Documentos</h3>
+			</div>
+			<div class="modal-body">
+				@if(!archivos.isEmpty()) {
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Fecha</th>
+								<th>Autor</th>
+								<th>Descargar</th>
+							</tr>
+						</thead>
+						<tbody>
+							@for(ar <- archivos) {
+								<tr>
+									<td>@ar.nombre</td>
+									<td>@ar.fecha.format("dd/MM/yyyy") @ar.hora.format("HH:mm")</td>
+									<td>@Usuario.getNombre(ar.usuario.correo)</td>
+									<td>bajar</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				}
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>

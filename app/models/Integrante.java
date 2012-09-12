@@ -1,7 +1,6 @@
 package models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +12,6 @@ import com.avaje.ebean.Ebean;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
-import views.html.helper.select;
 
 @Entity
 @Table(name="integrante")
@@ -44,8 +42,7 @@ public class Integrante extends Model {
 	/**
 	 * Elimina un integrante del grupo.
 	 * 
-	 * @param id
-	 * 		Es el id del integrante dentro del grupo.
+	 * @param id Es el id del integrante dentro del grupo.
 	 */
 	public static void eliminaIntegrante(Long id) {
 		Integrante integrante = find.ref(id);
@@ -65,7 +62,7 @@ public class Integrante extends Model {
 	/**
 	 * Verifica si el usuario es Admin del grupo.
 	 * 
-	 * @param id del correo a evaluar
+	 * @param id del grupo
 	 * @param correo del usuario
 	 * @return si es admin devuelve true.
 	 */
@@ -76,10 +73,9 @@ public class Integrante extends Model {
     	        .eq("grupo_id", id)
     	        .eq("usuario_correo", correo)
     	        .findUnique();
-		if(integrante.tipo == 1)
+		if (integrante.tipo == 1)
 			return true;
 		else
 			return false;
 	}
-	
 }

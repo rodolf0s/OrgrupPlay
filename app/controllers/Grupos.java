@@ -2,16 +2,20 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.avaje.ebean.Ebean;
 
+import views.html.grupo.*;
+
+import models.Archivo;
 import models.Contacto;
 import models.Grupo;
 import models.Integrante;
+import models.Reunion;
 import models.Usuario;
-
-import views.html.grupo.*;
 
 import play.data.Form;
 import play.mvc.Controller;
@@ -71,12 +75,15 @@ public class Grupos extends Controller {
 			// verifica que el usuario pertenesca al grupo. haciendo un INNER JOIN grupo con integrante
 			// si no pertenece al grupo lo redirecciona al home "/App"
 			if (Grupo.getGrupo(session("email"), id) != null) {
+				List<Archivo> archivoVacio = new ArrayList<Archivo>();
 				return ok(views.html.grupo.grupo_reuniones.render(
 						Usuario.find.byId(session("email")),
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
 						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.listaAmigos(Usuario.find.byId(session("email")))
+						Contacto.listaAmigos(Usuario.find.byId(session("email"))),
+						Reunion.find.where().eq("grupo_id", id).findList(),
+						archivoVacio
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -136,6 +143,11 @@ public class Grupos extends Controller {
 		}	
 	}
 	
+	/**
+	 * Muestra las preferencias del grupo.
+	 * @param id
+	 * @return
+	 */
 	public static Result muestraPreferencias(Long id) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -246,7 +258,7 @@ public class Grupos extends Controller {
 	}
 
 	/**
-	 * agrega un nuevo integrante al grupo.
+	 * Agrega un nuevo integrante al grupo.
 	 * 
 	 * @return al la pagina grupo donde esta (/grupo/?)
 	 * donde ? es el id del grupo.
@@ -298,6 +310,12 @@ public class Grupos extends Controller {
 		}
 	}
 	
+	/**
+	 * Edita un grupo.
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public static Result editaGrupo() throws IOException {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -306,7 +324,6 @@ public class Grupos extends Controller {
 			if (editaGrupo.hasErrors()) {
 				return badRequest();
 			} else {
-//				Grupo grupo = new Grupo();
 				Grupo grupo = Grupo.find.ref(editaGrupo.get().id);
 				String extension = "";
 				String fileName = "";
@@ -358,6 +375,11 @@ public class Grupos extends Controller {
 		}
 	}
 	
+	/**
+	 * Elimina un grupo.
+	 * 
+	 * @return
+	 */
 	public static Result eliminaGrupo() {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -374,6 +396,33 @@ public class Grupos extends Controller {
 			}
 		}
 	}
+	
+	/**
+	 * Obtiene los archivos de una reunion determinada.
+	 * 
+	 * @param id
+	 * @return una lista tipo Archivo.
+	 */
+	public static Result getArchivo(Long id) {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Reunion> getArchivo = form(Reunion.class).bindFromRequest();
+			if (getArchivo.hasErrors()) {
+				return badRequest();
+			} else {
+				return ok(views.html.grupo.grupo_reuniones.render(
+						Usuario.find.byId(session("email")),
+						Grupo.getGrupo(session("email"), getArchivo.get().grupo.id),
+						Grupo.getGrupos(session("email")),
+						Integrante.find.where().eq("grupo_id", getArchivo.get().grupo.id).findList(),
+						Contacto.listaAmigos(Usuario.find.byId(session("email"))),
+						Reunion.find.where().eq("grupo_id", getArchivo.get().grupo.id).findList(),
+						Archivo.find.where().eq("reunion_id", getArchivo.get().id).findList()
+						));
+			}
+		}		
+	}
 
 	/**
 	 * Comprueba la variable de session del usuario.
@@ -389,11 +438,11 @@ public class Grupos extends Controller {
 	}
 	
 	/**
-	 * Muestra los grupos a los que pertenece el usuario
+	 * Muestra los grupos a los que pertenece el usuario.
+	 * 
 	 * @return
 	 */
 	public static Result muestraGrupos() {
 		return ok(muestraGrupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email"))));
 	}
-	
 }
