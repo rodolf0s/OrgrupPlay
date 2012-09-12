@@ -11,6 +11,8 @@ import models.Grupo;
 import models.Integrante;
 import models.Usuario;
 
+import views.html.grupo.*;
+
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -385,4 +387,13 @@ public class Grupos extends Controller {
 		else
 			return true;
 	}
+	
+	/**
+	 * Muestra los grupos a los que pertenece el usuario
+	 * @return
+	 */
+	public static Result muestraGrupos() {
+		return ok(muestraGrupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email"))));
+	}
+	
 }

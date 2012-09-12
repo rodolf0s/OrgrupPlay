@@ -1,0 +1,37 @@
+@(user: Usuario, grupos: List[SqlRow])
+
+@app(title = "Orgrup", user.nombre) {
+
+	<style type="text/css">
+		a:hover{
+		text-decoration: none;
+		}
+		
+		#fondo:hover{
+		background-color: #D8D8D8;
+		border-radius: 4px;
+		}
+	</style>
+
+	<div class="container">
+		<div class="well well-small">
+			<fieldset>
+				<legend>Grupos a los que pertenece</legend>
+			</fieldset>
+				<table>
+					@for(p<-grupos){
+						<tr>
+							<td><img class="img-polaroid" style="width: 35px; height: 35px;" src='/assets/grupos/@p.getString("imagen")'>&nbsp;</td>
+							<td id="fondo" class="span11"><a href="@routes.Grupos.index(p.getString("id").toLong)">@p.getString("nombre")</a></td>
+						</tr>
+						}
+						
+					</ul>
+				</table>
+			</div>
+	</div>
+
+
+
+
+}

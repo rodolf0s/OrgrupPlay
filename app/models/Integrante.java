@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import com.avaje.ebean.Ebean;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
+import views.html.helper.select;
 
 @Entity
 @Table(name="integrante")
@@ -79,4 +81,5 @@ public class Integrante extends Model {
 		else
 			return false;
 	}
+	
 }

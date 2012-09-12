@@ -58,6 +58,7 @@ GET		/muestraMensaje				controllers.Mensajes.leerMensaje(id: Long)
 POST	/enviaMensaje				controllers.Mensajes.enviaMensaje()
 GET 	/mensajesNuevos				controllers.Mensajes.mensajesNuevos()
 POST	/eliminaMensajes			controllers.Mensajes.eliminaMensajes()
+POST	/enviaMensajeModal			controllers.Mensajes.enviaMensajeModal(email: String)
 
 
 #Cuenta
@@ -81,6 +82,7 @@ GET		/grupo/:id/reuniones		controllers.Grupos.muestraReuniones(id: Long)
 GET		/grupo/:id/documentos		controllers.Grupos.muestraDocumentos(id: Long)
 GET		/grupo/:id/miembros			controllers.Grupos.muestraMiembros(id: Long)
 GET		/grupo/:id/preferencias		controllers.Grupos.muestraPreferencias(id: Long)
+GET		/grupos						controllers.Grupos.muestraGrupos()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -299,6 +299,7 @@ public class Home extends Controller {
 		return Mensaje.find.where()
 				.eq("destinatario", session("email"))
 				.eq("leido", "no")
+				.eq("estado", "recibido")
 				.findRowCount();
 	}
 }

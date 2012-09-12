@@ -43,7 +43,23 @@ public class Mensajes extends Controller {
 			Date fecha2 = new Date();
 			mensaje.fecha = fecha2;
 			mensaje.save();
+			Mensaje.copiaMensaje(mensaje.fecha, mensaje.remitente, mensaje.destinatario, mensaje.asunto, mensaje.mensaje, mensaje.leido);
 			return ok(crearMensaje.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+		}
+	}
+	
+	public static Result enviaMensajeModal(String email) throws ParseException {
+		Form<Mensaje> mensajeForm2 = form(Mensaje.class).bindFromRequest();
+		
+		if(mensajeForm2.hasErrors()) {
+			return ok(muestraPerfil.render(Usuario.find.byId(session("email")), Usuario.find.byId(email)));
+		}else {
+			Mensaje mensaje = mensajeForm2.get();
+			Date fecha2 = new Date();
+			mensaje.fecha = fecha2;
+			mensaje.save();
+			Mensaje.copiaMensaje(mensaje.fecha, mensaje.remitente, mensaje.destinatario, mensaje.asunto, mensaje.mensaje, mensaje.leido);
+			return ok(muestraPerfil.render(Usuario.find.byId(session("email")), Usuario.find.byId(email)));
 		}
 	}
 	
@@ -56,11 +72,12 @@ public class Mensajes extends Controller {
 		Form<Mensaje> mensajeAEliminar = form(Mensaje.class).bindFromRequest();
 		
 		if(mensajeAEliminar.hasErrors()){
-			return ok(mensajesRecibidos.render(Usuario.find.byId(session("email")), Mensaje.listaMensajesRecibidos(session("email"))));
-//			return ok("error");
+//			return ok(mensajesRecibidos.render(Usuario.find.byId(session("email")), Mensaje.listaMensajesRecibidos(session("email"))));
+			return ok("error");
 		}else {
 			Mensaje mensaje = mensajeAEliminar.get();
-			separa(mensaje.id.toString());			
+			separa(mensaje.id.toString());	
+//			return ok(mensaje.id.toString());
 		}
 		return ok(mensajesRecibidos.render(Usuario.find.byId(session("email")), Mensaje.listaMensajesRecibidos(session("email"))));
 	}

@@ -58,6 +58,7 @@ public class Mensaje extends Model{
 	public static List<Mensaje> listaMensajesRecibidos(String email){
 		return find.where()
 				.eq("destinatario", email)
+				.eq("estado", "recibido")
 				.findList();		
 	}
 	
@@ -70,6 +71,7 @@ public class Mensaje extends Model{
 	public static List<Mensaje> listaMensajesEnviados(Usuario email) {
 		return find.where()
 				.eq("remitente", email)
+				.eq("estado", "enviado")
 				.findList();
 	}
 	
@@ -77,6 +79,7 @@ public class Mensaje extends Model{
 		return find.where()
 				.eq("destinatario", email)
 				.eq("leido", "no")
+				.eq("estado", "recibido")
 				.findList();
 	}
 	
@@ -99,4 +102,27 @@ public class Mensaje extends Model{
 				"id = "+id+""
 				).execute();
 	}
+	
+	/**
+	 * Crea copia al enviar un mensaje con el estado "recibido" 
+	 * @param fecha
+	 * @param remitente
+	 * @param destinatario
+	 * @param asunto
+	 * @param mensaje
+	 * @param leido
+	 */
+	public static void copiaMensaje(Date fecha, Usuario remitente, String destinatario, String asunto, String mensaje, String leido) {
+		Mensaje mensaje2 = new Mensaje();
+		
+		mensaje2.fecha = fecha;
+		mensaje2.remitente = remitente;
+		mensaje2.destinatario = destinatario;
+		mensaje2.asunto = asunto;
+		mensaje2.mensaje = mensaje;
+		mensaje2.leido = leido;
+		mensaje2.estado = "recibido";
+		mensaje2.save();	
+	}
+	
 }
