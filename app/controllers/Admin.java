@@ -63,7 +63,11 @@ public class Admin extends Controller {
 		      else {
 		    	  LoginAdmin user = loginForm.get();
 		    	  session ("usuario",user.usuario);
-		    		  return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
+		    	  
+		    	//Cuantas paginas de mensajes seran
+					Integer cuentas = Correo.listaCorreos().size();
+					
+		    		  return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),"",(cuentas/20)+1));
 		    	  }	          
 		      }
 	
@@ -86,8 +90,11 @@ public class Admin extends Controller {
 		} 
 		
 		else{
-				
-		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
+			
+			//Cuantas paginas de mensajes seran
+			Integer cuentas = Correo.listaCorreos().size();
+			
+		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),"",(cuentas/20)+1));
 		}
 	}
 	
@@ -116,9 +123,12 @@ public class Admin extends Controller {
 					
 			Correo correo = Correo.find.byId(id);
 			correo.delete();
-					
+								
 		}
-		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
+		
+		//Cuantas paginas de mensajes seran
+		Integer cuentas = Correo.listaCorreos().size();
+		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),"",(cuentas/20)+1));
 				
 				
 			}
@@ -129,14 +139,22 @@ public class Admin extends Controller {
 					
 			if(formVarios.hasErrors()) {
 				List<Correo> listaCorreo = new ArrayList<Correo>();
-				return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),"Error al eliminar"));
+				
+				//Cuantas paginas de mensajes seran
+				Integer cuentas = Correo.listaCorreos().size();
+				
+				return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),"Error al eliminar",(cuentas/20)+1));
 			} else {
 						
 				Correo correo = formVarios.get();
 				separa(correo.id.toString());
 						
 			}
-			return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
+			
+			//Cuantas paginas de mensajes seran
+			Integer cuentas = Correo.listaCorreos().size();
+			
+			return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),"",(cuentas/20)+1));
 					
 					
 				}
@@ -187,7 +205,10 @@ public class Admin extends Controller {
 			    
 			    respuesta.setRespuesta(id);
 			    
-			    return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
+			  //Cuantas paginas de mensajes seran
+				Integer cuentas = Correo.listaCorreos().size();
+				
+			    return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),"",(cuentas/20)+1));
 			}		
 		}
 	
