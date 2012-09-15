@@ -227,7 +227,11 @@ public class Admin extends Controller {
 //			for(int i=0; i < x; i++ ){
 //				dias [i] = DateDiff("d",Usuario.listarUsuarios().get(i).inicioSesion , fecha);
 //			}
-		return ok(cuentas.render(Administrador.find.byId(session("usuario")),Usuario.listarUsuarios()));
+			
+			//Cuantas paginas de mensajes seran
+			Integer  paginas = Correo.listaCorreos().size();
+			
+		return ok(cuentas.render(Administrador.find.byId(session("usuario")),Usuario.listarUsuarios(),(paginas/20)+1));
 		}
 	}
 	

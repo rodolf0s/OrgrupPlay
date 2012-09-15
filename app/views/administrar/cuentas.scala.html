@@ -1,18 +1,18 @@
-@(user: Administrador, lista: List[Usuario])
+@(user: Administrador, lista: List[Usuario], paginas: Integer)
 
 @inicioadmin(title = "Cuentas"){
 
 @if(lista.isEmpty()){
 					<table align="center">
 						<tr>
-							<td><h3>Cuentas</h3></td>
+							<td><h3>Cuentas</h3>@paginas</td>
 						</tr>
 					</table>
 				}else {
 					
 					<table align="center">
 						<tr>
-							<td><h3>Cuentas</h3></td>
+							<td><h3>Cuentas</h3>@paginas</td>
 							
 						</tr>
 					</table>
