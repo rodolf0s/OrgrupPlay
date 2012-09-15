@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
 
 import play.data.format.Formats;
@@ -87,7 +88,15 @@ public class Correo extends Model {
         correo.update();    
     }
     
-
+    /**
+	 * Elimina correos a atraves del id 
+	 */
+	public static void eliminaMensaje(Long id) {
+		Ebean.createSqlUpdate(
+				"delete from correo where " +
+				"id = "+id+""
+				).execute();
+	}
     
 
 }

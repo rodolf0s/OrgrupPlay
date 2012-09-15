@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.StringTokenizer;
 
 import models.Administrador;
 import models.Mensaje;
@@ -60,7 +63,7 @@ public class Admin extends Controller {
 		      else {
 		    	  LoginAdmin user = loginForm.get();
 		    	  session ("usuario",user.usuario);
-		    		  return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
+		    		  return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
 		    	  }	          
 		      }
 	
@@ -84,7 +87,7 @@ public class Admin extends Controller {
 		
 		else{
 				
-		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
+		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
 		}
 	}
 	
@@ -108,17 +111,44 @@ public class Admin extends Controller {
 				
 		if(formElimina.hasErrors()) {
 			List<Correo> listaCorreo = new ArrayList<Correo>();
-	           return ok(leermensaje.render(Administrador.find.byId(session("usuario")),Correo.muestraId(id),"Error al eliminar"));
+			return ok(leermensaje.render(Administrador.find.byId(session("usuario")),Correo.muestraId(id),""));
 		} else {
 					
-			Correo elimina = Correo.find.byId(id);
-			elimina.delete();
+			Correo correo = Correo.find.byId(id);
+			correo.delete();
 					
 		}
-		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
+		return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
 				
 				
 			}
+	
+	//Eliminar varios mensajes
+		public static Result eliminarVarios(){
+			Form<Correo> formVarios= form(Correo.class).bindFromRequest();
+					
+			if(formVarios.hasErrors()) {
+				List<Correo> listaCorreo = new ArrayList<Correo>();
+				return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),"Error al eliminar"));
+			} else {
+						
+				Correo correo = formVarios.get();
+				separa(correo.id.toString());
+						
+			}
+			return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
+					
+					
+				}
+	//Separa las id de los mensajes
+		public static Result separa(String valor){
+			StringTokenizer st = new StringTokenizer(valor, "00");
+			while(st.hasMoreTokens()){
+				String id = st.nextToken();
+				Correo.eliminaMensaje(Long.parseLong(id));
+			}
+			return ok();	
+		}
 			
 	//Redireccionar a responder
 	public static Result responder(Long id) throws SQLException {
@@ -157,7 +187,7 @@ public class Admin extends Controller {
 			    
 			    respuesta.setRespuesta(id);
 			    
-			    return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos()));
+			    return ok(mensaje.render(Administrador.find.byId(session("usuario")),Correo.listaCorreos(),""));
 			}		
 		}
 	
@@ -169,6 +199,13 @@ public class Admin extends Controller {
 		} 
 				
 		else{
+//			Date fecha = new Date();	
+//			long [] dias;
+//			int x = Usuario.listarUsuarios().size();
+//			
+//			for(int i=0; i < x; i++ ){
+//				dias [i] = DateDiff("d",Usuario.listarUsuarios().get(i).inicioSesion , fecha);
+//			}
 		return ok(cuentas.render(Administrador.find.byId(session("usuario")),Usuario.listarUsuarios()));
 		}
 	}

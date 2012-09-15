@@ -10,13 +10,13 @@ create table administrador (
 ;
 
 create table archivo (
-  ruta                      varchar(350) not null,
+  id                        bigint not null,
   nombre                    varchar(255) not null,
-  fecha                     date not null,
-  hora                      time not null,
+  fecha                     timestamp not null,
+  hora                      timestamp not null,
   usuario_correo            varchar(50),
   reunion_id                bigint,
-  constraint pk_archivo primary key (ruta))
+  constraint pk_archivo primary key (id))
 ;
 
 create table contacto (
@@ -40,7 +40,8 @@ create table correo (
 create table grupo (
   id                        bigint not null,
   nombre                    varchar(25) not null,
-  distintivo                varchar(10) not null,
+  descripcion               varchar(255),
+  imagen                    varchar(350) not null,
   constraint pk_grupo primary key (id))
 ;
 
@@ -61,15 +62,19 @@ create table mensaje (
   asunto                    varchar(100) not null,
   mensaje                   varchar(255) not null,
   leido                     varchar(255) not null,
+  estado                    varchar(255) not null,
   constraint pk_mensaje primary key (id))
 ;
 
 create table reunion (
   id                        bigint not null,
-  fecha                     date not null,
-  hora                      time not null,
+  fecha_inico               timestamp not null,
+  fecha_fin                 timestamp not null,
+  hora_inicio               timestamp not null,
+  hora_fin                  timestamp not null,
   nombre                    varchar(50) not null,
   descripcion               varchar(500),
+  estado                    varchar(20) not null,
   grupo_id                  bigint,
   constraint pk_reunion primary key (id))
 ;

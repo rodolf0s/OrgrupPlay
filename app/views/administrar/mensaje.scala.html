@@ -1,18 +1,18 @@
-@(user: Administrador, lista: List[Correo])
+@(user: Administrador, lista: List[Correo], error:String)
 
 @inicioadmin(title = "Mensajes"){
 
 @if(lista.isEmpty()){
 					<table align="center">
 						<tr>
-							<td><h3>Mensajes</h3></td>
+							<td><h3>Mensajes</h3><span style="color: red;">@error</span></td>
 							
 						</tr>
 					</table>
 				}else {
 					<table align="center">
 						<tr>
-							<td><h3>Mensajes</h3></td>
+							<td><h3>Mensajes</h3></td><span style="color: red;">@error</span></td>
 							
 						</tr>
 					</table>
@@ -20,48 +20,72 @@
 													
 					
 					<div class="container well">
-					<div class=span8>
+					<div class=span11>
 						<table class="table">
 					
 							@for(p<-lista){
+							<form name="formulario" action="" method="post">
 <!-- 							1 mensaje no leido, 2 mensaje leido, 3 respondido -->
 								@if(p.estado == 1){
-									<form id="form1" class="well" action="" method="post">
 									<tr>
 											<td><font size="4"><a href="@routes.Admin.leerMensaje(p.id)">@p.nombre </a></font></td>
 											<td>Asunto: @p.asunto </td>
 											<td>Correo: @p.correo</td>
 											<td><img src="@routes.Assets.at("images/envelope.gif")"></td>
+											<td><input type="checkbox" name="id1" value="@p.id"></td>
+											
 														
 									</tr>
-									</form>
 									}else{
 										@if(p.estado == 2){
-									<form id="form1" class="well" action="" method="post">
 									<tr>
 											<td><font size="4"><a href="@routes.Admin.leerMensaje(p.id)">@p.nombre </a></font></td>
 											<td>Asunto: @p.asunto </td>
 											<td>Correo: @p.correo</td>
 											<td><img src="@routes.Assets.at("images/envelope_open.gif")"></td>
+											<td><input type="checkbox" name="id1" value="@p.id"></td>
 														
 									</tr>
-									</form>}else{
-										<form id="form1" class="well" action="" method="post">
+										}else{
+										
 									<tr>
 											<td><font size="4"><a href="@routes.Admin.leerMensaje(p.id)">@p.nombre </a></font></td>
 											<td>Asunto: @p.asunto </td>
 											<td>Correo: @p.correo</td>
 											<td><img src="@routes.Assets.at("images/send.gif")"></td>
-														
+											<td><input type="checkbox" name="id1" value="@p.id"></td>	
+											
 									</tr>
-									</form>}
+										}
 									}
 									
-															}					
+													}
+						<a class="btn-link" onclick="cuenta()" >Eliminar seleccionados</a>
+						<form name="formulario" action="" method="post">					
 						</table>
 					</div>
 				</div>	
 				}
 
-
+	<script type="text/javascript">
+	
+	function cuenta() {
+		
+		var cont = 0;
+		var valores = [];
+		var c = 0;
+		var concatena = "";
+		for(var x=0; x < document.formulario.id1.length; x++) {
+			if (document.formulario.id1[x].checked == true) {
+				concatena = concatena + '00' + document.formulario.id1[x].value;
+			}
+		}
+		alert(concatena);
+		document.formulario.id.value = concatena;
+		document.formulario.action = "@routes.Admin.eliminarVarios";
+		document.formulario.submit();
+	}
+	
+	</script>	
+		
 }

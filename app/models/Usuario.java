@@ -331,4 +331,6 @@ public class Usuario extends Model {
 		Ebean.createSqlUpdate("DELETE FROM contacto WHERE usuario1_correo = :correo1 OR usuario2_correo = :correo2").setParameter("correo1", correo).setParameter("correo2", correo).execute();		
 		usuario.delete();
 	}
+	
+	
 }
