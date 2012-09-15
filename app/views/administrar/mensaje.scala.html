@@ -33,6 +33,11 @@
 											<td>Correo: @p.correo</td>
 											<td><img src="@routes.Assets.at("images/envelope.gif")"></td>
 											<td><input type="checkbox" name="id1" value="@p.id"></td>
+											<input type="hidden" name="nombre" value="@p.nombre">
+											<input type="hidden" name="asunto" value="@p.asunto">
+											<input type="hidden" name="correo" value="@p.correo">
+											<input type="hidden" name="mensaje" value="@p.mensaje">
+											<input type="hidden" name="estado" value="@p.estado">
 											
 														
 									</tr>
@@ -44,6 +49,11 @@
 											<td>Correo: @p.correo</td>
 											<td><img src="@routes.Assets.at("images/envelope_open.gif")"></td>
 											<td><input type="checkbox" name="id1" value="@p.id"></td>
+											<input type="hidden" name="nombre" value="@p.nombre">
+											<input type="hidden" name="asunto" value="@p.asunto">
+											<input type="hidden" name="correo" value="@p.correo">
+											<input type="hidden" name="mensaje" value="@p.mensaje">
+											<input type="hidden" name="estado" value="@p.estado">
 														
 									</tr>
 										}else{
@@ -53,15 +63,21 @@
 											<td>Asunto: @p.asunto </td>
 											<td>Correo: @p.correo</td>
 											<td><img src="@routes.Assets.at("images/send.gif")"></td>
-											<td><input type="checkbox" name="id1" value="@p.id"></td>	
+											<td><input type="checkbox" name="id1" value="@p.id"></td>
+											<input type="hidden" name="nombre" value="@p.nombre">
+											<input type="hidden" name="asunto" value="@p.asunto">
+											<input type="hidden" name="correo" value="@p.correo">
+											<input type="hidden" name="mensaje" value="@p.mensaje">
+											<input type="hidden" name="estado" value="@p.estado">	
 											
 									</tr>
 										}
 									}
 									
 													}
+						<input type="hidden" name="id"> 							
 						<a class="btn-link" onclick="cuenta()" >Eliminar seleccionados</a>
-						<form name="formulario" action="" method="post">					
+						</form>					
 						</table>
 					</div>
 				</div>	
@@ -80,7 +96,7 @@
 				concatena = concatena + '00' + document.formulario.id1[x].value;
 			}
 		}
-		alert(concatena);
+		
 		document.formulario.id.value = concatena;
 		document.formulario.action = "@routes.Admin.eliminarVarios";
 		document.formulario.submit();
