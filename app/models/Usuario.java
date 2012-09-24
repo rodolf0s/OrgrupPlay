@@ -329,4 +329,15 @@ public class Usuario extends Model {
 		usuario.estado = "Desactivada";
 		usuario.update();
 	}	
+	
+	/**
+	 * Activa una cuenta.
+	 * 
+	 * @param correo
+	 */
+	public static void activarCuenta(String correo) {
+		Usuario usuario = Ebean.find(Usuario.class, correo);
+		usuario.estado = "Activada";
+		usuario.update();
+	}	
 }

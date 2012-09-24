@@ -277,9 +277,9 @@ public class Admin extends Controller {
 	
 	
 	
-	//Desactiva la cuenta del usuario.
+	//Desactivar la cuenta del usuario desde el administrador.
 		
-		public static Result adminCuenta() {
+		public static Result adminElimina() {
 			
 			Form<Usuario> formCuenta = form(Usuario.class).bindFromRequest();
 
@@ -297,7 +297,24 @@ public class Admin extends Controller {
 				}
 			}
 
+	//Activar la cuenta del usuario desde el administrador.
 		
+		public static Result adminActiva(String correo) {
+					
+			Form<Usuario> formCuenta = form(Usuario.class).bindFromRequest();
+
+				if (formCuenta.hasErrors()) {
+					return badRequest();
+				} else {
+							
+					Usuario.activarCuenta(correo);
+							
+					//Cuantas paginas de mensajes seran
+					Integer  paginas = Correo.listaCorreos().size();
+							
+				return ok(cuentas.render(Administrador.find.byId(session("usuario")),Usuario.listarUsuarios(),(paginas/20)+1));
+				}
+			}
 	
 //valida la existencia de una sesion
 	public static boolean verificaSession() {

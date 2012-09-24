@@ -20,12 +20,13 @@
 					<div class=span11>
 						<table class="table">
 							@for(p<-lista){
-								<form id="form1" class="well" action="@routes.Admin.adminCuenta" method="post">
+								<form id="form1" class="well" action="@routes.Admin.adminElimina" method="post">
 								<tr>
 											<td><font size="4">@p.nombre</font></td>
 											<td>Correo: @p.correo </td>
 											<td>Estado: @p.estado</td>
-											<td><button class="btn" type="submit" id="fat-btn" data-loading-text="Desactivando..."> Desactivar </button></td>
+											<td><button class="btn btn-danger" type="submit" id="fat-btn" data-loading-text="Desactivando..."> Desactivar </button></td>
+											<td><input type="button" class="btn btn-success" onclick="location='@routes.Admin.adminActiva(p.correo)'" value="Activar"></td>
 											<input type="hidden" name="correo" value="@p.correo">
 														
 								</tr>

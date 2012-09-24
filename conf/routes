@@ -30,8 +30,8 @@ POST	/cambiar-password			controllers.Admin.cambioPass()
 GET		/logout-admin				controllers.Admin.cerrarSesion()
 GET		/responder					controllers.Admin.responder(id: Long)
 POST	/correo						controllers.Admin.enviarRespuesta(id: Long)
-POST	/cuentas					controllers.Admin.adminCuenta()
-
+POST	/desactiva					controllers.Admin.adminElimina()
+GET		/activa						controllers.Admin.adminActiva(correo: String)
 
 #Agenda
 GET		/app						controllers.Home.index()
