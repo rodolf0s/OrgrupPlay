@@ -24,7 +24,7 @@
  	 			 	 			
  	 			 	 		}	
  	 			 	 			<input type="hidden" name="id">
- 	 			 	 			<a class="btn" onclick="obtieneId()">Eliminar</a>
+ 	 			 	 			<a class="btn" onclick="cuenta()">Eliminar</a>
  	 			 	 			</form>		 	 		
  	 			 		</table>
  	 				</div>
@@ -35,21 +35,30 @@
   	
   	<script type="text/javascript">
 	
-	function obtieneId() {
-		
+  	function cuenta() {
 		var cont = 0;
 		var valores = [];
 		var c = 0;
 		var concatena = "";
-		for(var x=0; x < document.formulario.id1.length; x++) {
-			if (document.formulario.id1[x].checked == true) {
-				concatena = concatena + '00' + document.formulario.id1[x].value;
-			}
+
+		var checkboxes = document.formulario.id1.length;
+		
+		if (checkboxes > 1) {
+				for(var x=0; x < document.formulario.id1.length; x++) {
+					if (document.formulario.id1[x].checked == true) {
+						concatena = concatena + '00' + document.formulario.id1[x].value;
+					}
+				}
+			alert("hola");
 		}
+		else {
+			concatena = '00' + document.formulario.id1.value;
+		}
+
 		document.formulario.id.value = concatena;
 		document.formulario.action = "@routes.Mensajes.eliminaMensajes";
 		document.formulario.submit();
-	}
+	}	
 	
 	</script>	
  }
