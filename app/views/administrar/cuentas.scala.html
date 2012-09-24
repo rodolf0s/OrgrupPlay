@@ -5,33 +5,33 @@
 @if(lista.isEmpty()){
 					<table align="center">
 						<tr>
-							<td><h3>Cuentas</h3>@paginas</td>
+							<td><h3>Cuentas</h3></td><span style="color: red;">@paginas</span>
 						</tr>
 					</table>
 				}else {
 					
 					<table align="center">
 						<tr>
-							<td><h3>Cuentas</h3>@paginas</td>
+							<td><h3>Cuentas</h3></td><span style="color: red;">@paginas</span>
 							
 						</tr>
 					</table>
 					<div class="container well">
-					<div class=span8>
+					<div class=span11>
 						<table class="table">
 							@for(p<-lista){
-								<form id="form1" class="well" action="" method="post">
+								<form id="form1" class="well" action="@routes.Admin.adminCuenta" method="post">
 								<tr>
 											<td><font size="4">@p.nombre</font></td>
 											<td>Correo: @p.correo </td>
 											<td>Estado: @p.estado</td>
-											<td>Tiempo: @p.inicioSesion</td>
-											<td>Eliminar</td>
-			
+											<td><button class="btn" type="submit" id="fat-btn" data-loading-text="Desactivando..."> Desactivar </button></td>
+											<input type="hidden" name="correo" value="@p.correo">
+														
 								</tr>
+								}
 								</form>
-									
-															}					
+														
 						</table>
 					</div>
 					</div>
