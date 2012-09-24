@@ -325,12 +325,8 @@ public class Usuario extends Model {
 	 * @param correo
 	 */
 	public static void desactivarCuenta(String correo) {
-		Usuario usuario = Ebean.find(Usuario.class, correo);		
-		Ebean.createSqlUpdate("DELETE FROM tarea WHERE usuario_correo = :correo").setParameter("correo", correo).execute();
-		Ebean.createSqlUpdate("DELETE FROM integrante WHERE usuario_correo = :correo").setParameter("correo", correo).execute();
-		Ebean.createSqlUpdate("DELETE FROM contacto WHERE usuario1_correo = :correo1 OR usuario2_correo = :correo2").setParameter("correo1", correo).setParameter("correo2", correo).execute();		
-		usuario.delete();
-	}
-	
-	
+		Usuario usuario = Ebean.find(Usuario.class, correo);
+		usuario.estado = "Desactivada";
+		usuario.update();
+	}	
 }
