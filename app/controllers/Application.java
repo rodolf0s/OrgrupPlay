@@ -138,7 +138,7 @@ public class Application extends Controller {
 			    email.setHostName("smtp.gmail.com");
 			    email.setFrom("orgrup.service@gmail.com");
 			    email.setSubject("Confirmar Cuenta Orgrup");
-			    email.setMsg("Hola " +user.nombre +"\nPara completar el registro haga click en el siguiente enlace para activar la cuenta http://localhost:9000/VerificaCuenta?correo="+user.correo+"&id="+id+"\n\nUn saludo cordial\nEl equipo de Orgrup.");
+			    email.setMsg("Hola " +user.nombre +"\nPara completar el registro haga click en el siguiente enlace para activar la cuenta http://localhost:9000/verificar-cuenta?correo="+user.correo+"&id="+id+"\n\nUn saludo cordial\nEl equipo de Orgrup.");
 			    email.addTo(user.correo);
 			    email.setTLS(true);
 			    email.send();
