@@ -26,7 +26,7 @@ public class Contactos extends Controller {
 		
 		List<Usuario> usuarioVacio = new ArrayList<Usuario>();
 		try{
-			return ok(contactos.render(Usuario.find.byId(session("email")), usuarioVacio));	
+			return ok(contactos.render(Usuario.find.byId(session("email")), usuarioVacio, ""));	
 		}catch(Exception e){
 			
 		}
@@ -40,10 +40,10 @@ public class Contactos extends Controller {
 		Form<Usuario> formBuscaContactos = form(Usuario.class).bindFromRequest();
 		
 		if(formBuscaContactos.hasErrors()){
-			return badRequest(contactos.render(Usuario.find.byId(session("email")), usuarioVacio));
+			return badRequest(contactos.render(Usuario.find.byId(session("email")), usuarioVacio, ""));
 		} else{
 			Usuario amigos = formBuscaContactos.get();
-			return ok(contactos.render(Usuario.find.byId(session("email")), Usuario.listaUsuarios(amigos.nombre)));
+			return ok(contactos.render(Usuario.find.byId(session("email")), Usuario.listaUsuarios(amigos.nombre), amigos.nombre));
 		}
 	}
 	
@@ -54,13 +54,15 @@ public class Contactos extends Controller {
 		Form<Contacto> formAgregaContacto = form(Contacto.class).bindFromRequest();
 		
 		if(formAgregaContacto.hasErrors()){
-			return badRequest(contactos.render(Usuario.find.byId(session("email")), usuarioVacio));
+			return badRequest(contactos.render(Usuario.find.byId(session("email")), usuarioVacio, ""));
 		}else{
 			Contacto amigoEncontrado = formAgregaContacto.get();
 //			return ok(amigoEncontrado.usuario1.toString());
+			String a = amigoEncontrado.amigos;
+			amigoEncontrado.amigos = "no";
 			amigoEncontrado.save();
 			try{
-				return ok(contactos.render(Usuario.find.byId(session("email")), usuarioVacio));
+				return ok(contactos.render(Usuario.find.byId(session("email")), usuarioVacio, a));
 			}catch(Exception e){
 			
 			}			

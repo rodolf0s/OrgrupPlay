@@ -1,7 +1,6 @@
-@(user: Usuario, lista: List[Usuario])
+@(user: Usuario, lista: List[Usuario], busqueda: String)
 
 @app(title = "Orgrup", user.nombre) {
-	
 	<div class="container">
 		<div class="tabbable">
 			<ul class="nav nav-tabs">
@@ -11,10 +10,10 @@
  
 			<div class="tab-content">
  	 			<div class="tab-pane active">
- 	 					<form name="form0" action="@routes.Contactos.buscaContactos" method="post">
+ 	 					<form name="formulario" id="formulario" action="@routes.Contactos.buscaContactos" method="post">
  	 						<div class="input-append">
- 	 							<input type="text" class="input-xlarge" placeholder="Ingrese el nombre o correo" name="nombre" id="nombre" autofocus="autofocus" required>
- 	 							<input type="submit" class="btn" value="Buscar contacto">
+ 	 							<input type="text" class="input-xlarge" placeholder="Ingrese el nombre o correo" name="nombre" id="nombre" value="gmail" autofocus="autofocus" required>
+ 	 							<input type="submit" name="submit" class="btn" value="Buscar contacto">
  	 						</div>
  	 					</form>
  	 				
@@ -28,11 +27,11 @@
 						<div class=span8>
 							<table class="table table-hover">
 							@for(p<-lista){
-								<form name="form1" action="@routes.Contactos.agregaContacto" method="post">
+								<form name="form1" id="form1" action="@routes.Contactos.agregaContacto" method="post">
 									<tr>
 										<input type="hidden" name="usuario1.correo" value="@user.correo">
 										<input type="hidden" name="usuario2.correo" value="@p.correo">
-										<input type="hidden" name="amigos" value="no">
+										<input type="hidden" name="amigos" value="@busqueda">
 										<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@p.imagen" class="img-polaroid" alt="imagen usuario"></td>
 										<td><font size="4">@p.nombre</font><br>Correo: @p.correo<br>Vive en: @p.ciudad</font></td>
 										@if(user.correo != p.correo && Contacto.compruebaUsuarioExistente(user.correo, p.correo) != p.correo && Contacto.compruebaSolicitud(user.correo, p.correo) != p.correo){
@@ -51,12 +50,41 @@
 				}
 		</div>
 	</div>
+
 	
-	<script>
-		$('#myTab a').click(function (e) {
-			e.preventDefault();
-		  	$(this).tab('show');
-		})
+	<script type="text/javascript">
+	
+// 		$('#myTab a').click(function (e) {
+// 			e.preventDefault();
+// 		  	$(this).tab('show');
+// 		});
+		
+// 		window.onload = function() {
+// // 			window.onload = NULL;	
+// 			if(@busqueda!=null{
+// 				document.formulario.action = "@routes.Contactos.agregaContacto";
+// 				document.formulario.submit();
+				
+// 			}
+// 			alert("ACTION!!!!!");
+// 		}
+		
+		
+		$(document).ready(function() {
+				alert("Si");
+				document.formulario.submit();
+				alert("Perfect");
+		});
+		
+		
+// 		if(@busqueda!=null){
+// 			document.onload = enviar();
+// 		}
+// 		function enviar() {
+// 				alert("Hola");
+// 				document.formulario.action = "@routes.Contactos.agregaContacto";
+// 				document.formulario.submit();
+// 		}
 		
 	</script>
 

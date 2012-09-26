@@ -49,10 +49,12 @@
 						concatena = concatena + '00' + document.formulario.id1[x].value;
 					}
 				}
-			alert("hola");
+			
 		}
 		else {
-			concatena = '00' + document.formulario.id1.value;
+			if(document.formulario.id1.checked == true) {
+				concatena = '00' + document.formulario.id1.value;
+			}
 		}
 
 		document.formulario.id.value = concatena;

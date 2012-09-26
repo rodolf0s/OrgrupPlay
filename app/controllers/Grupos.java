@@ -323,6 +323,25 @@ public class Grupos extends Controller {
 	}
 	
 	/**
+	 * Permite al usuario perteneciente a un grupo abandonarlo
+	 * 
+	 * @return
+	 */
+	public static Result abandonaGrupo() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Integrante> abandonaIntegrante = form(Integrante.class).bindFromRequest();
+			if (abandonaIntegrante.hasErrors()) {
+				return badRequest();
+			} else {
+				Integrante.eliminaIntegrante(abandonaIntegrante.get().id);
+				return redirect(routes.Grupos.muestraGrupos());
+			}			
+		}
+	}
+	
+	/**
 	 * Edita un grupo.
 	 * 
 	 * @return

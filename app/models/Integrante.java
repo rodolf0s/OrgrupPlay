@@ -90,4 +90,20 @@ public class Integrante extends Model {
 		integrante.tipo = 2;
 		integrante.update();
 	}
+	
+	/**
+	 * 
+	 * Obtiene el id del usuario en un grupo
+	 * @return
+	 */
+	public static Long ObtieneId(Long id, String correo){
+		Integrante integrante = Ebean.find(Integrante.class)
+				.select("id")
+				.where()
+				.eq("grupo_id", id)
+				.eq("usuario_correo", correo)
+				.findUnique();
+		return integrante.id;
+		
+	}
 }

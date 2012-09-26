@@ -13,16 +13,34 @@
 		}
 	</style>
 
+	
 	<div class="container">
 		<div class="well well-small">
 			<fieldset>
-				<legend>Grupos a los que pertenece</legend>
+				<legend>
+					<table>
+						<td>Grupos a los que pertenece</td>
+						<td style="position: absolute; top:100; right:0; width:350px;"><a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Crear grupo</a></td>
+					</table>
+				</legend>
+				
 			</fieldset>
 				<table>
 					@for(p<-grupos){
 						<tr>
 							<td><img class="img-polaroid" style="width: 35px; height: 35px;" src='/assets/grupos/@p.getString("imagen")'>&nbsp;</td>
-							<td id="fondo" class="span11"><a href="@routes.Grupos.index(p.getString("id").toLong)">@p.getString("nombre")</a></td>
+							<td id="fondo" class="span10"><a href="@routes.Grupos.index(p.getString("id").toLong)">@p.getString("nombre")</a></td>
+							@if(Integrante.esAdmin(p.getString("id").toLong, user.correo)==true){
+								<td></td>
+							}else {
+								<td>
+									<form name="form1" action="@routes.Grupos.abandonaGrupo" method="post">
+										<input type="hidden" name="id" value="@Integrante.ObtieneId(p.getString("id").toLong, user.correo)">
+										<input type="submit" class="btn btn-danger" value="Abandonar">
+									</form>
+								</td>
+							}
+							<td></td>
 						</tr>
 						}
 						
@@ -30,7 +48,52 @@
 				</table>
 			</div>
 	</div>
+	
+		<!-- Modal crear grupo -->
+	<div class="modal hide fade" id="creaGrupo">
+		<form action="@routes.Home.crearGrupo" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Grupo Nuevo</h3>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+	    			<label class="control-label">Nombre del grupo</label>
+	    			<div class="controls">
+	    				<input class="input-medium" type="text" name="nombre" autofocus="autofocus" required>
+	    			</div>
+	    		</div>
+	    		
+	    		<div class="control-group">
+	    			<label class="control-label">Descripcion</label>
+	    			<div class="controls">
+	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500"></textarea>
+	    			</div>
+	    		</div>
+	    		
+	    		<div class="control-group">
+				<label class="control-label" for="imagen">Imagen de grupo</label>
+					<div class="controls">
+						<img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
+						<input class="input-file" id="imagen" type="file" name="imagen"><br>
+						tamaño maximo = 1 MB
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+				<input type="submit" class="btn btn-primary" value="Crear">
+			</div>
+		</form>		
+	</div>
 
+	<script type="text/javascript">
+	
+		function modal(){
+			$('#creaGrupo').modal('show');
+		}
+		
+	</script>
 
 
 
