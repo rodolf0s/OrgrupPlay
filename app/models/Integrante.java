@@ -78,4 +78,16 @@ public class Integrante extends Model {
 		else
 			return false;
 	}
+	
+	public static void agregarAdmin(String email, Long idGrupo) {
+		Integrante integrante = find.where().eq("grupo_id", idGrupo).eq("usuario_correo", email).findUnique();
+		integrante.tipo = 1;
+		integrante.update();
+	}
+	
+	public static void quitarAdmin(String email, Long idGrupo) {
+		Integrante integrante = find.where().eq("grupo_id", idGrupo).eq("usuario_correo", email).findUnique();
+		integrante.tipo = 2;
+		integrante.update();
+	}
 }
