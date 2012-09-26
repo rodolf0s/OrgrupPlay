@@ -16,8 +16,8 @@
 			$('#agregaIntegrantes').modal('show');
 		}
 		
-		function modalGrupos() {
-			$('#creaGrupo').modal('show');
+		function modalAdmin() {
+			$('#modalAdmin').modal('show');
 		}		
 	</script>
 	
@@ -90,6 +90,9 @@
 					@if(c.tipo == 1) {
 						<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(c.usuario.correo)" alt="imagen usuario">
 		   				<strong><a href="@routes.Contactos.muestraElPerfil(c.usuario.correo)">@Usuario.getNombre(c.usuario.correo)</a></strong> es el administrador de este grupo.
+		   				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+		   					<a href="#" onClick="modalAdmin()">cambiar</a>
+		   				}
 					}
 				}
 				<br><br>
@@ -179,6 +182,33 @@
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
 				<input type="submit" class="btn btn-primary" value="Agregar">
+			</div>
+		</form>		
+	</div>
+	
+	<!-- Modal cambiar admin -->
+	<div class="modal hide fade" id="modalAdmin">
+		<form action='@routes.Grupos.cambiarAdmin()' class="form-horizontal" name="admin" method="post">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Cambiar de administrador</h3>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+	    			<label class="control-label">Integrantes</label>
+	    			<div class="controls">
+	    				<select name="usuario.correo">
+	    					@for(inte <- integrantes) {
+	    						<option value="@inte.usuario.correo">@Usuario.getNombre(inte.usuario.correo)</option>
+	    					}
+	    				</select>
+	    			</div>
+	    		</div>
+	    		<input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+				<input type="submit" class="btn btn-primary" value="Cambiar">
 			</div>
 		</form>		
 	</div>

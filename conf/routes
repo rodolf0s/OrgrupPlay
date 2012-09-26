@@ -88,6 +88,7 @@ GET		/grupo/:idGrupo/reunion/:idReunion	controllers.Grupos.verReunion(idReunion:
 POST	/grupo/:idGrupo/reunion/:idReunion	controllers.Grupos.subeArchivo(idReunion: Long, idGrupo: Long)
 GET		/grupo/descargar-archivo/:id		controllers.Grupos.descargarArchivo(id: Long)
 GET		/grupo/eliminar-archivo/:idArchivo controllers.Grupos.eliminarArchivo(idArchivo: Long, idReunion: Long, idGrupo: Long)
+POST	/grupo/cambia-admin			controllers.Grupos.cambiarAdmin()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

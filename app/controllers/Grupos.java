@@ -516,4 +516,20 @@ public class Grupos extends Controller {
 		archivo.delete();
 		return redirect(routes.Grupos.verReunion(idReunion, idGrupo));
 	}
+	
+	/**
+	 * Cambia de administrador en un grupo.
+	 * 
+	 * @return
+	 */
+	public static Result cambiarAdmin() {
+		Form<Integrante> cambiaAdmin = form(Integrante.class).bindFromRequest();
+		if (cambiaAdmin.hasErrors()) {
+			return badRequest();
+		} else {
+			Integrante.quitarAdmin(session("email"), cambiaAdmin.get().grupo.id);
+			Integrante.agregarAdmin(cambiaAdmin.get().usuario.correo, cambiaAdmin.get().grupo.id);
+		}
+		return redirect(routes.Grupos.index(cambiaAdmin.get().grupo.id));
+	}
 }
