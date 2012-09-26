@@ -89,7 +89,7 @@
 				@for(c <- integrantes) {
 					@if(c.tipo == 1) {
 						<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(c.usuario.correo)" alt="imagen usuario">
-		   				<strong>@Usuario.getNombre(c.usuario.correo)</strong> creo el grupo.
+		   				<strong><a href="@routes.Contactos.muestraElPerfil(c.usuario.correo)">@Usuario.getNombre(c.usuario.correo)</a></strong> es el administrador de este grupo.
 					}
 				}
 				<br><br>
