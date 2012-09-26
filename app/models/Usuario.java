@@ -268,6 +268,27 @@ public class Usuario extends Model {
 	    		.findUnique();
 	    return usuario.nombre;
 	}
+	
+	/**
+	 * Obtiene el telefono del usuario.
+	 * 
+	 * @param email
+	 * @return
+	 */
+	public static String getTelefono(String email) {
+		Usuario usuario = Ebean.find(Usuario.class)
+	    		.select("telefono")
+	    		.where()
+	    		.eq("correo", email)
+	    		.findUnique();
+		try {
+			if (usuario.telefono.toString().isEmpty())
+				return "";
+			else
+				return usuario.telefono.toString();
+		} catch(Exception e) {}
+		return "";
+	}
 
 	/**
 	 * Obtiene la imagen del usuario.

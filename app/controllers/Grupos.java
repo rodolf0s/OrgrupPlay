@@ -2,17 +2,12 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.FileNameMap;
-import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
-
-import javax.activation.MimetypesFileTypeMap;
 
 import com.avaje.ebean.Ebean;
 
@@ -22,13 +17,11 @@ import models.Archivo;
 import models.Contacto;
 import models.Grupo;
 import models.Integrante;
-import models.Mensaje;
 import models.Reunion;
 import models.Usuario;
 
 import play.data.Form;
 import play.mvc.Controller;
-import play.mvc.Http.Response;
 import play.mvc.Result;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
@@ -94,32 +87,6 @@ public class Grupos extends Controller {
 						Contacto.listaAmigos(Usuario.find.byId(session("email"))),
 						Reunion.find.where().eq("grupo_id", id).findList(),
 						archivoVacio
-						));
-			} else {
-				return redirect(routes.Home.index());
-			}
-		}	
-	}
-	
-	/**
-	 * Muestra los documentos del grupo.
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public static Result muestraDocumentos(Long id) {
-		if (!verificaSession()) {
-			return redirect(routes.Application.index());
-		} else {
-			// verifica que el usuario pertenesca al grupo. haciendo un INNER JOIN grupo con integrante
-			// si no pertenece al grupo lo redirecciona al home "/App"
-			if (Grupo.getGrupo(session("email"), id) != null) {
-				return ok(views.html.grupo.grupo_documentos.render(
-						Usuario.find.byId(session("email")),
-						Grupo.getGrupo(session("email"), id),
-						Grupo.getGrupos(session("email")),
-						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.listaAmigos(Usuario.find.byId(session("email")))
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -265,7 +232,7 @@ public class Grupos extends Controller {
 				nuevoIntegrante.fecha_ingreso = fecha;
 				nuevoIntegrante.save();
 
-				return redirect(routes.Grupos.index(creaGrupo.get().grupoId));
+				return redirect(routes.Grupos.index(nuevoGrupo.id));
 			}
 		}
 	}
@@ -276,7 +243,7 @@ public class Grupos extends Controller {
 	 * @return al la pagina grupo donde esta (/grupo/?)
 	 * donde ? es el id del grupo.
 	 */
-	public static Result agregaIntegrante() {
+	public static Result agregaIntegrante(Integer pag) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
@@ -298,7 +265,10 @@ public class Grupos extends Controller {
 				agregaIntegrante.get().save();
 
 				Long id = agregaIntegrante.get().grupo.id;
-				return redirect(routes.Grupos.index(id));
+				if (pag == 1)
+					return redirect(routes.Grupos.index(id));
+				else
+					return redirect(routes.Grupos.muestraMiembros(id));
 			}
 		}
 	}
@@ -308,37 +278,10 @@ public class Grupos extends Controller {
 	 * 
 	 * @return
 	 */
-	public static Result eliminaIntegrante() {
-		if (!verificaSession()) {
-			return redirect(routes.Application.index());
-		} else {
-			Form<Integrante> eliminaIntegrante = form(Integrante.class).bindFromRequest();
-			if (eliminaIntegrante.hasErrors()) {
-				return badRequest();
-			} else {
-				Integrante.eliminaIntegrante(eliminaIntegrante.get().id);				
-				return redirect(routes.Grupos.muestraMiembros(eliminaIntegrante.get().grupo.id));
-			}			
-		}
-	}
-	
-	/**
-	 * Permite al usuario perteneciente a un grupo abandonarlo
-	 * 
-	 * @return
-	 */
-	public static Result abandonaGrupo() {
-		if (!verificaSession()) {
-			return redirect(routes.Application.index());
-		} else {
-			Form<Integrante> abandonaIntegrante = form(Integrante.class).bindFromRequest();
-			if (abandonaIntegrante.hasErrors()) {
-				return badRequest();
-			} else {
-				Integrante.eliminaIntegrante(abandonaIntegrante.get().id);
-				return redirect(routes.Grupos.muestraGrupos());
-			}			
-		}
+	public static Result eliminaIntegrante(String email, Long idGrupo) {
+		Integrante integrante = Integrante.find.where().eq("usuario_correo", email).eq("grupo_id", idGrupo).findUnique();
+		integrante.delete();
+		return redirect(routes.Grupos.muestraMiembros(idGrupo));
 	}
 	
 	/**
@@ -550,5 +493,19 @@ public class Grupos extends Controller {
 			Integrante.agregarAdmin(cambiaAdmin.get().usuario.correo, cambiaAdmin.get().grupo.id);
 		}
 		return redirect(routes.Grupos.index(cambiaAdmin.get().grupo.id));
+	}
+	
+	/**
+	 * Deja un grupo determinado un integrante.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Result dejarGrupo(Long id) {
+		Integrante integrante = Integrante.find.where()
+				.eq("usuario_correo", session("email"))
+				.eq("grupo_id", id).findUnique();
+		integrante.delete();
+		return redirect(routes.Home.index());
 	}
 }

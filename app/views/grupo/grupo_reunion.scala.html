@@ -6,6 +6,9 @@
 		function modalDocumentos() {
 			$('#document').modal('show');
 		}
+		function modalGrupos() {
+			$('#creaGrupo').modal('show');
+		}	
 	</script>
 	
 	<div class="row-fluid">
@@ -88,16 +91,15 @@
 		<div class="span2">
 			<div class="tabbable tabs-right">
 			<ul class="nav nav-tabs">
-<!--				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
 				<li class="active"><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
-				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
-				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
+				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Integrantes</a></li>
 				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
 				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
 				}
 			</ul>
 			</div>
 		</div>
+	</div>
 }
 
 	<!-- Modal subir archivo -->
@@ -114,7 +116,44 @@
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
 				<input type="submit" class="btn btn-primary" value="Subir">
-<!-- 				<button class="btn btn-primary" onClick="subeArchivo()">Subir</button> -->
 			</div>
 		</form>	
+	</div>
+	
+	<!-- Modal crear grupo -->
+	<div class="modal hide fade" id="creaGrupo">
+		<form action="@routes.Grupos.crearGrupo" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Grupo Nuevo</h3>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+	    			<label class="control-label">Nombre del grupo</label>
+	    			<div class="controls">
+	    				<input class="input-medium" type="text" name="nombre" autofocus="autofocus" required>
+	    			</div>
+	    		</div>
+	    		
+	    		<div class="control-group">
+	    			<label class="control-label">Descripcion</label>
+	    			<div class="controls">
+	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500"></textarea>
+	    			</div>
+	    		</div>
+	    		
+	    		<div class="control-group">
+				<label class="control-label" for="imagen">Imagen de grupo</label>
+					<div class="controls">
+						<img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
+						<input class="input-file" id="imagen" type="file" name="imagen"><br>
+						tamaño maximo = 1 MB
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+				<input type="submit" class="btn btn-primary" value="Crear">
+			</div>
+		</form>		
 	</div>
