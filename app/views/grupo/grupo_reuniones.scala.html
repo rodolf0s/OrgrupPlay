@@ -14,20 +14,10 @@
 				$('#document').modal('show');
 			}
 		});
-		
-		function modalMiembros() {
-			$('#agregaIntegrantes').modal('show');
-		}
-		function modalGrupos() {
-			$('#creaGrupo').modal('show');
-		}
-		function modalDocumentos() {
-			$('#document').modal('show');
-		}
+
 		function enviarReunion() {
 			document.reunion.submit();
-		}
-		
+		}		
 	</script>
 
 	<div class="row-fluid">
@@ -88,16 +78,7 @@
 <!-- 	   				} -->
 <!--    				</ul> -->
 <!--    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal" onClick=modalMiembros() >agregar miembros</a> -->
-<!--    			</div> -->
-
-<!-- 			<div class="well sidebar-nav"> -->
-<!-- 				@grupo.getString("nombre")<br> -->
-<!-- 				@grupo.getString("usuario_correo")<br> -->
-<!-- 				@grupo.getString("tipo")<br> -->
-<!-- 				id @grupo.getString("id")<br> -->
-<!-- 				@grupo.getString("distintivo")<br><br> -->
-<!-- 			</div> -->
-			
+<!--    			</div> -->			
 		</div>
 		
 		<div class="span7">
@@ -106,64 +87,54 @@
 					<h1>				
 						@grupo.getString("nombre") <small> Reuniones </small>				
 						<input type="hidden" name="id" value='@grupo.getString("id")'>
-						<input class="btn btn-success pull-right" type="submit" value="Crear reunion">					
+						@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+						<input class="btn btn-success pull-right" type="submit" value="Crear reunion">
+						}					
 					</h1>
 				</form> 
 			</div>
 			
-<!-- 				@if(!reuniones.isEmpty()) { -->
-<!-- 					@for(r <- reuniones) { -->
-<!-- 						<div class="well"> -->
-<!-- 							<p><h4>@r.nombre</h4></p> -->
-<!-- 						</div> -->
-<!-- 					} -->
-<!-- 				} -->
-				<div>
-					@if(!reuniones.isEmpty()) {
-						<table class="table table-hover">
-							<thead>
+			<div>
+				@if(!reuniones.isEmpty()) {
+					<table class="table table-hover table-bordered">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Fecha inicio</th>
+								<th>Fecha fin</th>
+								<th>Hora inicio</th>
+								<th>Hora fin</th>
+								<th>Descripcion</th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							@for(r <- reuniones) { 
+							<form name="reunion" action="#" method="post">
 								<tr>
-									<th>Nombre</th>
-									<th>Fecha inicio</th>
-									<th>Fecha fin</th>
-									<th>Hora inicio</th>
-									<th>Hora fin</th>
-									<th>Descripcion</th>
-									<th>Documentos</th>
+									<td> 
+										<input type="hidden" name="id" value="@r.id">
+										<input type="hidden" name="grupo.id" value="@r.grupo.id">
+										<a href='@routes.Grupos.verReunion(r.id, grupo.getString("id").toLong)' rel="tooltip" title="@r.nombre" data-content="@r.nombre" data-placement="top">
+											@if(r.nombre.length < 15) {@r.nombre} else {@r.nombre.substring(0, 14)...}
+										</a>
+									</td>
+									<td>@r.fecha_inico.format("dd/MM/yyyy")</td>
+									<td>@r.fecha_fin.format("dd/MM/yyyy")</td>
+									<td>@r.hora_inicio.format("HH:mm")</td>
+									<td>@r.hora_fin.format("HH:mm")</td>
+									<td>
+										<a href="#" rel="tooltip" title="@r.descripcion" data-content="@r.nombre" data-placement="top">
+											@if(r.descripcion.length < 40) {@r.descripcion} else {@r.descripcion.substring(0, 39)...}
+										</a>
+									</td>
 								</tr>
-							</thead>
-							
-							<tbody>
-								@for(r <- reuniones) { 
-								<form name="reunion" action="@routes.Grupos.getArchivo(r.grupo.id)" method="post">
-									<tr>
-										<td> 
-											<input type="hidden" name="id" value="@r.id">
-											<input type="hidden" name="grupo.id" value="@r.grupo.id">
-											<a href="#" rel="tooltip" title="@r.nombre" data-content="@r.nombre" data-placement="top">
-												@if(r.nombre.length < 11) {@r.nombre} else {@r.nombre.substring(0, 10)...}
-											</a>
-										</td>
-										<td>@r.fecha_inico.format("dd/MM/yyyy")</td>
-										<td>@r.fecha_fin.format("dd/MM/yyyy")</td>
-										<td>@r.hora_inicio.format("HH:mm")</td>
-										<td>@r.hora_fin.format("HH:mm")</td>
-										<td>
-											<a href="#" rel="tooltip" title="@r.descripcion" data-content="@r.nombre" data-placement="top">
-												@if(r.descripcion.length < 25) {@r.descripcion} else {@r.descripcion.substring(0, 24)...}
-											</a>
-										</td>
-										<td>
-											<button type="submit" rel="tooltip" title="Ver documentos"><i class="icon-eye-open"></i></button>
-<!-- 												<a href="#" rel="tooltip" title="Ver documentos" onClick=enviarReunion()><i class="icon-eye-open"></i></a> -->
-										</td>									
-									</tr>
-								</form>
-								}
-							</tbody>
-						</table>
-					}
-				</div>			
+							</form>
+							}
+						</tbody>
+					</table>
+				}
+			</div>			
 		</div>
 
 		<div class="span2">
@@ -173,7 +144,9 @@
 				<li class="active"><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
 				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
+				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
 				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
+				}
 			</ul>
 			</div>
 		</div>
@@ -187,126 +160,5 @@
 <!-- 				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li> -->
 <!-- 			</ul> -->
 <!-- 		</div> -->
-	</div>
-	
-	
-	<!-- Modal agrega miembros -->
-	<div class="modal hide fade" id="agregaIntegrantes">
-		<form action="@routes.Grupos.agregaIntegrante" class="form-horizontal" name="integrante" method="post">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Agregar Miembros</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-	    			<label class="control-label">Nombre del miembro</label>
-	    			<div class="controls">
-
-
-						<!-- 
-						Esta enviando solo el nombre del usuario, en el controlador
-						hace una consulta para obtener el correo del usuario.
-						
-						Importante. solo sirve si el nombre es unico,	
-						 -->
-	    				<input type="text" id="search" data-provide="typeahead" data-items="4" autocomplete="off" name="usuario.correo">
-	    			</div>
-	    		</div>
-	    		<script type="text/javascript">
-		    		var contactos = [
-		 							@if(!contactos.isEmpty()) {
-		 								@for(c <- contactos) {
-		 									'@Usuario.getNombre(c.usuario2.correo)',																	
-		 								}
-		 							}
-		 						];
-		 			$('#search').typeahead({
-		 				source: contactos
-		 			});
-	    		</script>
-	    		<input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Agregar">
-			</div>
-		</form>		
-	</div>
-	
-	<!-- Modal crear grupo -->
-	<div class="modal hide fade" id="creaGrupo">
-		<form action="@routes.Grupos.crearGrupo"class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Grupo Nuevo</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-	    			<label class="control-label">Nombre del grupo</label>
-	    			<div class="controls">
-	    				<input class="input-medium" type="text" name="nombre" required>
-	    			</div>
-	    		</div>
-	    		
-	    		<div class="control-group">
-	    			<label class="control-label">Descripcion</label>
-	    			<div class="controls">
-	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500"></textarea>
-	    			</div>
-	    		</div>
-	    		
-	    		<div class="control-group">
-				<label class="control-label" for="imagen">Imagen de grupo</label>
-					<div class="controls">
-						<img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
-						<input class="input-file" id="imagen" type="file" name="imagen"><br>
-						tamaño maximo = 1 MB
-					</div>
-				</div>
-				<input type="hidden" value='@grupo.getString("id")' name="grupoId">
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Crear">
-			</div>
-		</form>	
-	</div>
-	
-	<!-- Modal documentos -->
-	<div class="modal hide fade" id="document">
-		<form action="#"class="form-horizontal" name="documentos" enctype="multipart/form-data" method="post">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Documentos</h3>
-			</div>
-			<div class="modal-body">
-				@if(!archivos.isEmpty()) {
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Nombre</th>
-								<th>Fecha</th>
-								<th>Autor</th>
-								<th>Descargar</th>
-							</tr>
-						</thead>
-						<tbody>
-							@for(ar <- archivos) {
-								<tr>
-									<td>@ar.nombre</td>
-									<td>@ar.fecha.format("dd/MM/yyyy") @ar.hora.format("HH:mm")</td>
-									<td>@Usuario.getNombre(ar.usuario.correo)</td>
-									<td>bajar</td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				}
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Crear">
-			</div>
-		</form>	
 	</div>
 }

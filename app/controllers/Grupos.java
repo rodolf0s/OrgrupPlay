@@ -2,9 +2,17 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.FileNameMap;
+import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
+
+import javax.activation.MimetypesFileTypeMap;
 
 import com.avaje.ebean.Ebean;
 
@@ -14,11 +22,13 @@ import models.Archivo;
 import models.Contacto;
 import models.Grupo;
 import models.Integrante;
+import models.Mensaje;
 import models.Reunion;
 import models.Usuario;
 
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Http.Response;
 import play.mvc.Result;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
@@ -303,8 +313,7 @@ public class Grupos extends Controller {
 			if (eliminaIntegrante.hasErrors()) {
 				return badRequest();
 			} else {
-				Integrante.eliminaIntegrante(eliminaIntegrante.get().id);
-				
+				Integrante.eliminaIntegrante(eliminaIntegrante.get().id);				
 				return redirect(routes.Grupos.muestraMiembros(eliminaIntegrante.get().grupo.id));
 			}			
 		}
@@ -380,48 +389,10 @@ public class Grupos extends Controller {
 	 * 
 	 * @return
 	 */
-	public static Result eliminaGrupo() {
-		if (!verificaSession()) {
-			return redirect(routes.Application.index());
-		} else {
-			Form<Grupo> eliminaGrupo = form(Grupo.class).bindFromRequest();
-			if (eliminaGrupo.hasErrors()) {
-				return badRequest();
-			} else {
-				Long id = eliminaGrupo.get().id;
-				
-				Integrante.eliminaTodos(id);
-				Grupo.find.ref(id).delete();				
-				return redirect(routes.Home.index());	
-			}
-		}
-	}
-	
-	/**
-	 * Obtiene los archivos de una reunion determinada.
-	 * 
-	 * @param id
-	 * @return una lista tipo Archivo.
-	 */
-	public static Result getArchivo(Long id) {
-		if (!verificaSession()) {
-			return redirect(routes.Application.index());
-		} else {
-			Form<Reunion> getArchivo = form(Reunion.class).bindFromRequest();
-			if (getArchivo.hasErrors()) {
-				return badRequest();
-			} else {
-				return ok(views.html.grupo.grupo_reuniones.render(
-						Usuario.find.byId(session("email")),
-						Grupo.getGrupo(session("email"), getArchivo.get().grupo.id),
-						Grupo.getGrupos(session("email")),
-						Integrante.find.where().eq("grupo_id", getArchivo.get().grupo.id).findList(),
-						Contacto.listaAmigos(Usuario.find.byId(session("email"))),
-						Reunion.find.where().eq("grupo_id", getArchivo.get().grupo.id).findList(),
-						Archivo.find.where().eq("reunion_id", getArchivo.get().id).findList()
-						));
-			}
-		}		
+	public static Result eliminaGrupo(Long id) {
+		Integrante.eliminaTodos(id);
+		Grupo.find.ref(id).delete();				
+		return redirect(routes.Home.index());
 	}
 
 	/**
@@ -438,11 +409,108 @@ public class Grupos extends Controller {
 	}
 	
 	/**
+	 * Muestra una reunion y sus documentos asociados.
+	 * 
+	 * @param idReunion
+	 * @param idGrupo
+	 * @return
+	 */
+	public static Result verReunion(Long idReunion, Long idGrupo) {
+		return ok(grupo_reunion.render(
+				Usuario.find.byId(session("email")),
+				Grupo.getGrupo(session("email"), idGrupo),
+				Grupo.getGrupos(session("email")),
+				Reunion.find.byId(idReunion),
+				Archivo.find.where().eq("reunion_id", idReunion).findList()
+				));
+	}
+	
+	/**
 	 * Muestra los grupos a los que pertenece el usuario.
 	 * 
 	 * @return
 	 */
 	public static Result muestraGrupos() {
 		return ok(muestra_grupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email"))));
+	}
+	
+	/**
+	 * Sube archivos a una determinada reunion.
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public static Result subeArchivo(Long idReunion, Long idGrupo) throws IOException, ParseException {
+		Form<Archivo> upload = form(Archivo.class).bindFromRequest();
+		if (upload.hasErrors()) {
+			return badRequest();
+		} else {
+			Archivo archivo = upload.get();
+			DateFormat formatter; 
+			
+			// Se recibe el archivo de la vista.
+			MultipartFormData body = request().body().asMultipartFormData();
+			FilePart file = body.getFile("nombre");
+			
+			// Si no es nulo.
+			if (file != null) {
+				// Genera un random de 9 digitos.
+				Integer id = (int)(Math.random()*1000000000);
+				// Agrega los 9 digitos mas el nombre del archivo.
+				String fileName = id.toString() + "_" + file.getFilename();
+				File documento = file.getFile();				
+				String path = "./public/grupos/" + fileName;
+				
+				Date fecha = new Date();
+				String hora = new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();				 
+				formatter = new SimpleDateFormat("HH:mm:ss");
+				Date hour = (Date)formatter.parse(hora);
+				
+				Usuario user = new Usuario();
+				user.correo = session("email");
+				
+				archivo.nombre = fileName;
+				archivo.fecha = fecha;
+				archivo.hora = hour;
+				archivo.usuario = user;
+				archivo.reunion.id = idReunion;
+				archivo.save();
+				
+				// Sube el archivo y lo guarda en la ruta especificada.
+				org.apache.commons.io.FileUtils.copyFile(documento, new File(path));
+				return redirect(routes.Grupos.verReunion(idReunion, idGrupo));
+			}
+		}
+		return ok();
+	}
+	
+	/**
+	 * Descarga un archivo.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Result descargarArchivo(Long id) {
+		Archivo archivo = Archivo.find.byId(id);
+		File file = new File("./public/grupos/" + archivo.nombre);
+        response().setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+		return ok(file);
+	}
+	
+	/**
+	 * Elimina un archivo.
+	 * 
+	 * @param idArchivo
+	 * @param idReunion
+	 * @param idGrupo
+	 * @return
+	 */
+	public static Result eliminarArchivo(Long idArchivo, Long idReunion, Long idGrupo) {
+		Archivo archivo = Archivo.find.byId(idArchivo);
+		File file = new File("./public/grupos/" + archivo.nombre);
+		file.delete();
+		archivo.delete();
+		return redirect(routes.Grupos.verReunion(idReunion, idGrupo));
 	}
 }

@@ -89,11 +89,12 @@
 		
 		<div class="span7">
 			<div class="page-header">
-				<form action="@routes.Grupos.eliminaGrupo" method="post">
+				<form action="#" method="post">
 					<h1>				
 						@grupo.getString("nombre") <small> Preferencias </small>					
 						<input type="hidden" name="id" value='@grupo.getString("id")'>
-						<input class="btn btn-danger pull-right" type="submit" value="Eliminar grupo">					
+<!-- 						<input class="btn btn-danger pull-right" type="submit" value="Eliminar grupo">					 -->
+						<a class="btn btn-danger" href='@routes.Grupos.eliminaGrupo(grupo.getString("id").toLong)'>Eliminar grupo</a>
 					</h1>
 				</form> 
 			</div>
@@ -134,7 +135,9 @@
 				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
 				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
+				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
 				<li class="active"><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
+				}
 			</ul>
 			</div>
 		</div>

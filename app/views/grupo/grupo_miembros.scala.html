@@ -102,10 +102,12 @@
 					<h1>				
 						@grupo.getString("nombre") <small> Miembros </small>					
 						<input type="hidden" name="id" value='@grupo.getString("id")'>
-						<a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick=modalMiembros() >
-							<i class="icon-plus"> </i>
-							Agregar miembro
-						</a>					
+						@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+							<a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick=modalMiembros() >
+								<i class="icon-plus"> </i>
+								Agregar miembro
+							</a>
+						}					
 					</h1>
 				</form> 
 			</div>
@@ -153,7 +155,9 @@
 				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
 				<li class="active"><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
+				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
 				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
+				}
 			</ul>
 			</div>
 		</div>
@@ -167,10 +171,7 @@
 <!-- 				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li> -->
 <!-- 			</ul> -->
 <!-- 		</div> -->
-	</div>
-	
-	
-	
+	</div>	
 	
 	<!-- Modal agrega miembros -->
 	<div class="modal hide fade" id="agregaIntegrantes">
@@ -213,44 +214,5 @@
 				<input type="submit" class="btn btn-primary" value="Agregar">
 			</div>
 		</form>		
-	</div>
-	
-	<!-- Modal crear grupo -->
-	<div class="modal hide fade" id="creaGrupo">
-		<form action="@routes.Grupos.crearGrupo"class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Grupo Nuevo</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-	    			<label class="control-label">Nombre del grupo</label>
-	    			<div class="controls">
-	    				<input class="input-medium" type="text" name="nombre" autofocus="autofocus" required>
-	    			</div>
-	    		</div>
-	    		
-	    		<div class="control-group">
-	    			<label class="control-label">Descripcion</label>
-	    			<div class="controls">
-	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500"></textarea>
-	    			</div>
-	    		</div>
-	    		
-	    		<div class="control-group">
-				<label class="control-label" for="imagen">Imagen de grupo</label>
-					<div class="controls">
-						<img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
-						<input class="input-file" id="imagen" type="file" name="imagen"><br>
-						tamaño maximo = 1 MB
-					</div>
-				</div>
-				<input type="hidden" value='@grupo.getString("id")' name="grupoId">
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Crear">
-			</div>
-		</form>	
 	</div>
 }

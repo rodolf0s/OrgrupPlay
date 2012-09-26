@@ -19,7 +19,6 @@ public class Archivo extends Model {
 	@Id
 	public Long id;
 	
-	@Constraints.Required
 	@Formats.NonEmpty
 	@Column(length=255, nullable=false)
 	public String nombre;
