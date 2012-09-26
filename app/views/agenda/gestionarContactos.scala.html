@@ -13,23 +13,19 @@
  	 			<div class="tab-pane active">
  	 				<table class="table table-hover">
  	 					@for(p<-list) {
- 	 						<form action="@routes.Contactos.muestraElPerfil(p.usuario2.correo)" method="post">
- 	 							<tr>
- 	 								<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@{Usuario.getImagen(p.usuario2.correo)}" class="img-polaroid" alt="imagen usuario"></td>
- 	 								<td><font size="4">@{Usuario.getNombre(p.usuario2.correo)}</font><br>
- 	 								Correo: @p.usuario2.correo <br>
- 	 								Vive en: @{Usuario.getCiudad(p.usuario2.correo)}</td>
- 	 								<td><input type="submit" class="btn" value="Ver perfil"></td>
- 	 								
- 	 							
- 	 						</form>
+ 	 						<tr>
+ 	 							<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@{Usuario.getImagen(p.usuario2.correo)}" class="img-polaroid" alt="imagen usuario"></td>
+ 	 							<td><font size="4">@{Usuario.getNombre(p.usuario2.correo)}</font><br>
+ 	 							Correo: @p.usuario2.correo <br>
+ 	 							Vive en: @{Usuario.getCiudad(p.usuario2.correo)}</td>
+								<td><a class="btn" href="@routes.Contactos.muestraElPerfil(p.usuario2.correo)">Ver Perfil</a></td>
  	 						
- 	 						<form action="@routes.Contactos.eliminaContacto" method="post">
- 	 							<input type="hidden" name="usuario1.correo" value="@user.correo">
- 	 							<input type="hidden" name="usuario2.correo" value="@p.usuario2.correo">
- 	 							<td><input type="submit" class="btn" value="Eliminar"></td>
- 	 						</form>
- 	 							</tr>
+	 	 						<form action="@routes.Contactos.eliminaContacto" method="post">
+	 	 							<input type="hidden" name="usuario1.correo" value="@user.correo">
+	 	 							<input type="hidden" name="usuario2.correo" value="@p.usuario2.correo">
+	 	 							<td><input type="submit" class="btn" value="Eliminar"></td>
+	 	 						</form>
+ 	 						</tr>
  	 					}
  	 				</table>
  	 			</div>
