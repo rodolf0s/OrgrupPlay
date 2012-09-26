@@ -240,13 +240,16 @@ public class Grupos extends Controller {
 					    nuevoGrupo.imagen = fileName;
 					    nuevoGrupo.update();
 					}
-				} else {
+				} else { 
 					nuevoGrupo.nombre = creaGrupo.get().nombre;
 					nuevoGrupo.descripcion = creaGrupo.get().descripcion;
 				    nuevoGrupo.imagen = "group.png";
 				    nuevoGrupo.save();
 				}	
-
+				// Crea un directorio al grupo para los documentos.
+			    File directorio = new File("./public/grupos/" + nuevoGrupo.id.toString());
+			    directorio.mkdir();
+			   
 				// Crea objetos para agregar posteriormente al usuario
 				// que creo el grupo a la tabla integrante
 				Usuario user = new Usuario();
