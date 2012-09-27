@@ -41,39 +41,43 @@
 		});
 
 		$('#horaI1').timepicker({
-			showLeadingZero: false,
+			showMinutes: false,
+		    showLeadingZero: false,
 			hourText: 'Hora',
-		    minuteText: 'Min',
+// 		    minuteText: 'Min',
 			onHourShow: tpStartOnHourShowCallback,
- 			onMinuteShow: tpStartOnMinuteShowCallback,
-//  		minutes: { interval: 30 }
+//  			onMinuteShow: tpStartOnMinuteShowCallback, 			
+//  			minutes: { interval: 30 }
 		});
 		
 		$('#horaF1').timepicker({
-			showLeadingZero: false,
+			showMinutes: false,
+		    showLeadingZero: false,
 			hourText: 'Hora',
-		    minuteText: 'Min',
+// 		    minuteText: 'Min',
 			onHourShow: tpEndOnHourShowCallback,
- 			onMinuteShow: tpEndOnMinuteShowCallback,
-//  		minutes: { interval: 30 }
+//  			onMinuteShow: tpEndOnMinuteShowCallback,
+//  			minutes: { interval: 30 }
 		});
 
 		
 		$('#horaI2').timepicker({
-			showLeadingZero: false,
+			showMinutes: false,
+		    showLeadingZero: false,
 			hourText: 'Hora',
-		    minuteText: 'Min',
+// 		    minuteText: 'Min',
 			onHourShow: tpStartOnHourShowCallback2,
- 			onMinuteShow: tpStartOnMinuteShowCallback2,
+//  			onMinuteShow: tpStartOnMinuteShowCallback2,
 // 			minutes: { interval: 30 }
 		});
 		
 		$('#horaF2').timepicker({
-			showLeadingZero: false,
+			showMinutes: false,
+		    showLeadingZero: false,
 			hourText: 'Hora',
-		    minuteText: 'Min',
+// 		    minuteText: 'Min',
 			onHourShow: tpEndOnHourShowCallback2,
-			onMinuteShow: tpEndOnMinuteShowCallback2,
+// 			onMinuteShow: tpEndOnMinuteShowCallback2,
 // 			minutes: { interval: 30 }
 		});
 		/**
@@ -271,6 +275,18 @@
 	    if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
 	    return false;
 	}
+	function horaInicio1() {
+		document.forms.tarea.hora_inicio.value += ":00"; 
+	}
+	function horaInicio2() {
+		document.forms.edita.hora_inicio.value += ":00"; 
+	}
+	function horaFin1() {
+		document.forms.tarea.hora_fin.value += ":00"; 
+	}
+	function horaFin2() {
+		document.forms.edita.hora_fin.value += ":00"; 
+	}
 </script>
 
 		<div class="row-fluid">
@@ -303,13 +319,13 @@
    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modal() >crear grupo</a>
    			</div>						 
 
-   			<div class="well well-small">
-				<ul class="nav nav-pills nav-stacked">
-					<li class="nav-header">
-						contactos
-					</li>
-				</ul>
-			</div>	
+<!--    			<div class="well well-small"> -->
+<!-- 				<ul class="nav nav-pills nav-stacked"> -->
+<!-- 					<li class="nav-header"> -->
+<!-- 						contactos -->
+<!-- 					</li> -->
+<!-- 				</ul> -->
+<!-- 			</div>	 -->
 		</div>
 			
 		<div class="span9">
@@ -387,10 +403,10 @@
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
 			    		<input class="input-small" type="text" id="fechaI1" maxlength="10" name="fecha_inicio" autocomplete="off">
-			    		<input class="input-mini" type="text" id="horaI1" maxlength="8" name="hora_inicio" autocomplete="off">
+			    		<input class="input-mini" type="text" id="horaI1" maxlength="8" name="hora_inicio" onChange="horaInicio1()" autocomplete="off">
 			    		a
 			    		<input class="input-small" type="text" id="fechaF1" maxlength="10" name="fecha_fin" autocomplete="off">
-			    		<input class="input-mini" type="text" id="horaF1" maxlength="8" name="hora_fin" autocomplete="off">
+			    		<input class="input-mini" type="text" id="horaF1" maxlength="8" name="hora_fin" onChange="horaFin1()" autocomplete="off">
 			    		
 			    	</div>
 	    		</div>
@@ -472,10 +488,10 @@
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
 			    		<input class="input-small" type="text" name="fecha_inicio" maxlength="10" autocomplete="off" id="fechaI2" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}'>
-			    		<input class="input-mini" type="text" name="hora_inicio" maxlength="8" autocomplete="off" id="horaI2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm")}'>
+			    		<input class="input-mini" type="text" name="hora_inicio" maxlength="8" autocomplete="off" onChange="horaInicio2()" id="horaI2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm")}'>
 			    		a
 			    		<input class="input-small" type="text" name="fecha_fin" maxlength="10" autocomplete="off" id="fechaF2" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
-			    		<input class="input-mini" type="text" name="hora_fin" maxlength="8" autocomplete="off" id="horaF2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm")}'>
+			    		<input class="input-mini" type="text" name="hora_fin" maxlength="8" autocomplete="off" onChange="horaFin2()" id="horaF2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm")}'>
 			    	</div>
 	    		</div>
 	    		
