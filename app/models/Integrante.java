@@ -79,12 +79,24 @@ public class Integrante extends Model {
 			return false;
 	}
 	
+	/**
+	 * Se asigna admin a otro integrante.
+	 * 
+	 * @param email es el correo del nuevo admin.
+	 * @param idGrupo
+	 */
 	public static void agregarAdmin(String email, Long idGrupo) {
 		Integrante integrante = find.where().eq("grupo_id", idGrupo).eq("usuario_correo", email).findUnique();
 		integrante.tipo = 1;
 		integrante.update();
 	}
 	
+	/**
+	 * Se le quita el admin al actual.
+	 * 
+	 * @param email es el correo del admin a quitar.
+	 * @param idGrupo
+	 */
 	public static void quitarAdmin(String email, Long idGrupo) {
 		Integrante integrante = find.where().eq("grupo_id", idGrupo).eq("usuario_correo", email).findUnique();
 		integrante.tipo = 2;
@@ -105,5 +117,24 @@ public class Integrante extends Model {
 				.findUnique();
 		return integrante.id;
 		
+	}
+	
+	/**
+	 * Verifica si un contacto del usuario ya pertenece a un grupo determinado
+	 * para no mostrarlo en agregar integrante.
+	 * 
+	 * @param email
+	 * @param idGrupo
+	 * @return
+	 */
+	public static boolean esIntegrante(String email, Long idGrupo) {
+		Integrante integrante = find.where().eq("grupo_id", idGrupo).eq("usuario_correo", email).findUnique();
+		try {
+			if (integrante.usuario.correo.isEmpty())
+				return true;
+			else
+				return false;
+			} catch(Exception e) {}
+		return true;
 	}
 }
