@@ -37,10 +37,21 @@ public class Contacto extends Model {
 	
 	public static Finder<Long,Contacto> find = new Finder<Long,Contacto>(Long.class, Contacto.class);
 	
+	/**
+	 * Lista los contactos pendientes.
+	 * 
+	 * @param email
+	 * @return
+	 */
 	public static List<Contacto> listaContactosPendientes(String email){
 		return Contacto.find.where().eq("usuario2_correo", email).eq("amigos", "no").findList();
 	}
 	
+	/**
+	 * Cambia de estado al agregar un amigo.
+	 * 
+	 * @param id
+	 */
 	public static void estado(Long id){
 		Contacto contacto = find.ref(id);
 		contacto.amigos = "si";
@@ -53,15 +64,20 @@ public class Contacto extends Model {
 	 * @param email
 	 * @return lista de amigos.
 	 */
-	public static List<Contacto> listaAmigos(Usuario email) {
-		return find.where()
-				.eq("usuario1", email)
+	public static List<Contacto> listaAmigos(String email) {
+		return Contacto.find.where()
+				.eq("usuario1_correo", email)
 				.eq("amigos", "si")
+				.order().asc("usuario2_correo")
 				.findList();
 	}
 	
 	/**
 	 * Busca si es usuario ya esta agregado, para mostrar o no el boton agregar al buscar usuarios
+	 * 
+	 * @param usuario1
+	 * @param usuario2
+	 * @return
 	 */
 	public static String compruebaUsuarioExistente(String usuario1, String usuario2) {
 		Contacto contacto = Ebean.find(Contacto.class)
@@ -83,8 +99,11 @@ public class Contacto extends Model {
 	
 	/**
 	 * Busca si el usuario esta agregado pero todavia no es aceptado, para mostrar boton con solicitud enviada
+	 * 
+	 * @param usuario1
+	 * @param usuario2
+	 * @return
 	 */
-	
 	public static String compruebaSolicitud(String usuario1, String usuario2) {
 		Contacto contacto = Ebean.find(Contacto.class)
 				.select("usuario2_correo")
@@ -101,16 +120,13 @@ public class Contacto extends Model {
 	    	}
     	} catch(Exception e) {}
 		return "";
-    }
-	
-	
-//	public static void cambiaEstado(Usuario usuario1, Usuario usuario2) {
-//		Contacto contacto = find.ref(i)
-//		contacto.estado = 
-//	}
+    }	
 		
 	/**
 	 * cambia el estado de la solicitud enviado por el usuario1
+	 * 
+	 * @param usuario1
+	 * @param usuario2
 	 */
 	public static void cambiaEstado(String usuario1, String usuario2) {
 		Ebean.createSqlUpdate(
@@ -122,6 +138,10 @@ public class Contacto extends Model {
 	/**
 	 * Obtiene el id de la solicitud de amistad en caso de que no la acepte el usuario2
 	 * Tambien se usa para obtener el id y luego usarlo para eliminar el campo de contacto (usuario1, usuario2) #PARTE1
+	 * 
+	 * @param usuario1
+	 * @param usuario2
+	 * @return
 	 */
 	public static Long obtieneId(String usuario1, String usuario2) {
 		Contacto contacto = Ebean.find(Contacto.class)
@@ -134,8 +154,12 @@ public class Contacto extends Model {
 	}
 	
 	/**
-	* Tambien se usa para obtener el id y luego usarlo para eliminar el campo de contacto (usuario1, usuario2) #PARTE2
-	*/	
+	 * Tambien se usa para obtener el id y luego usarlo para eliminar el campo de contacto (usuario1, usuario2) #PARTE2
+	 * 	
+	 * @param usuario1
+	 * @param usuario2
+	 * @return
+	 */
 	public static Long obtieneId2(String usuario1, String usuario2) {
 		Contacto contacto = Ebean.find(Contacto.class)
 				.select("id")
@@ -148,6 +172,8 @@ public class Contacto extends Model {
 	
 	/**
 	 * Elimina la solicitud de amistad
+	 * 
+	 * @param id
 	 */
 	public static void eliminaSolicitudAmistad(Long id) {
 		Ebean.createSqlUpdate("delete from contacto where " + 
@@ -157,6 +183,8 @@ public class Contacto extends Model {
 	
 	/**
 	 * Elimina un contacto de la lista de amigos
+	 * 
+	 * @param id
 	 */
 	public static void eliminaContacto(Long id) {
 		Ebean.createSqlUpdate(
