@@ -15,7 +15,18 @@
 		}
 		function modalAlerta() {
 			$('#alerta').modal('show');
-		}	
+		}
+		window.onload = function() {
+			var foo = document.getElementById('idIntegrantes');
+			div = document.getElementById('alerta');			
+			div.style.display = "none";
+
+			if (foo.length == 0) {
+				foo.disabled = true;
+				document.integrante.elements['agrega'].disabled = true;
+				div.style.display = "";
+			}
+		}
 	</script>
 
 	<div class="row-fluid">
@@ -110,7 +121,7 @@
 	
 	<!-- Modal agrega miembros -->
 	<div class="modal hide fade" id="agregaIntegrantes">
-		<form action="@routes.Grupos.agregaIntegrante(2)" class="form-horizontal" name="integrante" method="post">
+		<form action="@routes.Grupos.agregaIntegrante(1)" class="form-horizontal" name="integrante" method="post">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3>Agregar Miembros</h3>
@@ -119,34 +130,26 @@
 				<div class="control-group">
 	    			<label class="control-label">Nombre del miembro</label>
 	    			<div class="controls">
-
-
-						<!-- 
-						Esta enviando solo el nombre del usuario, en el controlador
-						hace una consulta para obtener el correo del usuario.
-						
-						Importante. solo sirve si el nombre es unico,	
-						 -->
-	    				<input type="text" id="search" data-provide="typeahead" autofocus="autofocus" data-items="4" autocomplete="off" name="usuario.correo">
+						<select name="usuario.correo" id="idIntegrantes">
+			    			@if(!contactos.isEmpty()) {
+				 				@for(c <- contactos) {
+				 					@if(Integrante.esIntegrante(c.usuario2.correo, grupo.getString("id").toLong)) {
+				 						<option value="@c.usuario2.correo">@Usuario.getNombre(c.usuario2.correo)</option>
+				 					}
+				 				}
+				 			}
+			    		</select>
 	    			</div>
 	    		</div>
-	    		<script type="text/javascript">
-		    		var contactos = [
-		 							@if(!contactos.isEmpty()) {
-		 								@for(c <- contactos) {
-		 									'@Usuario.getNombre(c.usuario2.correo)',																	
-		 								}
-		 							}
-		 						];
-		 			$('#search').typeahead({
-		 				source: contactos
-		 			});
-	    		</script>
+				<div class="alert" id="alerta">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<strong>Atencion!</strong> Usted no tiene ningun contacto para agregar.
+				</div>
 	    		<input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Agregar">
+				<input type="submit" class="btn btn-primary" name="agrega" value="Agregar">
 			</div>
 		</form>		
 	</div>

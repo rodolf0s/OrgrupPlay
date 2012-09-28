@@ -10,6 +10,9 @@
 				content: '<a href="#">ver perfil</a>',
 				animate: false
 			});
+// 			$("#idIntegrantes").click(function {
+// 				$("#idIntegrantes").val('-');
+// 			});
 		});
 		
 		function modalMiembros() {
@@ -22,6 +25,18 @@
 		
 		function modalGrupos(){
 			$('#creaGrupo').modal('show');
+		}
+		
+		window.onload = function() {
+			var foo = document.getElementById('idIntegrantes');
+			div = document.getElementById('alerta');			
+			div.style.display = "none";
+
+			if (foo.length == 0) {
+				foo.disabled = true;
+				document.integrante.elements['agrega'].disabled = true;
+				div.style.display = "";
+			}
 		}
 	</script>
 	
@@ -47,13 +62,13 @@
 	   						Grupos				
 	   					</li>
 	   					@if(!grupos.isEmpty()) {
-		   					@for(g <- grupos) {		   						
+		   					@for(g <- grupos) {
 			   					<li @if(grupo.getString("id") == g.getString("id")) { class="active" })>
 			   						<a href='@routes.Grupos.index(g.getString("id").toLong)'>
 			   							<img class="img-polaroid" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("imagen")' alt="imagen grupo">
 			   							@g.getString("nombre")
 			   						</a>
-			   					</li>		   						
+			   					</li>
 		   					}
 	   					}
 	   				</ul>
@@ -83,13 +98,14 @@
 				}
 				
 				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-				<div>
-				<a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick=modalMiembros() >
-					<i class="icon-plus"> </i>
-					Agregar integrante
-				</a>
-				</div>
+					<div>
+						<a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick=modalMiembros() >
+							<i class="icon-plus"> </i>
+							Agregar integrante
+						</a>
+					</div>
 				}
+				
 				<h3>Integrantes</h3>
 				<div class="well achievements-wrapper">
 					@for(mi <- integrantes) {
@@ -127,34 +143,26 @@
 				<div class="control-group">
 	    			<label class="control-label">Nombre del miembro</label>
 	    			<div class="controls">
-
-
-						<!-- 
-						Esta enviando solo el nombre del usuario, en el controlador
-						hace una consulta para obtener el correo del usuario.
-						
-						Importante. solo sirve si el nombre es unico,	
-						 -->
-	    				<input type="text" id="search" data-provide="typeahead" autofocus="autofocus" data-items="4" autocomplete="off" name="usuario.correo">
+						<select name="usuario.correo" id="idIntegrantes">
+			    			@if(!contactos.isEmpty()) {
+				 				@for(c <- contactos) {
+				 					@if(Integrante.esIntegrante(c.usuario2.correo, grupo.getString("id").toLong)) {
+				 						<option value="@c.usuario2.correo">@Usuario.getNombre(c.usuario2.correo)</option>
+				 					}
+				 				}
+				 			}
+			    		</select>
 	    			</div>
 	    		</div>
-	    		<script type="text/javascript">
-		    		var contactos = [
-		 							@if(!contactos.isEmpty()) {
-		 								@for(c <- contactos) {
-		 									'@Usuario.getNombre(c.usuario2.correo)',																	
-		 								}
-		 							}
-		 						];
-		 			$('#search').typeahead({
-		 				source: contactos
-		 			});
-	    		</script>
+				<div class="alert" id="alerta">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<strong>Atencion!</strong> Usted no tiene ningun contacto para agregar.
+				</div>
 	    		<input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Agregar">
+				<input type="submit" class="btn btn-primary" name="agrega" value="Agregar">
 			</div>
 		</form>		
 	</div>

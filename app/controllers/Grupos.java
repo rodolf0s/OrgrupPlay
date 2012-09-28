@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.avaje.ebean.Ebean;
@@ -57,7 +58,7 @@ public class Grupos extends Controller {
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
 						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.listaAmigos(Usuario.find.byId(session("email")))
+						Contacto.listaAmigos(session("email"))
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -84,7 +85,7 @@ public class Grupos extends Controller {
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
 						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.listaAmigos(Usuario.find.byId(session("email"))),
+						Contacto.listaAmigos(session("email")),
 						Reunion.find.where().eq("grupo_id", id).findList(),
 						archivoVacio
 						));
@@ -112,7 +113,7 @@ public class Grupos extends Controller {
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
 						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.listaAmigos(Usuario.find.byId(session("email")))
+						Contacto.listaAmigos(session("email"))
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -122,6 +123,7 @@ public class Grupos extends Controller {
 	
 	/**
 	 * Muestra las preferencias del grupo.
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -137,7 +139,7 @@ public class Grupos extends Controller {
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
 						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.listaAmigos(Usuario.find.byId(session("email")))
+						Contacto.listaAmigos(session("email"))
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -251,20 +253,18 @@ public class Grupos extends Controller {
 			if (agregaIntegrante.hasErrors()) {
 				return badRequest();
 			} else {
+				Integrante integrante = new Integrante();
 				Date fecha = new Date();
-
-				// Importante: aqui solo crea un objeto tipo usuario para buscar en la 
-				// BD el correo, ya que solo llega el nombre del usuario. 
-				// Esto solo funciona si el nombre fuera unico.
-				Usuario user = new Usuario();
-				user.correo = Usuario.getCorreo(agregaIntegrante.get().usuario.correo);				
-				agregaIntegrante.get().usuario.correo = user.correo;
-
-				agregaIntegrante.get().tipo = 2;
-				agregaIntegrante.get().fecha_ingreso = fecha;
-				agregaIntegrante.get().save();
-
 				Long id = agregaIntegrante.get().grupo.id;
+				Grupo grupo = new Grupo();
+				grupo.id = id;
+				
+				integrante.fecha_ingreso = fecha;
+				integrante.tipo = 2;
+				integrante.usuario = agregaIntegrante.get().usuario;
+				integrante.grupo = grupo;
+				integrante.save();
+				
 				if (pag == 1)
 					return redirect(routes.Grupos.index(id));
 				else
