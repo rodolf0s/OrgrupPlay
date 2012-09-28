@@ -111,20 +111,20 @@ public class Contactos extends Controller {
 	}
 	
 	public static Result gestionaContactos() {
-		return ok(gestionarContactos.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+		return ok(gestionarContactos.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(session("email"))));
 	}
 	
 	public static Result eliminaContacto() {
 		Form<Contacto> formEliminaContacto = form(Contacto.class).bindFromRequest();
 		
 		if(formEliminaContacto.hasErrors()){
-			return ok(gestionarContactos.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+			return ok(gestionarContactos.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(session("email"))));
 		}else {
 			Contacto eliminaContacto = formEliminaContacto.get();
 			Contacto.eliminaContacto(Contacto.obtieneId(eliminaContacto.usuario1.correo, eliminaContacto.usuario2.correo));
 			Contacto.eliminaContacto(Contacto.obtieneId2(eliminaContacto.usuario1.correo, eliminaContacto.usuario2.correo));
 			try{
-				return ok(gestionarContactos.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+				return ok(gestionarContactos.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(session("email"))));
 			}catch(Exception e){
 				
 			}
