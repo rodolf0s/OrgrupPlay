@@ -2,8 +2,7 @@
 
 @app(title = grupo.getString("nombre"), usuario.nombre) {
 	
-	<script type="text/javascript">
-	
+	<script type="text/javascript">	
 		$(document).ready(function() {
 			
 		});
@@ -14,7 +13,6 @@
 		function modalGrupos() {
 			$('#creaGrupo').modal('show');
 		}		
-		
 	</script>
 
 	<div class="row-fluid">
@@ -47,63 +45,22 @@
    				</form>
    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
    			</div>
-
-<!--    			<div class="well well-small"> -->
-<!--    				<ul class="nav nav-pills nav-stacked"> -->
-<!--    					<li class="nav-header">Miembros</li> -->
-<!--    				</ul> -->
-<!--    				<ul class="unstyled"> -->
-   					
-<!-- 	   				@if(!integrantes.isEmpty()) { -->
-<!-- 	   					@for(a <- integrantes) { -->
-<!-- 	   						<li> -->
-<!-- 		   						@if(a.tipo == 1) { -->
-<!-- 		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(a.usuario.correo)" alt="imagen usuario"> -->
-<!-- 		   							@Usuario.getNombre(a.usuario.correo) (Administrador) -->
-<!-- 		   						} -->
-<!-- 	   						</li> -->
-<!-- 	   					} -->
-	   				
-<!-- 	   					@for(i <- integrantes) { -->
-<!-- 	   						@if(i.tipo != 1) { -->
-<!-- 		   						<li> -->
-<!-- 		   							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(i.usuario.correo)" alt="imagen usuario"> -->
-<!-- 		   							@Usuario.getNombre(i.usuario.correo)	 -->
-<!-- 		   						</li> -->
-<!-- 	   						} -->
-<!-- 	   					} -->
-<!-- 	   				} -->
-<!--    				</ul> -->
-<!--    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal" onClick=modalMiembros() >agregar miembros</a> -->
-<!--    			</div> -->
-
-<!-- 			<div class="well sidebar-nav"> -->
-<!-- 				@grupo.getString("nombre")<br> -->
-<!-- 				@grupo.getString("usuario_correo")<br> -->
-<!-- 				@grupo.getString("tipo")<br> -->
-<!-- 				id @grupo.getString("id")<br> -->
-<!-- 				@grupo.getString("distintivo")<br><br> -->
-<!-- 			</div> -->
-			
 		</div>
 		
 		<div class="span7">
 			<div class="page-header">
-				<form action="#" method="post">
-					<h1>				
-						@grupo.getString("nombre") <small> Preferencias </small>					
-						<input type="hidden" name="id" value='@grupo.getString("id")'>
-<!-- 						<input class="btn btn-danger pull-right" type="submit" value="Eliminar grupo">					 -->
-						<a class="btn btn-danger pull-right" href='@routes.Grupos.eliminaGrupo(grupo.getString("id").toLong)'>Eliminar grupo</a>
-					</h1>
-				</form> 
+				<h1>				
+					@grupo.getString("nombre") <small> Preferencias </small>					
+					<input type="hidden" name="id" value='@grupo.getString("id")'>
+					<a class="btn btn-danger pull-right" href='@routes.Grupos.eliminaGrupo(grupo.getString("id").toLong)'>Eliminar grupo</a>
+				</h1>
 			</div>
 			
 			<form class="form-horizontal" action="@routes.Grupos.editaGrupo" enctype="multipart/form-data" method="post">
 				<div class="control-group">
 					<label class="control-label" for="nombre">Nombre del grupo</label>
 					<div class="controls">
-						<input type="text" id="nombre" name="nombre" value="@grupo.getString("nombre")" required>
+						<input type="text" id="nombre" name="nombre" value='@grupo.getString("nombre")' required>
 					</div>
 				</div>
 				<div class="control-group">
@@ -131,75 +88,19 @@
 		<div class="span2">
 			<div class="tabbable tabs-right">
 			<ul class="nav nav-tabs">
-<!--				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
 				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
-				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li>
-				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li>
+				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Integrantes</a></li>
 				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
 				<li class="active"><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
 				}
 			</ul>
 			</div>
 		</div>
-		
-<!-- 		<div class="span3"> -->
-<!-- 			<ul class="nav nav-tabs nav-stacked"> -->
-<!-- 				<li class="active"><a href="#">@grupo.getString("nombre")</a></li> -->
-<!-- 				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li> -->
-<!-- 				<li><a href='@routes.Grupos.muestraDocumentos(grupo.getString("id").toLong)'>Documentos</a></li> -->
-<!-- 				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Miembros</a></li> -->
-<!-- 				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li> -->
-<!-- 			</ul> -->
-<!-- 		</div> -->
-	</div>
-	
-	
-	<!-- Modal agrega miembros -->
-	<div class="modal hide fade" id="agregaIntegrantes">
-		<form action="@routes.Grupos.agregaIntegrante" class="form-horizontal" name="integrante" method="post">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Agregar Miembros</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-	    			<label class="control-label">Nombre del miembro</label>
-	    			<div class="controls">
-
-
-						<!-- 
-						Esta enviando solo el nombre del usuario, en el controlador
-						hace una consulta para obtener el correo del usuario.
-						
-						Importante. solo sirve si el nombre es unico,	
-						 -->
-	    				<input type="text" id="search" data-provide="typeahead" data-items="4" autocomplete="off" name="usuario.correo">
-	    			</div>
-	    		</div>
-	    		<script type="text/javascript">
-		    		var contactos = [
-		 							@if(!contactos.isEmpty()) {
-		 								@for(c <- contactos) {
-		 									'@Usuario.getNombre(c.usuario2.correo)',																	
-		 								}
-		 							}
-		 						];
-		 			$('#search').typeahead({
-		 				source: contactos
-		 			});
-	    		</script>
-	    		<input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Agregar">
-			</div>
-		</form>		
 	</div>
 	
 	<!-- Modal crear grupo -->
 	<div class="modal hide fade" id="creaGrupo">
-		<form action="@routes.Grupos.crearGrupo"class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+		<form action="@routes.Grupos.crearGrupo" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3>Grupo Nuevo</h3>
@@ -227,12 +128,11 @@
 						tamaño maximo = 1 MB
 					</div>
 				</div>
-				<input type="hidden" value='@grupo.getString("id")' name="grupoId">
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
 				<input type="submit" class="btn btn-primary" value="Crear">
 			</div>
-		</form>	
+		</form>		
 	</div>
 }
