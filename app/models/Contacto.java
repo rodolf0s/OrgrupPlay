@@ -88,7 +88,7 @@ public class Contacto extends Model {
 				.eq("amigos", "si")
 				.findUnique();
 		try {
-	    	if(contacto.usuario2.correo.toString().isEmpty()) {
+	    	if (contacto.usuario2.correo.toString().isEmpty()) {
 	    		return "";
 	    	} else {
 	    		return contacto.usuario2.correo.toString();
@@ -113,7 +113,7 @@ public class Contacto extends Model {
 				.eq("amigos", "no")
 				.findUnique();
 		try {
-	    	if(contacto.usuario2.correo.toString().isEmpty()) {
+	    	if (contacto.usuario2.correo.toString().isEmpty()) {
 	    		return "";
 	    	} else {
 	    		return contacto.usuario2.correo.toString();
