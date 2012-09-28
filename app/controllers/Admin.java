@@ -288,7 +288,7 @@ public class Admin extends Controller {
 				} else {
 					
 					Usuario user = formCuenta.get();
-					Usuario.desactivarCuenta(user.correo);
+					Usuario.bloquearCuenta(user.correo);
 					
 					//Cuantas paginas de mensajes seran
 					Integer  paginas = Correo.listaCorreos().size();

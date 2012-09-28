@@ -352,6 +352,17 @@ public class Usuario extends Model {
 	}	
 	
 	/**
+	 * Bloquea una cuenta por completo.
+	 * 
+	 * @param correo
+	 */
+	public static void bloquearCuenta(String correo) {
+		Usuario usuario = Ebean.find(Usuario.class, correo);
+		usuario.estado = "Bloqueada";
+		usuario.update();
+	}	
+	
+	/**
 	 * Activa una cuenta.
 	 * 
 	 * @param correo
