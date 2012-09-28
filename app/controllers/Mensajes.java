@@ -25,7 +25,7 @@ public class Mensajes extends Controller {
 	}
 	
 	public static Result crearMensaje() {
-		return ok(crearMensaje.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+		return ok(crearMensaje.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(session("email"))));
 	}
 	
 	public static Result leerMensaje(Long id) {
@@ -37,14 +37,14 @@ public class Mensajes extends Controller {
 		Form<Mensaje> mensajeForm = form(Mensaje.class).bindFromRequest();
 		
 		if(mensajeForm.hasErrors()) {
-			return ok(crearMensaje.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+			return ok(crearMensaje.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(session("email"))));
 		}else {
 			Mensaje mensaje = mensajeForm.get();
 			Date fecha2 = new Date();
 			mensaje.fecha = fecha2;
 			mensaje.save();
 			Mensaje.copiaMensaje(mensaje.fecha, mensaje.remitente, mensaje.destinatario, mensaje.asunto, mensaje.mensaje, mensaje.leido);
-			return ok(crearMensaje.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(Usuario.find.byId(session("email")))));
+			return ok(crearMensaje.render(Usuario.find.byId(session("email")), Contacto.listaAmigos(session("email"))));
 		}
 	}
 	
