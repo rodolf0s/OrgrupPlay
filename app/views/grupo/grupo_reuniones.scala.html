@@ -83,15 +83,19 @@
 		
 		<div class="span7">
 			<div class="page-header">
-				<form action="#" method="post">
-					<h1>				
-						@grupo.getString("nombre") <small> Reuniones </small>				
-						<input type="hidden" name="id" value='@grupo.getString("id")'>
-						@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-						<input class="btn btn-success pull-right" type="submit" value="Crear reunion">
-						}					
+					<h1>	
+					<table>	
+						<tr>
+							<td>		
+								@grupo.getString("nombre") <small> Reuniones </small>				
+<!-- 							<input type="hidden" name="id" value='@grupo.getString("id")'> -->
+							</td>
+							@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+								<td style="position: absolute; top:100; right:0; width:350px;"><a  href="#" role="button" class="btn btn-success" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Generar reunion</a></td>
+							}
+						<tr>
+					</table>					
 					</h1>
-				</form> 
 			</div>
 			
 			<div>
@@ -161,4 +165,197 @@
 <!-- 			</ul> -->
 <!-- 		</div> -->
 	</div>
+	
+		<!-- Modal crear reunion -->
+	<div class="modal hide fade" id="crearReunion">
+		<form action="@routes.Home.crearGrupo" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Nueva reunion</h3>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+	    			<label class="control-label">Entre los dias</label>
+	    			<div class="controls">
+	    				<input class="input-small" type="text" id="fechaI1" maxlength="8" name="fecha_inicio" autocomplete="off">
+	    				y
+	    				<input class="input-small" type="text" id="fechaF1" maxlength="10" name="fecha_fin" autocomplete="off">
+	    			</div>
+	    		</div>
+	    		
+	    		<div class="control-group">
+	    			<label class="control-label">Entre las horas</label>
+	    			<div class="controls">
+	    				<input class="input-small" type="text" id="horaI1" maxlength="8" name="fecha_inicio" autocomplete="off">
+	    				y
+	    				<input class="input-small" type="text" id="horaF1" maxlength="8" name="fecha_inicio" autocomplete="off">
+	    			</div>
+	    		</div>
+	    		
+	    		<div class="control-group">
+	    			<label class="control-label">Duracion (en horas)</label>
+	    			<div class="controls">
+	    				<input class="input-small" type="text" id="duracion" maxlength="8" name="duracion">
+	    			</div>
+	    		</div>
+	    		
+	    		<div class="control-group">
+	    			<label class="control-label">Asistencia minima</label>
+	    			<div class="controls">
+	    				<input class="input-small" type="text" id="asistencia" maxlength="8" name="asistencia">
+	    			</div>
+	    		</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+				<input type="submit" class="btn btn-primary" value="Generar">
+			</div>
+		</form>		
+	</div>
+	
+	<script type="text/javascript">
+	
+		function modal() {
+			$('#crearReunion').modal('show');
+		}
+
+		$(document).ready(function() {
+			
+			$('#horaI1, #horaF1, #horaI2, #horaF2, #fechaI1, #fechaI2, #fechaF1, #fechaF2').keypress(function(e) {
+			    if(e.which > 0) return false;
+			});
+			
+			/**
+			* muestra los modal de los calendarios y fechas
+			*/
+			$("#fechaI1, #fechaI2, #fechaF1, #fechaF2").datepicker({
+				dateFormat: "dd/mm/yy",
+				firstDay: 1,
+				dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+				monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+			});
+			
+			$("#repetir").click(function(evento){
+				if ($("#repetir").attr("checked")){
+					$("#divrepetir").css("display", "block");
+					document.forms.tarea.repetir.value = 1;
+				}else{
+					$("#divrepetir").css("display", "none");
+					document.forms.tarea.repetir.value = 0;
+				}
+			});
+
+			$("#fechaT").datepicker({
+				dateFormat: "dd/mm/yy",
+				firstDay: 1,
+				dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+				monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+//	 			minDate: 1
+			});
+
+			$('#horaI1').timepicker({
+				showLeadingZero: true,
+				hourText: 'Hora',
+// 			    minuteText: 'Min',
+				onHourShow: tpStartOnHourShowCallback,
+				showMinutes: false,
+//	 			minutes: { interval: 30 }
+			});
+			
+			$('#horaF1').timepicker({
+				showLeadingZero: true,
+				hourText: 'Hora',
+// 			    minuteText: 'Min',
+				onHourShow: tpEndOnHourShowCallback,
+				showMinutes: false,
+//	 			minutes: { interval: 30 }
+			});
+
+			
+			$('#horaI2').timepicker({
+				showLeadingZero: true,
+				hourText: 'Hora',
+// 			    minuteText: 'Min',
+				onHourShow: tpStartOnHourShowCallback2,
+				showMinutes: false,
+//	 			minutes: { interval: 30 }
+			});
+			
+			$('#horaF2').timepicker({
+				showLeadingZero: true,
+				hourText: 'Hora',
+// 			    minuteText: 'Min',
+				onHourShow: tpEndOnHourShowCallback2,
+				showMinutes: false,
+//	 			minutes: { interval: 30 }
+			});
+			/**
+			* --------- Fin de los modal ------------
+			*/
+			
+			// si hace click en un evento muestra el modal con los datos.
+	
+		});
+		
+	
+		function tpStartOnHourShowCallback(hour) {
+		    var tpEndHour = $('#horaF1').timepicker('getHour');
+		    if ($('#horaF1').val() == '') { return true; }
+		    if (hour <= tpEndHour) { return true; }
+		    return false;
+		}
+// 		function tpStartOnMinuteShowCallback(hour, minute) {
+// 		    var tpEndHour = $('#horaF1').timepicker('getHour');
+// 		    var tpEndMinute = $('#horaF1').timepicker('getMinute');
+// 		    if ($('#horaF1').val() == '') { return true; }
+// 		    if (hour < tpEndHour) { return true; }
+// 		    if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
+// 		    return false;
+// 		}
+
+		function tpEndOnHourShowCallback(hour) {
+		    var tpStartHour = $('#horaI1').timepicker('getHour');
+		    if ($('#horaI1').val() == '') { return true; }
+		    if (hour >= tpStartHour) { return true; }
+		    return false;
+		}
+// 		function tpEndOnMinuteShowCallback(hour, minute) {
+// 		    var tpStartHour = $('#horaI1').timepicker('getHour');
+// 		    var tpStartMinute = $('#horaI1').timepicker('getMinute');
+// 		    if ($('#horaI1').val() == '') { return true; }
+// 		    if (hour > tpStartHour) { return true; }
+// 		    if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
+// 		    return false;
+// 		}
+		function tpStartOnHourShowCallback2(hour) {
+		    var tpEndHour = $('#horaF2').timepicker('getHour');
+		    if ($('#horaF2').val() == '') { return true; }
+		    if (hour <= tpEndHour) { return true; }
+		    return false;
+		}
+// 		function tpStartOnMinuteShowCallback2(hour, minute) {
+// 		    var tpEndHour = $('#horaF2').timepicker('getHour');
+// 		    var tpEndMinute = $('#horaF2').timepicker('getMinute');
+// 		    if ($('#horaF2').val() == '') { return true; }
+// 		    if (hour < tpEndHour) { return true; }
+// 		    if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
+// 		    return false;
+// 		}
+
+		function tpEndOnHourShowCallback2(hour) {
+		    var tpStartHour = $('#horaI2').timepicker('getHour');
+		    if ($('#horaI2').val() == '') { return true; }
+		    if (hour >= tpStartHour) { return true; }
+		    return false;
+		}
+// 		function tpEndOnMinuteShowCallback2(hour, minute) {
+// 		    var tpStartHour = $('#horaI2').timepicker('getHour');
+// 		    var tpStartMinute = $('#horaI2').timepicker('getMinute');
+// 		    if ($('#horaI2').val() == '') { return true; }
+// 		    if (hour > tpStartHour) { return true; }
+// 		    if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
+// 		    return false;
+// 		}
+			
+	</script>
 }
