@@ -185,7 +185,7 @@ public class Application extends Controller {
 			    
 			    return ok(informaciones.render("Su contraseña a sido enviada a su correo electronico.", "Recuperar Contraseña"));
 			} else {
-				return ok(olvidoPassword.render("Correo incorrecto"));
+				return ok(olvidoPassword.render("Correo electronico incorrecto"));
 			}
 		}
 	}
