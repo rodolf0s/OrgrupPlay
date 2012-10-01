@@ -21,7 +21,7 @@ public class Reunion extends Model {
 	@Formats.NonEmpty
 	@Column(nullable=false)
 	@Formats.DateTime(pattern="dd/MM/yyyy")
-	public Date fecha_inico;
+	public Date fecha_inicio;
 	
 	@Formats.NonEmpty
 	@Column(nullable=false)

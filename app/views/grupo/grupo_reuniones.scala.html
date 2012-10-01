@@ -58,11 +58,17 @@
 		<div class="span7">
 			<div class="page-header">
 					<h1> 
-						@grupo.getString("nombre") <small> Reuniones </small>        
-						<input type="hidden" name="id" value='@grupo.getString("id")'>
-						@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-						<a  href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Generar reunion</a>
-						}
+						<table>	
+							<tr>
+								<td>		
+									@grupo.getString("nombre") <small> Reuniones </small>				
+<!-- 								<input type="hidden" name="id" value='@grupo.getString("id")'> -->
+								</td>
+								@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+								<td style="position: absolute; top:100; right:0; width:350px;"><a  href="#" role="button" class="btn btn-success" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Generar reunion</a></td>
+								}
+							<tr>
+						</table>	
 					</h1>
 			</div>
 			
@@ -89,9 +95,9 @@
 										<input type="hidden" name="grupo.id" value="@r.grupo.id">
 										<a href='@routes.Grupos.verReunion(r.id, grupo.getString("id").toLong)' rel="tooltip" title="@r.nombre" data-content="@r.nombre" data-placement="top">
 											@if(r.nombre.length < 15) {@r.nombre} else {@r.nombre.substring(0, 14)...}
-										</a>
+										</a>ya la cambie
 									</td>
-									<td>@r.fecha_inico.format("dd/MM/yyyy")</td>
+									<td>@r.fecha_inicio.format("dd/MM/yyyy")</td>
 									<td>@r.fecha_fin.format("dd/MM/yyyy")</td>
 									<td>@r.hora_inicio.format("HH:mm")</td>
 									<td>@r.hora_fin.format("HH:mm")</td>
@@ -162,7 +168,7 @@
 	
 		<!-- Modal crear reunion -->
 	<div class="modal hide fade" id="crearReunion">
-		<form action="#" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+		<form action="@routes.Reuniones.generarReunion" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3>Nueva reunion</h3>
@@ -180,32 +186,37 @@
 	    		<div class="control-group">
 	    			<label class="control-label">Entre las horas</label>
 	    			<div class="controls">
-	    				<input class="input-small" type="text" id="horaI1" maxlength="8" name="fecha_inicio" autocomplete="off">
+	    				<input class="input-small" type="text" id="horaI1" maxlength="8" name="hora_inicio" autocomplete="off">
 	    				y
-	    				<input class="input-small" type="text" id="horaF1" maxlength="8" name="fecha_inicio" autocomplete="off">
+	    				<input class="input-small" type="text" id="horaF1" maxlength="8" name="hora_fin" autocomplete="off">
 	    			</div>
 	    		</div>
 	    		
 	    		<div class="control-group">
 	    			<label class="control-label">Duracion (en horas)</label>
 	    			<div class="controls">
-	    				<input class="input-small" type="text" id="duracion" maxlength="8" name="duracion">
+	    				<input class="input-small" type="text" name="duracion" id="duracion" maxlength="8" >
 	    			</div>
 	    		</div>
 	    		
 	    		<div class="control-group">
 	    			<label class="control-label">Asistencia minima</label>
 	    			<div class="controls">
-	    				<input class="input-small" type="text" id="asistencia" maxlength="8" name="asistencia">
+	    				<input class="input-small" type="text" name="asistencia" id="asistencia" maxlength="8">
 	    			</div>
 	    		</div>
 			</div>
 			<div class="modal-footer">
+				<input type="hidden" name="nombre" id="nombre" value="temporal"> 
+				<input type="hidden" name="descripcion" id="descripcion" value="descripcion"> 
+				<input type="hidden" name="estado" id="estado"  value="pendiente"> 
+				<input type="hidden" name="grupo_id" id="grupo_id"  value='@grupo.getString("id").toLong'> 
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
 				<input type="submit" class="btn btn-primary" value="Generar">
 			</div>
 		</form>		
 	</div>
+	
 	
 	<script type="text/javascript">
 	

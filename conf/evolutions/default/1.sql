@@ -68,7 +68,7 @@ create table mensaje (
 
 create table reunion (
   id                        bigint not null,
-  fecha_inico               timestamp not null,
+  fecha_inicio              timestamp not null,
   fecha_fin                 timestamp not null,
   hora_inicio               timestamp not null,
   hora_fin                  timestamp not null,

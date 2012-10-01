@@ -1,0 +1,14 @@
+@(user: Usuario)
+
+@app(title = "Orgrup", user.nombre){ 
+
+	Se ha enviado correctamente la solicitud, para poder ver mas informacion del contacto debes esperar la aprobación de la solicitud.<br><br>
+
+	<table>
+		<tr>
+			<td><a class="btn btn-primary" href="@routes.Contactos.contactos">Agregar otro contacto</a></td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td><a class="btn btn-primary" href="@routes.Home.index">Volver al inicio</a></td>
+		</tr>
+	</table>
+}
