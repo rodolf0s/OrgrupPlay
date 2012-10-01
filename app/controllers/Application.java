@@ -11,6 +11,7 @@ import play.data.Form;
 import play.mvc.*;
 
 import views.html.*;
+import views.html.home.*;
 
 import org.apache.commons.mail.*;
 

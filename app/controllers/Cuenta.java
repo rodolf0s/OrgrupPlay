@@ -148,8 +148,7 @@ public class Cuenta extends Controller {
 	 * 
 	 * @return
 	 */
-	public static Result actualizaPassword() {
-		
+	public static Result actualizaPassword() {		
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
@@ -232,7 +231,7 @@ public class Cuenta extends Controller {
 				return badRequest();
 			} else {
 				Usuario.desactivarCuenta(session("email"));
-				return ok(views.html.informaciones.render("Su cuenta a sido desactivada satisfactoriamente.", "Cuenta desactivada"));
+				return ok(views.html.home.informaciones.render("Su cuenta a sido desactivada satisfactoriamente.", "Cuenta desactivada"));
 			}
 		}
 	}
@@ -244,7 +243,7 @@ public class Cuenta extends Controller {
 	 * iniciado session. 
 	 */
 	public static boolean verificaSession() {
-		if(session("email") == null) 
+		if (session("email") == null) 
 			return false;
 		else
 			return true;

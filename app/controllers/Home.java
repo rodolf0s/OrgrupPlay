@@ -1,12 +1,8 @@
 package controllers;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 
 import models.Contacto;
-import models.Integrante;
 import models.Mensaje;
 import models.Tarea;
 import models.Usuario;
@@ -15,8 +11,6 @@ import models.Grupo;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
 
 import views.html.agenda.*;
 
