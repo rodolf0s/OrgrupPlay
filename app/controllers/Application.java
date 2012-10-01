@@ -11,6 +11,7 @@ import play.data.Form;
 import play.mvc.*;
 
 import views.html.*;
+import views.html.home.*;
 
 import org.apache.commons.mail.*;
 
@@ -104,7 +105,7 @@ public class Application extends Controller {
 			Usuario user = formRegistro.get();
 			
 			if (Usuario.esMiembro(user.correo)) {				
-				return ok(registro.render(form(Usuario.class), "El correo ya existe"));				
+				return badRequest(registro.render(form(Usuario.class), "El correo ya existe"));				
 			} else {				
 				do {					
 					// genera un numero de 9 digitos para usarlo posteriormente
@@ -185,7 +186,7 @@ public class Application extends Controller {
 			    
 			    return ok(informaciones.render("Su contraseña a sido enviada a su correo electronico.", "Recuperar Contraseña"));
 			} else {
-				return ok(olvidoPassword.render("Correo incorrecto"));
+				return ok(olvidoPassword.render("Correo electronico incorrecto"));
 			}
 		}
 	}
