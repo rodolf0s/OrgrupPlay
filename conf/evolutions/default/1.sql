@@ -75,6 +75,8 @@ create table reunion (
   nombre                    varchar(50) not null,
   descripcion               varchar(500),
   estado                    varchar(20) not null,
+  duracion                  integer not null,
+  asistencia                integer not null,
   grupo_id                  bigint,
   constraint pk_reunion primary key (id))
 ;

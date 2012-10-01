@@ -30,12 +30,12 @@ public class Reunion extends Model {
 	
 	@Formats.NonEmpty
 	@Column(nullable=false)
-	@Formats.DateTime(pattern="HH:mm:ss")
+	@Formats.DateTime(pattern="HH")
 	public Date hora_inicio;
 	
 	@Formats.NonEmpty
 	@Column(nullable=false)
-	@Formats.DateTime(pattern="HH:mm:ss")
+	@Formats.DateTime(pattern="HH")
 	public Date hora_fin;
 	
     @Formats.NonEmpty
@@ -49,6 +49,14 @@ public class Reunion extends Model {
     @Formats.NonEmpty
     @Column(length=20, nullable=false)
 	public String estado;
+    
+    @Formats.NonEmpty
+    @Column(nullable=false)
+	public Integer duracion;
+    
+    @Formats.NonEmpty
+    @Column(nullable=false)
+    public Integer asistencia;
 
 	@ManyToOne
 	public Grupo grupo;
