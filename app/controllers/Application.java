@@ -104,7 +104,7 @@ public class Application extends Controller {
 			Usuario user = formRegistro.get();
 			
 			if (Usuario.esMiembro(user.correo)) {				
-				return ok(registro.render(form(Usuario.class), "El correo ya existe"));				
+				return badRequest(registro.render(form(Usuario.class), "El correo ya existe"));				
 			} else {				
 				do {					
 					// genera un numero de 9 digitos para usarlo posteriormente
