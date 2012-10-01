@@ -2,76 +2,111 @@
 
 @main(title = "Registro") {
 
-    <!-- Simple Formulario para ingresar -->
-    
-    <div class="container">
-        <div class="row">
-            <div class="span8" style="float:right">
-                <div class="span4" style="float:left;">
+	<style>
+		span { color: red; }
+	</style>
 
-                    <fieldset>
-                        <legend>Registro</legend>
-                        <form class="well" action="@routes.Application.comprobarRegistro" method="post">  
-                        
-                        	<label for="nombre">Nombre Completo</label>
-                        	<input type="text" class="input-xlarge span3" placeholder="Nombre" name="nombre" id="nombre" maxlength="60" autofocus="autofocus" required/>
-                        	<br>
-                            <label for="correo">Correo electronico</label>
-                			<input type="email" class="input-xlarge span3" placeholder="Correo" name="correo" id="correo" maxlength="50" required>
-                			<br>
-                			<label for="pass">Contraseña</label>
-                			<input type="password" class="input-xlarge span3" placeholder="Contraseña" name="password" id="password" maxlength="20" required>
-                			<label class="error" style="color: red;" id="username_length">La contraseña debe estar formada entre 6-20 carácteres</label>
-                			<br>
-                			<label for="ciudad">Ciudad</label>
-                        	<input type="text" class="input-xlarge span3" placeholder="Ciudad" name="ciudad" id="ciudad" maxlength="60" required/>
-                        	<br>
-                        	<label for="leyenda">Acerca de mi</label>
-                        	<textarea class="input-xlarge span3" name="leyenda" id="leyenda" maxlength="300"></textarea>
-							<br>
-                			<span id="error" style="color: red;">@error</span>
-                			<br>
-                            <button type="submit" id="fat-btn" class="btn" data-loading-text="Registrando..."> Registrarse </button>
-                        
-                        </form>
-                    </fieldset>
-	
-                </div>
-            </div>
+    <!-- Simple Formulario para ingresar -->    
+	<div class="row">
+		<div class="span8" style="float:right">
+			<div class="span5" style="float:left;">
+				<fieldset>
+					<legend>Registro</legend>
+					<form class="form-horizontal well" name="registro" action="@routes.Application.comprobarRegistro" method="post">
+						<div class="control-group">
+							<label class="control-label" for="nombre">Nombre completo</label>
+							<div class="controls">
+								<input type="text" placeholder="Nombre completo" name="nombre" id="nombre" maxlength="60" required/>
+								<span>*</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="correo">Correo electronico</label>
+							<div class="controls">
+								<input type="email" placeholder="Correo electronico" name="correo" id="correo" maxlength="50" required>
+								<span>*</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="password">Contraseña</label>
+							<div class="controls">
+								<input type="password" placeholder="Contraseña" name="password" id="password" maxlength="20" required>
+								<span>*</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="ciudad">Ciudad</label>
+							<div class="controls">
+								<input type="text" placeholder="Ciudad" name="ciudad" id="ciudad" maxlength="60" required/>
+								<span>*</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="telefono">Telefono</label>
+							<div class="controls">
+								<input type="text" placeholder="Telefono" name="telefono" id="telefono" maxlength="15"/>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="leyenda">Acerca de mi</label>
+							<div class="controls">
+								<textarea name="leyenda" id="leyenda" maxlength="300"></textarea>
+							</div>
+						</div>
+						<div class="alert alert-error" id="alerta">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<small>
+								<strong>Error!</strong>
+								La contraseña debe estar formada entre 6-20 carácteres
+							</small>
+						</div>
+						@if(error != "") { 
+	                		<div class="alert alert-error" id="error">
+								<button type="button" class="close" data-dismiss="alert">×</button>
+								<small>
+									<strong>Error!</strong>
+									@error
+								</small>
+							</div>
+	            		}
+						<div class="control-group">
+							<div class="controls">
+								<button type="submit" id="fat-btn" class="btn" data-loading-text="Registrando..."> Registrarse </button>
+							</div>
+						</div>
+					</form>
+				</fieldset>
+			</div>
         </div>
-    </div>
+    </div>    
     
     <script type="text/javascript">
-		$('.error').hide();
+		$('#alerta').hide();
 		
- 	   	$('#fat-btn').on('click', function() {
- 	   		 	   		
+ 	   	$('#fat-btn').on('click', function() { 	   		 	   		
 	 	   	var pass = $("input#password").val().length;
-	 	   	
-// 	 	   	Prueba
 	 	   	var nombre = $("input#nombre").val().length;
 	 	  	var correo = $("input#correo").val().length;
 	 	 	var ciudad = $("input#ciudad").val().length;
 
-	 	
-			if(nombre != "" && correo != "" && pass != "" && ciudad != ""){ 	   	
+			if (nombre != "" && correo != "" && pass != "" && ciudad != ""){ 	   	
 				if(pass < 6) {
-	 	       		$("label#username_length").show();
-	 	       		$("input#password").focus();
+	 	       		$("#alerta").show("fast");
+	 	       		$("#password").focus();
 	 	       		return false;
 				}
 				else{
 					$(this).button('loading');
 				}
 			}
- 	   	})
+ 	   	});
  	   	
  	   	$('#password').keypress(function() {
- 	   		$('.error').hide();
+ 	   		$('#alerta').hide();
  	   	});
  	   	
  	   	$('.input-xlarge').keypress(function() {
  	   		$('#error').hide();
  	   	});
  	</script>
-} 
+}
