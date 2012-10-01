@@ -161,8 +161,8 @@
 	</div>
 	
 		<!-- Modal crear reunion -->
-	<div class="modal hide fade" id="crearReunion">
-		<form action="@routes.Reuniones.generarReunion" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+	<div class="modal hide fade" id="crearReunion"> 
+		<form name="reunion" action="@routes.Reuniones.generarReunion" class="form-horizontal" method="post">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3>Nueva reunion</h3>
@@ -171,18 +171,18 @@
 				<div class="control-group">
 	    			<label class="control-label">Entre los dias</label>
 	    			<div class="controls">
-	    				<input class="input-small" type="text" id="fechaI1" maxlength="8" name="fecha_inicio" autocomplete="off">
+	    				<input class="input-small" type="text" id="fechaI1" maxlength="8" name="fecha_inicio">
 	    				y
-	    				<input class="input-small" type="text" id="fechaF1" maxlength="10" name="fecha_fin" autocomplete="off">
+	    				<input class="input-small" type="text" id="fechaF1" maxlength="10" name="fecha_fin" >
 	    			</div>
 	    		</div>
 	    		
 	    		<div class="control-group">
 	    			<label class="control-label">Entre las horas</label>
 	    			<div class="controls">
-	    				<input class="input-small" type="text" id="horaI1" maxlength="8" name="hora_inicio" autocomplete="off">
+	    				<input class="input-small" type="text" id="horaI1" maxlength="8" name="hora_inicio" >
 	    				y
-	    				<input class="input-small" type="text" id="horaF1" maxlength="8" name="hora_fin" autocomplete="off">
+	    				<input class="input-small" type="text" id="horaF1" maxlength="8" name="hora_fin">
 	    			</div>
 	    		</div>
 	    		
@@ -204,9 +204,9 @@
 				<input type="hidden" name="nombre" id="nombre" value="temporal"> 
 				<input type="hidden" name="descripcion" id="descripcion" value="descripcion"> 
 				<input type="hidden" name="estado" id="estado"  value="pendiente"> 
-				<input type="hidden" name="grupo_id" id="grupo_id"  value='@grupo.getString("id").toLong'> 
+				<input type="hidden" name="grupo.id" id="grupo.id"  value='@grupo.getString("id").toLong'> 
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Generar">
+				<input type="button" onclick="comparaFechas();" class="btn btn-primary" value="Generar" >
 			</div>
 		</form>		
 	</div>
@@ -303,14 +303,6 @@
 		    if (hour <= tpEndHour) { return true; }
 		    return false;
 		}
-// 		function tpStartOnMinuteShowCallback(hour, minute) {
-// 		    var tpEndHour = $('#horaF1').timepicker('getHour');
-// 		    var tpEndMinute = $('#horaF1').timepicker('getMinute');
-// 		    if ($('#horaF1').val() == '') { return true; }
-// 		    if (hour < tpEndHour) { return true; }
-// 		    if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
-// 		    return false;
-// 		}
 
 		function tpEndOnHourShowCallback(hour) {
 		    var tpStartHour = $('#horaI1').timepicker('getHour');
@@ -318,28 +310,13 @@
 		    if (hour >= tpStartHour) { return true; }
 		    return false;
 		}
-// 		function tpEndOnMinuteShowCallback(hour, minute) {
-// 		    var tpStartHour = $('#horaI1').timepicker('getHour');
-// 		    var tpStartMinute = $('#horaI1').timepicker('getMinute');
-// 		    if ($('#horaI1').val() == '') { return true; }
-// 		    if (hour > tpStartHour) { return true; }
-// 		    if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
-// 		    return false;
-// 		}
+
 		function tpStartOnHourShowCallback2(hour) {
 		    var tpEndHour = $('#horaF2').timepicker('getHour');
 		    if ($('#horaF2').val() == '') { return true; }
 		    if (hour <= tpEndHour) { return true; }
 		    return false;
 		}
-// 		function tpStartOnMinuteShowCallback2(hour, minute) {
-// 		    var tpEndHour = $('#horaF2').timepicker('getHour');
-// 		    var tpEndMinute = $('#horaF2').timepicker('getMinute');
-// 		    if ($('#horaF2').val() == '') { return true; }
-// 		    if (hour < tpEndHour) { return true; }
-// 		    if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
-// 		    return false;
-// 		}
 
 		function tpEndOnHourShowCallback2(hour) {
 		    var tpStartHour = $('#horaI2').timepicker('getHour');
@@ -347,14 +324,40 @@
 		    if (hour >= tpStartHour) { return true; }
 		    return false;
 		}
-// 		function tpEndOnMinuteShowCallback2(hour, minute) {
-// 		    var tpStartHour = $('#horaI2').timepicker('getHour');
-// 		    var tpStartMinute = $('#horaI2').timepicker('getMinute');
-// 		    if ($('#horaI2').val() == '') { return true; }
-// 		    if (hour > tpStartHour) { return true; }
-// 		    if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
-// 		    return false;
-// 		}
+		
+		/**
+		----------------- Comparar fechas ------------------
+		**/
+		function comparaFechas() {
+			var fechaInicio = document.getElementById("fechaI1").value;
+			var fechaFin = document.getElementById("fechaF1").value;
+			var horaInicio = document.getElementById("horaI1").value;
+			var horaFin = document.getElementById("horaF1").value;
+			var duracion = document.getElementById("duracion").value;
+			
+			if(fechaInicio < fechaFin){
+				var diferenciaHora = horaFin - horaInicio;
+				if(diferenciaHora>=duracion){
+					alert("Ok");
+				}else{
+					alert("La reunion no puede durar mas que el lapso de tiempo indicado");
+				}
+			}else{
+				alert("La fecha de termino debe ser posterior a la fecha de inicio");
+			}
+// 			x.setFullYear(2100,0,14);
+// 			var today = new Date();
+
+// 			if (x>today)
+// 			  {
+// 			  alert("Today is before 14th January 2100");
+// 			  }
+// 			else
+// 			  {
+// 			  alert("Today is after 14th January 2100");
+// 			  }
+			
+		}
 			
 	</script>
 }
