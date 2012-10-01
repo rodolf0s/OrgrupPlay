@@ -1,35 +1,52 @@
 @main(title = "Contacto") {	
 
-	<style type="text/css">
-		#estilo {
-		border-radious:12px;
-		}
-
-		
+	<style>
+		span { color: red; }
 	</style>
-	
-	<div class="container">
-		<div class="row">
-			<div class="span8" style="float:right;">
-				<div class="span4" style="float:left;" id="estilo">
-					<fieldset>
-						<legend>Contacto</legend>
-							<form id="form1" action="@routes.Application.guardaMensaje" class="well" method="post">
-								<label for="nombre">Nombre</label>
-								<input type="text" class="span3" placeholder="Nombre" name="nombre" id="nombre" autofocus="autofocus" required><br>
-								<label for="nombre">Asunto</label>
-								<input type="text" class="span3" placeholder="Asunto" name="asunto" id="asunto" required><br>
-								<label for="correo">Correo</label>
-								<input type="text" class="span3" placeholder="correo" name="correo" id="correo" required><br>
-								<label for="mensaje">Mensaje</label>
-								<textarea name="mensaje" id="mensaje" required></textarea><br>
-								<input type="hidden" name="estado" value="1">
-								<button type="submit" class="btn">Enviar mensaje</button>
-							</form>
-					</fieldset>
-				</div>
+
+	<div class="row">
+		<div class="span8" style="float:right;">
+			<div class="span4" style="float:left;" id="estilo">
+				<fieldset>
+					<legend>Contacto</legend>
+					<form id="form1" action="@routes.Application.guardaMensaje" class="well" method="post">
+						<div class="control-group">
+							<label class="control-label" for="nombre">Nombre completo</label>
+							<div class="controls">
+								<input type="text" placeholder="Nombre completo" name="nombre" id="nombre" maxlength="60" required/>
+								<span>*</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="asunto">Asunto</label>
+							<div class="controls">
+								<input type="text" placeholder="Asunto" name="asunto" id="asunto" maxlength="60" required/>
+								<span>*</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="correo">Correo electronico</label>
+							<div class="controls">
+								<input type="text" placeholder="Correo electronico" name="correo" id="correo" maxlength="50" required/>
+								<span>*</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="mensaje">Mensaje</label>
+							<div class="controls">
+								<textarea name="mensaje" id="mensaje" maxlength="500" required></textarea>
+								<span>*</span>
+							</div>
+						</div>
+						<input type="hidden" name="estado" value="1">
+						<div class="control-group">
+							<div class="controls">
+								<button type="submit" class="btn"> Enviar Mensaje </button>
+							</div>
+						</div>
+					</form>
+				</fieldset>
 			</div>
 		</div>
-	</div>
-	
+	</div>	
 }
