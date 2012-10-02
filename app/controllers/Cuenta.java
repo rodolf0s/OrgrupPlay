@@ -93,7 +93,7 @@ public class Cuenta extends Controller {
 			Form<Usuario> formPerfil = form(Usuario.class).bindFromRequest();
 
 			if (formPerfil.hasErrors()) {
-				return ok(cuenta_perfil.render(Usuario.find.byId(session("email")), ""));
+				return badRequest();
 			} else {
 				Usuario user = formPerfil.get();
 						
@@ -110,20 +110,20 @@ public class Cuenta extends Controller {
 					// Si el tamaño de la imagen supera 1 MB, redirecciona a perfil
 					// notificando el error.
 					if (file.length() > 1000000) {
-						return ok(cuenta_perfil.render(Usuario.find.byId(session("email")), "La imagen supera el limite"));
+						return badRequest(cuenta_perfil.render(Usuario.find.byId(session("email")), "La imagen supera el limite"));
 					} else {
 						
 						// Revisa que extension tiene la imagen subida por
-						// el usuario para agregarle la extension.
-					    if (contentType.equals("image/png")) {
+						// el usuario para agregarle la extension
+						// y si sube una imagen y no un archivo.
+					    if (contentType.equals("image/png"))
 					    	extension = ".png";
-					    }
-					    else if (contentType.equals("image/jpeg")) {
+					    else if (contentType.equals("image/jpeg"))
 					    	extension = ".jpg";
-					    }
-					    else if (contentType.equals("image/gif")) {
+					    else if (contentType.equals("image/gif"))
 					    	extension = ".gif";
-					    }
+					    else
+					    	return badRequest(cuenta_perfil.render(Usuario.find.byId(session("email")), "Debe seleccionar una imagen"));
 					    
 					    // Crea el nombre del archivo con el correo del usuario mas la extension
 					    // y luego sube la imagen y la guarda en el disco.
