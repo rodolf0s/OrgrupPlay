@@ -137,6 +137,8 @@ public class Cuenta extends Controller {
 					}					
 				} else {
 					user.setNombre(user.nombre, session("email"));
+					user.setTelefono(session("email"), user.telefono);
+					user.setLeyenda(session("email"), user.leyenda);
 				    return redirect (routes.Cuenta.perfil());
 				}			
 			}

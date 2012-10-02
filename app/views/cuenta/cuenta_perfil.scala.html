@@ -32,6 +32,20 @@
 					<input class="input-xlarge disabled" disabled="disabled" id="correo" type="text" name="correo" value="@usuario.correo">
 				</div>
 			</div>
+			
+			<div class="control-group">
+				<label class="control-label" for="telefono">Telefono</label>
+				<div class="controls">
+					<input class="input-xlarge" id="telefono" type="text" name="telefono" value="@usuario.telefono">
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label" for="leyenda">Sobre mi</label>
+				<div class="controls">
+					<textarea rows="6" class="input-xlarge" id="leyenda" name="leyenda">@usuario.leyenda</textarea>
+				</div>
+			</div>
 						
 			<div class="control-group">
 				<label class="control-label" for="imagen">Imagen de Perfil</label>
@@ -57,7 +71,9 @@
 	
 	<script type="text/javascript">
  	   	$('#fat-btn').on('click', function () {
- 	   		$(this).button('loading')
+ 	   		if($('input[name=nombre]').attr('value') >= "1") {
+ 	   			$(this).button('loading')
+ 	   		}
  	   	})
  	</script>
 }

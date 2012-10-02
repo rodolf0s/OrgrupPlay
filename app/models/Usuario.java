@@ -224,6 +224,27 @@ public class Usuario extends Model {
     }
     
     /**
+     * Actualiza el telefono del usuario.
+     * @param correo
+     * @param telefono
+     */
+    public void setTelefono(String correo, Integer telefono) {
+    	Usuario usuario = find.ref(correo);
+    	usuario.telefono = telefono;
+    	usuario.update();
+    }
+    
+    /**
+     * Actualiza la leyenda(Sobre mi) del usuario.
+     * @param correo
+     * @param leyenda
+     */
+    public void setLeyenda(String correo, String leyenda) {
+    	Usuario usuario = find.ref(correo);
+    	usuario.leyenda = leyenda;
+    	usuario.update();
+    }
+    /**
      * Actualiza los colores de las tareas del usuario.
      * 
      * @param correo
