@@ -32,7 +32,8 @@ public class Home extends Controller {
 					Usuario.find.byId(session("email")),
 					Tarea.find.where().eq("usuario_correo", session("email")).findList(),
 					t,
-					Grupo.getGrupos(session("email"))
+					Grupo.getGrupos(session("email")),
+					""
 					));
 		}
 	}
@@ -170,7 +171,8 @@ public class Home extends Controller {
 					Usuario.find.byId(session("email")), 
 					Tarea.find.where().eq("usuario_correo", session("email")).findList(),
 					Tarea.find.byId(mostrarForm.get().id),
-					Grupo.getGrupos(session("email"))
+					Grupo.getGrupos(session("email")),
+					""
 					));
 		}
 	}

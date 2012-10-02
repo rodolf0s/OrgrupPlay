@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.avaje.ebean.Ebean;
 
+import views.html.agenda.home;
 import views.html.grupo.*;
 
 import models.Archivo;
@@ -19,6 +20,7 @@ import models.Contacto;
 import models.Grupo;
 import models.Integrante;
 import models.Reunion;
+import models.Tarea;
 import models.Usuario;
 
 import play.data.Form;
@@ -58,7 +60,8 @@ public class Grupos extends Controller {
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
 						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.listaAmigos(session("email"))
+						Contacto.listaAmigos(session("email")),
+						""
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -79,7 +82,6 @@ public class Grupos extends Controller {
 			// verifica que el usuario pertenesca al grupo. haciendo un INNER JOIN grupo con integrante
 			// si no pertenece al grupo lo redirecciona al home "/App"
 			if (Grupo.getGrupo(session("email"), id) != null) {
-				List<Archivo> archivoVacio = new ArrayList<Archivo>();
 				return ok(views.html.grupo.grupo_reuniones.render(
 						Usuario.find.byId(session("email")),
 						Grupo.getGrupo(session("email"), id),
@@ -87,7 +89,7 @@ public class Grupos extends Controller {
 						Integrante.find.where().eq("grupo_id", id).findList(),
 						Contacto.listaAmigos(session("email")),
 						Reunion.find.where().eq("grupo_id", id).findList(),
-						archivoVacio
+						""
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -113,7 +115,8 @@ public class Grupos extends Controller {
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
 						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.listaAmigos(session("email"))
+						Contacto.listaAmigos(session("email")),
+						""
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -139,12 +142,40 @@ public class Grupos extends Controller {
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
 						Integrante.find.where().eq("grupo_id", id).findList(),
-						Contacto.listaAmigos(session("email"))
+						Contacto.listaAmigos(session("email")),
+						""
 						));
 			} else {
 				return redirect(routes.Home.index());
 			}
 		}	
+	}
+	
+	/**
+	 * Muestra una reunion y sus documentos asociados.
+	 * 
+	 * @param idReunion
+	 * @param idGrupo
+	 * @return
+	 */
+	public static Result verReunion(Long idReunion, Long idGrupo) {
+		return ok(grupo_reunion.render(
+				Usuario.find.byId(session("email")),
+				Grupo.getGrupo(session("email"), idGrupo),
+				Grupo.getGrupos(session("email")),
+				Reunion.find.byId(idReunion),
+				Archivo.find.where().eq("reunion_id", idReunion).findList(),
+				""
+				));
+	}
+	
+	/**
+	 * Muestra los grupos a los que pertenece el usuario.
+	 * 
+	 * @return
+	 */
+	public static Result muestraGrupos() {
+		return ok(muestra_grupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email")), ""));
 	}
 
 	/**
@@ -153,8 +184,8 @@ public class Grupos extends Controller {
 	 * @return redirecciona al grupo donde esta.
 	 * @throws IOException 
 	 */
-	public static Result crearGrupo() throws IOException {
-
+	public static Result crearGrupo(Integer pag, Long id, Long idReunion) throws IOException {
+		Tarea t = new Tarea();
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
@@ -180,21 +211,141 @@ public class Grupos extends Controller {
 					// Si el tamaño de la imagen supera 1 MB, redirecciona a perfil
 					// notificando el error.
 					if (file.length() > 1000000) {
-						return redirect(routes.Home.index());
+						// comprueba desde que pagina se esta creando el grupo
+						// para enviar el mensaje de error.
+						if (pag == 1)
+				    		return badRequest(home.render(
+				    				Usuario.find.byId(session("email")),
+				    				Tarea.find.where().eq("usuario_correo", session("email")).findList(),
+				    				t,
+				    				Grupo.getGrupos(session("email")),
+				    				"La imagen supera el limite"
+				    				));
+				    	else if (pag == 2)
+				    		return badRequest(muestra_grupos.render(
+									Usuario.find.byId(session("email")), 
+									Grupo.getGrupos(session("email")), 
+									"La imagen supera el limite"
+									));
+				    	else if (pag == 3)
+				    		return badRequest(views.html.grupo.grupo.render(
+				    				Usuario.find.byId(session("email")),
+				    				Grupo.getGrupo(session("email"), id),
+				    				Grupo.getGrupos(session("email")),
+				    				Integrante.find.where().eq("grupo_id", id).findList(),
+				    				Contacto.listaAmigos(session("email")),
+				    				"La imagen supera el limite"
+				    				));
+				    	else if (pag == 4)
+				    		return badRequest(views.html.grupo.grupo_miembros.render(
+				    				Usuario.find.byId(session("email")),
+				    				Grupo.getGrupo(session("email"), id),
+				    				Grupo.getGrupos(session("email")),
+				    				Integrante.find.where().eq("grupo_id", id).findList(),
+				    				Contacto.listaAmigos(session("email")),
+				    				"Debe seleccionar una imagen"
+				    				));
+				    	else if (pag == 5)
+				    		return badRequest(views.html.grupo.grupo_preferencias.render(
+				    				Usuario.find.byId(session("email")),
+				    				Grupo.getGrupo(session("email"), id),
+				    				Grupo.getGrupos(session("email")),
+				    				Integrante.find.where().eq("grupo_id", id).findList(),
+				    				Contacto.listaAmigos(session("email")),
+				    				"La imagen supera el limite"
+				    				));
+				    	else if (pag == 6)
+				    		return badRequest(grupo_reunion.render(
+				    				Usuario.find.byId(session("email")),
+				    				Grupo.getGrupo(session("email"), id),
+				    				Grupo.getGrupos(session("email")),
+				    				Reunion.find.byId(idReunion),
+				    				Archivo.find.where().eq("reunion_id", idReunion).findList(),
+				    				"La imagen supera el limite"
+				    				));
+				    	else if (pag == 7)
+				    		return badRequest(views.html.grupo.grupo_reuniones.render(
+									Usuario.find.byId(session("email")),
+									Grupo.getGrupo(session("email"), id),
+									Grupo.getGrupos(session("email")),
+									Integrante.find.where().eq("grupo_id", id).findList(),
+									Contacto.listaAmigos(session("email")),
+									Reunion.find.where().eq("grupo_id", id).findList(),
+									"La imagen supera el limite"
+									));
 					} else {
-
 						// Revisa que extension tiene la imagen subida por
 						// el usuario para agregarle la extension.
-					    if (contentType.equals("image/png")) {
+					    if (contentType.equals("image/png"))
 					    	extension = ".png";
-					    }
-					    else if (contentType.equals("image/jpeg")) {
+					    else if (contentType.equals("image/jpeg"))
 					    	extension = ".jpg";
-					    }
-					    else if (contentType.equals("image/gif")) {
+					    else if (contentType.equals("image/gif"))
 					    	extension = ".gif";
-					    }
-
+					    else
+					    	// comprueba desde que pagina se esta creando el grupo
+							// para enviar el mensaje de error.
+					    	if (pag == 1)
+					    		return badRequest(home.render(
+					    				Usuario.find.byId(session("email")),
+					    				Tarea.find.where().eq("usuario_correo", session("email")).findList(),
+					    				t,
+					    				Grupo.getGrupos(session("email")),
+					    				"Debe seleccionar una imagen"
+					    				));
+					    	else if (pag == 2)
+					    		return badRequest(muestra_grupos.render(
+										Usuario.find.byId(session("email")), 
+										Grupo.getGrupos(session("email")), 
+										"Debe seleccionar una imagen"
+										));
+					    	else if (pag == 3)
+					    		return badRequest(views.html.grupo.grupo.render(
+					    				Usuario.find.byId(session("email")),
+					    				Grupo.getGrupo(session("email"), id),
+					    				Grupo.getGrupos(session("email")),
+					    				Integrante.find.where().eq("grupo_id", id).findList(),
+					    				Contacto.listaAmigos(session("email")),
+					    				"Debe seleccionar una imagen"
+					    				));
+					    	else if (pag == 4)
+					    		return badRequest(views.html.grupo.grupo_miembros.render(
+					    				Usuario.find.byId(session("email")),
+					    				Grupo.getGrupo(session("email"), id),
+					    				Grupo.getGrupos(session("email")),
+					    				Integrante.find.where().eq("grupo_id", id).findList(),
+					    				Contacto.listaAmigos(session("email")),
+					    				"Debe seleccionar una imagen"
+					    				));
+					    	else if (pag == 5)
+					    		return badRequest(views.html.grupo.grupo_preferencias.render(
+					    				Usuario.find.byId(session("email")),
+					    				Grupo.getGrupo(session("email"), id),
+					    				Grupo.getGrupos(session("email")),
+					    				Integrante.find.where().eq("grupo_id", id).findList(),
+					    				Contacto.listaAmigos(session("email")),
+					    				"Debe seleccionar una imagen"
+					    				));
+					    	else if (pag == 6)
+					    		return badRequest(grupo_reunion.render(
+					    				Usuario.find.byId(session("email")),
+					    				Grupo.getGrupo(session("email"), id),
+					    				Grupo.getGrupos(session("email")),
+					    				Reunion.find.byId(idReunion),
+					    				Archivo.find.where().eq("reunion_id", idReunion).findList(),
+					    				"Debe seleccionar una imagen"
+					    				));
+					    	else if (pag == 7)
+					    		return badRequest(views.html.grupo.grupo_reuniones.render(
+										Usuario.find.byId(session("email")),
+										Grupo.getGrupo(session("email"), id),
+										Grupo.getGrupos(session("email")),
+										Integrante.find.where().eq("grupo_id", id).findList(),
+										Contacto.listaAmigos(session("email")),
+										Reunion.find.where().eq("grupo_id", id).findList(),
+										"Debe seleccionar una imagen"
+										));
+					    
 					    nuevoGrupo.nombre = creaGrupo.get().nombre;
 						nuevoGrupo.descripcion = creaGrupo.get().descripcion;
 					    nuevoGrupo.imagen = "group.png";
@@ -371,32 +522,6 @@ public class Grupos extends Controller {
 			return false;
 		else
 			return true;
-	}
-	
-	/**
-	 * Muestra una reunion y sus documentos asociados.
-	 * 
-	 * @param idReunion
-	 * @param idGrupo
-	 * @return
-	 */
-	public static Result verReunion(Long idReunion, Long idGrupo) {
-		return ok(grupo_reunion.render(
-				Usuario.find.byId(session("email")),
-				Grupo.getGrupo(session("email"), idGrupo),
-				Grupo.getGrupos(session("email")),
-				Reunion.find.byId(idReunion),
-				Archivo.find.where().eq("reunion_id", idReunion).findList()
-				));
-	}
-	
-	/**
-	 * Muestra los grupos a los que pertenece el usuario.
-	 * 
-	 * @return
-	 */
-	public static Result muestraGrupos() {
-		return ok(muestra_grupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email"))));
 	}
 	
 	/**
