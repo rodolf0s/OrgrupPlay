@@ -298,8 +298,13 @@
 		<div class="span3">
 			<div class="well well-small">
 				<ul class="nav nav-list">
-					<li> <img class="img-polaroid" style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
-					<li><b>@usuario.nombre</b></li>					
+					<li> <img class="img-polaroid" style="width: 100px; height: 100px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
+					<li><font size="4">@usuario.nombre</font></li>		
+					<li><font size="2">Ciudad: @usuario.ciudad</font></li>
+					<li><font size="2">Correo: @usuario.correo</font></li>
+					@if(usuario.telefono!=null){
+						<li><font size="2">Telefono: @usuario.telefono</font></li>	
+					}						
 				</ul>
 			</div>
 
