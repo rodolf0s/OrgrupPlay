@@ -1,10 +1,13 @@
-@(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto])
+@(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto], errorImagen: String)
 
 @app(title = grupo.getString("nombre"), usuario.nombre) {
 	
 	<script type="text/javascript">	
 		$(document).ready(function() {
-
+			// si hay un error al subir la imagen del grupo.
+			@if(errorImagen != "") {
+				$('#creaGrupo').modal('show');
+			}
 		});
 		
 		function modalMiembros() {
@@ -156,23 +159,23 @@
 	
 	<!-- Modal crear grupo -->
 	<div class="modal hide fade" id="creaGrupo">
-		<form action="@routes.Grupos.crearGrupo" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+		<form action='@routes.Grupos.crearGrupo(4, grupo.getString("id").toLong, 0)' class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)' class="close" aria-hidden="true">&times;</a>
 				<h3>Grupo Nuevo</h3>
 			</div>
 			<div class="modal-body">
 				<div class="control-group">
 	    			<label class="control-label">Nombre del grupo</label>
 	    			<div class="controls">
-	    				<input class="input-medium" type="text" name="nombre" autofocus="autofocus" required>
+	    				<input type="text" name="nombre" required>
 	    			</div>
 	    		</div>
 	    		
 	    		<div class="control-group">
 	    			<label class="control-label">Descripcion</label>
 	    			<div class="controls">
-	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500"></textarea>
+	    				<textarea name="descripcion" maxlength="500"></textarea>
 	    			</div>
 	    		</div>
 	    		
@@ -184,9 +187,14 @@
 						tamaño maximo = 1 MB
 					</div>
 				</div>
+				<div class="control-group>">
+					<div class="controls">
+						<span style="color: red;">@errorImagen</span>
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+				<a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)' class="btn">Cerrar</a>
 				<input type="submit" class="btn btn-primary" value="Crear">
 			</div>
 		</form>		
