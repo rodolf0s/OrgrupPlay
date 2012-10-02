@@ -13,7 +13,7 @@
  	 					<form name="formulario" id="formulario" action="@routes.Contactos.buscaContactos" method="post">
  	 						<div class="input-append">
  	 							<input type="text" class="input-xlarge" placeholder="Ingrese el nombre o correo" name="nombre" id="nombre" autofocus="autofocus" required>
- 	 							<input type="submit" name="submit" class="btn" value="Buscar contacto">
+ 	 							<input type="submit" name="submit" class="btn btn-primary" value="Buscar contacto">
  	 						</div>
  	 					</form>
  	 				
@@ -34,7 +34,7 @@
 										<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@p.imagen" class="img-polaroid" alt="imagen usuario"></td>
 										<td><font size="4">@p.nombre</font><br>Correo: @p.correo<br>Vive en: @p.ciudad</font></td>
 										@if(user.correo != p.correo && Contacto.compruebaUsuarioExistente(user.correo, p.correo) != p.correo && Contacto.compruebaSolicitud(user.correo, p.correo) != p.correo){
-											<td><input type="submit" class="btn" value="Agregar contacto"></td>
+											<td><input type="submit" class="btn btn-success" value="Agregar contacto"></td>
 										}
 										@if(Contacto.compruebaSolicitud(user.correo, p.correo) == p.correo){
 											<td><input type="submit" class="btn" value="solicitud enviada" disabled="disabled"></td>
