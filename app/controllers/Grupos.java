@@ -550,7 +550,7 @@ public class Grupos extends Controller {
 				// Agrega los 9 digitos mas el nombre del archivo.
 				String fileName = id.toString() + "_" + file.getFilename();
 				File documento = file.getFile();				
-				String path = "./public/grupos/" + fileName;
+				String path = "./public/grupos/" + idGrupo.toString() + "/" + fileName;
 				
 				Date fecha = new Date();
 				String hora = new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();				 
@@ -581,9 +581,9 @@ public class Grupos extends Controller {
 	 * @param id
 	 * @return
 	 */
-	public static Result descargarArchivo(Long id) {
+	public static Result descargarArchivo(Long id, Long grupoId) {
 		Archivo archivo = Archivo.find.byId(id);
-		File file = new File("./public/grupos/" + archivo.nombre);
+		File file = new File("./public/grupos/" + grupoId.toString() + "/" + archivo.nombre);
         response().setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
 		return ok(file);
 	}
@@ -598,7 +598,7 @@ public class Grupos extends Controller {
 	 */
 	public static Result eliminarArchivo(Long idArchivo, Long idReunion, Long idGrupo) {
 		Archivo archivo = Archivo.find.byId(idArchivo);
-		File file = new File("./public/grupos/" + archivo.nombre);
+		File file = new File("./public/grupos/" + idGrupo.toString() + "/" + archivo.nombre);
 		file.delete();
 		archivo.delete();
 		return redirect(routes.Grupos.verReunion(idReunion, idGrupo));

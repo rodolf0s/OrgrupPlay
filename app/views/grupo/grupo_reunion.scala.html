@@ -82,7 +82,7 @@
 									<td>@ar.nombre</td>
 									<td>@ar.fecha.format("dd/MM/yyyy") @ar.hora.format("HH:mm")</td>
 									<td>@Usuario.getNombre(ar.usuario.correo)</td>
-									<td><a class="btn btn-primary" href="@routes.Grupos.descargarArchivo(ar.id)">descargar</a></td>
+									<td><a class="btn btn-primary" href='@routes.Grupos.descargarArchivo(ar.id, grupo.getString("id").toLong)'>descargar</a></td>
 									@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
 									<td><a class="btn btn-danger" href='@routes.Grupos.eliminarArchivo(ar.id, reunion.id, grupo.getString("id").toLong)'>eliminar</a></td>
 									}
