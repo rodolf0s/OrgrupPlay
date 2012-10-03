@@ -326,7 +326,9 @@
 	   					}
 	   				</ul>
    				</form>
-   				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modal() >crear grupo</a>
+   				@if(!Usuario.cuentaInactiva(usuario.correo)) {
+   					<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modal() >crear grupo</a>
+   				}
    			</div>						 
 
 <!--    			<div class="well well-small"> -->

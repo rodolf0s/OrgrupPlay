@@ -12,7 +12,9 @@
 					<font size="4">@user2.correo</font><br><br>
 					@user2.leyenda
 				</td>
-				<td style="position: absolute; top:50; right:0; width:350px;"><a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick="modal()">Enviar mensaje</a></td>
+        @if(!Usuario.cuentaInactiva(user.correo)) {
+				  <td style="position: absolute; top:50; right:0; width:350px;"><a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick="modal()">Enviar mensaje</a></td>
+        }
 				
 				
 				<!-- Modal -->
@@ -36,7 +38,7 @@
   							</div>
   							<div class="modal-footer">
    								<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</a>
-    							<input type="submit" class="btn" value="Enviar mensaje" class="btn btn-primary" >
+                  <input type="submit" class="btn" value="Enviar mensaje" class="btn btn-primary" >
   							</div>
 						</div>
 					</form>

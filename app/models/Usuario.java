@@ -370,7 +370,7 @@ public class Usuario extends Model {
 	 */
 	public static void desactivarCuenta(String correo) {
 		Usuario usuario = Ebean.find(Usuario.class, correo);
-		usuario.estado = "Desactivada";
+		usuario.estado = "Inactiva";
 		usuario.update();
 	}	
 	
@@ -383,7 +383,20 @@ public class Usuario extends Model {
 		Usuario usuario = Ebean.find(Usuario.class, correo);
 		usuario.estado = "Bloqueada";
 		usuario.update();
-	}	
+	}
+
+    /**
+    * verifica si la cuenta esta inactiva.
+    * 
+    * @param correo
+    * @return si es True es por que la cuenta esta inactiva.
+    */
+    public static boolean cuentaInactiva(String correo) {
+        return find.where()
+            .eq("correo", correo)
+            .eq("estado", "Inactiva")
+            .findRowCount() > 0;
+    }	
 	
 	/**
 	 * Activa una cuenta.

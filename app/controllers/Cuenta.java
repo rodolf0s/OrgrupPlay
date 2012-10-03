@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import models.Usuario;
+import models.Integrante;
 
 import play.data.Form;
 import play.mvc.Controller;
@@ -233,8 +234,18 @@ public class Cuenta extends Controller {
 				return badRequest();
 			} else {
 				Usuario.desactivarCuenta(session("email"));
+				Integrante.eliminaIntegrante(session("email"));
 				return ok(views.html.home.informaciones.render("Su cuenta a sido desactivada satisfactoriamente.", "Cuenta desactivada"));
 			}
+		}
+	}
+
+	public static Result activarCuenta() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Usuario.activarCuenta(session("email"));
+			return ok(views.html.home.informaciones.render("Su cuenta a sido activada satisfactoriamente.\nPor favor vuelva a iniciar sesion.", "Cuenta desactivada"));
 		}
 	}
 

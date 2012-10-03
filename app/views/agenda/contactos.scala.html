@@ -32,13 +32,15 @@
 										<input type="hidden" name="usuario2.correo" value="@p.correo">
 										<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@p.imagen" class="img-polaroid" alt="imagen usuario"></td>
 										<td><font size="4">@p.nombre</font><br>Correo: @p.correo<br>Vive en: @p.ciudad</font></td>
-										@if(user.correo != p.correo && Contacto.compruebaUsuarioExistente(user.correo, p.correo) != p.correo && Contacto.compruebaSolicitud(user.correo, p.correo) != p.correo){
-											<td><input type="submit" class="btn btn-success" value="Agregar contacto"></td>
-										}
-										@if(Contacto.compruebaSolicitud(user.correo, p.correo) == p.correo){
-											<td><input type="submit" class="btn" value="solicitud enviada" disabled="disabled"></td>
-										}else{
-											<td></td>
+										@if(!Usuario.cuentaInactiva(user.correo)) {
+											@if(user.correo != p.correo && Contacto.compruebaUsuarioExistente(user.correo, p.correo) != p.correo && Contacto.compruebaSolicitud(user.correo, p.correo) != p.correo){
+												<td><input type="submit" class="btn btn-success" value="Agregar contacto"></td>
+											}
+											@if(Contacto.compruebaSolicitud(user.correo, p.correo) == p.correo){
+												<td><input type="submit" class="btn" value="solicitud enviada" disabled="disabled"></td>
+											}else{
+												<td></td>
+											}
 										}
 									</tr>
 								</form>

@@ -71,6 +71,7 @@ GET		/configurar/colores			controllers.Cuenta.colores()
 POST	/configurar/colores			controllers.Cuenta.actualizaColores()
 GET		/configurar/cuenta			controllers.Cuenta.cuenta()
 POST	/configurar/cuenta			controllers.Cuenta.desactivarCuenta()
+GET		/configurar/activar-cuenta	controllers.Cuenta.activarCuenta()
 
 #Grupo
 GET		/grupos								controllers.Grupos.muestraGrupos()

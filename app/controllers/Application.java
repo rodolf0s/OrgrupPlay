@@ -69,23 +69,26 @@ public class Application extends Controller {
 	 * @return si esta activada redirreciona al home,
 	 * sino redirecciona al login con un mensaje de error.
 	 */
-	public static Result comprobarLogin() {
-		
-	      Form<Login> loginForm = form(Login.class).bindFromRequest();
-	      
-	      if (loginForm.hasErrors()) {
-	          return badRequest(login.render(loginForm, ""));
-	      } else {
-	    	  Login user = loginForm.get();
+	public static Result comprobarLogin() {		
+		Form<Login> loginForm = form(Login.class).bindFromRequest();
+		if (loginForm.hasErrors()) {
+			return badRequest(login.render(loginForm, ""));
+		} else {
+			Login user = loginForm.get();
 
-	    	  if (Usuario.cuentaActivada(user.correo)) {
-	    		  session("email", loginForm.get().correo);
-		          return redirect(routes.Home.index());
-	    	  } else {
-	    		  return ok(login.render(form(Login.class), "Esta cuenta no esta activada"));
-	    	  }	          
-	      }
-	  }	
+			if (Usuario.cuentaActivada(user.correo)) {
+				session("email", loginForm.get().correo);
+				return redirect(routes.Home.index());
+			}
+			else if (Usuario.cuentaInactiva(user.correo)) {
+				session("email", loginForm.get().correo);
+				return redirect(routes.Home.index());
+			}
+			else {
+				return ok(login.render(form(Login.class), "Esta cuenta no esta activada"));
+			}
+		}	          
+	}	
 	
 	/**
 	 * Comprueba el registro del usuario, enviandole a la cuenta un enlace para que
@@ -122,7 +125,7 @@ public class Application extends Controller {
 				// Agrega los datos faltantes al modelo usuario. para guardarlos posteriormente a la BD.
 				user.id_verificador = id;
 				user.imagen = user.correo + ".gif";
-				user.estado = "desactivada";
+				user.estado = "Desactivada";
 				user.colorTareaAlta = "#B71616";
 				user.colorTareaMedia = "#381BCA";
 				user.colorTareaBaja = "#EBDF32";				

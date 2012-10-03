@@ -152,7 +152,9 @@
 			    			@if(!contactos.isEmpty()) {
 				 				@for(c <- contactos) {
 				 					@if(Integrante.esIntegrante(c.usuario2.correo, grupo.getString("id").toLong)) {
-				 						<option value="@c.usuario2.correo">@Usuario.getNombre(c.usuario2.correo)</option>
+				 						@if(!Usuario.cuentaInactiva(c.usuario2.correo)) {
+				 							<option value="@c.usuario2.correo">@Usuario.getNombre(c.usuario2.correo)</option>
+				 						}
 				 					}
 				 				}
 				 			}

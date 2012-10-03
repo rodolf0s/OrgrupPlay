@@ -48,6 +48,16 @@ public class Integrante extends Model {
 		Integrante integrante = find.ref(id);
 		integrante.delete();
 	}
+
+	/**
+	 * Elimina un integrante del grupo por correo.
+	 * 
+	 * @param correo es el correo del integrante a eliminar.
+	 */
+	public static void eliminaIntegrante(String correo) {
+		String sql = "DELETE FROM integrante WHERE usuario_correo = '"+correo+"'";
+		Ebean.createSqlUpdate(sql).execute();
+	}
 	
 	/**
 	 * Elimina todos los integrantes de un grupo.
@@ -55,7 +65,7 @@ public class Integrante extends Model {
 	 * @param id es el id del grupo.
 	 */
 	public static void eliminaTodos(Long id) {
-		String sql = "DELETE FROM integrante WHERE grupo_id = "+id;
+		String sql = "DELETE FROM integrante WHERE grupo_id = " + id;
 		Ebean.createSqlUpdate(sql).execute();
 	}
 	

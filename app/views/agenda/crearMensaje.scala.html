@@ -1,52 +1,55 @@
 @(user: Usuario, lista: List[Contacto])
 
 @app(title = "Orgrup", user.nombre) {
-	
-		<div class="container">
-		<div class="tabbable">
-			<ul class="nav nav-tabs" id="myTab">
-  				<li><a href="@routes.Mensajes.mensajesRecibidos">Mensajes recibidos</a></li>
-  				<li><a href="@routes.Mensajes.mensajesEnviados">Mensajes enviados</a></li>
-  				<li class="active"><a href="@routes.Mensajes.crearMensaje">Redactar mensaje</a></li>
-  			</ul>
-  			
-		<div class="tab-pane" id="redactar_mensaje">
- 	 					<table class="span5">
- 	 						<tr>
- 	 			 	 			<label>Para: </label>
- 	 			 	 		
- 	 						
- 	 								<form action="@routes.Mensajes.enviaMensaje" method="post">
- 	 			 	 					<select name="destinatario" class="span4" required>
- 	 			 	 						@for(p<-lista){
- 	 			 	 						<option value="@p.usuario2.correo">@p.usuario2.correo</option>	
- 	 			 	 						}
- 	 			 	 					</select>
- 	 			 	 				
- 	 			 	 		
- 	 			 	 		</tr>
- 	 			 	 		
- 	 			 	 		<tr>
- 	 			 	 			<label for="asunto">Asunto</label>
- 	 			 	 			<input type="text" name="asunto" id="asunto" class="span4" autofocus="autofocus" required>
- 	 			 			</tr>
- 	 			 			
- 	 			 			<tr>
- 	 			 				<label>Mensaje</label>
- 	 			 				<textarea rows="7" class="span4" name="mensaje" required></textarea>
- 	 			 			</tr>
- 	 			 					
- 	 			 			<input type="hidden" name="remitente.correo" value="@user.correo">
- 	 			 			<input type="hidden" name="leido" value="no">
- 	 			 			<input type="hidden" name="estado" value="enviado">		
- 	 			 			<tr>
- 	 			 				<br><input type="submit" class="btn" value="Enviar mensaje">
- 	 			 				
- 	 			 			</tr>
- 	 			 			
- 	 			 			</form>
- 	 			 		</table>
- 	 				</div>
- 	 			</div>
- 	 		</div>
+		@if(!Usuario.cuentaInactiva(user.correo)) {
+			<div class="container">
+			<div class="tabbable">
+				<ul class="nav nav-tabs" id="myTab">
+	  				<li><a href="@routes.Mensajes.mensajesRecibidos">Mensajes recibidos</a></li>
+	  				<li><a href="@routes.Mensajes.mensajesEnviados">Mensajes enviados</a></li>
+	  				<li class="active"><a href="@routes.Mensajes.crearMensaje">Redactar mensaje</a></li>
+	  			</ul>
+	  			
+			<div class="tab-pane" id="redactar_mensaje">
+	 	 					<table class="span5">
+	 	 						<tr>
+	 	 			 	 			<label>Para: </label>
+	 	 			 	 		
+	 	 						
+	 	 								<form action="@routes.Mensajes.enviaMensaje" method="post">
+	 	 			 	 					<select name="destinatario" class="span4" required>
+	 	 			 	 						@for(p<-lista){
+	 	 			 	 							@if(!Usuario.cuentaInactiva(p.usuario2.correo)) {
+	 	 			 	 								<option value="@p.usuario2.correo">@p.usuario2.correo</option>	
+	 	 			 	 							}
+	 	 			 	 						}
+	 	 			 	 					</select>
+	 	 			 	 				
+	 	 			 	 		
+	 	 			 	 		</tr>
+	 	 			 	 		
+	 	 			 	 		<tr>
+	 	 			 	 			<label for="asunto">Asunto</label>
+	 	 			 	 			<input type="text" name="asunto" id="asunto" class="span4" autofocus="autofocus" required>
+	 	 			 			</tr>
+	 	 			 			
+	 	 			 			<tr>
+	 	 			 				<label>Mensaje</label>
+	 	 			 				<textarea rows="7" class="span4" name="mensaje" required></textarea>
+	 	 			 			</tr>
+	 	 			 					
+	 	 			 			<input type="hidden" name="remitente.correo" value="@user.correo">
+	 	 			 			<input type="hidden" name="leido" value="no">
+	 	 			 			<input type="hidden" name="estado" value="enviado">		
+	 	 			 			<tr>
+	 	 			 				<br><input type="submit" class="btn" value="Enviar mensaje">
+	 	 			 				
+	 	 			 			</tr>
+	 	 			 			
+	 	 			 			</form>
+	 	 			 		</table>
+	 	 				</div>
+	 	 			</div>
+	 	 		</div>
+	}
  }
