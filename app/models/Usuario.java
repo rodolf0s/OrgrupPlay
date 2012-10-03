@@ -172,7 +172,7 @@ public class Usuario extends Model {
     	        .where().eq("correo", correo)  
     	        .findUnique();
     	try {
-	    	if(usuario.password.isEmpty()) {
+	    	if (usuario.password.isEmpty()) {
 	    		return "";
 	    	} else {
 	    		return usuario.password;
@@ -225,6 +225,7 @@ public class Usuario extends Model {
     
     /**
      * Actualiza el telefono del usuario.
+     *
      * @param correo
      * @param telefono
      */
@@ -236,6 +237,7 @@ public class Usuario extends Model {
     
     /**
      * Actualiza la leyenda(Sobre mi) del usuario.
+     *
      * @param correo
      * @param leyenda
      */
