@@ -99,17 +99,23 @@
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		var calendar = $('#calendar').fullCalendar({
-		    
+		/**
+		*	---------- AGENDA ------------------------
+		*/
+		var calendar = $('#calendar').fullCalendar({		    
 			header: {
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
-			},
-			
+			},			
 			selectable: true,
 			selectHelper: true,
-			
+			slotMinutes: 60,
+			allDayText: 'todo el dia',
+			axisFormat: 'HH:mm',
+			timeFormat: {
+			    agenda: 'H:mm{ - h:mm}'
+			},
 			select: function(start, end, allDay) {
 				document.forms.tarea.nombre.value = "Nueva Tarea";
 				if((start.getMonth() + 1) < 10)
@@ -120,8 +126,7 @@
 				if((end.getMonth() + 1) < 10)
 					var mes2 = 0 + "" + (end.getMonth() + 1);
 				else 
-					var mes2 = (end.getMonth() + 1);
-				
+					var mes2 = (end.getMonth() + 1);				
 				
 				if(allDay) {
 					document.forms.tarea.hora_inicio.value = "";
@@ -146,21 +151,16 @@
 						var hora2 = end.getHours();
 					document.forms.tarea.hora_inicio.value = hora1 + ":" + min1;
 					document.forms.tarea.hora_fin.value = hora2 + ":" + min2;
-				}
-				
-				document.forms.tarea.fecha_inicio.value = start.getDate() + '/' + mes1 + '/' + start.getFullYear();
-				
-				document.forms.tarea.fecha_fin.value = end.getDate() + '/' + mes2 + '/' + end.getFullYear();
-								
+				}				
+				document.forms.tarea.fecha_inicio.value = start.getDate() + '/' + mes1 + '/' + start.getFullYear();				
+				document.forms.tarea.fecha_fin.value = end.getDate() + '/' + mes2 + '/' + end.getFullYear();								
 				$('#myModal').modal('show');
-			},
-			
+			},			
 			eventClick: function(calEvent, jsEvent){
 				document.forms.edita.id.value = calEvent.id;
 		    	document.forms.edita.nombre.value = calEvent.title;
 		    	buscaDatos("@routes.Home.getTarea");
-		    },	    
-
+		    },
 		    events: [
 				@if(!tareas.isEmpty()) {
 					@for(l <- tareas) {
@@ -183,7 +183,10 @@
 					}
 				}
 			],
-		});		
+		});
+		/**
+		*	----------FIN AGENDA -------------------
+		*/
 	});
 	
 	function buscaDatos() {
@@ -196,22 +199,38 @@
 	 		document.forms.edita.hora_inicio.value = document.forms.edita.hora_inicio.value + ":00";
 	 		document.forms.edita.hora_fin.value = document.forms.edita.hora_fin.value + ":00";
 		}
-
 	    document.edita.action = url;
 	    document.edita.submit();
 	 }
 	
 	function formatea_envia() {
-		if(document.forms.tarea.hora_inicio.value.length <= 5) {
-			document.forms.tarea.hora_inicio.value = document.forms.tarea.hora_inicio.value + ":00";
-			document.forms.tarea.hora_fin.value = document.forms.tarea.hora_fin.value + ":00";
-			document.tarea.action = "@routes.Home.guardaTarea";
-		    document.tarea.submit();
-		} else {
-			document.tarea.action = "@routes.Home.guardaTarea";
-		    document.tarea.submit();
+		if (document.forms.tarea.hora_inicio.value != "" && document.forms.tarea.hora_fin.value != "") { 
+			if(document.forms.tarea.hora_inicio.value.length <= 5) {
+				document.forms.tarea.hora_inicio.value = document.forms.tarea.hora_inicio.value + ":00";
+				document.forms.tarea.hora_fin.value = document.forms.tarea.hora_fin.value + ":00";
+				if (document.forms.tarea.repetir.checked == true && document.forms.tarea.fecha_termino.value == "") {
+					document.forms.tarea.fecha_termino.focus();
+				} else {
+// 					if (document.forms.tarea.repetir.checked == true) {
+// 						var indice = document.forms.tarea.op_repetir.selectedIndex;
+// 						var op = document.forms.tarea.op_repetir[indice].value;
+						document.tarea.action = "@routes.Home.guardaTarea";
+				    	document.tarea.submit();
+// 					}
+				}
+			} else {
+				if (document.forms.tarea.repetir.checked == true && document.forms.tarea.fecha_termino.value == "") {
+					document.forms.tarea.fecha_termino.focus();
+				} else {
+					document.tarea.action = "@routes.Home.guardaTarea";
+			    	document.tarea.submit();
+				}
+			}
+		} else if (document.forms.tarea.hora_inicio.value == "") {
+			document.forms.tarea.hora_inicio.focus();
+		} else if (document.forms.tarea.hora_fin.value == "") {
+			document.forms.tarea.hora_fin.focus();
 		}
-		
 	}
 	
 	function redireccionar() {
@@ -329,32 +348,17 @@
    				@if(!Usuario.cuentaInactiva(usuario.correo)) {
    					<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modal() >crear grupo</a>
    				}
-   			</div>						 
-
-<!--    			<div class="well well-small"> -->
-<!-- 				<ul class="nav nav-pills nav-stacked"> -->
-<!-- 					<li class="nav-header"> -->
-<!-- 						contactos -->
-<!-- 					</li> -->
-<!-- 				</ul> -->
-<!-- 			</div>	 -->
+   			</div>
 		</div>
 			
 		<div class="span9">
 			<div>			
-				<div id='calendar'></div>
-			
-				<!-- <a class="btn" data-toggle="modal" href="#myModal" >Nueva Tarea</a> -->
-				
+				<div id='calendar'></div>				
 			</div>    
 		</div>
-
-<!-- 		<div class="span2">
-   			
-		</div> -->
 	</div>
 	
-		<!-- Modal crear grupo -->
+	<!-- Modal crear grupo -->
 	<div class="modal hide fade" id="creaGrupo">
 		<form action="@routes.Grupos.crearGrupo(1, 0, 0)" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
 			<div class="modal-header">
@@ -398,65 +402,53 @@
 	</div>
 	
 	<!-- 	Modal pop-up guarda -->
-	<div class="modal hide" id="myModal">	
-	
-		<form action="@routes.Home.guardaTarea" name="tarea" method="post">
-			
+	<div class="modal hide" id="myModal">		
+		<form action="@routes.Home.guardaTarea" name="tarea" method="post">			
 			<div class="modal-header">
 	    		<button type="button" class="close" data-dismiss="modal">×</button>
 	    		<h3>Nueva Tarea</h3>
-	    	</div>
-	    		    
-	    	<div class="modal-body">
-	    	
+	    	</div>	    		    
+	    	<div class="modal-body">	    	
 	    		<div class="control-group">
 	    			<label class="control-label">Nombre Tarea</label>
 	    			<div class="controls">
-	    				<input class="input-medium" type="text" name="nombre" required>
+	    				<input class="input-medium" type="text" name="nombre"  required>
 	    			</div>
-	    		</div>
-	    		
+	    		</div>	    		
 	    		<div class="control-group">
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
 			    		<input class="input-small" type="text" id="fechaI1" maxlength="10" name="fecha_inicio" autocomplete="off">
-			    		<input class="input-mini" type="text" id="horaI1" maxlength="8" name="hora_inicio" onChange="horaInicio1()" autocomplete="off">
+			    		<input class="input-mini" type="text" id="horaI1" maxlength="8" name="hora_inicio" onChange="horaInicio1()" autocomplete="off" required>
 			    		a
 			    		<input class="input-small" type="text" id="fechaF1" maxlength="10" name="fecha_fin" autocomplete="off">
-			    		<input class="input-mini" type="text" id="horaF1" maxlength="8" name="hora_fin" onChange="horaFin1()" autocomplete="off">
-			    		
+			    		<input class="input-mini" type="text" id="horaF1" maxlength="8" name="hora_fin" onChange="horaFin1()" autocomplete="off" required>	
 			    	</div>
-	    		</div>
-	    		
+	    		</div>	    		
 	    		<div class="control-group">
 	    			<div class="controls">
 	    				<label class="checkbox">
 							<input type="checkbox" name="repetir" value="0" id="repetir"> repetir
 						</label>
 	    			</div>
-	    		</div>
-	    		
+	    		</div>	    		
 	    		<div class="well control-group" id="divrepetir" style="display: none;">
 		    		<div class="controls ">						
 						<label>Se repite: </label>
 						<select class="span2" name="op_repetir">
 							<option value="1">cada día</option>
 							<option value="2">cada semana</option>
-						</select>
-						
+						</select>						
 						<label>Finaliza el: </label>
-			    		<input class="input-small" type="text" id="fechaT" maxlength="10" name="fecha_termino" autocomplete="off">
-			    		
+			    		<input class="input-small" type="text" id="fechaT" maxlength="10" name="fecha_termino" autocomplete="off" required>
 			    	</div>
-	    		</div>
-	    		
+	    		</div>	    		
 	    		<div class="control-group">
 	    			<label class="control-label">Descripción</label>
 	    			<div class="controls">
 	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500"></textarea>
 	    			</div>
-	    		</div>
- 	    		
+	    		</div> 	    		
  	    		<div class="control-group">
 	 	    		<label class="control-label">Prioridad Tarea</label>
 	 	    		<div class="controls">
@@ -466,41 +458,31 @@
 		 	    			<option value="3">Baja</option>
 		 	    		</select>
 		 	    	</div>
-		 	    </div>
-		 	    
-		 	    <input type="hidden" name="usuario.correo" value="@usuario.correo">
-	    		
-	    	</div>
-	    
+		 	    </div>		 	    
+		 	    <input type="hidden" name="usuario.correo" value="@usuario.correo">	    		
+	    	</div>	    
 	    	<div class="modal-footer">
 	    		<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-	    		<input type="button" onClick=formatea_envia() class="btn btn-primary" value="Crear">
+	    		<input type="button" onClick=formatea_envia() class="btn btn-primary" name="agrega" value="Crear">
 	    	</div>
     	</form>			
-			
     </div>
     
 	<!-- 	Modal pop-up Edita y elimina-->
-	<div class="modal hide" id="myModalEdita">	
-	
-		<form name="edita" method="post">
-			
+	<div class="modal hide" id="myModalEdita">		
+		<form name="edita" method="post">			
 			<div class="modal-header">
 	    		<button type="button" class="close" data-dismiss="modal">×</button>
 	    		<h3>Tarea</h3>
-	    	</div>
-	    	
+	    	</div>	    	
 	    	<div class="modal-body">
 	    		<input type="hidden" name="id" value="@if(tareaMostrar.id != null) {@tareaMostrar.id}">
 	    		<div class="control-group">
 	    			<label class="control-label">Nombre Tarea</label>
-	    			<div class="controls">
-	    			
-	    				<input class="input-medium" type="text" name="nombre" value="@tareaMostrar.nombre" required>
-	    			
+	    			<div class="controls">	    			
+	    				<input class="input-medium" type="text" name="nombre" value="@tareaMostrar.nombre" required>	    			
 	    			</div>
-	    		</div>
-	    		
+	    		</div>	    		
 	    		<div class="control-group">
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
@@ -510,15 +492,13 @@
 			    		<input class="input-small" type="text" name="fecha_fin" maxlength="10" autocomplete="off" id="fechaF2" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
 			    		<input class="input-mini" type="text" name="hora_fin" maxlength="8" autocomplete="off" onChange="horaFin2()" id="horaF2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm")}'>
 			    	</div>
-	    		</div>
-	    		
+	    		</div>	    		
 	    		<div class="control-group">
 	    			<label class="control-label">Descripción</label>
 	    			<div class="controls">
 	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500">@tareaMostrar.descripcion</textarea>
 	    			</div>
-	    		</div>
- 	    		
+	    		</div> 	    		
  	    		<div class="control-group">
 	 	    		<label class="control-label">Prioridad Tarea</label>
 	 	    		<div class="controls">
@@ -540,12 +520,9 @@
 	 	    				</script>
 		 	    		</select>
 		 	    	</div>
-		 	    </div>
-		 	    
-		 	    <input type="hidden" name="usuario.correo" value="@usuario.correo">
-	    		
-	    	</div>
-	    
+		 	    </div>		 	    
+		 	    <input type="hidden" name="usuario.correo" value="@usuario.correo">	    		
+	    	</div>	    
 	    	<div class="modal-footer">
 				<a class="btn btn-primary" onClick=enviar_a('@routes.Home.editaTarea')> 
 					<i class="icon-refresh icon-white"> </i>
@@ -557,7 +534,6 @@
 				</a>
 				<input class="btn" data-dismiss="modal" type="button" onclick=redireccionar() value="Cerrar"/>
 	    	</div>
-    	</form>			
-			
-    </div>	
+    	</form>						
+    </div>
 }
