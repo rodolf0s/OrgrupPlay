@@ -1,12 +1,15 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.avaje.ebean.Ebean;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -64,4 +67,24 @@ public class Reunion extends Model {
 	// Consultas
 	
 	public static Finder<Long,Reunion> find = new Finder<Long,Reunion>(Long.class, Reunion.class);
+	
+	/**
+	 * Elimina todas las reuniones de un grupo.
+	 * 
+	 * @param id es el id del grupo.
+	 */
+	public static void eliminaTodo(Long id) {
+		String sql = "DELETE FROM reunion WHERE grupo_id = " + id;
+		Ebean.createSqlUpdate(sql).execute();
+	}
+	
+	/**
+	 * Obtiene todas las reuniones de un grupo determinado.
+	 * 
+	 * @param id es el id del grupo.
+	 * @return una lista con las reuniones.
+	 */
+	public static List<Reunion> getReuniones(Long id) {
+		return find.where().eq("grupo_id", id).findList();
+	}
 }
