@@ -35,7 +35,9 @@ public class Cuenta extends Controller {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(cuenta_perfil.render(Usuario.find.byId(session("email")), ""));
+			return ok(cuenta_perfil.render(
+					Usuario.find.byId(session("email")), 
+					""));
 		}
 	}
 	
@@ -48,7 +50,14 @@ public class Cuenta extends Controller {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(cuenta_password.render(Usuario.find.byId(session("email")), "", "", "", "", "", ""));
+			return ok(cuenta_password.render(
+					Usuario.find.byId(session("email")), 
+					"", 
+					"", 
+					"", 
+					"", 
+					"", 
+					""));
 		}
 	}
 	
@@ -61,7 +70,9 @@ public class Cuenta extends Controller {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(cuenta_agenda.render(Usuario.find.byId(session("email")), ""));
+			return ok(cuenta_agenda.render(
+					Usuario.find.byId(session("email")), 
+					""));
 		}
 	}
 	
@@ -74,7 +85,9 @@ public class Cuenta extends Controller {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(cuenta_desactivar.render(Usuario.find.byId(session("email")), ""));
+			return ok(cuenta_desactivar.render(
+					Usuario.find.byId(session("email")), 
+					""));
 		}
 	}
 
@@ -111,7 +124,9 @@ public class Cuenta extends Controller {
 					// Si el tamaño de la imagen supera 1 MB, redirecciona a perfil
 					// notificando el error.
 					if (file.length() > 1000000) {
-						return badRequest(cuenta_perfil.render(Usuario.find.byId(session("email")), "La imagen supera el limite"));
+						return badRequest(cuenta_perfil.render(
+								Usuario.find.byId(session("email")), 
+								"La imagen supera el limite"));
 					} else {
 						
 						// Revisa que extension tiene la imagen subida por
@@ -124,7 +139,9 @@ public class Cuenta extends Controller {
 					    else if (contentType.equals("image/gif"))
 					    	extension = ".gif";
 					    else
-					    	return badRequest(cuenta_perfil.render(Usuario.find.byId(session("email")), "Debe seleccionar una imagen"));
+					    	return badRequest(cuenta_perfil.render(
+					    			Usuario.find.byId(session("email")), 
+					    			"Debe seleccionar una imagen"));
 					    
 					    // Crea el nombre del archivo con el correo del usuario mas la extension
 					    // y luego sube la imagen y la guarda en el disco.
@@ -158,7 +175,14 @@ public class Cuenta extends Controller {
 			Form<CambioPassword> formPassword = form(CambioPassword.class).bindFromRequest();
 
 			if (formPassword.hasErrors()) {
-				return ok(cuenta_password.render(Usuario.find.byId(session("email")), "", "", "", "", "", ""));
+				return ok(cuenta_password.render(
+						Usuario.find.byId(session("email")), 
+						"", 
+						"", 
+						"", 
+						"", 
+						"", 
+						""));
 			} else {				
 				CambioPassword claves = formPassword.get();
 				
@@ -213,7 +237,11 @@ public class Cuenta extends Controller {
 				return badRequest();
 			} else {	
 				Usuario nuevoColores = formColores.get();
-				nuevoColores.setColores(session("email"), nuevoColores.colorTareaAlta, nuevoColores.colorTareaMedia, nuevoColores.colorTareaBaja);
+				nuevoColores.setColores(
+						session("email"), 
+						nuevoColores.colorTareaAlta, 
+						nuevoColores.colorTareaMedia, 
+						nuevoColores.colorTareaBaja);
 				return redirect(routes.Cuenta.colores());
 			}
 		}
@@ -229,23 +257,30 @@ public class Cuenta extends Controller {
 			return redirect(routes.Application.index());
 		} else {
 			Form<Usuario> formCuenta = form(Usuario.class).bindFromRequest();
-
 			if (formCuenta.hasErrors()) {
 				return badRequest();
 			} else {
 				Usuario.desactivarCuenta(session("email"));
 				Integrante.eliminaIntegrante(session("email"));
-				return ok(views.html.home.informaciones.render("Su cuenta a sido desactivada satisfactoriamente.", "Cuenta desactivada"));
+				return ok(views.html.home.informaciones.render(
+						"Su cuenta a sido desactivada satisfactoriamente.", 
+						"Cuenta desactivada"));
 			}
 		}
 	}
 
+	/**
+	 * El usuario activa su cuenta, cambiando el estado de Inactivo a Activada
+	 * @return
+	 */
 	public static Result activarCuenta() {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
 			Usuario.activarCuenta(session("email"));
-			return ok(views.html.home.informaciones.render("Su cuenta a sido activada satisfactoriamente.\nPor favor vuelva a iniciar sesion.", "Cuenta desactivada"));
+			return ok(views.html.home.informaciones.render(
+					"Su cuenta a sido activada satisfactoriamente.\nPor favor vuelva a iniciar sesion.", 
+					"Cuenta desactivada"));
 		}
 	}
 

@@ -159,14 +159,18 @@ public class Grupos extends Controller {
 	 * @return
 	 */
 	public static Result verReunion(Long idReunion, Long idGrupo) {
-		return ok(grupo_reunion.render(
-				Usuario.find.byId(session("email")),
-				Grupo.getGrupo(session("email"), idGrupo),
-				Grupo.getGrupos(session("email")),
-				Reunion.find.byId(idReunion),
-				Archivo.find.where().eq("reunion_id", idReunion).findList(),
-				""
-				));
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			return ok(grupo_reunion.render(
+					Usuario.find.byId(session("email")),
+					Grupo.getGrupo(session("email"), idGrupo),
+					Grupo.getGrupos(session("email")),
+					Reunion.find.byId(idReunion),
+					Archivo.find.where().eq("reunion_id", idReunion).findList(),
+					""
+					));
+		}
 	}
 	
 	/**
@@ -175,7 +179,11 @@ public class Grupos extends Controller {
 	 * @return
 	 */
 	public static Result muestraGrupos() {
-		return ok(muestra_grupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email")), ""));
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			return ok(muestra_grupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email")), ""));
+		}
 	}
 
 	/**

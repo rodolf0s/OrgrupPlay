@@ -75,7 +75,6 @@ public class Application extends Controller {
 			return badRequest(login.render(loginForm, ""));
 		} else {
 			Login user = loginForm.get();
-
 			if (Usuario.cuentaActivada(user.correo)) {
 				session("email", loginForm.get().correo);
 				return redirect(routes.Home.index());
@@ -85,7 +84,9 @@ public class Application extends Controller {
 				return redirect(routes.Home.index());
 			}
 			else {
-				return ok(login.render(form(Login.class), "Esta cuenta no esta activada"));
+				return ok(login.render(
+						form(Login.class), 
+						"Esta cuenta no esta activada"));
 			}
 		}	          
 	}	
@@ -108,7 +109,9 @@ public class Application extends Controller {
 			Usuario user = formRegistro.get();
 			
 			if (Usuario.esMiembro(user.correo)) {				
-				return badRequest(registro.render(form(Usuario.class), "El correo ya existe"));				
+				return badRequest(registro.render(
+						form(Usuario.class), 
+						"El correo ya existe"));				
 			} else {				
 				do {					
 					// genera un numero de 9 digitos para usarlo posteriormente
@@ -147,10 +150,12 @@ public class Application extends Controller {
 			    email.setTLS(true);
 			    email.send();
 			    
-			    return ok(informaciones.render("Bienvenidos a la red de Orgrup, red de agendas que te permitirá " +
+			    return ok(informaciones.render(
+			    		"Bienvenidos a la red de Orgrup, red de agendas que te permitirá " +
 			    		"llevar un registro de todas tus actividades, podrás buscar amigos y colegas para gestionar " +
 			    		"reuniones de forma automática, subir apuntes, documentos y más!. " +
-			    		"Confirme su cuenta a través del enlace enviado a su correo.", "Registro"));
+			    		"Confirme su cuenta a través del enlace enviado a su correo.", 
+			    		"Registro"));
 			}		
 		}
 	}
@@ -187,7 +192,9 @@ public class Application extends Controller {
 			    email.setTLS(true);
 			    email.send();
 			    
-			    return ok(informaciones.render("Su contraseña a sido enviada a su correo electronico.", "Recuperar Contraseña"));
+			    return ok(informaciones.render(
+			    		"Su contraseña a sido enviada a su correo electronico.", 
+			    		"Recuperar Contraseña"));
 			} else {
 				return ok(olvidoPassword.render("Correo electronico incorrecto"));
 			}
@@ -207,7 +214,9 @@ public class Application extends Controller {
 		} else {
 			Correo mensaje = formContacto.get();
 			mensaje.save();
-			return ok(informaciones.render("Su mensaje a sido enviado exitosamente.", "Contacto"));
+			return ok(informaciones.render(
+					"Su mensaje a sido enviado exitosamente.", 
+					"Contacto"));
 		}
 	}
 	
