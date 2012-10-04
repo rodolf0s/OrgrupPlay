@@ -359,25 +359,35 @@ public class Grupos extends Controller {
 					    nuevoGrupo.imagen = "group.png";
 					    nuevoGrupo.save();
 
+					    // Crea un directorio al grupo para los documentos.
+					    File directorio = new File("./public/grupos/" + nuevoGrupo.id.toString());
+					    directorio.mkdir();
+					    
 					    // crea el nombre de la imagen + la extension.
 					    fileName = nuevoGrupo.id.toString() + extension;
 
-					    String path = "./public/grupos/" + fileName;
+					    String path = "./public/grupos/" + nuevoGrupo.id.toString() + "/" + fileName;
 					    org.apache.commons.io.FileUtils.copyFile(file, new File(path));
 
 					    nuevoGrupo.imagen = fileName;
 					    nuevoGrupo.update();
 					}
 				} else { 
+					File file = new File("./public/grupos/group.png");
+					
 					nuevoGrupo.nombre = creaGrupo.get().nombre;
 					nuevoGrupo.descripcion = creaGrupo.get().descripcion;
 				    nuevoGrupo.imagen = "group.png";
 				    nuevoGrupo.save();
-				}	
-				// Crea un directorio al grupo para los documentos.
-			    File directorio = new File("./public/grupos/" + nuevoGrupo.id.toString());
-			    directorio.mkdir();
-			   
+				    
+				    // guarda la imagen group.png en el directorio del grupo.
+				    String path = "./public/grupos/" + nuevoGrupo.id.toString() + "/" + "group.png";
+				    org.apache.commons.io.FileUtils.copyFile(file, new File(path));
+				    
+				    // Crea un directorio al grupo para los documentos.
+				    File directorio = new File("./public/grupos/" + nuevoGrupo.id.toString());
+				    directorio.mkdir();
+				}
 				// Crea objetos para agregar posteriormente al usuario
 				// que creo el grupo a la tabla integrante
 				Usuario user = new Usuario();
@@ -514,6 +524,28 @@ public class Grupos extends Controller {
 	 * @return
 	 */
 	public static Result eliminaGrupo(Long id) {
+		// Obtiene el directorio del grupo a eliminar
+		File file = new File("./public/grupos/" + id.toString());
+		// Obtiene todas las reuniones del grupo.
+		List<Reunion> reuniones = Reunion.getReuniones(id);
+		
+		// Elimina en la BD todos los archivos de las reuniones
+		for (int i = 0; i < reuniones.size(); i++) {
+			Archivo.eliminaTodo(reuniones.get(i).id);
+		}
+		
+		// Se crea un array con todos los archivos dentro del directorio
+		// del grupo.
+		File[] ficheros = file.listFiles();
+		
+		// Elimina cada archivo dentro del directorio.
+		for (int x = 0; x < ficheros.length; x++) {
+			ficheros[x].delete();
+		}
+		// Elimina el directorio una vez vacio.
+		file.delete();
+		
+		Reunion.eliminaTodo(id);
 		Integrante.eliminaTodos(id);
 		Grupo.find.ref(id).delete();				
 		return redirect(routes.Home.index());
