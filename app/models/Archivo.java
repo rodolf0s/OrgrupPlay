@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
+
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -41,5 +43,15 @@ public class Archivo extends Model {
 	
 	// Consultas
 	
-	public static Finder<Long,Archivo> find = new Finder<Long,Archivo>(Long.class, Archivo.class);	
+	public static Finder<Long,Archivo> find = new Finder<Long,Archivo>(Long.class, Archivo.class);
+	
+	/**
+	 * Elimina todo los archivos.
+	 * 
+	 * @param id es el id de la reunion.
+	 */
+	public static void eliminaTodo(Long id) {
+		String sql = "DELETE FROM archivo WHERE reunion_id = " + id;
+		Ebean.createSqlUpdate(sql).execute();
+	}
 }
