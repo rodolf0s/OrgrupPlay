@@ -44,7 +44,7 @@
 		   					@for(g <- grupos) {		   						
 			   					<li @if(grupo.getString("id") == g.getString("id")) { class="active" })>
 			   						<a href='@routes.Grupos.index(g.getString("id").toLong)'>
-			   							<img class="img-polaroid" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("imagen")' alt="imagen grupo">
+			   							<img class="img-polaroid" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
 			   							@g.getString("nombre")
 			   						</a>
 			   					</li>		   						

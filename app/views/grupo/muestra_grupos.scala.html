@@ -30,7 +30,7 @@
 				<table>
 					@for(p<-grupos){
 						<tr>
-							<td><img class="img-polaroid" style="width: 35px; height: 35px;" src='/assets/grupos/@p.getString("imagen")'>&nbsp;</td>
+							<td><img class="img-polaroid" style="width: 35px; height: 35px;" src='/assets/grupos/@p.getString("id")/@p.getString("imagen")'>&nbsp;</td>
 							<td id="fondo" class="span8"><a href="@routes.Grupos.index(p.getString("id").toLong)">@p.getString("nombre")</a></td>
 							@if(Integrante.esAdmin(p.getString("id").toLong, user.correo)==true){
 								<td></td>
