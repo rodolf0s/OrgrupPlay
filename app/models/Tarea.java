@@ -51,12 +51,6 @@ public class Tarea extends Model {
 	public Usuario usuario;
 	
 	@Column(nullable=true)
-	public Integer repetir;
-	
-	@Column(nullable=true)
-	public Integer op_repetir;
-	
-	@Column(nullable=true)
 	@Formats.DateTime(pattern="dd/MM/yyyy")
 	public Date fecha_termino; 
 	

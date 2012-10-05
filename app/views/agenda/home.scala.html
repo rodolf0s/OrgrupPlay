@@ -8,6 +8,7 @@
 
 	$(document).ready(function() {
 		
+		// Desactiva las teclas
 		$('#horaI1, #horaF1, #horaI2, #horaF2, #fechaI1, #fechaI2, #fechaF1, #fechaF2').keypress(function(e) {
 		    if(e.which > 0) return false;
 		});
@@ -133,11 +134,11 @@
 					document.forms.tarea.hora_fin.value = "";	
 				} else {
 					if(start.getMinutes() == 0)
-						var min1 = "00";
+						var min1 = ":00:00";
 					else
 						var min1 = start.getMinutes();
 					if(end.getMinutes() == 0)
-						var min2 = "00";
+						var min2 = ":00:00";
 					else
 						var min2 = end.getMinutes();
 					
@@ -149,8 +150,8 @@
 						var hora2 = "00";
 					else
 						var hora2 = end.getHours();
-					document.forms.tarea.hora_inicio.value = hora1 + ":" + min1;
-					document.forms.tarea.hora_fin.value = hora2 + ":" + min2;
+					document.forms.tarea.hora_inicio.value = hora1 + min1;
+					document.forms.tarea.hora_fin.value = hora2 + min2;
 				}				
 				document.forms.tarea.fecha_inicio.value = start.getDate() + '/' + mes1 + '/' + start.getFullYear();				
 				document.forms.tarea.fecha_fin.value = end.getDate() + '/' + mes2 + '/' + end.getFullYear();								
@@ -195,41 +196,36 @@
 	}
 		
 	function enviar_a(url){
-		if(document.forms.edita.hora_inicio.value.length <= 5) {
-	 		document.forms.edita.hora_inicio.value = document.forms.edita.hora_inicio.value + ":00";
-	 		document.forms.edita.hora_fin.value = document.forms.edita.hora_fin.value + ":00";
-		}
 	    document.edita.action = url;
 	    document.edita.submit();
 	 }
 	
 	function formatea_envia() {
-		if (document.forms.tarea.hora_inicio.value != "" && document.forms.tarea.hora_fin.value != "") { 
-			if(document.forms.tarea.hora_inicio.value.length <= 5) {
-				document.forms.tarea.hora_inicio.value = document.forms.tarea.hora_inicio.value + ":00";
-				document.forms.tarea.hora_fin.value = document.forms.tarea.hora_fin.value + ":00";
-				if (document.forms.tarea.repetir.checked == true && document.forms.tarea.fecha_termino.value == "") {
-					document.forms.tarea.fecha_termino.focus();
-				} else {
-// 					if (document.forms.tarea.repetir.checked == true) {
-// 						var indice = document.forms.tarea.op_repetir.selectedIndex;
-// 						var op = document.forms.tarea.op_repetir[indice].value;
-						document.tarea.action = "@routes.Home.guardaTarea";
-				    	document.tarea.submit();
-// 					}
-				}
-			} else {
-				if (document.forms.tarea.repetir.checked == true && document.forms.tarea.fecha_termino.value == "") {
-					document.forms.tarea.fecha_termino.focus();
-				} else {
-					document.tarea.action = "@routes.Home.guardaTarea";
-			    	document.tarea.submit();
-				}
+		if (document.forms.tarea.repetir.checked == true) {
+			if (document.forms.tarea.hora_inicio.value != "" && document.forms.tarea.hora_fin.value != "" && document.forms.tarea.fecha_termino.value != "") {
+				var indice = document.forms.tarea.op_repetir.selectedIndex;
+				var op = document.forms.tarea.op_repetir[indice].value;
+				if (op == 1) 
+					document.tarea.action = "@routes.Home.guardaTarea(1)";
+				else
+					document.tarea.action = "@routes.Home.guardaTarea(2)";
+				document.tarea.submit();
+			} else if (document.forms.tarea.hora_inicio.value == "") {
+				document.forms.tarea.hora_inicio.focus()
+			} else if (document.forms.tarea.hora_fin.value == "") {
+				document.forms.tarea.hora_fin.focus();
+			} else if (document.forms.tarea.fecha_termino.value == "") {
+				document.forms.tarea.fecha_termino.focus();
 			}
-		} else if (document.forms.tarea.hora_inicio.value == "") {
-			document.forms.tarea.hora_inicio.focus();
-		} else if (document.forms.tarea.hora_fin.value == "") {
-			document.forms.tarea.hora_fin.focus();
+		} else {
+			if (document.forms.tarea.hora_inicio.value != "" && document.forms.tarea.hora_fin.value != "") {
+				document.tarea.action = "@routes.Home.guardaTarea(0)";
+				document.tarea.submit();
+			} else if (document.forms.tarea.hora_inicio.value == "") {
+				document.forms.tarea.hora_inicio.focus()
+			} else if (document.forms.tarea.hora_fin.value == "") {
+				document.forms.tarea.hora_fin.focus();
+			}
 		}
 	}
 	
@@ -300,16 +296,16 @@
 	    return false;
 	}
 	function horaInicio1() {
-		document.forms.tarea.hora_inicio.value += ":00"; 
+		document.forms.tarea.hora_inicio.value += ":00:00"; 
 	}
 	function horaInicio2() {
-		document.forms.edita.hora_inicio.value += ":00"; 
+		document.forms.edita.hora_inicio.value += ":00:00"; 
 	}
 	function horaFin1() {
-		document.forms.tarea.hora_fin.value += ":00"; 
+		document.forms.tarea.hora_fin.value += ":00:00"; 
 	}
 	function horaFin2() {
-		document.forms.edita.hora_fin.value += ":00"; 
+		document.forms.edita.hora_fin.value += ":00:00"; 
 	}
 </script>
 
@@ -322,7 +318,7 @@
 					<li><font size="2">Ciudad: @usuario.ciudad</font></li>
 					<li><font size="2">Correo: @usuario.correo</font></li>
 					@if(usuario.telefono!=null){
-						<li><font size="2">Telefono: @usuario.telefono</font></li>	
+						<li><font size="2">Telefono: @usuario.telefono</font></li>
 					}						
 				</ul>
 			</div>
@@ -403,7 +399,7 @@
 	
 	<!-- 	Modal pop-up guarda -->
 	<div class="modal hide" id="myModal">		
-		<form action="@routes.Home.guardaTarea" name="tarea" method="post">			
+		<form name="tarea" method="post">			
 			<div class="modal-header">
 	    		<button type="button" class="close" data-dismiss="modal">×</button>
 	    		<h3>Nueva Tarea</h3>
@@ -487,10 +483,10 @@
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
 			    		<input class="input-small" type="text" name="fecha_inicio" maxlength="10" autocomplete="off" id="fechaI2" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}'>
-			    		<input class="input-mini" type="text" name="hora_inicio" maxlength="8" autocomplete="off" onChange="horaInicio2()" id="horaI2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm")}'>
+			    		<input class="input-mini" type="text" name="hora_inicio" maxlength="8" autocomplete="off" onChange="horaInicio2()" id="horaI2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm:ss")}'>
 			    		a
 			    		<input class="input-small" type="text" name="fecha_fin" maxlength="10" autocomplete="off" id="fechaF2" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
-			    		<input class="input-mini" type="text" name="hora_fin" maxlength="8" autocomplete="off" onChange="horaFin2()" id="horaF2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm")}'>
+			    		<input class="input-mini" type="text" name="hora_fin" maxlength="8" autocomplete="off" onChange="horaFin2()" id="horaF2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm:ss")}'>
 			    	</div>
 	    		</div>	    		
 	    		<div class="control-group">

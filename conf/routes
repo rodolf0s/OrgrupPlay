@@ -36,7 +36,7 @@ GET		/admin/activa				controllers.Admin.adminActiva(correo: String)
 #Agenda
 GET		/app						controllers.Home.index()
 POST	/app						controllers.Home.getTarea()
-POST	/app/nueva-tarea			controllers.Home.guardaTarea()
+POST	/app/nueva-tarea			controllers.Home.guardaTarea(op: Integer)
 POST	/app/edita-tarea			controllers.Home.editaTarea()
 POST	/app/elimina-tarea			controllers.Home.eliminaTarea()
 
