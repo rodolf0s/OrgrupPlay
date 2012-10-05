@@ -175,14 +175,7 @@ public class Cuenta extends Controller {
 			Form<CambioPassword> formPassword = form(CambioPassword.class).bindFromRequest();
 
 			if (formPassword.hasErrors()) {
-				return ok(cuenta_password.render(
-						Usuario.find.byId(session("email")), 
-						"", 
-						"", 
-						"", 
-						"", 
-						"", 
-						""));
+				return badRequest();
 			} else {				
 				CambioPassword claves = formPassword.get();
 				

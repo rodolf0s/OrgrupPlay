@@ -56,9 +56,7 @@ public class Mensajes extends Controller {
 		Form<Mensaje> mensajeForm = form(Mensaje.class).bindFromRequest();
 		
 		if (mensajeForm.hasErrors()) {
-			return ok(crearMensaje.render(
-					Usuario.find.byId(session("email")), 
-					Contacto.listaAmigos(session("email"))));
+			return badRequest();
 		} else {
 			Mensaje mensaje = mensajeForm.get();
 			Date fecha2 = new Date();
@@ -81,7 +79,7 @@ public class Mensajes extends Controller {
 		Form<Mensaje> mensajeForm2 = form(Mensaje.class).bindFromRequest();
 		
 		if (mensajeForm2.hasErrors()) {
-			return ok(muestraPerfil.render(Usuario.find.byId(session("email")), Usuario.find.byId(email)));
+			return badRequest();
 		} else {
 			Mensaje mensaje = mensajeForm2.get();
 			Date fecha2 = new Date();
@@ -114,8 +112,7 @@ public class Mensajes extends Controller {
 		Form<Mensaje> mensajeAEliminar = form(Mensaje.class).bindFromRequest();
 		
 		if (mensajeAEliminar.hasErrors()) {
-//			return ok(mensajesRecibidos.render(Usuario.find.byId(session("email")), Mensaje.listaMensajesRecibidos(session("email"))));
-			return ok("error");
+			return badRequest();
 		} else {
 			Mensaje mensaje = mensajeAEliminar.get();
 			separa(mensaje.id.toString());
