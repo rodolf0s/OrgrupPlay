@@ -107,4 +107,14 @@ public class Tarea extends Model {
 		 tarea.usuario = usuario;
 		 tarea.save();
 	 }
+	 
+	 public static Integer buscarTarea(Date fecha, Date hora, String correo) {
+		 return find.where()
+				 .where()
+				 .eq("fecha_inicio", fecha)
+				 .eq("hora_inicio", hora)
+				 .eq("usuario", correo)
+				 .findRowCount();
+	 }
+	 
 }
