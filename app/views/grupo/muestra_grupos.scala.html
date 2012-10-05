@@ -3,49 +3,50 @@
 @app(title = "Orgrup", user.nombre) {
 
 	<style type="text/css">
-		a:hover{
-		text-decoration: none;
-		}
-		
-		#fondo:hover{
-		background-color: #D8D8D8;
-		border-radius: 4px;
+		ul {
+			list-style: none;
 		}
 	</style>
 
 	
 	<div class="container">
 		<div class="well well-small">
-			<fieldset>
-				<legend>
-					<table>
-						<td>Grupos a los que pertenece</td>
+			<div class="span10">
+				<fieldset>			
+					<legend>
+						Grupos a los que pertenece
 						@if(!Usuario.cuentaInactiva(user.correo)) {
-							<td style="position: absolute; top:100; right:0; width:350px;"><a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Crear grupo</a></td>
-						}
-					</table>
-				</legend>
-				
-			</fieldset>
-				<table>
-					@for(p<-grupos){
-						<tr>
-							<td><img class="img-polaroid" style="width: 35px; height: 35px;" src='/assets/grupos/@p.getString("id")/@p.getString("imagen")'>&nbsp;</td>
-							<td id="fondo" class="span8"><a href="@routes.Grupos.index(p.getString("id").toLong)">@p.getString("nombre")</a></td>
-							@if(Integrante.esAdmin(p.getString("id").toLong, user.correo)==true){
-								<td></td>
-							}else {
-								<td>
-									<a class="btn btn-danger pull-right" href='@routes.Grupos.dejarGrupo(p.getString("id").toLong)'>Dejar Grupo</a>
-								</td>
-							}
-							<td></td>
-						</tr>
-						}
-						
-					</ul>
-				</table>
+							<a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Crear grupo</a></td>
+						}				
+					</legend>				
+				</fieldset>
 			</div>
+			@if(!grupos.isEmpty()) {
+		   		@for(g <- grupos) {
+					<div class="row">
+						<div class="span8">
+							<ul class="nav nav-pills nav-stacked">
+				   				<li>
+				   					<a href='@routes.Grupos.index(g.getString("id").toLong)'>
+				   						<img class="img-polaroid" style="width: 35px; height: 35px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
+				   						@g.getString("nombre")
+				   					</a>
+				  				</li>
+							</ul>
+						</div>
+						<div class="span3">
+							<ul>
+								<li>
+				   					@if(Integrante.esAdmin(g.getString("id").toLong, user.correo)==false){
+				   						<a class="btn btn-danger" href='@routes.Grupos.dejarGrupo(g.getString("id").toLong)'>Dejar Grupo</a>
+				   					}
+				   				</li>
+				   			</ul>
+				   		</div>
+				   	</div>
+		   		}
+	   		}	   			
+		</div>
 	</div>
 	
 	<!-- Modal crear grupo -->
