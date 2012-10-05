@@ -91,8 +91,6 @@ create table tarea (
   descripcion               varchar(500),
   prioridad                 integer not null,
   usuario_correo            varchar(50),
-  repetir                   integer,
-  op_repetir                integer,
   fecha_termino             timestamp,
   constraint pk_tarea primary key (id))
 ;

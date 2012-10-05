@@ -1,16 +1,8 @@
-@(user: Usuario, asdf: Reunion)
+@(user: String, numero: Integer, correo: String)
 
-@app(title = "Orgrup", user.nombre){
+@app(title = "Orgrup", user){
 		
-		@asdf.fecha_inicio <br>
-		@asdf.fecha_fin <br>
-		@asdf.hora_inicio <br>
-		@asdf.hora_fin <br>
-		@asdf.nombre <br>
-		@asdf.descripcion <br>
-		@asdf.estado <br>
-		@asdf.asistencia<br>
-		@asdf.grupo.id
-
+	@numero
+	@correo
 	
 }

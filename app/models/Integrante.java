@@ -12,6 +12,7 @@ import com.avaje.ebean.Ebean;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
+import play.mvc.Result;
 
 @Entity
 @Table(name="integrante")
@@ -146,5 +147,11 @@ public class Integrante extends Model {
 				return false;
 			} catch(Exception e) {}
 		return true;
+	}
+	
+	public static Integer contarMiembros(Long id) {
+		return find.where()
+		.eq("grupo_id", id)
+		.findRowCount();
 	}
 }

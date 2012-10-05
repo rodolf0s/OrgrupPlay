@@ -1,4 +1,4 @@
-@(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto], reuniones: List[Reunion], errorImagen: String)
+@(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto], reuniones: List[Reunion], errorImagen: String, miembros: Integer)
 
 @app(title = grupo.getString("nombre"), usuario.nombre) {
 
@@ -168,7 +168,7 @@
 	
 		<!-- Modal crear reunion -->
 	<div class="modal hide fade" id="crearReunion"> 
-		<form name="reunion" action="@routes.Reuniones.generarReunion" class="form-horizontal" method="post">
+		<form name="reunion" action="@routes.Reuniones.generarReunion(usuario.correo)" class="form-horizontal" method="post">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3>Nueva reunion</h3>
@@ -203,6 +203,9 @@
 	    			<label class="control-label">Asistencia minima</label>
 	    			<div class="controls">
 	    				<input class="input-small" type="text" name="asistencia" id="asistencia" maxlength="8">
+	    			</div><br>
+	    			<div class="alert alert-error">
+	    				En la asistencia minima no se considera el administrador.
 	    			</div>
 	    		</div>
 			</div>
@@ -332,7 +335,7 @@
 		}
 		
 		/**
-		----------------- Comparar fechas ------------------
+		----------------- Verifica campos ------------------
 		**/
 		function comparaFechas() {
 			var fechaInicio = document.getElementById("fechaI1").value;
@@ -340,29 +343,27 @@
 			var horaInicio = document.getElementById("horaI1").value;
 			var horaFin = document.getElementById("horaF1").value;
 			var duracion = document.getElementById("duracion").value;
+			var asistenciaMinima = document.getElementById("asistencia").value;
 			
+			// Verifica que la fecha de inicio sea anterior a la fecha de termino
 			if(fechaInicio < fechaFin){
 				var diferenciaHora = horaFin - horaInicio;
-				if(diferenciaHora>=duracion){
-					alert("Ok");
+				
+				//Verifica que la duracion sea menor o igual al lapso de tiempo
+				if(duracion <= diferenciaHora){
+					
+					//Verifica que la asistencia minima no sea mayor a la cantidad de miembros de un grupo
+					if(@miembros-1 >= asistenciaMinima) {
+						document.reunion.submit();
+					}else {
+						alert("La asistencia minima no puede ser mayor a los integrantes del grupo");
+					}
 				}else{
 					alert("La reunion no puede durar mas que el lapso de tiempo indicado");
 				}
 			}else{
 				alert("La fecha de termino debe ser posterior a la fecha de inicio");
 			}
-// 			x.setFullYear(2100,0,14);
-// 			var today = new Date();
-
-// 			if (x>today)
-// 			  {
-// 			  alert("Today is before 14th January 2100");
-// 			  }
-// 			else
-// 			  {
-// 			  alert("Today is after 14th January 2100");
-// 			  }
-			
 		}
 			
 	</script>

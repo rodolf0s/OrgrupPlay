@@ -92,7 +92,7 @@ POST	/grupo/cambia-admin					controllers.Grupos.cambiarAdmin()
 GET		/grupo/:id/dejar-grupo				controllers.Grupos.dejarGrupo(id: Long)
 
 #Reunion
-POST	/generar					controllers.Reuniones.generarReunion()
+POST	/generar					controllers.Reuniones.generarReunion(correo: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
