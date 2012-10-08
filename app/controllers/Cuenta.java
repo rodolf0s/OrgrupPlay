@@ -2,7 +2,11 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import com.avaje.ebean.SqlRow;
+
+import models.Grupo;
 import models.Usuario;
 import models.Integrante;
 
@@ -253,8 +257,19 @@ public class Cuenta extends Controller {
 			if (formCuenta.hasErrors()) {
 				return badRequest();
 			} else {
+				List<SqlRow> grupos = Grupo.getGrupos(session("email"));
+				
+				// Comprueba que el usuario no sea admin de ningun grupo.
+				for (int i = 0; i < grupos.size(); i++) {
+					if (Integrante.esAdmin(Long.valueOf(grupos.get(i).getString("id")), session("email")))
+						return badRequest(cuenta_desactivar.render(
+								Usuario.find.byId(session("email")),
+								"No puede desactivar su cuenta, porque es Administrador en un grupo"));
+				}
+				
 				Usuario.desactivarCuenta(session("email"));
 				Integrante.eliminaIntegrante(session("email"));
+				session().clear();
 				return ok(views.html.home.informaciones.render(
 						"Su cuenta a sido desactivada satisfactoriamente.", 
 						"Cuenta desactivada"));
@@ -271,6 +286,7 @@ public class Cuenta extends Controller {
 			return redirect(routes.Application.index());
 		} else {
 			Usuario.activarCuenta(session("email"));
+			session().clear();
 			return ok(views.html.home.informaciones.render(
 					"Su cuenta a sido activada satisfactoriamente.\nPor favor vuelva a iniciar sesion.", 
 					"Cuenta desactivada"));
