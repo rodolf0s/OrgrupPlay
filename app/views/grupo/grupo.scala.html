@@ -34,14 +34,24 @@
 		}
 		
 		window.onload = function() {
-			var foo = document.getElementById('idIntegrantes');
-			div = document.getElementById('alerta');			
-			div.style.display = "none";
+			var integrantes = document.getElementById('idIntegrantes');
+			var admins = document.getElementById('idAdmin');
+			
+			divIntegrantes = document.getElementById('alerta');
+			divAdmins = document.getElementById('alertaAdmin');
+			divAdmins.style.display = "none";
+			divIntegrantes.style.display = "none";
 
-			if (foo.length == 0) {
-				foo.disabled = true;
+			if (integrantes.length == 0) {
+				integrantes.disabled = true;
 				document.integrante.elements['agrega'].disabled = true;
-				div.style.display = "";
+				divIntegrantes.style.display = "";
+			}
+			
+			if (admins.length == 0) {
+				admins.disabled = true;
+				document.admin.elements['btnAdmin'].disabled = true;
+				divAdmins.style.display = "";
 			}
 		}
 	</script>
@@ -51,8 +61,7 @@
 	</style>
 	
 	<div class="row-fluid">
-		<div class="span3">
-			
+		<div class="span3">			
 			<div class="well well-small">
 				<ul class="nav nav-list">
 					<li> <img class="img-polaroid" style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
@@ -60,7 +69,6 @@
 					
 				</ul>
 			</div>
-
 			<div class="well well-small"> 
    				<form name="muestraGrupo">
 	   				<ul class="nav nav-pills nav-stacked">
@@ -81,8 +89,7 @@
    				</form>
    				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
    			</div>
-		</div>
-		
+		</div>		
 		<div class="span7">
 			<div class="page-header">
 				<h1>
@@ -101,8 +108,7 @@
 			   				}
 			   			</div>
 					}
-				}
-				
+				}				
 				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
 					<div>
 						<a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick=modalMiembros() >
@@ -110,8 +116,7 @@
 							Agregar integrante
 						</a>
 					</div>
-				}
-				
+				}				
 				<h3>Integrantes</h3>
 				<div class="well achievements-wrapper">
 					@for(mi <- integrantes) {
@@ -120,8 +125,7 @@
 						</a>
 					}
 				</div>
-			</div>
-			
+			</div>			
 		</div>	
 		
 		<div class="span2">
@@ -185,18 +189,24 @@
 				<div class="control-group">
 	    			<label class="control-label">Integrantes</label>
 	    			<div class="controls">
-	    				<select name="usuario.correo">
+	    				<select name="usuario.correo" id="idAdmin">
 	    					@for(inte <- integrantes) {
-	    						<option value="@inte.usuario.correo">@Usuario.getNombre(inte.usuario.correo)</option>
+	    						@if(inte.tipo != 1) {
+	    							<option value="@inte.usuario.correo">@Usuario.getNombre(inte.usuario.correo)</option>
+	    						}
 	    					}
 	    				</select>
 	    			</div>
 	    		</div>
+	    		<div class="alert" id="alertaAdmin">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<strong>Atencion!</strong> Usted no tiene ningun contacto para dejar como Administrador.
+				</div>
 	    		<input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Cambiar">
+				<input type="submit" class="btn btn-primary" name="btnAdmin" value="Cambiar">
 			</div>
 		</form>		
 	</div>
@@ -214,15 +224,13 @@
 	    			<div class="controls">
 	    				<input type="text" name="nombre" required>
 	    			</div>
-	    		</div>
-	    		
+	    		</div>	    		
 	    		<div class="control-group">
 	    			<label class="control-label">Descripcion</label>
 	    			<div class="controls">
 	    				<textarea name="descripcion" maxlength="500"></textarea>
 	    			</div>
-	    		</div>
-	    		
+	    		</div>	    		
 	    		<div class="control-group">
 				<label class="control-label" for="imagen">Imagen de grupo</label>
 					<div class="controls">
