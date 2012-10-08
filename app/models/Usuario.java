@@ -27,7 +27,7 @@ public class Usuario extends Model {
 	public String nombre;
 	
     @Formats.NonEmpty
-    @Column(length=20, nullable=false)
+    @Column(length=100, nullable=false)
 	public String password;
 	
     @Formats.NonEmpty

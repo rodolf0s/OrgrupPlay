@@ -13,6 +13,7 @@ import play.mvc.*;
 import views.html.*;
 import views.html.home.*;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.mail.*;
 
 public class Application extends Controller {
@@ -24,9 +25,9 @@ public class Application extends Controller {
     public static class Login {        
         public String correo;
         public String password;
-        
+               
         public String validate() {
-            if (Usuario.authenticate(correo, password) == null) {
+            if (Usuario.authenticate(correo, DigestUtils.shaHex(password)) == null) {
                 return "Correo o contraseña invalido";
             }
             return null;
@@ -133,6 +134,9 @@ public class Application extends Controller {
 				user.colorTareaMedia = "#381BCA";
 				user.colorTareaBaja = "#EBDF32";				
 				user.inicioSesion = new Date();
+				String pass = user.password;
+				String encript = DigestUtils.shaHex(pass);
+				user.password = encript;
 				//Guarda el nuevo usuario a la BD
 				user.save();
 				
