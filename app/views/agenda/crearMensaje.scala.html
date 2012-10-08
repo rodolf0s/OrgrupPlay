@@ -17,7 +17,7 @@
 	 	 			 	 		
 	 	 						
 	 	 								<form action="@routes.Mensajes.enviaMensaje" method="post">
-	 	 			 	 					<select name="destinatario" class="span4" required>
+	 	 			 	 					<select name="destinatario" required>
 	 	 			 	 						@for(p<-lista){
 	 	 			 	 							@if(!Usuario.cuentaInactiva(p.usuario2.correo)) {
 	 	 			 	 								<option value="@p.usuario2.correo">@p.usuario2.correo</option>	
@@ -30,12 +30,12 @@
 	 	 			 	 		
 	 	 			 	 		<tr>
 	 	 			 	 			<label for="asunto">Asunto</label>
-	 	 			 	 			<input type="text" name="asunto" id="asunto" class="span4" autofocus="autofocus" required>
+	 	 			 	 			<input type="text" name="asunto" id="asunto" autofocus="autofocus" required>
 	 	 			 			</tr>
 	 	 			 			
 	 	 			 			<tr>
 	 	 			 				<label>Mensaje</label>
-	 	 			 				<textarea rows="7" class="span4" name="mensaje" required></textarea>
+	 	 			 				<textarea rows="7" name="mensaje" required></textarea>
 	 	 			 			</tr>
 	 	 			 					
 	 	 			 			<input type="hidden" name="remitente.correo" value="@user.correo">

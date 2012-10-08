@@ -7,6 +7,7 @@
 		<fieldset>
 			<legend>Mensajes sin leer</legend><br>
 					<table class="table table-hover">
+						@if(!list.isEmpty()) {
 						@for(p<-list) {
 							<form name="formulario" action="" method="post">
 								<tr>
@@ -19,6 +20,7 @@
 							<input type="hidden" name="id"> 
  	 			 	 		<a class="btn" onclick="cuenta()" >Eliminar</a>
 						</form>
+						}
 					</table>
 		</fieldset>
 	</div>

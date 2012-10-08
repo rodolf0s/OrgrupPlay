@@ -345,6 +345,7 @@ public class Usuario extends Model {
 	
 	/**
 	 * Obtiene todos los usuarios.
+	 * 
 	 * @return
 	 */
     public static List<Usuario> listarUsuarios(){

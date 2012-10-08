@@ -59,6 +59,7 @@ public class Mensaje extends Model{
 		return find.where()
 				.eq("destinatario", email)
 				.eq("estado", "recibido")
+				.orderBy().desc("fecha")
 				.findList();		
 	}
 	

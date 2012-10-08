@@ -20,7 +20,7 @@
 									<input type="hidden" name="usuario2.correo" value="@p.usuario1.correo">
 									<input type="hidden" name="amigos" value="si">
 									
-									<td><input type="submit" class="btn" value="Agregar">
+									<td><input type="submit" class="btn btn-success" value="Aceptar">
 									
 									</td>
 								
@@ -29,7 +29,7 @@
 								<form action="@routes.Contactos.eliminaSolicitud" method="post">
 									<input type="hidden" name="usuario1.correo" value="@p.usuario1.correo">
 									<input type="hidden" name="usuario2.correo" value="@user.correo">
-									<td><input type="submit" value="X" class="btn"></td>
+									<td><input type="submit" value="Rechazar" class="btn btn-danger"></td>
 								</form>
 							</tr>
 						}				

@@ -16,12 +16,13 @@
   				<div class="tab-content">
  	 				<div class="tab-pane active" id="mensajes_recibidos">
  	 					<table class="table table-hover">
+ 	 						@if(!lista.isEmpty()) {
  	 			 	 			@for(p<-lista){
  	 			 	 				<form name="formulario" id="form1" action="" method="post">
  	 			 	 				
  	 			 	 					@if(p.leido == "no"){
  	 			 	 				 	
- 	 			 	 					<tr style="background-color: #BDBDBD">
+ 	 			 	 					<tr class="alert alert-info">
  	 			 	 						<td><input type="checkbox" name="id1" value="@p.id"></td>
  	 			 	 						<td><b>De:</b> <a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.remitente.correo)}</a></td>
  	 			 	 						<td>@p.asunto</td>
@@ -41,7 +42,8 @@
  	 			 	 			} 	 	
  	 			 	 				<input type="hidden" name="id"> 
  	 			 	 				<a class="btn" onclick="cuenta()" >Eliminar</a>
- 	 			 	 			</form>	 			 	 		
+ 	 			 	 			</form>	
+ 	 			 	 		} 			 	 		
  	 			 		</table>						
  	 				</div>
  	 				

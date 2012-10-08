@@ -13,7 +13,8 @@
   			</ul>
   			
   				<div class="tab-pane" id="mensajes_enviados">
- 	 					<table class="table table-hover">
+ 	 				<table class="table table-hover">
+ 	 					@if(!lista.isEmpty()) {
  	 						@for(p<-lista){
  	 							<form name="formulario" action="" method="post">
  	 			 	 				<tr>
@@ -22,16 +23,13 @@
  	 			 	 					<td>@p.asunto</td>	
  	 			 	 					<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>
  	 			 	 				</tr>
- 	 			 	 				
- 	 			 	 			
  	 			 	 		}	
  	 			 	 			<input type="hidden" name="id">
  	 			 	 			<a class="btn" onclick="cuenta()">Eliminar</a>
- 	 			 	 			</form>		 	 		
- 	 			 		</table>
- 	 				</div>
- 	 				
-  			
+ 	 			 	 			</form>
+ 	 			 	 	}		 	 		
+ 	 			 	</table>
+ 	 			</div>
   		</div>
   	</div>
   	
