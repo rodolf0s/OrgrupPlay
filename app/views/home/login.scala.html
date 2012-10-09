@@ -2,52 +2,77 @@
 
 @main(title = "Ingresar") {
 
+	<style>
+		.well div h3 a { 
+			color: white;
+			display: inline-block;
+			font-weight: normal;
+		 }
+	</style>
+
     <!-- Simple Formulario para ingresar -->
         <div class="row">
             <div class="span8" style="float:right">
-                <div class="span3" style="float:left;">
-					<fieldset>
-						<legend>Ingresar</legend>
-						<form class="well" action="@routes.Application.comprobarLogin" method="post">
-							<div class="control-group">
-								<label class="control-label" for="correo">Correo electronico</label>
-								<div class="controls">
-									<input type="email" placeholder="Correo electronico" id="correo" name="correo" autofocus="autofocus" required>
+                <div class="span4" style="float:left;">
+                	<div class="well">
+                		<div>
+							<h3>Ingresar a Orgrup							
+								<a href="@routes.Application.registro" class="btn btn-success pull-right">registrarse</a>
+							</h3>
+						</div>
+						<hr>
+						<div>
+							<form class="form" action="@routes.Application.comprobarLogin" method="post">
+								<div class="control-group">
+									<label class="control-label" for="correo">Correo electronico</label>
+									<div class="controls">
+										<input class="input-xlarge" type="email" placeholder="Correo electronico" id="correo" name="correo" autofocus="autofocus" required>
+									</div>
 								</div>
-							</div>
-							<div class="control-group">
-								<label class="control-label" for="password">Contraseña</label>
-								<div class="controls">
-									<input type="password" placeholder="Contraseña" name="password" id="password" required>
+								<div class="control-group">
+									<label class="control-label" for="password">Contraseña</label>
+									<div class="controls">
+										<input class="input-xlarge" type="password" placeholder="Contraseña" name="password" id="password" required>
+										<br>
+										<i class="icon-user"></i>
+										<a href="@routes.Application.recuperar">¿Olvidaste tu contraseña?</a>
+									</div>
 								</div>
-							</div>
-							@if(form.hasGlobalErrors) { 
-                				<div class="alert alert-error">
-									<button type="button" class="close" data-dismiss="alert">×</button>
-									<small>
-										<strong>Error!</strong>
-										@form.globalError.message
-									</small>
+								@if(form.hasGlobalErrors) { 
+	                				<div class="alert alert-error" id="error">
+										<button type="button" class="close" data-dismiss="alert">×</button>
+										<small>
+											<strong>Error!</strong>
+											@form.globalError.message
+										</small>
+									</div>
+	            				}
+	            				@if(error != "") {
+	            					<div class="alert alert-error" id="alerta">
+										<button type="button" class="close" data-dismiss="alert">×</button>
+										<small>
+											<strong>Error!</strong>
+											@error
+										</small>
+									</div>
+								}
+								<div class="form-actions">
+									<button type="submit" class="btn btn-large btn-primary">Ingresar</button>
 								</div>
-            				}
-            				@if(error != "") {
-            					<div class="alert alert-error">
-									<button type="button" class="close" data-dismiss="alert">×</button>
-									<small>
-										<strong>Error!</strong>
-										@error
-									</small>
-								</div>
-							}
-							<div class="control-group">
-								<div class="controls">
-									<button type="submit" class="btn">Entrar</button>
-									<a class="pull-right" style="padding-top: 10px;" href="@routes.Application.recuperar">Olvidaste tu contraseña</a>
-								</div>
-							</div>
-						</form>
-                    </fieldset>
+							</form>
+						</div>
+                	</div>
                 </div>
             </div>
-        </div>	
+        </div>
+        
+	<script>
+		$('.input-xlarge').keypress(function() {
+	   		$('#error').hide();
+	   	});
+	   	
+	   	$('.input-xlarge').keypress(function() {
+	   		$('#alerta').hide();
+	   	});
+	</script>
 }
