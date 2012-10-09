@@ -1,0 +1,86 @@
+@(title: String, usuario: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html lang="es">
+    <head>
+        <title>@title</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap.min.css")"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap-responsive.min.css")">
+		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/fullcalendar.css")">
+		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/jquery-ui-1.8.23.custom.css")">
+		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/jquery.ui.timepicker.css")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.at("bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.at("bootstrap/js/bootstrap.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("bootstrap/js/bootstrap-dropdown.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/fullcalendar.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/jquery.ui.timepicker.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/jquery-ui-1.8.23.custom.min.js")" type="text/javascript"></script>
+    </head>
+    <body>
+    
+    	<!-- Barra superior -->
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<a class="brand" href="@routes.Home.index">Orgrup</a>
+
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li class="divider-vertical"></li>
+							<li><a href="@routes.Contactos.contactos">Contactos</a></li>
+							@if(Home.notificacionAmigos() != 0){
+							<li><a href="@routes.Contactos.muestraAgregarContactos"><span class="badge badge-important">@{Home.notificacionAmigos()}</span></a></li>
+							}
+							<li class="divider-vertical"></li>
+							<li><a href="@routes.Grupos.muestraGrupos">Grupos</a></li>
+							<li class="divider-vertical"></li>
+							<li><a href="@routes.Mensajes.mensajesRecibidos">Mensajes</a></li>
+							@if(Home.notificacionesMensajes() != 0){
+							<li><a href="@routes.Mensajes.mensajesNuevos"><span class="badge badge-important">@{Home.notificacionesMensajes()}</span></a></li>
+							}
+							<li class="divider-vertical"></li>							
+						</ul>
+						
+						<!-- usuario -->
+						<div class="btn-group pull-right">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="icon-user"></i> @usuario
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="@routes.Cuenta.perfil"><i class="icon-wrench"></i> Mi cuenta</a></li>
+								<li class="divider"></li>
+								<li><a href="@routes.Application.logout"><i class="icon-off"></i> Cerrar Sesión</a></li>
+
+							</ul>
+						</div>
+
+					</div><!-- /.nav-collapse -->
+				</div>
+			</div><!-- /navbar-inner -->
+		</div><!-- /navbar -->
+		<!-- Fin Barra superior -->
+		
+		<br><br><br>
+		
+		<div class="container-fluid">
+			@content		
+		</div>
+		<hr>
+		<footer>
+			<p>	Todos los Derechos Reservados
+				<a href="#">About</a>
+			</p>
+		</footer>
+
+    </body>
+</html>

@@ -11,7 +11,7 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.agenda.*;
+import views.html.mensajes.*;
 
 public class Mensajes extends Controller {
 	
@@ -92,7 +92,7 @@ public class Mensajes extends Controller {
 					mensaje.asunto, 
 					mensaje.mensaje, 
 					mensaje.leido);
-			return ok(muestraPerfil.render(
+			return ok(views.html.agenda.muestraPerfil.render(
 					Usuario.find.byId(session("email")), 
 					Usuario.find.byId(email)));
 		}

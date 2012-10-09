@@ -1,0 +1,44 @@
+@(user: Usuario, lista: List[Contacto])
+
+@app(title = "Orgrup", user.nombre) {
+
+	@if(!Usuario.cuentaInactiva(user.correo)) {
+		<div class="container">
+			<div class="tabbable">
+				<ul class="nav nav-tabs" id="myTab">
+	  				<li><a href="@routes.Mensajes.mensajesRecibidos">Mensajes recibidos</a></li>
+	  				<li><a href="@routes.Mensajes.mensajesEnviados">Mensajes enviados</a></li>
+	  				<li class="active"><a href="@routes.Mensajes.crearMensaje">Redactar mensaje</a></li>
+	  			</ul>
+	  			
+				<div class="tab-pane" id="redactar_mensaje">
+					<div class="row">
+						<div class="span8" style="float:right">
+                			<div class="span3" style="float:left;">
+								<form class="form" action="@routes.Mensajes.enviaMensaje" method="post">
+									<label>Para: </label>
+									<select name="destinatario" required>
+					 	 			 	 @for(p<-lista){
+					 	 			 	 	@if(!Usuario.cuentaInactiva(p.usuario2.correo)) {
+					 	 			 	 		<option value="@p.usuario2.correo">@p.usuario2.correo</option>	
+					 	 			 	 	}
+										}
+									</select>
+									<label for="asunto">Asunto</label>
+									<input type="text" name="asunto" id="asunto" autofocus="autofocus" required>
+									<label>Mensaje</label>
+									<textarea rows="7" name="mensaje" required></textarea>
+									<br>
+									<input type="submit" class="btn" value="Enviar mensaje">
+									<input type="hidden" name="remitente.correo" value="@user.correo">
+									<input type="hidden" name="leido" value="no">
+									<input type="hidden" name="estado" value="enviado">
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+ }

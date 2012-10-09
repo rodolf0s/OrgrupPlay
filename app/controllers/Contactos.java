@@ -32,7 +32,7 @@ public class Contactos extends Controller {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(mensajeAgregaContacto.render(Usuario.find.byId(session("email"))));
+			return ok(views.html.mensajes.mensajeAgregaContacto.render(Usuario.find.byId(session("email"))));
 		}
 	}
 	
