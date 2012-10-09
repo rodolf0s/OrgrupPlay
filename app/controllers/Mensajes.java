@@ -15,23 +15,53 @@ import views.html.mensajes.*;
 
 public class Mensajes extends Controller {
 	
-	public static Result mensajesRecibidos() {
+	public static Result GO_HOME = redirect(
+			routes.Mensajes.mensajesRecibidos(0, "")
+	);
+	
+	public static Result GO_INDEX2 = redirect(
+			routes.Mensajes.mensajesEnviados(0, "")
+	);
+	
+	public static Result index() {
+        return GO_HOME;
+    }
+	
+	public static Result index2() {
+		return GO_INDEX2;
+	}
+	
+	public static Result mensajesRecibidos(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(mensajesRecibidos.render(
-					Usuario.find.byId(session("email")), 
-					Mensaje.listaMensajesRecibidos(session("email"))));
+			return ok(
+				mensajesRecibidos.render(
+						Usuario.find.byId(session("email")),
+						Mensaje.page(page, filter, session("email")),
+						filter
+				)
+			);
+//			return ok(mensajesRecibidos.render(
+//					Usuario.find.byId(session("email")), 
+//					Mensaje.listaMensajesRecibidos(session("email"))));
 		}
 	}
 	
-	public static Result mensajesEnviados() {
+	public static Result mensajesEnviados(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(mensajesEnviados.render(
-					Usuario.find.byId(session("email")), 
-					Mensaje.listaMensajesEnviados(Usuario.find.byId(session("email")))));
+			return ok(
+					mensajesEnviados.render(
+							Usuario.find.byId(session("email")),
+							Mensaje.page2(page, filter, session("email")),
+							filter
+					)
+				);
+//			return ok(mensajesEnviados.render(
+//					Usuario.find.byId(session("email")), 
+//					Mensaje.listaMensajesEnviados(Usuario.find.byId(session("email")))));
 		}
 	}
 	
@@ -108,7 +138,7 @@ public class Mensajes extends Controller {
 		}
 	}
 	
-	public static Result eliminaMensajes() {		
+	public static Result eliminaMensajes(Integer pag) {		
 		Form<Mensaje> mensajeAEliminar = form(Mensaje.class).bindFromRequest();
 		
 		if (mensajeAEliminar.hasErrors()) {
@@ -117,9 +147,12 @@ public class Mensajes extends Controller {
 			Mensaje mensaje = mensajeAEliminar.get();
 			separa(mensaje.id.toString());
 		}
-		return ok(mensajesRecibidos.render(
-				Usuario.find.byId(session("email")), 
-				Mensaje.listaMensajesRecibidos(session("email"))));
+		if (pag == 1)
+			return redirect(routes.Mensajes.index());
+		else if (pag == 2)
+			return redirect(routes.Mensajes.index2());
+		else
+			return redirect(routes.Mensajes.mensajesNuevos());
 	}
 	
 	public static Result separa(String valor) {

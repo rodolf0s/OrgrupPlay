@@ -14,7 +14,7 @@
 									<td><input type="checkbox" name="id1" value="@p.id"></td>
 									<td><b>De</b>: <a href="@routes.Mensajes.leerMensaje(p.id)">@Usuario.getNombre(p.remitente.correo)</a></td>
 									<td>@p.asunto</td>
-									<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>
+									<td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>
 								</tr>
 						}
 							<input type="hidden" name="id"> 
@@ -41,7 +41,6 @@
 						concatena = concatena + '00' + document.formulario.id1[x].value;
 					}
 				}
-			alert("hola");
 		}
 		else {
 			if(document.formulario.id1.checked == true) {
@@ -49,7 +48,7 @@
 			}
 		}
 		document.formulario.id.value = concatena;
-		document.formulario.action = "@routes.Mensajes.eliminaMensajes";
+		document.formulario.action = "@routes.Mensajes.eliminaMensajes(3)";
 		document.formulario.submit();
 	}	
 	

@@ -1,66 +1,104 @@
-@(user: Usuario, lista: List[Mensaje])
+@(user: Usuario, lista: Page[Mensaje], currentFilter: String))
+
+@****************************************
+* Ayuda a generar los link de navegacion*
+****************************************@
+@link(newPage:Int) = @{
+
+    // Generate the link
+    routes.Mensajes.mensajesEnviados(newPage, currentFilter)
+    
+}
 
 @app(title = "Orgrup", user.nombre) {
 
 	<div class="container">
 		<div class="tabbable">
 			<ul class="nav nav-tabs" id="myTab">
-  				<li><a href="@routes.Mensajes.mensajesRecibidos">Mensajes recibidos</a></li>
-  				<li class="active"><a href="@routes.Mensajes.mensajesEnviados">Mensajes enviados</a></li>
+  				<li><a href="@routes.Mensajes.index">Mensajes recibidos</a></li>
+  				<li class="active"><a href="@routes.Mensajes.index2">Mensajes enviados</a></li>
   				@if(!Usuario.cuentaInactiva(user.correo)) {
   					<li><a href="@routes.Mensajes.crearMensaje">Redactar mensaje</a></li>
   				}
   			</ul>
   			
-  				<div class="tab-pane" id="mensajes_enviados">
- 	 				<table class="table table-hover">
- 	 					@if(!lista.isEmpty()) {
- 	 						@for(p<-lista){
- 	 							<form name="formulario" action="" method="post">
- 	 			 	 				<tr>
- 	 			 	 					<td><input type="checkbox" name="id1" value="@p.id"></td>
- 	 			 	 					<td><b>Para: </b><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.destinatario)}</a></td>
- 	 			 	 					<td>@p.asunto</td>	
- 	 			 	 					<td>@p.fecha.format("dd/MM/yyyy hh:mm:ss")</td>
- 	 			 	 				</tr>
- 	 			 	 		}	
- 	 			 	 			<input type="hidden" name="id">
- 	 			 	 			<a class="btn" onclick="cuenta()">Eliminar</a>
- 	 			 	 			</form>
- 	 			 	 	}		 	 		
- 	 			 	</table>
- 	 			</div>
+			<div class="tab-pane" id="mensajes_enviados">
+ 	 			@if(lista.getTotalRowCount > 0) {
+ 	 				<form name="formulario" method="post">
+	 	 				<table class="table table-hover">
+		        			<thead>
+		        				<th><a class="btn" onclick="cuenta()">Eliminar</a></th>
+		        				<th>Para: </th>
+		        				<th>Asunto: </th>
+		        				<th>Fecha: </th>
+		        			</thead>
+		 	 				@for(p <- lista.getList) {
+		 	 					<tr>
+		 	 		 				<td><input type="checkbox" name="id1" value="@p.id"></td>
+		 	 		 				<td><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.destinatario)}</a></td>
+		 	 		 				<td>@p.asunto</td>	
+		 	 		 				<td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>
+		 	 		 			</tr>
+		 	 		 		}
+		 	 		 		<input type="hidden" name="id">
+		 	 		 	</table>
+	 	 		 	</form>
+ 	 		 	} 	 		 		
+ 	 		</div>
   		</div>
+  		
+  		<div id="pagination" class="pagination pull-right">
+			<ul>
+				@if(lista.hasPrev) {
+					<li class="prev">
+						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+					</li>
+				} else {
+					<li class="prev disabled">
+						<a>&larr; Anterior</a>
+					</li>
+				}
+				<li class="current">
+					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+				</li>
+				@if(lista.hasNext) {
+					<li class="next">
+						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+					</li>
+				} else {
+					<li class="next disabled">
+						<a>Siguente &rarr;</a>
+					</li>
+				}
+			</ul>
+		</div>
   	</div>
+
   	
   	<script type="text/javascript">
 	
-  	function cuenta() {
-		var cont = 0;
-		var valores = [];
-		var c = 0;
-		var concatena = "";
-
-		var checkboxes = document.formulario.id1.length;
-		
-		if (checkboxes > 1) {
-				for(var x=0; x < document.formulario.id1.length; x++) {
-					if (document.formulario.id1[x].checked == true) {
-						concatena = concatena + '00' + document.formulario.id1[x].value;
-					}
-				}
-			
-		}
-		else {
-			if(document.formulario.id1.checked == true) {
-				concatena = '00' + document.formulario.id1.value;
-			}
-		}
-
-		document.formulario.id.value = concatena;
-		document.formulario.action = "@routes.Mensajes.eliminaMensajes";
-		document.formulario.submit();
-	}	
+	  	function cuenta() {
+			var cont = 0;
+			var valores = [];
+			var c = 0;
+			var concatena = "";
 	
+			var checkboxes = document.formulario.id1.length;
+			
+			if (checkboxes > 1) {
+					for (var x=0; x < document.formulario.id1.length; x++) {
+						if (document.formulario.id1[x].checked == true) {
+							concatena = concatena + '00' + document.formulario.id1[x].value;
+						}
+					}				
+			} else {
+				if (document.formulario.id1.checked == true) {
+					concatena = '00' + document.formulario.id1.value;
+				}
+			}	
+			document.formulario.id.value = concatena;
+			document.formulario.action = "@routes.Mensajes.eliminaMensajes(2)";
+			document.formulario.submit();
+		}	
 	</script>	
  }

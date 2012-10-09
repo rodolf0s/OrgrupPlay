@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Page;
 import com.avaje.ebean.annotation.Where;
 
 import play.data.format.Formats;
@@ -126,4 +127,45 @@ public class Mensaje extends Model{
 		mensaje2.save();	
 	}
 	
+	/**
+	 * Busca en la BD 10 campos desde la pagina que le envian.
+	 * Es para los mensajes recibidos
+	 * 
+	 * @param page es la pagina actual ej 2
+	 * @param filter
+	 * @param email
+	 * @return
+	 */
+	public static Page<Mensaje> page(int page, String filter, String email) {
+		return
+				find
+					.where()
+					.eq("destinatario", email)
+					.eq("estado", "recibido")
+					.ilike("asunto", "%" + filter + "%")
+					.orderBy().desc("fecha")
+					.findPagingList(10)
+					.getPage(page);
+	}
+	
+	/**
+	 * Busca en la BD 10 campos desde la pagina que le envian.
+	 * Es para los mensajes recibidos
+	 * 
+	 * @param page es la pagina actual ej 2
+	 * @param filter
+	 * @param email
+	 * @return
+	 */
+	public static Page<Mensaje> page2(int page, String filter, String email) {
+		return
+				find
+					.where()
+					.eq("remitente_correo", email)
+					.eq("estado", "enviado")
+					.ilike("asunto", "%" + filter + "%")
+					.orderBy().desc("fecha")
+					.findPagingList(10)
+					.getPage(page);
+	}
 }

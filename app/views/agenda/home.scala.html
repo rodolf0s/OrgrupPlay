@@ -321,11 +321,7 @@
 						<li><font size="2">Telefono: @usuario.telefono</font></li>
 					}						
 				</ul>
-			</div>
-
-			<div class="well well-small"> 
-   				<form name="muestraGrupo">
-	   				<ul class="nav nav-pills nav-stacked">
+				<ul class="nav nav-pills nav-stacked">
 	   					<li class="nav-header">
 	   						Grupos					
 	   					</li>
@@ -340,11 +336,11 @@
 		   					}
 	   					}
 	   				</ul>
-   				</form>
-   				@if(!Usuario.cuentaInactiva(usuario.correo)) {
+	   				@if(!Usuario.cuentaInactiva(usuario.correo)) {
    					<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modal() >crear grupo</a>
    				}
-   			</div>
+			</div>
+
 		</div>
 			
 		<div class="span9">
