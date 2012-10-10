@@ -2,26 +2,27 @@
 
 @app(title = "Orgrup", user.nombre) {
 
-	<div class="container well">
+	
 		<div class="row">
 	 		<div class="span11" style="float:right">
-              	  <div class="span9" style="float:left;">
-	 				@for(p<-list){
-	 					<form>
-	 						<fieldset>
-	 							<legend>@p.asunto</legend>
-	 								<img style="width: 48px; height: 48px;" src="/assets/images/usuarios/@{Usuario.getImagen(p.remitente.correo)}">
-	 								<b>@{Usuario.getNombre(p.remitente.correo)}</b>
-									@p.remitente.correo<br>
-									<div class="well">
-										@p.mensaje
-									</div>
-<!-- 								<input type="button" class="btn" onclick="history.back(-1)" value="Atras"> -->
-									<a href="@routes.Mensajes.mensajesRecibidos()" class="btn">Atras</a>
-							</fieldset>
-						</form>
-					}
-	 					
+              	  <div class="span8" style="float:left;">
+              	  <div class="well" style="background: linear-gradient(top, #8fc400 0%,#68a500 100%); border: solid 1px #0088cc; box-shadow: 3px 3px 6px #999; ">
+	 					@for(p<-list){
+	 						<form>
+	 							<fieldset >
+	 								<legend><font color="#1d1d1d" size="5"><b>Asunto</b></font>: <font color="#0088cc" size="5">@p.asunto</font></legend>
+	 									<img style="width: 50px; height: 50px;"  class="img-polaroid" src="/assets/images/usuarios/@{Usuario.getImagen(p.remitente.correo)}">
+	 									<b><font color="#1d1d1d" size="4">@{Usuario.getNombre(p.remitente.correo)}</font></b>
+										@p.remitente.correo<br>
+										<div class="well" style="border: solid 1px #cccccc">
+											<font color="#0088cc">@p.mensaje</font>
+										</div>
+<!-- 									<input type="button" class="btn" onclick="history.back(-1)" value="Atras"> -->
+										<a href="@routes.Mensajes.mensajesRecibidos()" class="btn btn-primary">Atras</a>
+								</fieldset>
+							</form>
+						}
+	 					</div>
 				</div>
 			</div>
 		</div>
