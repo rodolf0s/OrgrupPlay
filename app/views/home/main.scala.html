@@ -4,52 +4,65 @@
 
 <html lang="es">
     <head>
-    	<title>@title</title> 
+    	<title>@title</title>
     	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
        	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap.min.css")"> 
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap-responsive.min.css")"> 
         <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
 		<script src="@routes.Assets.at("bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
     </head>
-    <body>
-    
-    	<!-- Barra superior -->
-    	<div class="navbar navbar-inverse navbar-fixed-top">
+	<body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+    	<!-- Navbar
+    	================================================== -->
+		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
-					</a>
-					<a class="brand" href="@routes.Application.index">Orgrup</a>
-					<div class="nav-collapse">
+					</button>					
+					<div class="nav-collapse collapse">
 						<ul class="nav">
-             
+							<li>
+								<a class="brand" href="@routes.Application.index">Orgrup</a>
+							</li>
 						</ul>
-
 						<ul class="nav pull-right">
 							<li> <a href="@routes.Application.login"> Ingresar</a>
 							<li class="divider-vertical"></li>
-							<li> <a href="@routes.Application.registro"> Registrarse</a>                
+							<li> <a href="@routes.Application.registro"> Registrarse</a>
 						</ul>
-					</div><!--/.nav-collapse -->
+					</div>
 				</div>
 			</div>
 		</div>
-		
-		<br><br><br>
-		<div class="container">
-	    	<!-- Contenido de la pagina -->
-	    	@content
-	    </div>
-	    
-	    <hr>
-	    
-	    <footer>
-			<a style="float: right;" href="@routes.Application.contacto">Contactanos</a>
-			<a style="float: right;" href="@routes.Application.about">Desarrolladores &nbsp;&nbsp;</a>
-		</footer>  
-    </body>
+
+		<!-- Contenido de la pagina -->
+		@content
+
+
+		<!-- Footer
+		================================================== -->
+		<footer class="footer">
+			<div class="container">
+				<p class="pull-right">
+					<a href="@routes.Application.contacto">Contactanos</a>&nbsp&nbsp
+					<a href="@routes.Application.about">Acerca</a>
+				</p>
+				<p>Desarrollador por <a href="http://twitter.com/LeoCasalli" target="_blank">&#64;LeoCasalli</a> <a href="http://twitter.com/DanielRiveraS89" target="_blank">&#64;DanielRiveraS89</a> y <a href="http://twitter.com/rsantander06" target="_blank">&#64;rsantander06</a>.</p>
+				<p>Copyright © 2012 Orgrup, Inc. Todos los derechos reservados. </p>
+<!-- 				<p>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p> -->
+<!-- 				<ul class="footer-links"> -->
+<!-- 					<li><a href="@routes.Application.contacto">Contactanos</a></li> -->
+<!-- 					<li><a href="https://github.com/twitter/bootstrap/issues?state=open">Submit issues</a></li> -->
+<!-- 					<li><a href="https://github.com/twitter/bootstrap/wiki">Roadmap and changelog</a></li> -->
+<!-- 				</ul> -->
+			</div>
+		</footer>
+	</body>
 </html>
+    

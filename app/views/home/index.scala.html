@@ -1,50 +1,39 @@
 @main(title = "Orgrup") {
+
+	<div class="jumbotron masthead">
+		<div class="container">
+			<h1>Orgrup</h1>
+			<p>Crea tareas y organiza tus reuniones automaticamente.</p>
+			<p><a href="@routes.Application.login" class="btn btn-primary btn-large">Registrate Ahora!</a></p>
+		</div>
+		<br><br><br><br>
+	</div>
 	
-	
-	<div class="row">
-		<div class="span9">
-			<div id="main-carousel" class="carousel slide">
-				<!-- Carousel items -->
-				<div class="carousel-inner">
-  					<div class="item active">
-						<img alt="" src="@routes.Assets.at("images/bootstrap-mdo-sfmoma-01.jpg")">
-						<div class="carousel-caption">
-							<h4>First Thumbnail label</h4>
-							<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-						</div>
-					</div>
-					<div class="item">
-						<img alt="" src="@routes.Assets.at("images/bootstrap-mdo-sfmoma-02.jpg")">
-						<div class="carousel-caption">
-							<h4>Second Thumbnail label</h4>
-							<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-						</div>
-					</div>
-					<div class="item">
-						<img alt="" src="@routes.Assets.at("images/bootstrap-mdo-sfmoma-03.jpg")">
-						<div class="carousel-caption">
-							<h4>Third Thumbnail label</h4>
-							<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-						</div>
-					</div>
+	<div class="container">
+		<div class="marketing">
+			<h1>Caracteristicas de Orgrup.</h1>
+			<p class="marketing-byline">Te facilitara crear reuniones.</p>
+			<div class="row-fluid">
+			
+				<div class="span4">
+					<img src='@routes.Assets.at("images/fullcalendar.png")' style="width: 300px; height: 145px;">
+					<h2>Crear tareas.</h2>
+					<p>En Orgrup podras crear tareas o actividades clasificandolas por prioridad.</p>
 				</div>
-				<!-- Carousel nav -->
-				<a class="carousel-control left" href="#main-carousel" data-slide="prev">&lsaquo;</a>
-				<a class="carousel-control right" href="#main-carousel" data-slide="next">&rsaquo;</a>
+				
+				<div class="span4">
+					<img src='@routes.Assets.at("images/equipo.gif")' style="width: 300px; height: 145px;">
+					<h2>Reuniones.</h2>
+					<p>Ya no tendras que perder tiempo gestionando una reunion con tu equipo de trabajo, Orgrup te hace la tarea mas facil creando automaticamente una reunion para ti.</p>
+				</div>
+
+				<div class="span4">
+					<img src='@routes.Assets.at("images/responsive.png")'>
+					<h2>Responsive Design.</h2>
+					<p>Orgrup esta creado para que pueda ser visto desde cualquier dispositivo. Su diseño permite que se adapte a cualquier resolución</p>
+				</div>
 			</div>
 		</div>
 	</div>
 	
-    <!-- Movimiento del carousel -->
-	<script type="text/javascript">
-    	$(document).ready(function () {    		
-    		$('#main-carousel').carousel({
-    		    interval: 4000
-    		});
-
-    		$('#main-carousel').bind('slid', function() {
-
-    		});
-    	});
-	</script>    
 }

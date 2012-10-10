@@ -3,6 +3,9 @@
 @main(title = "Ingresar") {
 
 	<style>
+		.well {
+			color: black;
+		}
 		.well div h3 a { 
 			color: white;
 			display: inline-block;
@@ -11,8 +14,9 @@
 	</style>
 
     <!-- Simple Formulario para ingresar -->
+    <div class="contenedor">
         <div class="row">
-            <div class="span8" style="float:right">
+            <div class="span9" style="float:right">
                 <div class="span4" style="float:left;">
                 	<div class="well">
                 		<div>
@@ -65,6 +69,7 @@
                 </div>
             </div>
         </div>
+	</div>
         
 	<script>
 		$('.input-xlarge').keypress(function() {
