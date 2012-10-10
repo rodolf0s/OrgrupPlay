@@ -17,7 +17,7 @@
 									<td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>
 								</tr>
 						}
-							<input type="hidden" name="id"> 
+							<input type="hidden" name="asunto"> 
  	 			 	 		<a class="btn" onclick="cuenta()" >Eliminar</a>
 						</form>
 						}
@@ -38,16 +38,16 @@
 		if (checkboxes > 1) {
 				for(var x=0; x < document.formulario.id1.length; x++) {
 					if (document.formulario.id1[x].checked == true) {
-						concatena = concatena + '00' + document.formulario.id1[x].value;
+						concatena = concatena + ';' + document.formulario.id1[x].value;
 					}
 				}
 		}
 		else {
 			if(document.formulario.id1.checked == true) {
-				concatena = '00' + document.formulario.id1.value;
+				concatena = ';' + document.formulario.id1.value;
 			}
 		}
-		document.formulario.id.value = concatena;
+		document.formulario.asunto.value = concatena;
 		document.formulario.action = "@routes.Mensajes.eliminaMensajes(3)";
 		document.formulario.submit();
 	}	

@@ -138,6 +138,11 @@ public class Mensajes extends Controller {
 		}
 	}
 	
+	/**
+	 * Obtiene el valor de los ids de los mensajes a eliminar concatenados
+	 * @param pag
+	 * @return
+	 */
 	public static Result eliminaMensajes(Integer pag) {		
 		Form<Mensaje> mensajeAEliminar = form(Mensaje.class).bindFromRequest();
 		
@@ -145,7 +150,7 @@ public class Mensajes extends Controller {
 			return badRequest();
 		} else {
 			Mensaje mensaje = mensajeAEliminar.get();
-			separa(mensaje.id.toString());
+			separa(mensaje.asunto);
 		}
 		if (pag == 1)
 			return redirect(routes.Mensajes.index());
@@ -155,8 +160,13 @@ public class Mensajes extends Controller {
 			return redirect(routes.Mensajes.mensajesNuevos());
 	}
 	
+	/**
+	 * Separa el valor de los ids concatenados y elimina uno por uno 
+	 * @param valor
+	 * @return
+	 */
 	public static Result separa(String valor) {
-		StringTokenizer st = new StringTokenizer(valor, "00");
+		StringTokenizer st = new StringTokenizer(valor,";");
 		while (st.hasMoreTokens()) {
 			String id = st.nextToken();
 			Mensaje.eliminaMensaje(Long.parseLong(id));

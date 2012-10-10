@@ -39,10 +39,10 @@
 										<td><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.remitente.correo)}</a></td>
 										<td>@p.asunto</td>
 										<td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>	
-				 	 			 	 </tr>
+									</tr>
                 				}
         					</table>
-        					<input type="hidden" name="id">
+        					<input type="hidden" name="asunto">
         				</form>
         			}
         		</div>
@@ -89,15 +89,17 @@
 			if (checkboxes > 1) {
 					for (var x=0; x < document.formulario.id1.length; x++) {
 						if (document.formulario.id1[x].checked == true) {
-							concatena = concatena + '00' + document.formulario.id1[x].value;
+							concatena = concatena + ';' + document.formulario.id1[x].value;
+							alert(concatena);
 						}
 					}
 			} else {
 				if (document.formulario.id1.checked == true) {
-					concatena = '00' + document.formulario.id1.value;
+					concatena = ';' + document.formulario.id1.value;
+					alert(concatena);
 				}
 			}	
-			document.formulario.id.value = concatena;
+			document.formulario.asunto.value = concatena;
 			document.formulario.action = "@routes.Mensajes.eliminaMensajes(1)";
 			document.formulario.submit();
 		}	
