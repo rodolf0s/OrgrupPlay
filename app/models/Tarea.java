@@ -112,7 +112,7 @@ public class Tarea extends Model {
 		 return find.where()
 				 .eq("fecha_inicio", fecha)
 				 .eq("hora_inicio", hora)
-				 .eq("usuario", correo)
+				 .eq("usuario_correo", correo)
 				 .findRowCount();
 	 }
 	 
