@@ -11,6 +11,8 @@ import models.Correo;
 
 import play.data.Form;
 import play.mvc.*;
+import play.data.*;
+import play.*;
 
 import views.html.*;
 import views.html.home.*;
@@ -19,6 +21,13 @@ import views.html.administrar.*;
 import org.apache.commons.mail.*;
 
 public class Admin extends Controller {
+	public static Result GO_HOME = redirect(
+			routes.Admin.cuentas(0, "")
+	);
+	
+	public static Result index() {
+        return GO_HOME;
+    }
 	
 	public static class CambioPass{
 		public String old;
@@ -49,13 +58,10 @@ public class Admin extends Controller {
 			LoginAdmin user = loginForm.get();
 			session ("usuario",user.usuario);
 		    	  
-			//Cuantas paginas de mensajes seran
-			Integer cuentas = Correo.listaCorreos().size();
 			return ok(mensaje.render(
 					Administrador.find.byId(session("usuario")),
 					Correo.listaCorreos(),
-					"",
-					(cuentas/20)+1));
+					""));
 		}	          
 	}
 	
@@ -77,13 +83,10 @@ public class Admin extends Controller {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else{
-			//Cuantas paginas de mensajes seran
-			Integer cuentas = Correo.listaCorreos().size();
 			return ok(mensaje.render(
 					Administrador.find.byId(session("usuario")),
 					Correo.listaCorreos(),
-					"",
-					(cuentas/20)+1));
+					""));
 		}
 	}
 	
@@ -111,18 +114,15 @@ public class Admin extends Controller {
 			return ok(leermensaje.render(
 					Administrador.find.byId(session("usuario")),
 					Correo.muestraId(id),
-					""));
+					"error"));
 		} else {
 			Correo correo = Correo.find.byId(id);
 			correo.delete();
 		}		
-		//Cuantas paginas de mensajes seran
-		Integer cuentas = Correo.listaCorreos().size();
 		return ok(mensaje.render(
 				Administrador.find.byId(session("usuario")),
 				Correo.listaCorreos(),
-				"",
-				(cuentas/20)+1));
+				""));
 	}
 	
 	//Eliminar varios mensajes
@@ -131,24 +131,18 @@ public class Admin extends Controller {
 		
 		if (formVarios.hasErrors()) {
 			List<Correo> listaCorreo = new ArrayList<Correo>();
-			//Cuantas paginas de mensajes seran
-			Integer cuentas = Correo.listaCorreos().size();
 			return ok(mensaje.render(
 					Administrador.find.byId(session("usuario")),
 					Correo.listaCorreos(),
-					"Error al eliminar",
-					(cuentas/20)+1));
+					"Error al eliminar"));
 		} else {
 			Correo correo = formVarios.get();
 			separa(correo.id.toString());
 		}			
-		//Cuantas paginas de mensajes seran
-		Integer cuentas = Correo.listaCorreos().size();
 		return ok(mensaje.render(
 				Administrador.find.byId(session("usuario")),
 				Correo.listaCorreos(),
-				"",
-				(cuentas/20)+1));
+				""));
 	}
 	
 	//Separa las id de los mensajes
@@ -196,35 +190,24 @@ public class Admin extends Controller {
 			email.send();
 			respuesta.setRespuesta(id);
 			    
-			//Cuantas paginas de mensajes seran
-			Integer cuentas = Correo.listaCorreos().size();
 			return ok(mensaje.render(
 					Administrador.find.byId(session("usuario")),
 					Correo.listaCorreos(),
-					"",
-					(cuentas/20)+1));
+					""));
 		}		
 	}	
 	
 	//Redirecciona a la pagina cuentas
-	public static Result cuentas() {
+	public static Result cuentas(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-//			Date fecha = new Date();	
-//			long [] dias;
-//			int x = Usuario.listarUsuarios().size();
-//			
-//			for(int i=0; i < x; i++ ){
-//				dias [i] = DateDiff("d",Usuario.listarUsuarios().get(i).inicioSesion , fecha);
-//			}
-			
-			//Cuantas paginas de mensajes seran
-			Integer  paginas = Correo.listaCorreos().size();
+
 			return ok(cuentas.render(
 					Administrador.find.byId(session("usuario")),
-					Usuario.listarUsuarios(),
-					(paginas/20)+1));
+					Usuario.page(page, filter),
+					filter,
+					""));
 		}
 	}	
 	
@@ -260,38 +243,45 @@ public class Admin extends Controller {
 	}	
 	
 	//Desactivar la cuenta del usuario desde el administrador.
-	public static Result adminElimina() {
+	public static Result adminElimina(int page, String filter) {
 		Form<Usuario> formCuenta = form(Usuario.class).bindFromRequest();
 		
 		if (formCuenta.hasErrors()) {
-			return badRequest();
+			return ok(cuentas.render(
+					Administrador.find.byId(session("usuario")),
+					Usuario.page(page, filter),
+					filter,
+					"Error al Bloquear cuenta"));
 		} else {
 			Usuario user = formCuenta.get();
 			Usuario.bloquearCuenta(user.correo);
-					
-			//Cuantas paginas de mensajes seran
-			Integer  paginas = Correo.listaCorreos().size();					
+									
 			return ok(cuentas.render(
 					Administrador.find.byId(session("usuario")),
-					Usuario.listarUsuarios(),
-					(paginas/20)+1));
+					Usuario.page(page, filter),
+					filter,
+					""));
 		}
 	}
 
 	//Activar la cuenta del usuario desde el administrador.
-	public static Result adminActiva(String correo) {
+	public static Result adminActiva(String correo, int page, String filter) {
 		Form<Usuario> formCuenta = form(Usuario.class).bindFromRequest();
 		
 		if (formCuenta.hasErrors()) {
-			return badRequest();
-		} else {
-			Usuario.activarCuenta(correo);
-			//Cuantas paginas de mensajes seran
-			Integer  paginas = Correo.listaCorreos().size();
 			return ok(cuentas.render(
 					Administrador.find.byId(session("usuario")),
-					Usuario.listarUsuarios(),
-					(paginas/20)+1));
+					Usuario.page(page, filter),
+					filter,
+					"Error al Activar cuenta"));
+		} else {
+			Usuario.activarCuenta(correo);
+		
+			return ok(cuentas.render(
+					Administrador.find.byId(session("usuario")),
+					Usuario.page(page, filter),
+					filter,
+					""));
 		}
 	}
 	

@@ -1,26 +1,29 @@
-@(user: Administrador, lista: List[Usuario], paginas: Integer)
+@(user: Administrador, lista: Page[Usuario], currentFilter: String, error:String)
+
+@****************************************
+* Ayuda a generar los link de navegacion*
+****************************************@
+@link(newPage:Int) = @{
+
+    // Generate the link
+    routes.Admin.cuentas(newPage)
+    
+}
 
 @inicioadmin(title = "Cuentas"){
 
-@if(lista.isEmpty()){
+									
 					<table align="center">
 						<tr>
-							<td><h3>Cuentas</h3></td><span style="color: red;">@paginas</span>
-						</tr>
-					</table>
-				}else {
-					
-					<table align="center">
-						<tr>
-							<td><h3>Cuentas</h3></td><span style="color: red;">@paginas</span>
+							<td><h3>Cuentas</h3></td><span style="color: red;">@error</span>
 							
 						</tr>
 					</table>
 					<div class="container well">
 					<div class=span11>
 						<table class="table">
-							@for(p<-lista){
-								<form id="form1" class="well" action="@routes.Admin.adminElimina" method="post">
+							@for(p<-lista.getList){
+								<form id="form1" class="well" action="" method="post">
 								<tr>
 											<td><font size="4">@p.nombre</font></td>
 											<td>Correo: @p.correo </td>
@@ -30,13 +33,42 @@
 											<input type="hidden" name="correo" value="@p.correo">
 														
 								</tr>
-								}
+							
 								</form>
 														
 						</table>
 					</div>
 					</div>
+
+				
+}
+
+<div id="pagination" class="pagination pull-right">
+			<ul>
+				@if(lista.hasPrev) {
+					<li class="prev">
+						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+					</li>
+				} else {
+					<li class="prev disabled">
+						<a>&larr; Anterior</a>
+					</li>
 				}
+				<li class="current">
+					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+				</li>
+				@if(lista.hasNext) {
+					<li class="next">
+						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+					</li>
+				} else {
+					<li class="next disabled">
+						<a>Siguente &rarr;</a>
+					</li>
+				}
+			</ul>
+		</div>
+  	</div>
 
 
 }

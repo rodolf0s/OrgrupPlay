@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
+import com.avaje.ebean.Page;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -409,4 +410,24 @@ public class Usuario extends Model {
 		usuario.estado = "Activada";
 		usuario.update();
 	}	
+	
+	/**
+	 * Busca en la BD 10 campos desde la pagina que le envian.
+	 * Es para los mensajes recibidos
+	 * 
+	 * @param page es la pagina actual ej 2
+	 * @param filter
+	 * @param email
+	 * @return
+	 */
+	public static Page<Usuario> page(int page, String filter) {
+		return
+				find
+				.where()
+				.ilike("estado", "%" + filter + "%")
+				.orderBy().desc("correo")
+				.findPagingList(10)
+				.getPage(page);
+
+	}
 }

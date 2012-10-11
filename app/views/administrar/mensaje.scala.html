@@ -1,18 +1,18 @@
-@(user: Administrador, lista: List[Correo], error: String, paginas: Integer)
+@(user: Administrador, lista: List[Correo], error: String)
 
 @inicioadmin(title = "Mensajes"){
 
 @if(lista.isEmpty()){
 					<table align="center">
 						<tr>
-							<td><h3>Mensajes</h3><span style="color: red;">@paginas @error</span>
+							<td><h3>Mensajes</h3><span style="color: red;">@error</span>
 							
 						</tr>
 					</table>
 				}else {
 					<table align="center">
 						<tr>
-							<td><h3>Mensajes</h3></td><span style="color: red;">@paginas @error</span>
+							<td><h3>Mensajes</h3></td><span style="color: red;">@error</span>
 							
 						</tr>
 					</table>
