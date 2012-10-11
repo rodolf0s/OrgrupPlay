@@ -41,6 +41,9 @@ public class Reuniones extends Controller {
 			fechaInicioCalendar.setTime(fechaInicio);
 			fechaFinCalendar.setTime(fechaFin);
 			
+			//aumentamos en 1 la fecha de fin para la busqueda porque before no cuenta el igual
+			fechaFinCalendar.add(fechaFinCalendar.DAY_OF_MONTH, +1);
+			
 			Integer a = 0;
 			
 			//Revisamos dias con bloques libres del administrador
@@ -50,19 +53,22 @@ public class Reuniones extends Controller {
 				horaInicioCalendar.setTime(horaInicio);
 				horaFinCalendar.setTime(horaFin);
 				
+				//aumentamos en 1 la hora de fin para la busqueda porque before no cuenta el igual
+				horaFinCalendar.add(horaFinCalendar.HOUR, +1);
+				
 				while(horaInicioCalendar.before(horaFinCalendar)) {
-					Integer estado;
+					Integer estado = null;
 					Date fechaInicio1 = fechaInicioCalendar.getTime();
 					Date horaInicio1 = horaInicioCalendar.getTime();
 					
 					estado = Tarea.buscarTarea(fechaInicio1, horaInicio1, correo);
 					//Indica si el bloque esta libre o no
 					if (estado > 0){
-						bloques [a][b] = 1;
+						numero = numero + 1;
 					}else{
-						bloques [a][b] = 0;
+
 					}
-//					System.out.println(bloques[a][b]);
+
 					horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
 					b = b+1;
 				}
