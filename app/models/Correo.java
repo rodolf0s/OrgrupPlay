@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
+import com.avaje.ebean.Page;
 
 import play.data.format.Formats;
 import play.data.validation.Constraints;
@@ -97,6 +98,24 @@ public class Correo extends Model {
 				"id = "+id+""
 				).execute();
 	}
-    
+	
+	/**
+	 * Busca en la BD 10 campos desde la pagina que le envian.
+	 * Es para los correos enviados a los administradores
+	 * 
+	 * @param page es la pagina actual ej 2
+	 * @param filter
+	 * @param email
+	 * @return
+	 */
+	public static Page<Correo> page(int page, String filter) {
+		return
+				find
+				.where()
+				.ilike("asunto", "%" + filter + "%")
+				.orderBy().desc("nombre")
+				.findPagingList(10)
+				.getPage(page);
+	}
 
 }

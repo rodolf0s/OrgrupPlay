@@ -413,7 +413,7 @@ public class Usuario extends Model {
 	
 	/**
 	 * Busca en la BD 10 campos desde la pagina que le envian.
-	 * Es para los mensajes recibidos
+	 * Es para las cuentas desplegadas en administrador
 	 * 
 	 * @param page es la pagina actual ej 2
 	 * @param filter

@@ -1,15 +1,19 @@
-@(user: Administrador, lista: List[Correo], error: String)
+@(user: Administrador, lista: Page[Correo], currentFilter: String, error: String)
+
+@****************************************
+* Ayuda a generar los link de navegacion*
+****************************************@
+@link(newPage:Int) = @{
+
+    // Generate the link
+    routes.Admin.cuentas(newPage)
+    
+}
+
 
 @inicioadmin(title = "Mensajes"){
 
-@if(lista.isEmpty()){
-					<table align="center">
-						<tr>
-							<td><h3>Mensajes</h3><span style="color: red;">@error</span>
-							
-						</tr>
-					</table>
-				}else {
+
 					<table align="center">
 						<tr>
 							<td><h3>Mensajes</h3></td><span style="color: red;">@error</span>
@@ -23,7 +27,7 @@
 					<div class=span11>
 						<table class="table">
 					
-							@for(p<-lista){
+							@for(p<-lista.getList){
 							<form name="formulario" action="" method="post">
 <!-- 							1 mensaje no leido, 2 mensaje leido, 3 respondido -->
 								@if(p.estado == 1){
@@ -81,8 +85,34 @@
 						</table>
 					</div>
 				</div>	
+				
+<div id="pagination" class="pagination pull-right">
+			<ul>
+				@if(lista.hasPrev) {
+					<li class="prev">
+						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+					</li>
+				} else {
+					<li class="prev disabled">
+						<a>&larr; Anterior</a>
+					</li>
 				}
-
+				<li class="current">
+					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+				</li>
+				@if(lista.hasNext) {
+					<li class="next">
+						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+					</li>
+				} else {
+					<li class="next disabled">
+						<a>Siguente &rarr;</a>
+					</li>
+				}
+			</ul>
+		</div>
+  	</div>
+  	
 	<script type="text/javascript">
 	
 	function cuenta() {
@@ -98,7 +128,7 @@
 		}
 		
 		document.formulario.id.value = concatena;
-		document.formulario.action = "@routes.Admin.eliminarVarios";
+		document.formulario.action = "";
 		document.formulario.submit();
 	}
 	

@@ -25,8 +25,16 @@ public class Admin extends Controller {
 			routes.Admin.cuentas(0, "")
 	);
 	
+	public static Result GO_HOME2 = redirect(
+			routes.Admin.mensaje(0, "")
+	);
+	
 	public static Result index() {
         return GO_HOME;
+    }
+	
+	public static Result index2() {
+        return GO_HOME2;
     }
 	
 	public static class CambioPass{
@@ -58,10 +66,7 @@ public class Admin extends Controller {
 			LoginAdmin user = loginForm.get();
 			session ("usuario",user.usuario);
 		    	  
-			return ok(mensaje.render(
-					Administrador.find.byId(session("usuario")),
-					Correo.listaCorreos(),
-					""));
+			return ok(cambiarpass.render(""));
 		}	          
 	}
 	
@@ -79,13 +84,14 @@ public class Admin extends Controller {
 	}
 	
 	//Redirecciona a la pagina mensajes
-	public static Result mensaje() {
+	public static Result mensaje(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else{
 			return ok(mensaje.render(
 					Administrador.find.byId(session("usuario")),
-					Correo.listaCorreos(),
+					Correo.page(page, filter),
+					filter,
 					""));
 		}
 	}
@@ -106,7 +112,7 @@ public class Admin extends Controller {
 	}
 	
 	//Eliminar mensaje
-	public static Result eliminarMensaje(Long id) {
+	public static Result eliminarMensaje(Long id,int page, String filter) {
 		Form<Correo> formElimina = form(Correo.class).bindFromRequest();
 				
 		if (formElimina.hasErrors()) {
@@ -121,19 +127,21 @@ public class Admin extends Controller {
 		}		
 		return ok(mensaje.render(
 				Administrador.find.byId(session("usuario")),
-				Correo.listaCorreos(),
+				Correo.page(page, filter),
+				filter,
 				""));
 	}
 	
 	//Eliminar varios mensajes
-	public static Result eliminarVarios() {
+	public static Result eliminarVarios(int page, String filter) {
 		Form<Correo> formVarios= form(Correo.class).bindFromRequest();
 		
 		if (formVarios.hasErrors()) {
 			List<Correo> listaCorreo = new ArrayList<Correo>();
 			return ok(mensaje.render(
 					Administrador.find.byId(session("usuario")),
-					Correo.listaCorreos(),
+					Correo.page(page, filter),
+					filter,
 					"Error al eliminar"));
 		} else {
 			Correo correo = formVarios.get();
@@ -141,7 +149,8 @@ public class Admin extends Controller {
 		}			
 		return ok(mensaje.render(
 				Administrador.find.byId(session("usuario")),
-				Correo.listaCorreos(),
+				Correo.page(page, filter),
+				filter,
 				""));
 	}
 	
@@ -166,7 +175,7 @@ public class Admin extends Controller {
 	}
 	
 	//Responder mensaje
-	public static Result enviarRespuesta(Long id) throws IOException, EmailException {		
+	public static Result enviarRespuesta(Long id, int page, String filter) throws IOException, EmailException {		
 		Form<Correo> formRespuesta = form(Correo.class).bindFromRequest();
 		if (formRespuesta.hasErrors()) {
 			Correo respuesta = Correo.find.byId(id);
@@ -192,7 +201,8 @@ public class Admin extends Controller {
 			    
 			return ok(mensaje.render(
 					Administrador.find.byId(session("usuario")),
-					Correo.listaCorreos(),
+					Correo.page(page, filter),
+					filter,
 					""));
 		}		
 	}	
