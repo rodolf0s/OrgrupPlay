@@ -32,8 +32,8 @@ GET		/admin/responder-mensaje	controllers.Admin.responder(id: Long)
 POST	/admin/correo				controllers.Admin.enviarRespuesta(id: Long, p:Int ?= 0, f ?= "")
 POST	/admin/desactiva			controllers.Admin.adminElimina(p:Int ?= 0, f ?= "")
 GET		/admin/activa				controllers.Admin.adminActiva(correo: String, p:Int ?= 0, f ?= "")
-GET		/index						controllers.Admin.index()
-GET		/index2						controllers.Admin.index2()
+GET		/index-admin				controllers.Admin.index()
+GET		/index2-admin				controllers.Admin.index2()
 
 #Agenda
 GET		/app						controllers.Home.index()
