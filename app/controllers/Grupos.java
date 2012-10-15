@@ -684,7 +684,7 @@ public class Grupos extends Controller {
 	 * @return
 	 */
 	public static Result muestraSolicitudes() {
-		return ok(solicitudes_de_grupo.render(Usuario.find.byId(session("email"))));
+		return ok(solicitudes_de_grupo.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email"))));
 	}
 	
 }
