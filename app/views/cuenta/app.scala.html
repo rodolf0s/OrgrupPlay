@@ -38,6 +38,9 @@
 							}
 							<li class="divider-vertical"></li>
 							<li><a href="@routes.Grupos.muestraGrupos">Grupos</a></li>
+							@if(Home.notificacionesGrupos() != 0){
+							<li><a href="@routes.Grupos.muestraSolicitudes"><span class="badge badge-important">@{Home.notificacionesGrupos()}</span></a></li>
+							}
 							<li class="divider-vertical"></li>
 							<li><a href="@routes.Mensajes.index">Mensajes</a></li>
 							@if(Home.notificacionesMensajes() != 0){

@@ -94,6 +94,7 @@ GET		/grupo/descargar-archivo/:id		controllers.Grupos.descargarArchivo(id: Long,
 GET		/grupo/eliminar-archivo/:idArchivo 	controllers.Grupos.eliminarArchivo(idArchivo: Long, idReunion: Long, idGrupo: Long)
 POST	/grupo/cambia-admin					controllers.Grupos.cambiarAdmin()
 GET		/grupo/:id/dejar-grupo				controllers.Grupos.dejarGrupo(id: Long)
+GET 	/solicitudes-de-grupos				controllers.Grupos.muestraSolicitudes()
 
 #Reunion
 POST	/generar					controllers.Reuniones.generarReunion(correo: String)
