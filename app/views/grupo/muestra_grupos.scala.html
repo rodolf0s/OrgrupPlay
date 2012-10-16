@@ -3,24 +3,20 @@
 @app(title = "Orgrup", user.nombre) {
 
 	<style type="text/css">
-		ul {
-			list-style: none;
-		}
+		ul { list-style: none; }
+		.well h3 a { font-weight: normal; }
 	</style>
 
 	
 	<div class="container">
-		<div class="well well-small">
-			<div class="span10">
-				<fieldset>			
-					<legend>
-						Grupos a los que pertenece
-						@if(!Usuario.cuentaInactiva(user.correo)) {
-							<a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Crear grupo</a>
-						}				
-					</legend>				
-				</fieldset>
-			</div>
+		<div class="well">			
+			<h3>
+				Grupos a los que pertenece
+				@if(!Usuario.cuentaInactiva(user.correo)) {
+					<a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Crear grupo</a>
+				}				
+			</h3>	
+			
 			@if(!grupos.isEmpty()) {
 		   		@for(g <- grupos) {
 					<div class="row">
