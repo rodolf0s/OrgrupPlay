@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -152,9 +153,33 @@ public class Integrante extends Model {
 		return true;
 	}
 	
+	/**
+	 * Cuenta la cantidad de miembros que posee un grupo a traves del id
+	 * @param id
+	 * @return
+	 */
 	public static Integer contarMiembros(Long id) {
 		return find.where()
 		.eq("grupo_id", id)
 		.findRowCount();
+	}
+	
+	
+	/*
+	 * Retorna el id de los grupos en estado inactivo 
+	 */
+	public static List<Integrante> cuentaGruposInactivos(String email) {
+		return Integrante.find.where()
+				.eq("usuario_correo", email)
+				.eq("estado", "inactivo")
+				.findList();
+	}
+	/*
+	 * Cambia el estado del integrante en un grupo al aceptar la invitacion para ingresar a un grupo
+	 */
+	public static void cambiaEstadoIntegrante(String email, Long grupoId) {
+		Integrante integrante = find.where().eq("usuario_correo", email).eq("grupo_id", grupoId).findUnique();
+				integrante.estado = "activo";
+				integrante.update();
 	}
 }
