@@ -6,7 +6,7 @@
 @link(newPage:Int) = @{
 
     // Generate the link
-    routes.Admin.cuentas(newPage)
+    routes.Admin.mensaje(newPage)
     
 }
 
@@ -128,7 +128,7 @@
 		}
 		
 		document.formulario.id.value = concatena;
-		document.formulario.action = "";
+		document.formulario.action = "@routes.Admin.eliminarVarios()";
 		document.formulario.submit();
 	}
 	

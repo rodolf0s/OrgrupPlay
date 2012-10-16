@@ -684,7 +684,25 @@ public class Grupos extends Controller {
 	 * @return
 	 */
 	public static Result muestraSolicitudes() {
-		return ok(solicitudes_de_grupo.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email"))));
+		return ok(solicitudes_de_grupo.render(Usuario.find.byId(session("email")), Integrante.cuentaGruposInactivos(session("email"))));
 	}
 	
+	public static Result ingresarAGrupo() {
+		Form<Integrante> aceptaSolicitud = form(Integrante.class).bindFromRequest();
+		if(aceptaSolicitud.hasErrors()) {
+			return badRequest();
+		} else {
+			Integrante.cambiaEstadoIntegrante(aceptaSolicitud.get().usuario.correo, aceptaSolicitud.get().grupo.id);
+
+		}
+		return redirect(routes.Grupos.muestraSolicitudes());
+	}
+	
+	public static Result eliminaInvitacion(Long id) {
+		Integrante integrante = Integrante.find.where()
+				.eq("usuario_correo", session("email"))
+				.eq("grupo_id", id).findUnique();
+		integrante.delete();
+		return redirect(routes.Grupos.muestraSolicitudes());
+	}
 }
