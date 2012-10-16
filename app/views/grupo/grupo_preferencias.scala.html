@@ -1,6 +1,10 @@
 @(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto], errorImagen: String)
 
 @app(title = grupo.getString("nombre"), usuario.nombre) {
+
+	<style>
+		.span7 .page-header h1 a { font-weight: normal; }
+	</style>
 	
 	<script type="text/javascript">	
 		$(document).ready(function() {
