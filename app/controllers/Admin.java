@@ -144,8 +144,12 @@ public class Admin extends Controller {
 					filter,
 					"Error al eliminar"));
 		} else {
+			
 			Correo correo = formVarios.get();
+			
+			if (correo.id != null){
 			separa(correo.id.toString());
+			}
 		}			
 		return ok(mensaje.render(
 				Administrador.find.byId(session("usuario")),
@@ -252,7 +256,7 @@ public class Admin extends Controller {
 		return ok(cambiarpass.render(""));
 	}	
 	
-	//Desactivar la cuenta del usuario desde el administrador.
+	//Bloquear la cuenta del usuario desde el administrador.
 	public static Result adminElimina(int page, String filter) {
 		Form<Usuario> formCuenta = form(Usuario.class).bindFromRequest();
 		
