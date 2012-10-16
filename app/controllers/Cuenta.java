@@ -7,6 +7,7 @@ import java.util.List;
 import com.avaje.ebean.SqlRow;
 
 import models.Grupo;
+import models.Notificaciones;
 import models.Usuario;
 import models.Integrante;
 
@@ -92,6 +93,22 @@ public class Cuenta extends Controller {
 			return ok(cuenta_desactivar.render(
 					Usuario.find.byId(session("email")), 
 					""));
+		}
+	}
+	
+	/**
+	 * Muestra la pagina de notificaciones.
+	 * 
+	 * @return
+	 */
+	public static Result notificaciones() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			return ok(cuenta_notificaciones.render(
+					Usuario.find.byId(session("email")),
+					Notificaciones.find.where().eq("usuario_correo", session("email")).findUnique()
+					));
 		}
 	}
 
@@ -290,6 +307,36 @@ public class Cuenta extends Controller {
 			return ok(views.html.home.informaciones.render(
 					"Su cuenta a sido activada satisfactoriamente.\nPor favor vuelva a iniciar sesion.", 
 					"Cuenta desactivada"));
+		}
+	}
+	
+	/**
+	 * Actualiza las notificaciones del usuario.
+	 * 
+	 * @return
+	 */
+	public static Result guardaNotificaciones() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Notificaciones> formNotificaciones = form(Notificaciones.class).bindFromRequest();
+			if (formNotificaciones.hasErrors()) {
+				return badRequest();
+			} else {
+				Notificaciones notificaciones = formNotificaciones.get();
+				Notificaciones.actualizaNotificaciones(notificaciones, session("email"));
+//				Notificaciones notificaciones = Notificaciones.find.where()
+//						.eq("usuario_correo", session("email"))
+//						.findUnique();
+//				notificaciones.tarea = formNotificaciones.get().tarea;
+//				notificaciones.contacto = formNotificaciones.get().contacto;
+//				notificaciones.mensaje = formNotificaciones.get().mensaje;
+//				notificaciones.grupoAgregan = formNotificaciones.get().grupoAgregan;
+//				notificaciones.grupoEliminan = formNotificaciones.get().grupoEliminan;
+//				notificaciones.grupoAdmin = formNotificaciones.get().grupoAdmin;
+//				notificaciones.update();
+				return redirect(routes.Cuenta.notificaciones());
+			}
 		}
 	}
 

@@ -67,6 +67,18 @@ create table mensaje (
   constraint pk_mensaje primary key (id))
 ;
 
+create table notificaciones (
+  id                        bigint not null,
+  tarea                     varchar(2) not null,
+  mensaje                   varchar(2) not null,
+  contacto                  varchar(2) not null,
+  grupo_agregan             varchar(2) not null,
+  grupo_eliminan            varchar(2) not null,
+  grupo_admin               varchar(2) not null,
+  usuario_correo            varchar(50),
+  constraint pk_notificaciones primary key (id))
+;
+
 create table reunion (
   id                        bigint not null,
   fecha_inicio              timestamp not null,
@@ -127,6 +139,8 @@ create sequence integrante_seq;
 
 create sequence mensaje_seq;
 
+create sequence notificaciones_seq;
+
 create sequence reunion_seq;
 
 create sequence tarea_seq;
@@ -147,10 +161,12 @@ alter table integrante add constraint fk_integrante_grupo_6 foreign key (grupo_i
 create index ix_integrante_grupo_6 on integrante (grupo_id);
 alter table mensaje add constraint fk_mensaje_remitente_7 foreign key (remitente_correo) references usuario (correo);
 create index ix_mensaje_remitente_7 on mensaje (remitente_correo);
-alter table reunion add constraint fk_reunion_grupo_8 foreign key (grupo_id) references grupo (id);
-create index ix_reunion_grupo_8 on reunion (grupo_id);
-alter table tarea add constraint fk_tarea_usuario_9 foreign key (usuario_correo) references usuario (correo);
-create index ix_tarea_usuario_9 on tarea (usuario_correo);
+alter table notificaciones add constraint fk_notificaciones_usuario_8 foreign key (usuario_correo) references usuario (correo);
+create index ix_notificaciones_usuario_8 on notificaciones (usuario_correo);
+alter table reunion add constraint fk_reunion_grupo_9 foreign key (grupo_id) references grupo (id);
+create index ix_reunion_grupo_9 on reunion (grupo_id);
+alter table tarea add constraint fk_tarea_usuario_10 foreign key (usuario_correo) references usuario (correo);
+create index ix_tarea_usuario_10 on tarea (usuario_correo);
 
 
 
@@ -169,6 +185,8 @@ drop table if exists grupo cascade;
 drop table if exists integrante cascade;
 
 drop table if exists mensaje cascade;
+
+drop table if exists notificaciones cascade;
 
 drop table if exists reunion cascade;
 
@@ -189,6 +207,8 @@ drop sequence if exists grupo_seq;
 drop sequence if exists integrante_seq;
 
 drop sequence if exists mensaje_seq;
+
+drop sequence if exists notificaciones_seq;
 
 drop sequence if exists reunion_seq;
 

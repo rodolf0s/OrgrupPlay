@@ -74,6 +74,8 @@ POST	/configurar/password		controllers.Cuenta.actualizaPassword()
 GET		/configurar/colores			controllers.Cuenta.colores()
 POST	/configurar/colores			controllers.Cuenta.actualizaColores()
 GET		/configurar/cuenta			controllers.Cuenta.cuenta()
+GET		/configurar/notificaciones	controllers.Cuenta.notificaciones()
+POST	/configurar/notificaciones	controllers.Cuenta.guardaNotificaciones()
 POST	/configurar/cuenta			controllers.Cuenta.desactivarCuenta()
 GET		/configurar/activar-cuenta	controllers.Cuenta.activarCuenta()
 
