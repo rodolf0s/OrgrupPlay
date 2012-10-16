@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import models.Contacto;
+import models.Integrante;
 import models.Mensaje;
 import models.Tarea;
 import models.Usuario;
@@ -207,6 +208,13 @@ public class Home extends Controller {
 				.eq("destinatario", session("email"))
 				.eq("leido", "no")
 				.eq("estado", "recibido")
+				.findRowCount();
+	}
+	
+	public static Integer notificacionesGrupos() {
+		return Integrante.find.where()
+				.eq("usuario_correo", session("email"))
+				.eq("estado", "inactivo")
 				.findRowCount();
 	}
 }

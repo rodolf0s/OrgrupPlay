@@ -51,6 +51,7 @@ create table integrante (
   grupo_id                  bigint,
   tipo                      integer not null,
   fecha_ingreso             timestamp not null,
+  estado                    varchar(255) not null,
   constraint pk_integrante primary key (id))
 ;
 

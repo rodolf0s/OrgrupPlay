@@ -22,30 +22,28 @@
   				}
   			</ul>
   			
-  			<div class="tab-content">
- 	 			<div class="tab-pane active" id="mensajes_recibidos">
- 	 				@if(lista.getTotalRowCount > 0) {
- 	 					<form name="formulario" method="post">
-	        				<table class="table table-hover">	        				
-	        					<thead>
-	        						<th><a class="btn" onclick="cuenta()" >Eliminar</a></th>
-	        						<th>De: </th>
-	        						<th>Asunto: </th>
-	        						<th>Fecha: </th>
-	        					</thead>
-	        					@for(p <- lista.getList) {	        					
-									<tr @if(p.leido == "no"){class="alert alert-info"}>
-										<td><input type="checkbox" name="id1" value="@p.id"></td>	 			 	 							
-										<td><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.remitente.correo)}</a></td>
-										<td>@p.asunto</td>
-										<td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>	
-									</tr>
-                				}
-        					</table>
-        					<input type="hidden" name="asunto">
-        				</form>
-        			}
-        		</div>
+  			<div class="tab-pane" id="mensajes_enviados">
+ 	 			@if(lista.getTotalRowCount > 0) {
+ 	 				<form name="formulario" method="post">
+	        			<table class="table table-hover">	        				
+	        				<thead>
+	        					<th><a class="btn" onclick="cuenta()" >Eliminar</a></th>
+	        					<th>De: </th>
+	        					<th>Asunto: </th>
+	        					<th>Fecha: </th>
+	        				</thead>
+	        				@for(p <- lista.getList) {	        					
+								<tr @if(p.leido == "no"){class="alert alert-info"}>
+									<td><input type="checkbox" name="id1" value="@p.id"></td>				
+									<td><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.remitente.correo)}</a></td>
+									<td>@p.asunto</td>
+									<td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>	
+								</tr>
+                			}
+        				</table>
+        				<input type="hidden" name="asunto">
+        			</form>
+        		}
         	</div>
         </div>
 

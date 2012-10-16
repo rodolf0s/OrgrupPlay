@@ -21,7 +21,6 @@
                 	<div class="well">
                 		<div>
 							<h3>Ingresar a Orgrup							
-								<a href="@routes.Application.registro" class="btn btn-success pull-right">registrarse</a>
 							</h3>
 						</div>
 						<hr>
@@ -38,8 +37,11 @@
 									<div class="controls">
 										<input class="input-xlarge" type="password" placeholder="Contraseña" name="password" id="password" required>
 										<br>
+										<i class="icon-search"></i>
+										<a href="@routes.Application.recuperar">¿Olvidaste tu contraseña?</a><br>
 										<i class="icon-user"></i>
-										<a href="@routes.Application.recuperar">¿Olvidaste tu contraseña?</a>
+										<a href="@routes.Application.registro">¿Eres nuevo en Orgrup?</a>
+										
 									</div>
 								</div>
 								@if(form.hasGlobalErrors) { 

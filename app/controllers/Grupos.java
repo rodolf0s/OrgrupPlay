@@ -59,7 +59,7 @@ public class Grupos extends Controller {
 						Usuario.find.byId(session("email")),
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
-						Integrante.find.where().eq("grupo_id", id).findList(),
+						Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 						Contacto.listaAmigos(session("email")),
 						""
 						));
@@ -86,7 +86,7 @@ public class Grupos extends Controller {
 						Usuario.find.byId(session("email")),
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
-						Integrante.find.where().eq("grupo_id", id).findList(),
+						Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 						Contacto.listaAmigos(session("email")),
 						Reunion.find.where().eq("grupo_id", id).findList(),
 						"",
@@ -115,7 +115,7 @@ public class Grupos extends Controller {
 						Usuario.find.byId(session("email")),
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
-						Integrante.find.where().eq("grupo_id", id).findList(),
+						Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 						Contacto.listaAmigos(session("email")),
 						""
 						));
@@ -142,7 +142,7 @@ public class Grupos extends Controller {
 						Usuario.find.byId(session("email")),
 						Grupo.getGrupo(session("email"), id),
 						Grupo.getGrupos(session("email")),
-						Integrante.find.where().eq("grupo_id", id).findList(),
+						Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 						Contacto.listaAmigos(session("email")),
 						""
 						));
@@ -241,7 +241,7 @@ public class Grupos extends Controller {
 				    				Usuario.find.byId(session("email")),
 				    				Grupo.getGrupo(session("email"), id),
 				    				Grupo.getGrupos(session("email")),
-				    				Integrante.find.where().eq("grupo_id", id).findList(),
+									Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 				    				Contacto.listaAmigos(session("email")),
 				    				"La imagen supera el limite"
 				    				));
@@ -250,7 +250,7 @@ public class Grupos extends Controller {
 				    				Usuario.find.byId(session("email")),
 				    				Grupo.getGrupo(session("email"), id),
 				    				Grupo.getGrupos(session("email")),
-				    				Integrante.find.where().eq("grupo_id", id).findList(),
+									Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 				    				Contacto.listaAmigos(session("email")),
 				    				"Debe seleccionar una imagen"
 				    				));
@@ -259,7 +259,7 @@ public class Grupos extends Controller {
 				    				Usuario.find.byId(session("email")),
 				    				Grupo.getGrupo(session("email"), id),
 				    				Grupo.getGrupos(session("email")),
-				    				Integrante.find.where().eq("grupo_id", id).findList(),
+									Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 				    				Contacto.listaAmigos(session("email")),
 				    				"La imagen supera el limite"
 				    				));
@@ -277,7 +277,7 @@ public class Grupos extends Controller {
 									Usuario.find.byId(session("email")),
 									Grupo.getGrupo(session("email"), id),
 									Grupo.getGrupos(session("email")),
-									Integrante.find.where().eq("grupo_id", id).findList(),
+									Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 									Contacto.listaAmigos(session("email")),
 									Reunion.find.where().eq("grupo_id", id).findList(),
 									"La imagen supera el limite",
@@ -314,7 +314,7 @@ public class Grupos extends Controller {
 					    				Usuario.find.byId(session("email")),
 					    				Grupo.getGrupo(session("email"), id),
 					    				Grupo.getGrupos(session("email")),
-					    				Integrante.find.where().eq("grupo_id", id).findList(),
+										Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 					    				Contacto.listaAmigos(session("email")),
 					    				"Debe seleccionar una imagen"
 					    				));
@@ -323,7 +323,7 @@ public class Grupos extends Controller {
 					    				Usuario.find.byId(session("email")),
 					    				Grupo.getGrupo(session("email"), id),
 					    				Grupo.getGrupos(session("email")),
-					    				Integrante.find.where().eq("grupo_id", id).findList(),
+										Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 					    				Contacto.listaAmigos(session("email")),
 					    				"Debe seleccionar una imagen"
 					    				));
@@ -332,7 +332,7 @@ public class Grupos extends Controller {
 					    				Usuario.find.byId(session("email")),
 					    				Grupo.getGrupo(session("email"), id),
 					    				Grupo.getGrupos(session("email")),
-					    				Integrante.find.where().eq("grupo_id", id).findList(),
+										Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 					    				Contacto.listaAmigos(session("email")),
 					    				"Debe seleccionar una imagen"
 					    				));
@@ -350,7 +350,7 @@ public class Grupos extends Controller {
 										Usuario.find.byId(session("email")),
 										Grupo.getGrupo(session("email"), id),
 										Grupo.getGrupos(session("email")),
-										Integrante.find.where().eq("grupo_id", id).findList(),
+										Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
 										Contacto.listaAmigos(session("email")),
 										Reunion.find.where().eq("grupo_id", id).findList(),
 										"Debe seleccionar una imagen",
@@ -404,6 +404,7 @@ public class Grupos extends Controller {
 				nuevoIntegrante.usuario = user;
 				nuevoIntegrante.tipo = 1;
 				nuevoIntegrante.fecha_ingreso = fecha;
+				nuevoIntegrante.estado = "activo";
 				nuevoIntegrante.save();
 
 				return redirect(routes.Grupos.index(nuevoGrupo.id));
@@ -435,6 +436,7 @@ public class Grupos extends Controller {
 				integrante.tipo = 2;
 				integrante.usuario = agregaIntegrante.get().usuario;
 				integrante.grupo = grupo;
+				integrante.estado = "inactivo";
 				integrante.save();
 				
 				if (pag == 1)
@@ -676,4 +678,13 @@ public class Grupos extends Controller {
 		integrante.delete();
 		return redirect(routes.Home.index());
 	}
+	
+	/**
+	 * Muestra la pagina de solicitudes de grupo para confirmar o rechazar invitacion 
+	 * @return
+	 */
+	public static Result muestraSolicitudes() {
+		return ok(solicitudes_de_grupo.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email"))));
+	}
+	
 }

@@ -1,6 +1,10 @@
 @(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto], errorImagen: String)
 
 @app(title = grupo.getString("nombre"), usuario.nombre) {
+
+	<style>
+		.span7 .page-header h1 a { font-weight: normal; }
+	</style>
 	
 	<script type="text/javascript">	
 		$(document).ready(function() {
@@ -75,7 +79,7 @@
 				<div class="control-group">
 				<label class="control-label" for="imagen">Imagen del grupo</label>
 					<div class="controls">
-						<img style="width: 90px; height: 90px;" src='/assets/grupos/@grupo.getString("imagen")' alt="imagen grupo">
+						<img style="width: 90px; height: 90px;" src='/assets/grupos/@grupo.getString("id")/@grupo.getString("imagen")' alt="imagen grupo">
 						<br>
 						<input class="input-file" id="imagen" type="file" name="imagen"><br>
 					</div>

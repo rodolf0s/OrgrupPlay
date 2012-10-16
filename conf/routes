@@ -32,8 +32,8 @@ GET		/admin/responder-mensaje	controllers.Admin.responder(id: Long)
 POST	/admin/correo				controllers.Admin.enviarRespuesta(id: Long, p:Int ?= 0, f ?= "")
 POST	/admin/desactiva			controllers.Admin.adminElimina(p:Int ?= 0, f ?= "")
 GET		/admin/activa				controllers.Admin.adminActiva(correo: String, p:Int ?= 0, f ?= "")
-GET		/index						controllers.Admin.index()
-GET		/index2						controllers.Admin.index2()
+GET		/index-admin				controllers.Admin.index()
+GET		/index2-admin				controllers.Admin.index2()
 
 #Agenda
 GET		/app						controllers.Home.index()
@@ -94,6 +94,7 @@ GET		/grupo/descargar-archivo/:id		controllers.Grupos.descargarArchivo(id: Long,
 GET		/grupo/eliminar-archivo/:idArchivo 	controllers.Grupos.eliminarArchivo(idArchivo: Long, idReunion: Long, idGrupo: Long)
 POST	/grupo/cambia-admin					controllers.Grupos.cambiarAdmin()
 GET		/grupo/:id/dejar-grupo				controllers.Grupos.dejarGrupo(id: Long)
+GET 	/solicitudes-de-grupos				controllers.Grupos.muestraSolicitudes()
 
 #Reunion
 POST	/generar					controllers.Reuniones.generarReunion(correo: String)

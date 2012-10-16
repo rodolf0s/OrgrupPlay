@@ -1,0 +1,33 @@
+@(user: Usuario, grupos: List[SqlRow])
+
+@app(title="Orgrup", user.nombre) {
+
+<div class="contenedor">
+	<div class="row">
+            <div class="span12" style="float:right">
+                <div class="span4" style="float:left;">
+			<div class="span10">
+				<fieldset>
+					<legend>Solicitudes de grupos</legend>
+				</fieldset>
+			</div>
+		<table class="table table-hover span10">
+			@for(g<-grupos) {
+				<form action="#" method="post">
+					<tr>
+						<td><img style="width: 48px; height: 48px;" src='/assets/grupos/@{Grupo.getGrupo(user.correo, g.getString("id").toLong).getString("id").toLong}/@{Grupo.getGrupo(user.correo, g.getString("id").toLong).getString("imagen")}' alt="imagen usuario"></td>
+						<td class="span2">@{Grupo.getGrupo(user.correo, g.getString("id").toLong).getString("nombre")}</td>
+						<td class="span5">@{Grupo.getGrupo(user.correo, g.getString("id").toLong).getString("descripcion")}</td>
+						<td><input type="submit" class="btn btn-success" value="Ingresar al grupo"></td>
+				</form>
+				<form>
+					<td><input type="submit" class="btn btn-danger" value="Rechazar"></td><br>
+					</tr>
+				</form>
+			}
+		</table>
+</div>
+</div>
+</div>
+</div>
+}

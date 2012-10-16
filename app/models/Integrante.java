@@ -36,6 +36,9 @@ public class Integrante extends Model {
 	@Formats.DateTime(pattern="dd/MM/yyyy")
 	public Date fecha_ingreso;
 	
+    @Formats.NonEmpty
+    @Column(nullable=false)
+    public String estado;
 	// Consultas
 	
 	public static Finder<Long,Integrante> find = new Finder<Long,Integrante>(Long.class, Integrante.class);
