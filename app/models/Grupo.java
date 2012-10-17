@@ -47,6 +47,7 @@ public class Grupo extends Model {
 		String sql = "SELECT g.id, g.nombre, g.descripcion, g.imagen FROM grupo g " +
 				"INNER JOIN integrante i ON g.id = i.grupo_id " +
 				"WHERE i.usuario_correo = :correo " +
+				"AND i.estado = 'activo' " +
 				"ORDER BY g.nombre ASC";		
 		return Ebean.createSqlQuery(sql).setParameter("correo", correo).findList();
 	}
