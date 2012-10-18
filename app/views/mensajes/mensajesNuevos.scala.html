@@ -1,28 +1,69 @@
-@(user: Usuario, list: List[Mensaje])
+@(user: Usuario, lista: Page[Mensaje], currentFilter: String))
+
+@****************************************
+* Ayuda a generar los link de navegacion*
+****************************************@
+@link(newPage:Int) = @{
+
+    // Generate the link
+    routes.Mensajes.mensajesNuevos(newPage, currentFilter)
+    
+}
 
 @app(title = "Orgrup", user.nombre) {
 	
 	
 	<div class="container">
-		<fieldset>
-			<legend>Mensajes sin leer</legend><br>
-					<table class="table table-hover">
-						@if(!list.isEmpty()) {
-						@for(p<-list) {
-							<form name="formulario" action="" method="post">
-								<tr>
-									<td><input type="checkbox" name="id1" value="@p.id"></td>
-									<td><b>De</b>: <a href="@routes.Mensajes.leerMensaje(p.id)">@Usuario.getNombre(p.remitente.correo)</a></td>
+		<div class="tab-pane" id="mensajes_enviados">
+ 	 			@if(lista.getTotalRowCount > 0) {
+ 	 				<form name="formulario" method="post">
+	        			<table class="table table-hover">	        				
+	        				<thead>
+	        					<th><a class="btn" onclick="cuenta()" >Eliminar</a></th>
+	        					<th>De: </th>
+	        					<th>Asunto: </th>
+	        					<th>Fecha: </th>
+	        				</thead>
+	        				@for(p <- lista.getList) {	        					
+								<tr @if(p.leido == "no"){class="alert alert-info"}>
+									<td><input type="checkbox" name="id1" value="@p.id"></td>				
+									<td><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.remitente.correo)}</a></td>
 									<td>@p.asunto</td>
-									<td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>
+									<td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>	
 								</tr>
-						}
-							<input type="hidden" name="asunto"> 
- 	 			 	 		<a class="btn" onclick="cuenta()" >Eliminar</a>
-						</form>
-						}
-					</table>
-		</fieldset>
+                			}
+        				</table>
+        				<input type="hidden" name="asunto">
+        			</form>
+        		}
+        	</div>
+		
+		<div id="pagination" class="pagination pull-right">
+			<ul>
+				@if(lista.hasPrev) {
+					<li class="prev">
+						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+					</li>
+				} else {
+					<li class="prev disabled">
+						<a>&larr; Anterior</a>
+					</li>
+				}
+				<li class="current">
+					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+				</li>
+				@if(lista.hasNext) {
+					<li class="next">
+						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+					</li>
+				} else {
+					<li class="next disabled">
+						<a>Siguente &rarr;</a>
+					</li>
+				}
+			</ul>
+		</div>
+		
 	</div>
 	
 	<script type="text/javascript">

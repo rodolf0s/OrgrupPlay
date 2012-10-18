@@ -23,12 +23,20 @@ public class Mensajes extends Controller {
 			routes.Mensajes.mensajesEnviados(0, "")
 	);
 	
+	public static Result GO_INDEX3 = redirect(
+			routes.Mensajes.mensajesNuevos(0, "")		
+	);
+	
 	public static Result index() {
         return GO_HOME;
     }
 	
 	public static Result index2() {
 		return GO_INDEX2;
+	}
+		
+	public static Result index3() {
+		return GO_INDEX3;
 	}
 	
 	public static Result mensajesRecibidos(int page, String filter) {
@@ -62,6 +70,20 @@ public class Mensajes extends Controller {
 //			return ok(mensajesEnviados.render(
 //					Usuario.find.byId(session("email")), 
 //					Mensaje.listaMensajesEnviados(Usuario.find.byId(session("email")))));
+		}
+	}
+	
+	public static Result mensajesNuevos(int page, String filter) {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			return ok(
+					mensajesNuevos.render(
+							Usuario.find.byId(session("email")),
+							Mensaje.page3(page, filter, session("email")),
+							filter
+					)
+				);
 		}
 	}
 	
@@ -128,15 +150,6 @@ public class Mensajes extends Controller {
 		}
 	}
 	
-	public static Result mensajesNuevos() {
-		if (!verificaSession()) {
-			return redirect(routes.Application.index());
-		} else {
-			return ok(mensajesNuevos.render(
-					Usuario.find.byId(session("email")), 
-					Mensaje.mensajesNuevosRecibidos(session("email"))));
-		}
-	}
 	
 	/**
 	 * Obtiene el valor de los ids de los mensajes a eliminar concatenados
@@ -157,7 +170,7 @@ public class Mensajes extends Controller {
 		else if (pag == 2)
 			return redirect(routes.Mensajes.index2());
 		else
-			return redirect(routes.Mensajes.mensajesNuevos());
+			return redirect(routes.Mensajes.index3());
 	}
 	
 	/**

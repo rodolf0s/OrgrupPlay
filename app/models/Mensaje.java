@@ -150,7 +150,7 @@ public class Mensaje extends Model{
 	
 	/**
 	 * Busca en la BD 10 campos desde la pagina que le envian.
-	 * Es para los mensajes recibidos
+	 * Es para los mensajes enviados
 	 * 
 	 * @param page es la pagina actual ej 2
 	 * @param filter
@@ -163,6 +163,27 @@ public class Mensaje extends Model{
 					.where()
 					.eq("remitente_correo", email)
 					.eq("estado", "enviado")
+					.ilike("asunto", "%" + filter + "%")
+					.orderBy().desc("fecha")
+					.findPagingList(10)
+					.getPage(page);
+	}
+	
+	/**
+	 * Busca en la BD 10 campos desde la pagina que le envian.
+	 * Es para los mensajes nuevos recibidos
+	 * @param page
+	 * @param filter
+	 * @param email
+	 * @return
+	 */
+	public static Page<Mensaje> page3(int page, String filter, String email) {
+		return 
+				find
+					.where()
+					.eq("destinatario", email)
+					.eq("estado", "recibido")
+					.eq("leido", "no")
 					.ilike("asunto", "%" + filter + "%")
 					.orderBy().desc("fecha")
 					.findPagingList(10)
