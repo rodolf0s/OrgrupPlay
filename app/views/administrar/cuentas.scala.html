@@ -22,9 +22,9 @@
 					<div class="container well">
 					<div class=span11>
 						<table class="table">
-						<form id="form1" class="well" action="@routes.Admin.adminElimina()" method="post">
+						
 							@for(p<-lista.getList){
-								
+								<form id="form1" class="well" action="@routes.Admin.adminElimina()" method="post">
 								<tr>
 											<td><font size="4">@p.nombre</font></td>
 											<td>Correo: @p.correo </td>
@@ -34,8 +34,9 @@
 											<input type="hidden" name="correo" value="@p.correo">
 														
 								</tr>
+								</form>
 							}
-						</form>
+						
 														
 						</table>
 					</div>
