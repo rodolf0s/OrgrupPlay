@@ -43,14 +43,15 @@ POST	/app/edita-tarea			controllers.Home.editaTarea()
 POST	/app/elimina-tarea			controllers.Home.eliminaTarea()
 
 #Contactos
+GET 	/index4						controllers.Contactos.index4()
 GET 	/contactos					controllers.Contactos.contactos()
 POST 	/contactos 					controllers.Contactos.buscaContactos()
 POST	/contactos2					controllers.Contactos.agregaContacto()
 GET 	/agrega-contacto			controllers.Contactos.muestraAgregarContactos()
 POST	/agrega-contacto			controllers.Contactos.agregaContactoBd()
 POST	/elimina-solicitud			controllers.Contactos.eliminaSolicitud()
-GET  	/gestionar-contactos		controllers.Contactos.gestionaContactos()
-POST	/elimina-contacto			controllers.Contactos.eliminaContacto()
+GET  	/gestionar-contactos		controllers.Contactos.gestionaContactos(p:Int ?= 0, f ?= "")
+POST	/elimina-contacto			controllers.Contactos.eliminaContacto(p:Int ?= 0, f ?= "")
 GET		/perfil						controllers.Contactos.muestraElPerfil(email: String)
 GET		/mensaje-contacto			controllers.Contactos.muestraMensajeContacto()
 

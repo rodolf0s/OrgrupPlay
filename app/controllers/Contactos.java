@@ -14,6 +14,28 @@ import views.html.agenda.*;
 
 public class Contactos extends Controller {
 	
+	public static Result GO_INDEX = redirect(
+			routes.Contactos.gestionaContactos(0, "")	
+	);
+	
+	public static Result index4() {
+        return GO_INDEX;
+    }
+	
+	public static Result gestionaContactos(int page, String filter) {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			return ok(
+				gestionarContactos.render(
+					Usuario.find.byId(session("email")),
+					Contacto.page(page, filter, session("email")),
+					filter
+					)
+				);
+		}
+	}
+	
 	public static Result contactos() {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -122,23 +144,26 @@ public class Contactos extends Controller {
 		return ok();
 	}
 	
-	public static Result gestionaContactos() {
-		if (!verificaSession()) {
-			return redirect(routes.Application.index());
-		} else {
-			return ok(gestionarContactos.render(
-					Usuario.find.byId(session("email")), 
-					Contacto.listaAmigos(session("email"))));
-		}
-	}
+//	public static Result gestionaContactos() {
+//		if (!verificaSession()) {
+//			return redirect(routes.Application.index());
+//		} else {
+//			return ok(gestionarContactos.render(
+//					Usuario.find.byId(session("email")), 
+//					Contacto.listaAmigos(session("email"))));
+//		}
+//	}
 	
-	public static Result eliminaContacto() {
+	public static Result eliminaContacto(int page, String filter) {
 		Form<Contacto> formEliminaContacto = form(Contacto.class).bindFromRequest();
 		
 		if (formEliminaContacto.hasErrors()) {
 			return ok(gestionarContactos.render(
 					Usuario.find.byId(session("email")), 
-					Contacto.listaAmigos(session("email"))));
+					Contacto.page(page, filter, session("email")),
+					filter
+					)
+				);
 		} else {
 			Contacto eliminaContacto = formEliminaContacto.get();
 			Contacto.eliminaContacto(Contacto.obtieneId(eliminaContacto.usuario1.correo, eliminaContacto.usuario2.correo));
@@ -146,7 +171,10 @@ public class Contactos extends Controller {
 			try {
 				return ok(gestionarContactos.render(
 						Usuario.find.byId(session("email")), 
-						Contacto.listaAmigos(session("email"))));
+						Contacto.page(page, filter, session("email")),
+						filter
+					)
+				);
 			} catch(Exception e) {}
 		}
 		return ok();
@@ -170,4 +198,6 @@ public class Contactos extends Controller {
 		else
 			return true;
 	}
+	
+	
 }
