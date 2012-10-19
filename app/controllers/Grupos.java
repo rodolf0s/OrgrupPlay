@@ -19,6 +19,7 @@ import models.Archivo;
 import models.Contacto;
 import models.Grupo;
 import models.Integrante;
+import models.Notificaciones;
 import models.Reunion;
 import models.Tarea;
 import models.Usuario;
@@ -437,6 +438,8 @@ public class Grupos extends Controller {
 				integrante.usuario = agregaIntegrante.get().usuario;
 				integrante.grupo = grupo;
 				integrante.estado = "inactivo";
+				if (Notificaciones.getGrupoAgregan(agregaIntegrante.get().usuario.correo))
+					integrante.notificado = "agregan";
 				integrante.save();
 				
 				if (pag == 1)
@@ -454,7 +457,10 @@ public class Grupos extends Controller {
 	 */
 	public static Result eliminaIntegrante(String email, Long idGrupo) {
 		Integrante integrante = Integrante.find.where().eq("usuario_correo", email).eq("grupo_id", idGrupo).findUnique();
-		integrante.delete();
+		if (Notificaciones.getGrupoEliminan(email))
+			integrante.notificado = "delete";
+		integrante.estado = "delete";
+		integrante.update();
 		return redirect(routes.Grupos.muestraMiembros(idGrupo));
 	}
 	

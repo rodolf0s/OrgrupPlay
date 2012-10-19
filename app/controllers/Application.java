@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import models.Correo;
+import models.Notificaciones;
 import models.Usuario;
 
 import play.data.Form;
@@ -108,6 +109,7 @@ public class Application extends Controller {
             return badRequest(registro.render(form(Usuario.class), ""));
 		} else {
 			Usuario user = formRegistro.get();
+			Notificaciones notificaciones = new Notificaciones();
 			
 			if (Usuario.esMiembro(user.correo)) {				
 				return badRequest(registro.render(
@@ -134,25 +136,36 @@ public class Application extends Controller {
 				user.colorTareaMedia = "#381BCA";
 				user.colorTareaBaja = "#EBDF32";				
 				user.inicioSesion = new Date();
+				user.notificado = "no";
 				String pass = user.password;
 				String encript = DigestUtils.shaHex(pass);
 				user.password = encript;
-				//Guarda el nuevo usuario a la BD
-				user.save();
 				
-				// Envia un correo al usuario que se acaba de registrar 
-				// con un enlace para verificar la cuenta.
-				Email email = new SimpleEmail();
-			    email.setSmtpPort(587);
-			    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
-			    email.setDebug(false);
-			    email.setHostName("smtp.gmail.com");
-			    email.setFrom("orgrup.service@gmail.com");
-			    email.setSubject("Confirmar Cuenta Orgrup");
-			    email.setMsg("Hola " +user.nombre +"\nPara completar el registro haga click en el siguiente enlace para activar la cuenta http://localhost:9000/verificar-cuenta?correo="+user.correo+"&id="+id+"\n\nUn saludo cordial\nEl equipo de Orgrup.");
-			    email.addTo(user.correo);
-			    email.setTLS(true);
-			    email.send();
+				notificaciones.usuario = user;
+				notificaciones.tarea = "si";
+				notificaciones.contacto = "si";
+				notificaciones.mensaje = "si";
+				notificaciones.grupoAgregan = "si";
+				notificaciones.grupoEliminan = "si";
+				notificaciones.grupoAdmin = "si";
+				
+				//Guarda el nuevo usuario con las notificaciones en la BD
+				user.save();
+				notificaciones.save();
+				
+//				// Envia un correo al usuario que se acaba de registrar 
+//				// con un enlace para verificar la cuenta.
+//				Email email = new SimpleEmail();
+//			    email.setSmtpPort(587);
+//			    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
+//			    email.setDebug(false);
+//			    email.setHostName("smtp.gmail.com");
+//			    email.setFrom("orgrup.service@gmail.com");
+//			    email.setSubject("Confirmar Cuenta Orgrup");
+//			    email.setMsg("Hola " +user.nombre +"\nPara completar el registro haga click en el siguiente enlace para activar la cuenta http://localhost:9000/verificar-cuenta?correo="+user.correo+"&id="+id+"\n\nUn saludo cordial\nEl equipo de Orgrup.");
+//			    email.addTo(user.correo);
+//			    email.setTLS(true);
+//			    email.send();
 			    
 			    return ok(informaciones.render(
 			    		"Bienvenidos a la red de Orgrup, red de agendas que te permitirá " +

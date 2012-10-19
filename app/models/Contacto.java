@@ -31,8 +31,12 @@ public class Contacto extends Model {
 	public Usuario usuario2;
 	
 	@Formats.NonEmpty
-	@Column(nullable=false)
+	@Column(length=2, nullable=false)
 	public String amigos;
+	
+	@Formats.NonEmpty
+	@Column(length=2, nullable=false)
+	public String notificado;
 	
 	// Consultas
 	
