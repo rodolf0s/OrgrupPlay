@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 import models.Contacto;
 import models.Mensaje;
+import models.Notificaciones;
 import models.Usuario;
 import play.data.Form;
 import play.mvc.Controller;
@@ -91,6 +92,7 @@ public class Mensajes extends Controller {
 			Mensaje mensaje = mensajeForm.get();
 			Date fecha2 = new Date();
 			mensaje.fecha = fecha2;
+			mensaje.notificado = "si";
 			mensaje.save();
 			Mensaje.copiaMensaje(
 					mensaje.fecha,
@@ -114,6 +116,7 @@ public class Mensajes extends Controller {
 			Mensaje mensaje = mensajeForm2.get();
 			Date fecha2 = new Date();
 			mensaje.fecha = fecha2;
+			mensaje.notificado = "si";
 			mensaje.save();
 			Mensaje.copiaMensaje(
 					mensaje.fecha, 

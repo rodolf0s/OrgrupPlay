@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Contacto;
+import models.Notificaciones;
 import models.Usuario;
 
 import play.data.Form;
@@ -63,6 +64,10 @@ public class Contactos extends Controller {
 		} else {
 			Contacto amigoEncontrado = formAgregaContacto.get();
 			amigoEncontrado.amigos = "no";
+			if (Notificaciones.getContacto(amigoEncontrado.usuario2.correo))
+				amigoEncontrado.notificado = "no";
+			else
+				amigoEncontrado.notificado = "si";
 			amigoEncontrado.save();
 			try {
 				return redirect(routes.Contactos.muestraMensajeContacto());
@@ -90,6 +95,7 @@ public class Contactos extends Controller {
 					Contacto.listaContactosPendientes(session("email"))));
 		} else {
 			Contacto amigoGuardar = formAgregaContactoBd.get();
+			amigoGuardar.notificado = "si";
 			amigoGuardar.save();
 			Contacto.cambiaEstado(amigoGuardar.usuario2.correo, amigoGuardar.usuario1.correo);
 			try {

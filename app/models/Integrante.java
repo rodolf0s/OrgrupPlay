@@ -40,6 +40,11 @@ public class Integrante extends Model {
     @Formats.NonEmpty
     @Column(nullable=false)
     public String estado;
+    
+    @Formats.NonEmpty
+	@Column(length=7, nullable=true)
+	public String notificado;
+    
 	// Consultas
 	
 	public static Finder<Long,Integrante> find = new Finder<Long,Integrante>(Long.class, Integrante.class);
@@ -103,6 +108,8 @@ public class Integrante extends Model {
 	public static void agregarAdmin(String email, Long idGrupo) {
 		Integrante integrante = find.where().eq("grupo_id", idGrupo).eq("usuario_correo", email).findUnique();
 		integrante.tipo = 1;
+		if (Notificaciones.getGrupoAdmin(email))
+			integrante.notificado = "admin";
 		integrante.update();
 	}
 	

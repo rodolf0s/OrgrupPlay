@@ -54,6 +54,10 @@ public class Mensaje extends Model{
 	@Column(nullable=false)
 	public String estado;
 	
+	@Formats.NonEmpty
+	@Column(length=2, nullable=false)
+	public String notificado;
+	
 	public static Finder<Long,Mensaje> find = new Finder<Long,Mensaje>(Long.class, Mensaje.class);
 	
 	public static List<Mensaje> listaMensajesRecibidos(String email){
@@ -124,6 +128,10 @@ public class Mensaje extends Model{
 		mensaje2.mensaje = mensaje;
 		mensaje2.leido = leido;
 		mensaje2.estado = "recibido";
+		if (Notificaciones.getMensaje(destinatario))
+			mensaje2.notificado = "no";
+		else
+			mensaje2.notificado = "si";
 		mensaje2.save();	
 	}
 	

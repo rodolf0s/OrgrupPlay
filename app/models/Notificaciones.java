@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -58,5 +60,75 @@ public class Notificaciones extends Model {
 		notificaciones.grupoAdmin = notificacioness.grupoAdmin;
 	
 		notificaciones.update();
+	}
+	
+	/**
+	 * Verifica si hay que notificar al usuario cuando
+	 * le llege un nuevo mensaje.
+	 * 
+	 * @param email
+	 * @return true si hay que notificar
+	 */
+	public static boolean getMensaje(String email) {
+		 return find.where()
+				 .eq("mensaje", "si")
+				 .eq("usuario_correo", email)
+				 .findRowCount() == 1;				 
+	}
+	
+	/**
+	 * Verifica si hay que notificar al usuario cuando
+	 * alguien le envia una solicitud de contacto.
+	 * 
+	 * @param email
+	 * @return true si hay que notificar
+	 */
+	public static boolean getContacto(String email) {
+		return find.where()
+				 .eq("contacto", "si")
+				 .eq("usuario_correo", email)
+				 .findRowCount() == 1;				
+	}
+	
+	/**
+	 * Verifica si hay que notificar al usuario cuando
+	 * lo agregan a un grupo.
+	 * 
+	 * @param email
+	 * @return true si hay que notificar
+	 */
+	public static boolean getGrupoAgregan(String email) {
+		return find.where()
+				 .eq("grupo_agregan", "si")
+				 .eq("usuario_correo", email)
+				 .findRowCount() == 1;
+	}
+	
+	/**
+	 * Verifica si hay que notificar al usuario cuando
+	 * lo nombren admin en un grupo.
+	 * 
+	 * @param email
+	 * @return true si hay que notificar
+	 */
+	public static boolean getGrupoAdmin(String email) {
+		return find.where()
+				 .eq("grupo_admin", "si")
+				 .eq("usuario_correo", email)
+				 .findRowCount() == 1;
+	}
+	
+	/**
+	 * Verifica si hay que notificar al usuario cuando
+	 * lo eliminen de un grupo.
+	 * 
+	 * @param email
+	 * @return true si hay que notificar
+	 */
+	public static boolean getGrupoEliminan(String email) {
+		return find.where()
+				 .eq("grupo_eliminan", "si")
+				 .eq("usuario_correo", email)
+				 .findRowCount() == 1;
 	}
 }

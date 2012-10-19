@@ -71,6 +71,9 @@ public class Usuario extends Model {
 	@Column(nullable=true)
 	public Date inicioSesion;
 	
+	@Column(length=2, nullable=false)
+	public String notificado;
+	
 	// Consultas
 	
 	public static Finder<String,Usuario> find = new Finder<String,Usuario>(String.class, Usuario.class);
