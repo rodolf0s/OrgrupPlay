@@ -23,7 +23,8 @@ create table contacto (
   id                        bigint not null,
   usuario1_correo           varchar(50),
   usuario2_correo           varchar(50),
-  amigos                    varchar(255) not null,
+  amigos                    varchar(2) not null,
+  notificado                varchar(2) not null,
   constraint pk_contacto primary key (id))
 ;
 
@@ -40,7 +41,7 @@ create table correo (
 create table grupo (
   id                        bigint not null,
   nombre                    varchar(25) not null,
-  descripcion               varchar(255),
+  descripcion               varchar(255) not null,
   imagen                    varchar(350) not null,
   constraint pk_grupo primary key (id))
 ;
@@ -52,6 +53,7 @@ create table integrante (
   tipo                      integer not null,
   fecha_ingreso             timestamp not null,
   estado                    varchar(255) not null,
+  notificado                varchar(7),
   constraint pk_integrante primary key (id))
 ;
 
@@ -64,6 +66,7 @@ create table mensaje (
   mensaje                   varchar(255) not null,
   leido                     varchar(255) not null,
   estado                    varchar(255) not null,
+  notificado                varchar(2) not null,
   constraint pk_mensaje primary key (id))
 ;
 
@@ -105,6 +108,7 @@ create table tarea (
   prioridad                 integer not null,
   usuario_correo            varchar(50),
   fecha_termino             timestamp,
+  notificado                varchar(2) not null,
   constraint pk_tarea primary key (id))
 ;
 
@@ -122,6 +126,7 @@ create table usuario (
   id_verificador            integer not null,
   estado                    varchar(11) not null,
   inicio_sesion             timestamp,
+  notificado                varchar(2) not null,
   constraint pk_usuario primary key (correo))
 ;
 
