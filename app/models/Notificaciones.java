@@ -61,6 +61,20 @@ public class Notificaciones extends Model {
 	
 		notificaciones.update();
 	}
+
+	/**
+	 * Verifica si hay que notificar cuando tiene una tarea que
+	 * vence el dia de hoy.
+	 *
+	 * @param email
+	 * @return true si hay que notificar
+	 */
+	public static boolean getTarea(String email) {
+		return find.where()
+				.eq("tarea", "si")
+				.eq("usuario_correo", email)
+				.findRowCount() == 1;
+	}
 	
 	/**
 	 * Verifica si hay que notificar al usuario cuando

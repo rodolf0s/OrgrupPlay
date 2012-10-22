@@ -368,7 +368,7 @@
 	    		<div class="control-group">
 	    			<label class="control-label">Descripcion</label>
 	    			<div class="controls">
-	    				<textarea name="descripcion" maxlength="500"></textarea>
+	    				<textarea name="descripcion" maxlength="500" required></textarea>
 	    			</div>
 	    		</div>
 	    		
@@ -517,11 +517,11 @@
 	    	</div>	    
 	    	<div class="modal-footer">
 				<a class="btn btn-primary" onClick=enviar_a('@routes.Home.editaTarea')> 
-					<i class="icon-refresh icon-white"> </i>
+					<i class="icon-refresh"> </i>
 					Actualizar
 				</a>
 				<a class="btn btn-danger" onClick=enviar_a('@routes.Home.eliminaTarea')>
-					<i class="icon-trash icon-white"></i>
+					<i class="icon-trash"></i>
 					Eliminar 
 				</a>
 				<input class="btn" data-dismiss="modal" type="button" onclick=redireccionar() value="Cerrar"/>

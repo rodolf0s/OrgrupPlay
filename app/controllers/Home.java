@@ -11,6 +11,7 @@ import models.Mensaje;
 import models.Tarea;
 import models.Usuario;
 import models.Grupo;
+import models.Notificaciones;
 
 import play.data.Form;
 import play.mvc.Controller;
@@ -57,7 +58,12 @@ public class Home extends Controller {
 			if(tareaForm.hasErrors()) {
 				return redirect(routes.Home.index());
 			} else {
-				tareaForm.get().save();
+				Tarea tarea = tareaForm.get();
+				if (Notificaciones.getTarea(session("email")))
+					tarea.notificado = "no";
+				else
+					tarea.notificado = "si";
+				tarea.save();
 
 				// Si el checkbox de repetir esta seleccionado, repite la tarea.
 				if (op > 0) {

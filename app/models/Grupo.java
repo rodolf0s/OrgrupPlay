@@ -26,7 +26,7 @@ public class Grupo extends Model {
 	public String nombre;
 	
 	@Formats.NonEmpty
-    @Column(length=255, nullable=true)
+    @Column(length=255, nullable=false)
 	public String descripcion;
 
 	@Formats.NonEmpty

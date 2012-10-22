@@ -52,7 +52,10 @@ public class Tarea extends Model {
 	
 	@Column(nullable=true)
 	@Formats.DateTime(pattern="dd/MM/yyyy")
-	public Date fecha_termino; 
+	public Date fecha_termino;
+
+	@Column(length=2, nullable=false)
+	public String notificado;
 	
 	// Consultas
 	
@@ -105,6 +108,10 @@ public class Tarea extends Model {
 		 tarea.descripcion = descripcion;		 
 		 tarea.prioridad = prioridad;
 		 tarea.usuario = usuario;
+		 if (Notificaciones.getTarea(usuario.correo))
+		 	tarea.notificado = "no";
+		 else
+		 	tarea.notificado = "si";
 		 tarea.save();
 	 }
 	 
