@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Page;
 import com.avaje.ebean.SqlRow;
 
 import play.data.format.Formats;
@@ -196,4 +197,24 @@ public class Contacto extends Model {
 				"id = '"+id+"'"
 				).execute();
 	}	
+	
+	/**
+	 * Busca en la base de datos 10 campos desde la pagina que le envian
+	 * Es para los contactos que see una persona
+	 * @param page
+	 * @param filter
+	 * @param email
+	 * @return
+	 */
+	public static Page<Contacto> page(int page, String filter, String email) {
+		return 
+				find
+					.where()
+					.eq("usuario1_correo", email)
+					.eq("amigos", "si")
+					.orderBy().asc("usuario2_correo")
+					.findPagingList(10)
+					.getPage(page);
+	}
+	
 }
