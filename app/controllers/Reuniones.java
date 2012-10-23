@@ -99,6 +99,8 @@ public class Reuniones extends Controller {
 				fechaInicioCalendar.add(fechaInicioCalendar.DAY_OF_MONTH, +1);
 			}
 	}
-		return ok(mensajeReunion.render(session("email"), numero, correo, bloque, posiciones, dias, horas));
+		
+		Date fechaComparar = dias[0];
+		return ok(mensajeReunion.render(session("email"), numero, correo, bloque, posiciones, dias, horas, fechaComparar));
 	}
 }
