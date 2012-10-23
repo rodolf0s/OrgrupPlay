@@ -128,13 +128,13 @@ public class Reuniones extends Controller {
 					//Comprobar que la reunion cumple con las horas necesarias
 					if(contarBloques == duracion){
 						resultados = resultados +1;
-						contarBloques = 0;
+
 //						//calcular puntaje reunion
 //						diasUso[contarFecha] = fechaComparar;
 //						horasUso[contarFecha] = transicionHora;
-//						contarFecha = contarFecha +1;
+						contarFecha = contarFecha +1;
 //						resultados = resultados +1;
-//						contarBloques = 0;
+						contarBloques = 0;
 //						transicionHora = null;
 					}
 				}else{
@@ -147,12 +147,14 @@ public class Reuniones extends Controller {
 			}else{
 				//Cambia la fecha se comienza denuevo el conteo
 				fechaComparar = dias[z];
+				
+				//disminuir el contador para que no pase por alto el bloque que cambia la fecha
 				z = z -1;
 				contarBloques = 0;
 				transicionHora = null;
 				
 			}
 		}
-		return ok(mensajeReunion.render(session("email"), numero, correo, bloque, resultados, dias, duracion));
+		return ok(mensajeReunion.render(session("email"), numero, correo, bloque, resultados, dias, contarFecha));
 	}
 }
