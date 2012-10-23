@@ -37,15 +37,46 @@ public class Contactos extends Controller {
 		}
 	}
 	
-	public static Result contactos() {
+	public static Result buscaContactos(int page) {		
+		List<Usuario> usuarioVacio = new ArrayList<Usuario>();		
+		Form<Usuario> formBuscaContactos = form(Usuario.class).bindFromRequest();	
+		
+		if (formBuscaContactos.hasErrors()) {
+			return badRequest(contactos.render(
+					Usuario.find.byId(session("email")), 
+					Usuario.page2(page, " ")
+				)
+			);
+		} else {
+			Usuario amigos = formBuscaContactos.get();
+			String filter = amigos.nombre;
+			if(filter != null) { 
+				contactos(page, filter);
+			}
+			return ok(
+					contactos.render(
+						Usuario.find.byId(session("email")), 
+						Usuario.page2(page, filter)	
+					)
+				);
+			
+		}
+	}
+	
+	public static Result contactos(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			List<Usuario> usuarioVacio = new ArrayList<Usuario>();
 			try {
-				return ok(contactos.render(
-						Usuario.find.byId(session("email")), 
-						usuarioVacio));	
+				if(filter.isEmpty()) {
+					filter = " ";
+				}
+				return ok(
+						contactos.render(
+							Usuario.find.byId(session("email")), 
+							Usuario.page2(page, filter)
+						)
+					);
 			} catch(Exception e) {}
 			return ok();
 		}
@@ -59,22 +90,6 @@ public class Contactos extends Controller {
 		}
 	}
 	
-	public static Result buscaContactos() {		
-		List<Usuario> usuarioVacio = new ArrayList<Usuario>();		
-		Form<Usuario> formBuscaContactos = form(Usuario.class).bindFromRequest();	
-		
-		if (formBuscaContactos.hasErrors()) {
-			return badRequest(contactos.render(
-					Usuario.find.byId(session("email")), 
-					usuarioVacio));
-		} else {
-			Usuario amigos = formBuscaContactos.get();
-			return ok(contactos.render(
-					Usuario.find.byId(session("email")), 
-					Usuario.listaUsuarios(amigos.nombre)));
-		}
-	}
-	
 	public static Result agregaContacto() {		
 		List<Usuario> usuarioVacio = new ArrayList<Usuario>();		
 		Form<Contacto> formAgregaContacto = form(Contacto.class).bindFromRequest();
@@ -82,7 +97,9 @@ public class Contactos extends Controller {
 		if (formAgregaContacto.hasErrors()) {
 			return badRequest(contactos.render(
 					Usuario.find.byId(session("email")), 
-					usuarioVacio));
+					Usuario.page2(0, " ")
+				)
+			);
 		} else {
 			Contacto amigoEncontrado = formAgregaContacto.get();
 			amigoEncontrado.amigos = "no";

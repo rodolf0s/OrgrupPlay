@@ -433,4 +433,21 @@ public class Usuario extends Model {
 				.getPage(page);
 
 	}
+	
+	/**
+	 * Busca en la BD 10 campos desde la pagina que le envian
+	 * Es para los resultados de busquedas de usuario
+	 * @param page
+	 * @param filter
+	 * @return
+	 */
+	public static Page<Usuario> page2(int page, String filter) {
+		return
+				find
+					.where()
+					.or(Expr.ilike("nombre", "%"+filter+"%"),  Expr.ilike("correo", "%"+filter+"%"))
+					.orderBy().desc("nombre")
+					.findPagingList(8)
+					.getPage(page);
+	}
 }

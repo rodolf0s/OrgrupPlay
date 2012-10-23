@@ -44,8 +44,8 @@ POST	/app/elimina-tarea			controllers.Home.eliminaTarea()
 
 #Contactos
 GET 	/index4						controllers.Contactos.index4()
-GET 	/contactos					controllers.Contactos.contactos()
-POST 	/contactos 					controllers.Contactos.buscaContactos()
+GET 	/contactos					controllers.Contactos.contactos(p:Int ?= 0, f ?= "")
+POST 	/contactos 					controllers.Contactos.buscaContactos(p:Int ?= 0)
 POST	/contactos2					controllers.Contactos.agregaContacto()
 GET 	/agrega-contacto			controllers.Contactos.muestraAgregarContactos()
 POST	/agrega-contacto			controllers.Contactos.agregaContactoBd()

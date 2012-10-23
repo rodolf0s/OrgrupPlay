@@ -1,16 +1,26 @@
-@(user: Usuario, lista: List[Usuario])
+@(user: Usuario, lista: Page[Usuario])
+
+@****************************************
+* Ayuda a generar los link de navegacion*
+****************************************@
+@link(newPage:Int) = @{
+
+    // Generate the link
+    routes.Contactos.buscaContactos(newPage)
+    
+}
 
 @app(title = "Orgrup", user.nombre) {
 	<div class="container">
 		<div class="tabbable">
 			<ul class="nav nav-tabs">
-  				<li class="active"><a href="@routes.Contactos.contactos">Buscar contactos</a></li>
+  				<li class="active"><a href="@routes.Contactos.contactos(0)">Buscar contactos</a></li>
   				<li><a href="@routes.Contactos.index4">Gestionar contactos</a></li>
 			</ul>
  
 			<div class="tab-content">
  	 			<div class="tab-pane active">
- 	 					<form name="formulario" id="formulario" action="@routes.Contactos.buscaContactos" method="post">
+ 	 					<form name="formulario" id="formulario" action="@routes.Contactos.buscaContactos(0)" method="post">
  	 						<div class="input-append">
  	 							<input type="text" class="input-xlarge" placeholder="Ingrese el nombre o correo" name="nombre" id="nombre" autofocus="autofocus" required>
  	 							<input type="submit" name="submit" class="btn btn-primary" value="Buscar contacto">
@@ -19,13 +29,13 @@
  	 				
  	 			</div>
  	 		</div>
-				@if(lista.isEmpty()){
+				@if(lista.getTotalRowCount() == 0){
 					<br>
 				}else {
 						<h3>Busqueda</h3>
 						<div class=span8>
 							<table class="table table-hover">
-							@for(p<-lista){
+							@for(p<-lista.getList){
 								<form name="form1" id="form1" action="@routes.Contactos.agregaContacto" method="post">
 									<tr>
 										<input type="hidden" name="usuario1.correo" value="@user.correo">
@@ -48,6 +58,32 @@
 						</table>
 					</div>
 				}
+		</div>
+		
+		<div id="pagination" class="pagination pull-right">
+			<ul>
+				@if(lista.hasPrev) {
+					<li class="prev">
+						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+					</li>
+				} else {
+					<li class="prev disabled">
+						<a>&larr; Anterior</a>
+					</li>
+				}
+				<li class="current">
+					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+				</li>
+				@if(lista.hasNext) {
+					<li class="next">
+						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+					</li>
+				} else {
+					<li class="next disabled">
+						<a>Siguente &rarr;</a>
+					</li>
+				}
+			</ul>
 		</div>
 	</div>
 

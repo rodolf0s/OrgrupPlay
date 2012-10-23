@@ -200,7 +200,7 @@ public class Contacto extends Model {
 	
 	/**
 	 * Busca en la base de datos 10 campos desde la pagina que le envian
-	 * Es para los contactos que see una persona
+	 * Es para los contactos(amigos) que posee una persona
 	 * @param page
 	 * @param filter
 	 * @param email
