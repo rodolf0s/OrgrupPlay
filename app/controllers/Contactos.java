@@ -37,44 +37,39 @@ public class Contactos extends Controller {
 		}
 	}
 	
-	public static Result buscaContactos(int page) {		
+	public static Result buscaContactos() {		
 		List<Usuario> usuarioVacio = new ArrayList<Usuario>();		
 		Form<Usuario> formBuscaContactos = form(Usuario.class).bindFromRequest();	
 		
 		if (formBuscaContactos.hasErrors()) {
 			return badRequest(contactos.render(
 					Usuario.find.byId(session("email")), 
-					Usuario.page2(page, " ")
+					null
 				)
 			);
 		} else {
 			Usuario amigos = formBuscaContactos.get();
-			String filter = amigos.nombre;
-			if(filter != null) { 
-				contactos(page, filter);
-			}
 			return ok(
 					contactos.render(
 						Usuario.find.byId(session("email")), 
-						Usuario.page2(page, filter)	
+						Usuario.listaUsuarios(amigos.nombre)
 					)
 				);
 			
 		}
 	}
 	
-	public static Result contactos(int page, String filter) {
+	public static Result contactos() {
+		List<Usuario> usuarioVacio = new ArrayList<Usuario>();		
+
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
 			try {
-				if(filter.isEmpty()) {
-					filter = " ";
-				}
 				return ok(
 						contactos.render(
 							Usuario.find.byId(session("email")), 
-							Usuario.page2(page, filter)
+							usuarioVacio
 						)
 					);
 			} catch(Exception e) {}
@@ -97,7 +92,7 @@ public class Contactos extends Controller {
 		if (formAgregaContacto.hasErrors()) {
 			return badRequest(contactos.render(
 					Usuario.find.byId(session("email")), 
-					Usuario.page2(0, " ")
+					usuarioVacio
 				)
 			);
 		} else {
