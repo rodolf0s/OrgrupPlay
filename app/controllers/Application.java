@@ -152,20 +152,6 @@ public class Application extends Controller {
 				//Guarda el nuevo usuario con las notificaciones en la BD
 				user.save();
 				notificaciones.save();
-				
-//				// Envia un correo al usuario que se acaba de registrar 
-//				// con un enlace para verificar la cuenta.
-//				Email email = new SimpleEmail();
-//			    email.setSmtpPort(587);
-//			    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
-//			    email.setDebug(false);
-//			    email.setHostName("smtp.gmail.com");
-//			    email.setFrom("orgrup.service@gmail.com");
-//			    email.setSubject("Confirmar Cuenta Orgrup");
-//			    email.setMsg("Hola " +user.nombre +"\nPara completar el registro haga click en el siguiente enlace para activar la cuenta http://localhost:9000/verificar-cuenta?correo="+user.correo+"&id="+id+"\n\nUn saludo cordial\nEl equipo de Orgrup.");
-//			    email.addTo(user.correo);
-//			    email.setTLS(true);
-//			    email.send();
 			    
 			    return ok(informaciones.render(
 			    		"Bienvenidos a la red de Orgrup, red de agendas que te permitirá " +
@@ -184,36 +170,23 @@ public class Application extends Controller {
 	 * si no encuentra el correo en la BD, el mensaje cambia.
 	 * @throws EmailException
 	 */
-	public static Result recuperarPassword() throws EmailException {
+	public static Result recuperarPassword() {
 		Form<Usuario> formLogin = form(Usuario.class).bindFromRequest();
 		
 		if (formLogin.hasErrors()) {
-          return badRequest(olvidoPassword.render(""));
+			return badRequest(olvidoPassword.render(""));
 		} else {
 			String correo = formLogin.get().correo;
-			String password = Usuario.getPassword(correo);
 			
-			// si la password no esta vacia envia el correo con dicha password
-			if (!password.isEmpty()) {
-				
-				// Envia un correo al usuario registrado para recuperar contraseña
-				Email email = new SimpleEmail();
-			    email.setSmtpPort(587);
-			    email.setAuthenticator(new DefaultAuthenticator("orgrup.service@gmail.com", "orgrup2012"));
-			    email.setDebug(false);
-			    email.setHostName("smtp.gmail.com");
-			    email.setFrom("orgrup.service@gmail.com");
-			    email.setSubject("Recuperar Contraseña");
-			    email.setMsg("Ud a solicitado su clave de ingreso, su clave es '"+password+"'");
-			    email.addTo(correo);
-			    email.setTLS(true);
-			    email.send();
-			    
-			    return ok(informaciones.render(
-			    		"Su contraseña a sido enviada a su correo electronico.", 
+			if (Usuario.getEmail(correo)) {
+				Usuario usuario = Usuario.find.byId(correo);
+				usuario.notificado = "pw";
+				usuario.update();
+				return ok(informaciones.render(
+			    		"Rebice su correo electronico para completar el cambio de contraseña", 
 			    		"Recuperar Contraseña"));
 			} else {
-				return ok(olvidoPassword.render("Correo electronico incorrecto"));
+				return badRequest(olvidoPassword.render("El correo electronico es incorrecto"));
 			}
 		}
 	}
@@ -253,5 +226,38 @@ public class Application extends Controller {
 			return ok(verificaCuenta.render());
 		}
 		return ok();
+	}
+	
+	/**
+	 * Dirije a la pagina para restablecer la contraseña.
+	 * 
+	 * @param correo del usuario
+	 * @param id es el id_verificador creado al registrarse.
+	 * @return
+	 */
+	public static Result reseteaPassword(String correo, Integer id) {
+		if (Usuario.verificaCuenta(correo, id))		
+			return ok(resetear_password.render(correo));
+		else
+			return redirect(routes.Application.index());
+	}
+	
+	/**
+	 * Actualiza la contraseña nueva del usuario.
+	 * 
+	 * @return a informaciones.
+	 */
+	public static Result actualizarPassword() {
+		Form<Usuario> formP = form(Usuario.class).bindFromRequest();
+		if (formP.hasErrors()) {
+			return badRequest();
+		} else {
+			Usuario usuario = Usuario.find.byId(formP.get().correo);
+			usuario.password = DigestUtils.shaHex(formP.get().password);
+			usuario.update();
+			return ok(informaciones.render(
+					"Su contraseña se a restablecido exitosamente.", 
+					"Contraseña recuperada."));
+		}
 	}
 }  

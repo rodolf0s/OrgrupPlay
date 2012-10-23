@@ -348,6 +348,18 @@ public class Usuario extends Model {
 	}
 	
 	/**
+	 * Comprueba si existe un correo en la BD
+	 * 
+	 * @param correo es correo a buscar
+	 * @return True si encuentra el correo
+	 */
+	public static boolean getEmail(String correo) {
+		return find.where()
+				.eq("correo", correo)
+				.findRowCount() == 1;
+	}
+	
+	/**
 	 * Obtiene todos los usuarios.
 	 * 
 	 * @return

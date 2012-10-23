@@ -16,6 +16,8 @@ POST	/contacto					controllers.Application.guardaMensaje()
 GET		/recuperar					controllers.Application.recuperar()
 POST	/recuperar					controllers.Application.recuperarPassword()
 GET		/verificar-cuenta			controllers.Application.verificaCuenta(correo: String, id: Integer)
+GET		/resetear-password			controllers.Application.reseteaPassword(correo: String, id: Integer)
+POST	/resetear-password			controllers.Application.actualizarPassword()
 
 #admin
 GET		/administrador				controllers.Admin.iniciar()
