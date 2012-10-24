@@ -7,71 +7,79 @@
 
     // Generate the link
     routes.Contactos.muestraAgregarContactos(newPage, currentFilter)
-    
+
 }
 
-@app(title = "Orgrup", user.nombre){
+@app(title = "Orgrup", user.nombre) {
 
+	<div class="row">
+		<div class="span11" style="float:right">
+			<div class="span9" style="float:left">
+				<div class="span8">
+					<fieldset>
+						<legend><h3>Solicitudes de amistad pendientes</h3></legend>
+						<table class="table">
+							@for(p<-lista.getList){
+								<tr>
+									<form action="@routes.Contactos.agregaContactoBd" method="post">
+										<td>
+											<img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@Usuario.getImagen(p.usuario1.correo)" class="img-rounded" alt="imagen usuario">
+										</td>
+										<td>
+											<font size="4">@{Usuario.getNombre(p.usuario1.correo)}</font><br>
+											Correo: @p.usuario1.correo<br>
+											Vive en: @{Usuario.getCiudad(p.usuario1.correo)}
+										<td>
+										<input type="hidden" name="usuario1.correo" value="@user.correo">
+										<input type="hidden" name="usuario2.correo" value="@p.usuario1.correo">
+										<input type="hidden" name="amigos" value="si">
+										<td>
+											<input type="submit" class="btn btn-success" value="Aceptar">
+										</td>
+									</form>
+									<form action="@routes.Contactos.eliminaSolicitud" method="post">
+										<input type="hidden" name="usuario1.correo" value="@p.usuario1.correo">
+										<input type="hidden" name="usuario2.correo" value="@user.correo">
+										<td><input type="submit" value="Rechazar" class="btn btn-danger"></td>
+									</form>
+								</tr>
+							}
+						</table>
+					</fieldset>
 
-	<div class="container">
-		<fieldset>
-			<legend>Solicitudes pendientes</legend>
-				<div class="span8">	
-					<table class="table">
-						@for(p<-lista.getList){
-							<tr>
-								<form action="@routes.Contactos.agregaContactoBd" method="post">
-								
-									<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@Usuario.getImagen(p.usuario1.correo)" class="img-polaroid" alt="imagen usuario"></td>
-									<td><font size="4">@{Usuario.getNombre(p.usuario1.correo)}</font><br>
-									Correo: @p.usuario1.correo<br>
-									Vive en: @{Usuario.getCiudad(p.usuario1.correo)}<td> 
-									<input type="hidden" name="usuario1.correo" value="@user.correo">
-									<input type="hidden" name="usuario2.correo" value="@p.usuario1.correo">
-									<input type="hidden" name="amigos" value="si">
-									
-									<td><input type="submit" class="btn btn-success" value="Aceptar">
-									
-									</td>
-								
-								</form>
-							
-								<form action="@routes.Contactos.eliminaSolicitud" method="post">
-									<input type="hidden" name="usuario1.correo" value="@p.usuario1.correo">
-									<input type="hidden" name="usuario2.correo" value="@user.correo">
-									<td><input type="submit" value="Rechazar" class="btn btn-danger"></td>
-								</form>
-							</tr>
-						}				
-					</table>
-				</div>	
-		</fieldset>
-		
-		<div id="pagination" class="pagination pull-right">
-			<ul>
-				@if(lista.hasPrev) {
-					<li class="prev">
-						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
-					</li>
-				} else {
-					<li class="prev disabled">
-						<a>&larr; Anterior</a>
-					</li>
-				}
-				<li class="current">
-					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
-				</li>
-				@if(lista.hasNext) {
-					<li class="next">
-						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
-					</li>
-				} else {
-					<li class="next disabled">
-						<a>Siguente &rarr;</a>
-					</li>
-				}
-			</ul>
+					<div id="pagination" class="pagination pull-right">
+						<ul>
+							@if(lista.hasPrev) {
+								<li class="prev">
+									<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+								</li>
+							} else {
+								<li class="prev disabled">
+									<a>&larr; Anterior</a>
+								</li>
+							}
+							<li class="current">
+								<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+							</li>
+							@if(lista.hasNext) {
+								<li class="next">
+									<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+								</li>
+							} else {
+								<li class="next disabled">
+									<a>Siguente &rarr;</a>
+								</li>
+							}
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
-		
 	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("[rel=tooltip]").tooltip();
+		});
+	</script>
 }

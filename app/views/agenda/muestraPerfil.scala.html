@@ -2,76 +2,79 @@
 
 @app(title = "Orgrup", user.nombre) {
 
-	<div class="container">
- 		<div class="well well-small">
-			<table>
-				<tr>
-					<td><img style="width: 150px; height: 150px;" src="/assets/images/usuarios/@user2.imagen" alt="imagen usuario"></td>
-					<td>&nbsp;&nbsp;&nbsp;</td>
-					<td style="position: absolute;"><font size="6"><b>@user2.nombre</b></b></font><br>
-					<font size="4">@user2.correo</font><br><br>
-					@user2.leyenda
-				</td>
-        @if(!Usuario.cuentaInactiva(user.correo)) {
-				  <td style="position: absolute; top:50; right:0; width:350px;"><a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick="modal()">Enviar mensaje</a></td>
+    <style type="text/css" media="screen">
+        /*.span3 { background-color: red; }
+        .span9 { background-color: blue; }*/
+        /*.row-fluid {
+            background-color: #FFF;
+            border-radius: 10px;
+            padding: 10px;
+        }*/
+        p { word-wrap: break-word; }
+    </style>
+
+
+    <div class="container span8">
+        <div class="row-fluid">
+            <div class="span3">
+                <img class="img-rounded" style="width: 150px; height: 150px;" src="/assets/images/usuarios/@user2.imagen" alt="imagen usuario">
+            </div>
+            <div class="span8">
+                @if(!Usuario.cuentaInactiva(user.correo)) {
+                    <a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()">
+                        Enviar mensaje
+                    </a>
+                }
+                <h1>@user2.nombre</h1>
+                <address>
+                    <strong>@user2.nombre</strong><br>
+                    @user2.ciudad<br>
+                    @if(user2.telefono != null) {
+                        <abbr title="Telefono">
+                            T: @user2.telefono<br>
+                        </abbr>
+                    }
+                    @if(user2.leyenda != null) {
+                        <p>@user2.leyenda</p>
+                    }
+                </address>
+                <address>
+                    <a href="mailto:#">@user2.correo</a>
+                </address>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal hide fade" id="myModal">
+        <form action="@routes.Mensajes.enviaMensajeModal(user2.correo)" enctype="multipart/form-data" method="post">
+            <div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-header" >
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Mensaje</h3>
+                </div>
+                <div class="modal-body">
+                    <label for="destinatario">Para</label>
+                    <input type="text" name="destinatario" value="@user2.correo" id="destinatario" readonly="readonly">
+                    <label for="asunto">Asunto</label>
+                    <input type="text" name="asunto" id="asunto" required>
+                    <label for="mensaje">Mensaje</label>
+                    <textarea rows="3" cols="20" name="mensaje" id="mensaje" required></textarea>
+                    <input type="hidden" name="remitente.correo" value="@user.correo">
+                    <input type="hidden" name="leido" value="no">
+                    <input type="hidden" name="estado" value="enviado">
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</a>
+                    <input type="submit" value="Enviar mensaje" class="btn btn-primary" >
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        function modal() {
+            $('#myModal').modal('show');
         }
-				
-				
-				<!-- Modal -->
-				<div class="modal hide fade" id="myModal">
-					<form action="@routes.Mensajes.enviaMensajeModal(user2.correo)" enctype="multipart/form-data" method="post">
-						<div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
- 							<div class="modal-header" >
-    							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    							<h3 id="myModalLabel">Mensaje</h3>
-  							</div>
-  							<div class="modal-body">
-  								<label for="destinatario">Para</label>
-  								<input type="text" name="destinatario" value="@user2.correo" id="destinatario" readonly="readonly">
-   								<label for="asunto">Asunto</label>
-   								<input type="text" name="asunto" id="asunto" required>
-   								<label for="mensaje">Mensaje</label>
-   								<textarea rows="3" cols="20" name="mensaje" id="mensaje" required></textarea>
-   								<input type="hidden" name="remitente.correo" value="@user.correo">
-   								<input type="hidden" name="leido" value="no">
-   								<input type="hidden" name="estado" value="enviado">
-  							</div>
-  							<div class="modal-footer">
-   								<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</a>
-                  <input type="submit" value="Enviar mensaje" class="btn btn-primary" >
-  							</div>
-						</div>
-					</form>
-				</div>
-				
-				</tr>
-			</table>
-		</div>	
-  </div>
-  
-  <div class="container">
-  	<div class="well well-small">
-  		<table>
-  			<tr>
-  				<td><b>Mas información</b></td>
-  			</tr>
-  			<tr>
-  				<td>Ciudad de origen: @user2.ciudad</td>
-  			</tr>
-  			<tr>
-  				<td>Telefono: @user2.telefono</td>
-  			</tr>
-  		</table>
-  	</div>
-  </div>
-  
-	<script type="text/javascript">
-	
-		function modal() {
-			$('#myModal').modal('show');
-		}
-		
-	</script>
-  
-	
+    </script>
 }

@@ -7,8 +7,8 @@
         <title>@title</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/agenda.css")"> 
-       	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap.min.css")"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/agenda.css")">
+       	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap.min.css")">
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap-responsive.min.css")">
 		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/fullcalendar.css")">
 		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/jquery-ui-1.8.23.custom.css")">
@@ -55,9 +55,9 @@
 							@if(Home.notificacionesMensajes() != 0){
 							<li><a href="@routes.Mensajes.index3"><span class="badge badge-important">@{Home.notificacionesMensajes()}</span></a></li>
 							}
-							<li class="divider-vertical"></li>							
+							<li class="divider-vertical"></li>
 						</ul>
-						
+
 						<!-- usuario -->
 						<div class="btn-group pull-right">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -77,18 +77,17 @@
 			</div><!-- /navbar-inner -->
 		</div><!-- /navbar -->
 		<!-- Fin Barra superior -->
-		
+
 		<br><br><br>
-		
+
 		<div class="container">
-			@content		
+			@content
 		</div>
-		<hr>
+<!-- 		<hr>
 		<footer>
 			<p>	Todos los Derechos Reservados
 				<a href="#">About</a>
 			</p>
-		</footer>
-
+		</footer> -->
     </body>
 </html>

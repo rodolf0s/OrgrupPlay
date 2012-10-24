@@ -2,65 +2,71 @@
 
 
 @app(title = "Orgrup", user.nombre) {
-	<div class="container">
-		<div class="tabbable">
-			<ul class="nav nav-tabs">
-  				<li class="active"><a href="@routes.Contactos.contactos()">Buscar contactos</a></li>
-  				<li><a href="@routes.Contactos.index4">Gestionar contactos</a></li>
-			</ul>
- 
-			<div class="tab-content">
- 	 			<div class="tab-pane active">
- 	 					<form name="formulario" id="formulario" action="@routes.Contactos.buscaContactos()" method="post">
- 	 						<div class="input-append">
- 	 							<input type="text" class="input-xlarge" placeholder="Ingrese el nombre o correo" name="nombre" id="nombre" autofocus="autofocus" required>
- 	 							<input type="submit" name="submit" class="btn btn-primary" value="Buscar contacto">
- 	 						</div>
- 	 					</form>
- 	 				
- 	 			</div>
- 	 		</div>
-				@if(lista.isEmpty){
-					<br>
-				}else {
+	<div class="row">
+		<div class="span11" style="float:right">
+			<div class="span9" style="float:left">
+				<div class="tabbable">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="@routes.Contactos.contactos()">Buscar contactos</a></li>
+						<li><a href="@routes.Contactos.index4">Gestionar contactos</a></li>
+					</ul>
+					<div class="tab-content">
+				 		<div class="tab-pane active">
+		 					<form name="formulario" id="formulario" action="@routes.Contactos.buscaContactos()" method="post">
+		 						<div class="input-append">
+		 							<input type="text" class="input-xlarge" placeholder="Ingrese el nombre o correo" name="nombre" id="nombre" autofocus="autofocus" required>
+		 							<input type="submit" name="submit" class="btn btn-primary" value="Buscar contacto">
+		 						</div>
+		 					</form>
+				 		</div>
+				 	</div>
+					@if(lista.isEmpty){
+						<br>
+					}else {
 						<h3>Busqueda</h3>
-						<div class=span8>
+						<div>
 							<table class="table table-hover">
-							@for(p<-lista){
-								<form name="form1" id="form1" action="@routes.Contactos.agregaContacto" method="post">
-									<tr>
-										<input type="hidden" name="usuario1.correo" value="@user.correo">
-										<input type="hidden" name="usuario2.correo" value="@p.correo">
-										<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@p.imagen" class="img-polaroid" alt="imagen usuario"></td>
-										<td><font size="4">@p.nombre</font><br>Correo: @p.correo<br>Vive en: @p.ciudad</font></td>
-										@if(!Usuario.cuentaInactiva(user.correo)) {
-											@if(user.correo != p.correo && Contacto.compruebaUsuarioExistente(user.correo, p.correo) != p.correo && Contacto.compruebaSolicitud(user.correo, p.correo) != p.correo){
-												<td><input type="submit" class="btn btn-success" value="Agregar contacto"></td>
+								@for(p<-lista){
+									<form name="form1" id="form1" action="@routes.Contactos.agregaContacto" method="post">
+										<tr>
+											<input type="hidden" name="usuario1.correo" value="@user.correo">
+											<input type="hidden" name="usuario2.correo" value="@p.correo">
+											<td>
+												<img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@p.imagen" class="img-rounded" alt="imagen usuario">
+											</td>
+											<td>
+												<font size="4">@p.nombre</font><br>Correo: @p.correo<br>Vive en: @p.ciudad</font>
+											</td>
+											@if(!Usuario.cuentaInactiva(user.correo)) {
+												@if(user.correo != p.correo && Contacto.compruebaUsuarioExistente(user.correo, p.correo) != p.correo && Contacto.compruebaSolicitud(user.correo, p.correo) != p.correo){
+													<td><input type="submit" class="btn btn-success" value="Agregar contacto"></td>
+												}
+												@if(Contacto.compruebaSolicitud(user.correo, p.correo) == p.correo){
+													<td><input type="submit" class="btn" value="solicitud enviada" disabled="disabled"></td>
+												}else{
+													<td></td>
+												}
 											}
-											@if(Contacto.compruebaSolicitud(user.correo, p.correo) == p.correo){
-												<td><input type="submit" class="btn" value="solicitud enviada" disabled="disabled"></td>
-											}else{
-												<td></td>
-											}
-										}
-									</tr>
-								</form>
-							}					
-						</table>
-					</div>
-				}
+										</tr>
+									</form>
+								}
+							</table>
+						</div>
+					}
+				</div>
+			</div>
 		</div>
-		
 	</div>
 
-	
+
 	<script type="text/javascript">
-	
+		$(document).ready(function() {
+			$("[rel=tooltip]").tooltip();
+		});
 // 		$('#myTab a').click(function (e) {
 // 			e.preventDefault();
 // 		  	$(this).tab('show');
 // 		});
-			
 	</script>
 
 }

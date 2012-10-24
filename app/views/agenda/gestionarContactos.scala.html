@@ -7,66 +7,78 @@
 
     // Generate the link
     routes.Contactos.gestionaContactos(newPage, currentFilter)
-    
+
 }
 
 @app(title = "Orgrup", user.nombre) {
 
-<div class="container">
-		<div class="tabbable">
-			<ul class="nav nav-tabs">
-  				<li ><a href="@routes.Contactos.contactos()">Buscar contactos</a></li>
-  				<li class="active"><a href="@routes.Contactos.index4">Gestionar contactos</a></li>
-			</ul>
- 
-			<div class="tab-content">
- 	 			<div class="tab-pane active">
- 	 				<table class="table table-hover">
- 	 					@for(p<-lista.getList) {
- 	 						<tr>
- 	 							<td><img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@{Usuario.getImagen(p.usuario2.correo)}" class="img-polaroid" alt="imagen usuario"></td>
- 	 							<td><font size="4">@{Usuario.getNombre(p.usuario2.correo)}</font><br>
- 	 							Correo: @p.usuario2.correo <br>
- 	 							Vive en: @{Usuario.getCiudad(p.usuario2.correo)}</td>
-								<td><a class="btn btn-primary" href="@routes.Contactos.muestraElPerfil(p.usuario2.correo)">Ver Perfil</a></td>
- 	 						
-	 	 						<form action="@routes.Contactos.eliminaContacto(0, "")" method="post">
-	 	 							<input type="hidden" name="usuario1.correo" value="@user.correo">
-	 	 							<input type="hidden" name="usuario2.correo" value="@p.usuario2.correo">
-	 	 							<td><input type="submit" class="btn btn-danger" value="Eliminar"></td>
-	 	 						</form>
- 	 						</tr>
- 	 					}
- 	 				</table>
- 	 			</div>
- 	 		</div>
- 	 	</div>
- 	 	
- 	 	<div id="pagination" class="pagination pull-right">
-			<ul>
-				@if(lista.hasPrev) {
-					<li class="prev">
-						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
-					</li>
-				} else {
-					<li class="prev disabled">
-						<a>&larr; Anterior</a>
-					</li>
-				}
-				<li class="current">
-					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
-				</li>
-				@if(lista.hasNext) {
-					<li class="next">
-						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
-					</li>
-				} else {
-					<li class="next disabled">
-						<a>Siguente &rarr;</a>
-					</li>
-				}
-			</ul>
+	<div class="row">
+		<div class="span11" style="float:right">
+			<div class="span9" style="float:left">
+				<div class="tabbable">
+					<ul class="nav nav-tabs">
+		  				<li ><a href="@routes.Contactos.contactos()">Buscar contactos</a></li>
+		  				<li class="active"><a href="@routes.Contactos.index4">Gestionar contactos</a></li>
+					</ul>
+					<div class="tab-content">
+		 	 			<div class="tab-pane active">
+		 	 				<table class="table table-hover">
+		 	 					@for(p<-lista.getList) {
+		 	 						<tr>
+		 	 							<td>
+		 	 								<img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@{Usuario.getImagen(p.usuario2.correo)}" class="img-rounded" alt="imagen usuario">
+		 	 							</td>
+		 	 							<td>
+		 	 								<font size="4"><a href="@routes.Contactos.muestraElPerfil(p.usuario2.correo)" rel="tooltip" title="Ver perfil">@{Usuario.getNombre(p.usuario2.correo)}</a></font><br>
+		 	 								Correo: @p.usuario2.correo <br>
+		 	 								Vive en: @{Usuario.getCiudad(p.usuario2.correo)}
+		 	 							</td>
+										<td>
+											<a class="btn btn-primary" href="@routes.Contactos.muestraElPerfil(p.usuario2.correo)">Ver Perfil</a>
+										</td>
+			 	 						<form action="@routes.Contactos.eliminaContacto(0, "")" method="post">
+			 	 							<input type="hidden" name="usuario1.correo" value="@user.correo">
+			 	 							<input type="hidden" name="usuario2.correo" value="@p.usuario2.correo">
+			 	 							<td><input type="submit" class="btn btn-danger" value="Eliminar"></td>
+			 	 						</form>
+		 	 						</tr>
+		 	 					}
+		 	 				</table>
+		 	 			</div>
+		 	 		</div>
+		 	 		<div id="pagination" class="pagination pull-right">
+						<ul>
+							@if(lista.hasPrev) {
+								<li class="prev">
+									<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+								</li>
+							} else {
+								<li class="prev disabled">
+									<a>&larr; Anterior</a>
+								</li>
+							}
+							<li class="current">
+								<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+							</li>
+							@if(lista.hasNext) {
+								<li class="next">
+									<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+								</li>
+							} else {
+								<li class="next disabled">
+									<a>Siguente &rarr;</a>
+								</li>
+							}
+						</ul>
+					</div>
+		 	 	</div>
+			</div>
 		</div>
-		
- 	 </div>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("[rel=tooltip]").tooltip();
+		});
+	</script>
 }
