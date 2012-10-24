@@ -16,7 +16,7 @@ import java.util.GregorianCalendar;
 public class Reuniones extends Controller {
 
 	public static Result generarReunion(String correo) {
-		Integer numero= 0;
+		
 		Integer [] bloque = null;
 		Date [] dias = null;
 		Date [] horas = null;
@@ -105,6 +105,7 @@ public class Reuniones extends Controller {
 				fechaInicioCalendar.add(fechaInicioCalendar.DAY_OF_MONTH, +1);
 			}
 	}
+		//variables para comprobacion bloques consecutivos
 		Date fechaComparar = dias[0];
 		Date transicionHora = null;
 		Integer contarFecha = 0;
@@ -160,6 +161,6 @@ public class Reuniones extends Controller {
 				
 			}
 		}
-		return ok(mensajeReunion.render(session("email"), numero, correo, bloque, resultados, diasUso, horasUso, contarFecha));
+		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha));
 	}
 }
