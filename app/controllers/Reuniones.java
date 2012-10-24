@@ -17,11 +17,14 @@ public class Reuniones extends Controller {
 
 	public static Result generarReunion(String correo) {
 		Integer numero= 0;
-//		Integer [] bloque = new Integer [50];
 		Integer [] bloque = null;
 		Date [] dias = null;
 		Date [] horas = null;
 		Integer posiciones = null;
+		Integer contarBloques = 0;
+		Date [] horasUso = null;
+		Date [] diasUso = null;
+		Integer duracion = null;
 		
  		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
 		
@@ -34,6 +37,7 @@ public class Reuniones extends Controller {
 			Date fechaFin = objetoReunion.fecha_fin;
 			Date horaInicio = objetoReunion.hora_inicio;
 			Date horaFin = objetoReunion.hora_fin;
+			duracion = objetoReunion.duracion;
 			
 			//Transformamos los tipo Date en tipo Calendar
 			Calendar fechaInicioCalendar = new GregorianCalendar(); 
@@ -62,6 +66,8 @@ public class Reuniones extends Controller {
 			bloque = new Integer[posiciones];
 			dias = new Date [posiciones];
 			horas = new Date [posiciones];
+			diasUso = new Date [posiciones];
+			horasUso = new Date [posiciones];
 			
 			//puntero del vector
 			Integer a = 0;
@@ -99,8 +105,56 @@ public class Reuniones extends Controller {
 				fechaInicioCalendar.add(fechaInicioCalendar.DAY_OF_MONTH, +1);
 			}
 	}
-		
 		Date fechaComparar = dias[0];
-		return ok(mensajeReunion.render(session("email"), numero, correo, bloque, posiciones, dias, horas, fechaComparar));
+		Date transicionHora = null;
+		Integer contarFecha = 0;
+		
+		Integer resultados = 0;
+		//Comprobar que excistan bloques consecutivos igual a la duracion de la reunion
+		for(int z = 0 ; z < posiciones; z++){
+			
+			//Comprobar que siga siendo el mismo dia			
+			if(fechaComparar.equals(dias[z])){
+			
+				//Comprobar que el bloque este libre y sea consecutivo
+				if(bloque[z] == 0){
+					contarBloques = contarBloques + 1;
+				
+					//Comprobar que la fecha que se guarde sea la fecha de inicio de la reunion
+					if(contarBloques == 1){
+						transicionHora = horas[z];
+					}
+					
+					//Comprobar que la reunion cumple con las horas necesarias
+					if(contarBloques == duracion){
+						resultados = resultados +1;
+
+//						//calcular puntaje reunion
+//						diasUso[contarFecha] = fechaComparar;
+//						horasUso[contarFecha] = transicionHora;
+						contarFecha = contarFecha +1;
+//						resultados = resultados +1;
+						contarBloques = 0;
+//						transicionHora = null;
+					}
+				}else{
+					//resetear todos los valores en caso de no alcanzar duracion
+					contarBloques = 0;
+					transicionHora = null;
+				
+				}
+				
+			}else{
+				//Cambia la fecha se comienza denuevo el conteo
+				fechaComparar = dias[z];
+				
+				//disminuir el contador para que no pase por alto el bloque que cambia la fecha
+				z = z -1;
+				contarBloques = 0;
+				transicionHora = null;
+				
+			}
+		}
+		return ok(mensajeReunion.render(session("email"), numero, correo, bloque, resultados, dias, contarFecha));
 	}
 }
