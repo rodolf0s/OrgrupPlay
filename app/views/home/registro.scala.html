@@ -20,14 +20,12 @@
     <!-- Simple Formulario para ingresar --> 
     <div class="contenedor">
 		<div class="row">
-			<div class="span9" style="float:right">
-				<div class="span4" style="float:left;">			
+			<div class="span10" style="float:right">
+				<div class="span6" style="float:left;">			
 					<div class="well">
 						<div class='section section-large'>
 							<div class='section-header'>
-								<h3>Registro							
-									<a href="@routes.Application.login" class="btn btn-success pull-right">Ingresar</a>
-								</h3>
+								<h3>Registro</h3>
 							</div>
 							<hr>
 							<div class='section-body'>
@@ -46,13 +44,31 @@
 											<span>*</span>
 										</div>
 									</div>
-									<div class="control-group">
-										<label class="control-label" for="password">Contraseña</label>
-										<div class="controls">
-											<input class="input-xlarge" type="password" placeholder="Contraseña" name="password" id="password" maxlength="20" required>
-											<span>*</span>
+									
+									<div class="password-container">
+										<div class="control-group">
+											<label class="control-label" for="password">Contraseña</label>
+											<div class="controls">
+												<input class="input-xlarge strong-password" type="password" placeholder="Contraseña" name="password" id="password" maxlength="20" required>
+												<span>*</span>
+											</div>
 										</div>
+										<div class="control-group">
+											<label class="control-label" for="password2">Confirmar contraseña</label>
+											<div class="controls">
+												<input class="input-xlarge strong-password" type="password" placeholder="Confirmar contraseña" id="password2" maxlength="20" required>
+												<span>*</span>
+											</div>
+										</div>
+										
+										<div class="strength-indicator">
+              								 <div class="meter">
+               								</div>
+               							Seguridad de la contraseña.
+               							</div>
+           
 									</div>
+									
 									<div class="control-group">
 										<label class="control-label" for="ciudad">Ciudad</label>
 										<div class="controls">
@@ -89,7 +105,7 @@
 										</div>
 				            		}				
 									<div class='form-actions'>
-										<button type="submit" id="fat-btn" class="btn btn-primary btn-large" data-loading-text="Registrando..."> Crear cuenta </button>
+										<button type="submit" id="fat-btn" class="btn btn-primary btn-large submit-button locked" data-loading-text="Registrando..."> Crear cuenta </button>
 										<p>
 											¿Ya tienes una cuenta?
 											<a href="@routes.Application.login">Ingresa aquí</a>
@@ -132,5 +148,37 @@
  	   	$('.input-xlarge').keypress(function() {
  	   		$('#error').hide();
  	   	});
+ 	   	
+ 	   $(document).ready(function () {
+           
+           //Demo code
+           $('.password-container').pschecker({ onPasswordValidate: validatePassword, onPasswordMatch: matchPassword });
+
+           var submitbutton = $('.submit-button');
+           var errorBox = $('.error');
+           errorBox.css('visibility', 'hidden');
+           submitbutton.attr("disabled", "disabled");
+
+           //this function will handle onPasswordValidate callback, which mererly checks the password against minimum length
+           function validatePassword(isValid) {
+               if (!isValid)
+                   errorBox.css('visibility', 'visible');
+               else
+                   errorBox.css('visibility', 'hidden');
+           }
+           //this function will be called when both passwords match
+           function matchPassword(isMatched) {
+               if (isMatched) {
+                   submitbutton.addClass('unlocked').removeClass('locked');
+                   submitbutton.removeAttr("disabled", "disabled");
+               }
+               else {
+                   submitbutton.attr("disabled", "disabled");
+                   submitbutton.addClass('locked').removeClass('unlocked');
+               }
+           }
+       });
+
+
  	</script>
 }
