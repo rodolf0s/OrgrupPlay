@@ -189,4 +189,5 @@ public class Integrante extends Model {
 				integrante.estado = "activo";
 				integrante.update();
 	}
+	
 }

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Page;
 import com.avaje.ebean.SqlRow;
 
 import play.data.format.Formats;
@@ -65,5 +66,13 @@ public class Grupo extends Model {
 				"FROM grupo g INNER JOIN integrante i ON g.id = i.grupo_id " +
 				"WHERE i.usuario_correo = :correo AND g.id = :id";		
 		return Ebean.createSqlQuery(sql).setParameter("correo", correo).setParameter("id", id).findUnique();
+	}
+	
+	public static Page<Grupo> pageGrupos(int page) {
+		return find
+				.where()
+				.findPagingList(10)
+				.getPage(page);
+
 	}
 }

@@ -110,13 +110,16 @@ public class Contactos extends Controller {
 		return ok("2222");
 	}
 	
-	public static Result muestraAgregarContactos() {
+	public static Result muestraAgregarContactos(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
 			return ok(agregaContactos.render(
 					Usuario.find.byId(session("email")), 
-					Contacto.listaContactosPendientes(session("email"))));
+					Contacto.page2(page, filter, (session("email"))),
+					filter
+					)
+				);
 		}
 	}
 	
@@ -126,7 +129,10 @@ public class Contactos extends Controller {
 		if (formAgregaContactoBd.hasErrors()) {
 			return badRequest(agregaContactos.render(
 					Usuario.find.byId(session("email")), 
-					Contacto.listaContactosPendientes(session("email"))));
+					Contacto.page2(0, "", (session("email"))),
+					""
+					)
+				);
 		} else {
 			Contacto amigoGuardar = formAgregaContactoBd.get();
 			amigoGuardar.notificado = "si";
@@ -135,7 +141,10 @@ public class Contactos extends Controller {
 			try {
 				return ok(agregaContactos.render(
 						Usuario.find.byId(session("email")), 
-						Contacto.listaContactosPendientes(session("email"))));
+						Contacto.page2(0, "", (session("email"))),
+						""
+					)
+				);
 			} catch(Exception e) {}
 		}
 		return ok();
@@ -147,7 +156,10 @@ public class Contactos extends Controller {
 		if (formEliminaSolicitud.hasErrors()) {
 			return badRequest(agregaContactos.render(
 					Usuario.find.byId(session("email")), 
-					Contacto.listaContactosPendientes(session("email"))));
+					Contacto.page2(0, "", (session("email"))),
+					""
+				)
+			);
 		} else {
 			Contacto solicitudEliminar = formEliminaSolicitud.get();
 			Contacto.eliminaSolicitudAmistad(Contacto.obtieneId(
@@ -156,7 +168,10 @@ public class Contactos extends Controller {
 			try {
 				return ok(agregaContactos.render(
 						Usuario.find.byId(session("email")), 
-						Contacto.listaContactosPendientes(session("email"))));
+						Contacto.page2(0, "", (session("email"))),
+						""
+					)
+				);
 			} catch(Exception e) {}
 		}
 		return ok();
