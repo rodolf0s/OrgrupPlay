@@ -1,4 +1,14 @@
-@(user: Usuario, grupos: List[Integrante])
+@(user: Usuario, lista: Page[Integrante], currentFilter: String)
+
+@****************************************
+* Ayuda a generar los link de navegacion*
+****************************************@
+@link(newPage:Int) = @{
+
+    // Generate the link
+    routes.Grupos.muestraSolicitudes(newPage, currentFilter)
+    
+}
 
 @app(title="Orgrup", user.nombre) {
 
@@ -12,7 +22,7 @@
 						</fieldset>
 					</div>
 				<table class="table table-hover span10">
-					@for(g<-grupos) {
+					@for(g<-lista.getList) {
 						<form action="@routes.Grupos.ingresarAGrupo" method="post">
 							<tr>
 								<td><img style="width: 48px; height: 48px;" src='/assets/grupos/@{Grupo.getGrupo(user.correo, g.grupo.id).getString("id").toLong}/@{Grupo.getGrupo(user.correo, g.grupo.id).getString("imagen")}' alt="imagen usuario"></td>
@@ -23,14 +33,41 @@
 								<td><input type="submit" class="btn btn-success input-large" value="Ingresar al grupo"></td>
 						</form>
 						<form action="@routes.Grupos.eliminaInvitacion(g.grupo.id)" method="post">
-								<td><input type="submit" class="btn btn-danger" value="Rechazar invitacion"></td><br>
+								<td><input type="submit" class="btn btn-danger" value="Rechazar invitacion"></td>
 							</tr>
 						</form>
-			}
+				}
 				</table>
 			</div>
 		</div>
 	</div>
+	
+	<div id="pagination" class="pagination pull-right">
+			<ul>
+				@if(lista.hasPrev) {
+					<li class="prev">
+						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+					</li>
+				} else {
+					<li class="prev disabled">
+						<a>&larr; Anterior</a>
+					</li>
+				}
+				<li class="current">
+					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+				</li>
+				@if(lista.hasNext) {
+					<li class="next">
+						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+					</li>
+				} else {
+					<li class="next disabled">
+						<a>Siguente &rarr;</a>
+					</li>
+				}
+			</ul>
+		</div>
+		
 </div>
 
 }

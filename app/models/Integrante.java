@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Page;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -175,12 +176,13 @@ public class Integrante extends Model {
 	/*
 	 * Retorna el id de los grupos en estado inactivo 
 	 */
-	public static List<Integrante> cuentaGruposInactivos(String email) {
-		return Integrante.find.where()
-				.eq("usuario_correo", email)
-				.eq("estado", "inactivo")
-				.findList();
-	}
+//	public static List<Integrante> cuentaGruposInactivos(String email) {
+//		return Integrante.find.where()
+//				.eq("usuario_correo", email)
+//				.eq("estado", "inactivo")
+//				.findList();
+//	}
+	
 	/*
 	 * Cambia el estado del integrante en un grupo al aceptar la invitacion para ingresar a un grupo
 	 */
@@ -188,6 +190,17 @@ public class Integrante extends Model {
 		Integrante integrante = find.where().eq("usuario_correo", email).eq("grupo_id", grupoId).findUnique();
 				integrante.estado = "activo";
 				integrante.update();
+	}
+	
+	public static Page<Integrante> page(int page, String filter, String email) {
+		return 
+				find	
+					.where()
+					.eq("usuario_correo", email)
+					.eq("estado", "inactivo")
+					.orderBy().asc("usuario_correo")
+					.findPagingList(10)
+					.getPage(page);
 	}
 	
 }
