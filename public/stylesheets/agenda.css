@@ -1,0 +1,59 @@
+body {
+    background-color: #F2F2F2;
+}
+
+.container {
+    margin-top:20px;
+    /*border-radius:10px;*/
+    padding: 15px;
+    background-color: F2F2F2;
+}
+
+.panel {
+    padding: 10px;
+}
+
+.panel a: {
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.panel a:hover {
+    text-decoration: none;
+}
+
+/*.row {
+    background-color: #252525;
+    border-radius: 10px;
+}*/
+
+.span4 {
+    background-color: #252525;
+    border-radius: 15px;
+}
+
+.row .span4 h3 {
+    color: gray;
+}
+
+.row .span4 h3 a {
+    color: gray;
+    text-decoration: none;
+}
+
+.row .span4 h3 a:hover {
+    text-decoration: none;
+}
+
+.row .span4 {
+    color: white;
+}
+
+.span8 {
+    background-color: #FFF;
+    border-radius: 10px;
+}
+
+#calendar {
+    padding: 10px;
+}
