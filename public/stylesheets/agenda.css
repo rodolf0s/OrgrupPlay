@@ -1,0 +1,44 @@
+body {
+    background-color: #F2F2F2;
+}
+
+.container { 
+    margin-top:20px;
+    border-radius:10px;
+    padding: 15px; 
+}
+
+.row {
+    background-color: #252525; 
+    border-radius: 10px;
+}
+
+.row .span3 h3 {
+    color: gray;
+}
+
+.row .span3 h3 a {
+    color: gray;
+    text-decoration: none;
+}
+
+.row .span3 h3 a:hover {
+    text-decoration: none;
+}
+
+.row .span3 {
+    color: white;
+}
+
+.row .span3 h5 {
+    text-align: center;
+}
+
+.span9 { 
+    background-color: #FFF;
+    border-radius: 10px;
+}
+
+#calendar {
+    padding: 10px;
+}
