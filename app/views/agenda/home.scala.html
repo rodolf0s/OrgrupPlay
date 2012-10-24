@@ -7,12 +7,12 @@
 <script type='text/javascript'>
 
 	$(document).ready(function() {
-		
+		$("[rel=tooltip]").tooltip();
 		// Desactiva las teclas
 		$('#horaI1, #horaF1, #horaI2, #horaF2, #fechaI1, #fechaI2, #fechaF1, #fechaF2').keypress(function(e) {
 		    if(e.which > 0) return false;
 		});
-		
+
 		/**
 		* muestra los modal de los calendarios y fechas
 		*/
@@ -22,7 +22,7 @@
 			dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
 			monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
 		});
-		
+
 		$("#repetir").click(function(evento){
 			if ($("#repetir").attr("checked")){
 				$("#divrepetir").css("display", "block");
@@ -47,10 +47,10 @@
 			hourText: 'Hora',
 // 		    minuteText: 'Min',
 			onHourShow: tpStartOnHourShowCallback,
-//  			onMinuteShow: tpStartOnMinuteShowCallback, 			
+//  			onMinuteShow: tpStartOnMinuteShowCallback,
 //  			minutes: { interval: 30 }
 		});
-		
+
 		$('#horaF1').timepicker({
 			showMinutes: false,
 		    showLeadingZero: false,
@@ -61,7 +61,7 @@
 //  			minutes: { interval: 30 }
 		});
 
-		
+
 		$('#horaI2').timepicker({
 			showMinutes: false,
 		    showLeadingZero: false,
@@ -71,7 +71,7 @@
 //  			onMinuteShow: tpStartOnMinuteShowCallback2,
 // 			minutes: { interval: 30 }
 		});
-		
+
 		$('#horaF2').timepicker({
 			showMinutes: false,
 		    showLeadingZero: false,
@@ -84,31 +84,31 @@
 		/**
 		* --------- Fin de los modal ------------
 		*/
-		
+
 		// si hace click en un evento muestra el modal con los datos.
 		@if(tareaMostrar.nombre != null) {
 			$('#myModalEdita').modal('show');
 		}
-		
+
 		// si hay un error al subir la imagen del grupo.
 		@if(errorImagen != "") {
 			$('#creaGrupo').modal('show');
 		}
-		
+
 		var date = new Date();
 		var d = date.getDate();
 		var m = date.getMonth();
 		var y = date.getFullYear();
-		
+
 		/**
 		*	---------- AGENDA ------------------------
 		*/
-		var calendar = $('#calendar').fullCalendar({		    
+		var calendar = $('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
-			},			
+			},
 			selectable: true,
 			selectHelper: true,
 			slotMinutes: 60,
@@ -121,17 +121,17 @@
 				document.forms.tarea.nombre.value = "Nueva Tarea";
 				if((start.getMonth() + 1) < 10)
 					var mes1 = 0 + "" + (start.getMonth() + 1);
-				else 
+				else
 					var mes1 = (start.getMonth() + 1);
 
 				if((end.getMonth() + 1) < 10)
 					var mes2 = 0 + "" + (end.getMonth() + 1);
-				else 
-					var mes2 = (end.getMonth() + 1);				
-				
+				else
+					var mes2 = (end.getMonth() + 1);
+
 				if(allDay) {
 					document.forms.tarea.hora_inicio.value = "";
-					document.forms.tarea.hora_fin.value = "";	
+					document.forms.tarea.hora_fin.value = "";
 				} else {
 					if(start.getMinutes() == 0)
 						var min1 = ":00:00";
@@ -141,7 +141,7 @@
 						var min2 = ":00:00";
 					else
 						var min2 = end.getMinutes();
-					
+
 					if(start.getHours() == 0)
 						var hora1 = "00";
 					else
@@ -152,11 +152,11 @@
 						var hora2 = end.getHours();
 					document.forms.tarea.hora_inicio.value = hora1 + min1;
 					document.forms.tarea.hora_fin.value = hora2 + min2;
-				}				
-				document.forms.tarea.fecha_inicio.value = start.getDate() + '/' + mes1 + '/' + start.getFullYear();				
-				document.forms.tarea.fecha_fin.value = end.getDate() + '/' + mes2 + '/' + end.getFullYear();								
+				}
+				document.forms.tarea.fecha_inicio.value = start.getDate() + '/' + mes1 + '/' + start.getFullYear();
+				document.forms.tarea.fecha_fin.value = end.getDate() + '/' + mes2 + '/' + end.getFullYear();
 				$('#myModal').modal('show');
-			},			
+			},
 			eventClick: function(calEvent, jsEvent){
 				document.forms.edita.id.value = calEvent.id;
 		    	document.forms.edita.nombre.value = calEvent.title;
@@ -173,7 +173,7 @@
 							}
 							@if(l.prioridad == 2) {
 								color: '@usuario.colorTareaMedia',
-							} 
+							}
 							@if(l.prioridad == 3) {
 								color: '@usuario.colorTareaBaja',
 							}
@@ -189,23 +189,23 @@
 		*	----------FIN AGENDA -------------------
 		*/
 	});
-	
+
 	function buscaDatos() {
 		document.edita.action = "@routes.Home.getTarea";
 	    document.edita.submit();
 	}
-		
+
 	function enviar_a(url){
 	    document.edita.action = url;
 	    document.edita.submit();
 	 }
-	
+
 	function formatea_envia() {
 		if (document.forms.tarea.repetir.checked == true) {
 			if (document.forms.tarea.hora_inicio.value != "" && document.forms.tarea.hora_fin.value != "" && document.forms.tarea.fecha_termino.value != "") {
 				var indice = document.forms.tarea.op_repetir.selectedIndex;
 				var op = document.forms.tarea.op_repetir[indice].value;
-				if (op == 1) 
+				if (op == 1)
 					document.tarea.action = "@routes.Home.guardaTarea(1)";
 				else
 					document.tarea.action = "@routes.Home.guardaTarea(2)";
@@ -228,15 +228,15 @@
 			}
 		}
 	}
-	
+
 	function redireccionar() {
 		location.href="@routes.Home.index";
 	}
-	
+
 	function modal() {
 		$('#creaGrupo').modal('show');
 	}
-	
+
 	function tpStartOnHourShowCallback(hour) {
 	    var tpEndHour = $('#horaF1').timepicker('getHour');
 	    if ($('#horaF1').val() == '') { return true; }
@@ -296,124 +296,133 @@
 	    return false;
 	}
 	function horaInicio1() {
-		document.forms.tarea.hora_inicio.value += ":00:00"; 
+		document.forms.tarea.hora_inicio.value += ":00:00";
 	}
 	function horaInicio2() {
-		document.forms.edita.hora_inicio.value += ":00:00"; 
+		document.forms.edita.hora_inicio.value += ":00:00";
 	}
 	function horaFin1() {
-		document.forms.tarea.hora_fin.value += ":00:00"; 
+		document.forms.tarea.hora_fin.value += ":00:00";
 	}
 	function horaFin2() {
-		document.forms.edita.hora_fin.value += ":00:00"; 
+		document.forms.edita.hora_fin.value += ":00:00";
 	}
 </script>
 
 	<div class="row conenedor">
-		<div class="span3">
+		<div class="span4">
 			<div class="panel">
+				<ul class="nav">
+					<li>
 				<h3>
-					<a href="@routes.Contactos.muestraElPerfil(usuario.correo)">
+					<a href="@routes.Contactos.muestraElPerfil(usuario.correo)" rel="tooltip" title="Ver mi perfil">
 					<img class="img-rounded" style="width: 38px; height: 38px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario">
 					@usuario.nombre
 					</a>
 				</h3>
-				<h5>Mi información</h5>
+				</li>
+				<li>
+				<h5>Mi información <a href="@routes.Cuenta.perfil" rel="tooltip" title="Editar mi información personal">(editar)</a> </h5>
+				</li>
+				<li>
 				<p><strong>Ciudad:</strong> @usuario.ciudad</p>
+				</li>
+				<li>
 				<p><strong>Correo:</strong> @usuario.correo</p>
+				</li>
 				@if(usuario.telefono!=null){
+				<li>
 					<p><strong>Telefono:</strong> @usuario.telefono</p>
+				</li>
 				}
+				</ul>
 				<hr>
 				<!-- <ul class="nav nav-list">
 					<li> <img class="img-polaroid" style="width: 100px; height: 100px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
-					<li><font size="4">@usuario.nombre</font></li>		
+					<li><font size="4">@usuario.nombre</font></li>
 					<li><font size="2">Ciudad: @usuario.ciudad</font></li>
 					<li><font size="2">Correo: @usuario.correo</font></li>
 					@if(usuario.telefono!=null){
 						<li><font size="2">Telefono: @usuario.telefono</font></li>
-					}						
+					}
 				</ul> -->
 				<ul class="nav nav-pills nav-stacked">
-	   					<li class="nav-header">
-	   						Grupos					
-	   					</li>
-	   					@if(!grupos.isEmpty()) {
-	   						@if(grupos.length <= 8) {
-			   					@for(g <- grupos) {		   						
-				   					<li>
-				   						<a href='@routes.Grupos.index(g.getString("id").toLong)'>
-				   							<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
-				   							@g.getString("nombre")
-				   						</a>
-				   					</li>		   						
-			   					}
-			   				} else {
+   					<li class="nav-header">
+   						Grupos
+   					</li>
+   					@if(!grupos.isEmpty()) {
+   						@if(grupos.length <= 8) {
+		   					@for(g <- grupos) {
 			   					<li>
-				   					<a href='@routes.Grupos.index(grupos(0).getString("id").toLong)'>
-				   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(0).getString("id")/@grupos(0).getString("imagen")' alt="imagen grupo">
-				   						@grupos(0).getString("nombre")
-				   					</a>
-				   				</li>
-				   				<li>
-				   					<a href='@routes.Grupos.index(grupos(1).getString("id").toLong)'>
-				   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(1).getString("id")/@grupos(1).getString("imagen")' alt="imagen grupo">
-				   						@grupos(1).getString("nombre")
-				   					</a>
-				   				</li>
-				   				<li>
-				   					<a href='@routes.Grupos.index(grupos(2).getString("id").toLong)'>
-				   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(2).getString("id")/@grupos(2).getString("imagen")' alt="imagen grupo">
-				   						@grupos(2).getString("nombre")
-				   					</a>
-				   				</li>
-				   				<li>
-				   					<a href='@routes.Grupos.index(grupos(3).getString("id").toLong)'>
-				   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(3).getString("id")/@grupos(3).getString("imagen")' alt="imagen grupo">
-				   						@grupos(3).getString("nombre")
-				   					</a>
-				   				</li>
-				   				<li>
-				   					<a href='@routes.Grupos.index(grupos(4).getString("id").toLong)'>
-				   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(4).getString("id")/@grupos(4).getString("imagen")' alt="imagen grupo">
-				   						@grupos(4).getString("nombre")
-				   					</a>
-				   				</li>
-				   				<li>
-				   					<a href='@routes.Grupos.index(grupos(5).getString("id").toLong)'>
-				   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(5).getString("id")/@grupos(5).getString("imagen")' alt="imagen grupo">
-				   						@grupos(5).getString("nombre")
-				   					</a>
-				   				</li>
-				   				<li>
-				   					<a href='@routes.Grupos.index(grupos(6).getString("id").toLong)'>
-				   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(6).getString("id")/@grupos(6).getString("imagen")' alt="imagen grupo">
-				   						@grupos(6).getString("nombre")
-				   					</a>
-				   				</li>
-				   				<li>
-				   					<a href='@routes.Grupos.index(grupos(7).getString("id").toLong)'>
-				   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(7).getString("id")/@grupos(7).getString("imagen")' alt="imagen grupo">
-				   						@grupos(7).getString("nombre")
-				   					</a>
-				   				</li>
-			   				}
-	   					}
-	   				</ul>
-	   				@if(!Usuario.cuentaInactiva(usuario.correo)) {
+			   						<a href='@routes.Grupos.index(g.getString("id").toLong)' rel="tooltip" title='@g.getString("descripcion")' data-toggle="top">
+			   							<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
+			   							@g.getString("nombre")
+			   						</a>
+			   					</li>
+		   					}
+		   				} else {
+		   					<li>
+			   					<a href='@routes.Grupos.index(grupos(0).getString("id").toLong)' rel="tooltip" title='@grupos(0).getString("descripcion")' data-toggle="top">
+			   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(0).getString("id")/@grupos(0).getString("imagen")' alt="imagen grupo">
+			   						@grupos(0).getString("nombre")
+			   					</a>
+			   				</li>
+			   				<li>
+			   					<a href='@routes.Grupos.index(grupos(1).getString("id").toLong)' rel="tooltip" title='@grupos(1).getString("descripcion")' data-toggle="top">
+			   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(1).getString("id")/@grupos(1).getString("imagen")' alt="imagen grupo">
+			   						@grupos(1).getString("nombre")
+			   					</a>
+			   				</li>
+			   				<li>
+			   					<a href='@routes.Grupos.index(grupos(2).getString("id").toLong)' rel="tooltip" title='@grupos(2).getString("descripcion")' data-toggle="top">
+			   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(2).getString("id")/@grupos(2).getString("imagen")' alt="imagen grupo">
+			   						@grupos(2).getString("nombre")
+			   					</a>
+			   				</li>
+			   				<li>
+			   					<a href='@routes.Grupos.index(grupos(3).getString("id").toLong)' rel="tooltip" title='@grupos(3).getString("descripcion")' data-toggle="top">
+			   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(3).getString("id")/@grupos(3).getString("imagen")' alt="imagen grupo">
+			   						@grupos(3).getString("nombre")
+			   					</a>
+			   				</li>
+			   				<li>
+			   					<a href='@routes.Grupos.index(grupos(4).getString("id").toLong)' rel="tooltip" title='@grupos(4).getString("descripcion")' data-toggle="top">
+			   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(4).getString("id")/@grupos(4).getString("imagen")' alt="imagen grupo">
+			   						@grupos(4).getString("nombre")
+			   					</a>
+			   				</li>
+			   				<li>
+			   					<a href='@routes.Grupos.index(grupos(5).getString("id").toLong)' rel="tooltip" title='@grupos(5).getString("descripcion")' data-toggle="top">
+			   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(5).getString("id")/@grupos(5).getString("imagen")' alt="imagen grupo">
+			   						@grupos(5).getString("nombre")
+			   					</a>
+			   				</li>
+			   				<li>
+			   					<a href='@routes.Grupos.index(grupos(6).getString("id").toLong)' rel="tooltip" title='@grupos(6).getString("descripcion")' data-toggle="top">
+			   						<img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(6).getString("id")/@grupos(6).getString("imagen")' alt="imagen grupo">
+			   						@grupos(6).getString("nombre")
+			   					</a>
+			   				</li>
+			   				<li>
+			   					<a href="@routes.Grupos.muestraGrupos(0)" rel="tooltip" title='Todos los grupos' data-toggle="top">Más...</a>
+			   				</li>
+		   				}
+   					}
+	   			</ul>
+	   			@if(!Usuario.cuentaInactiva(usuario.correo)) {
    					<a href="#" role="button" class="btn btn-large btn-success" data-toggle="modal"onClick=modal() >crear nuevo grupo</a>
    				}
 			</div>
 
 		</div>
-			
-		<div class="span9">
-			<div>			
-				<div id='calendar'></div>				
-			</div>    
+
+		<div class="span8">
+			<div>
+				<div id='calendar'></div>
+			</div>
 		</div>
 	</div>
-	
+
 	<!-- Modal crear grupo -->
 	<div class="modal hide fade" id="creaGrupo">
 		<form action="@routes.Grupos.crearGrupo(1, 0, 0)" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
@@ -428,14 +437,14 @@
 	    				<input type="text" name="nombre" required>
 	    			</div>
 	    		</div>
-	    		
+
 	    		<div class="control-group">
 	    			<label class="control-label">Descripcion</label>
 	    			<div class="controls">
 	    				<textarea name="descripcion" maxlength="500" required></textarea>
 	    			</div>
 	    		</div>
-	    		
+
 	    		<div class="control-group">
 				<label class="control-label" for="imagen">Imagen de grupo</label>
 					<div class="controls">
@@ -454,23 +463,23 @@
 				<a href="@routes.Home.index()" class="btn">Cerrar</a>
 				<input type="submit" class="btn btn-primary" value="Crear">
 			</div>
-		</form>		
+		</form>
 	</div>
-	
+
 	<!-- 	Modal pop-up guarda -->
-	<div class="modal hide" id="myModal">		
-		<form name="tarea" method="post">			
+	<div class="modal hide" id="myModal">
+		<form name="tarea" method="post">
 			<div class="modal-header">
 	    		<button type="button" class="close" data-dismiss="modal">×</button>
 	    		<h3>Nueva Tarea</h3>
-	    	</div>	    		    
-	    	<div class="modal-body">	    	
+	    	</div>
+	    	<div class="modal-body">
 	    		<div class="control-group">
 	    			<label class="control-label">Nombre Tarea</label>
 	    			<div class="controls">
 	    				<input class="input-medium" type="text" name="nombre"  required>
 	    			</div>
-	    		</div>	    		
+	    		</div>
 	    		<div class="control-group">
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
@@ -478,33 +487,33 @@
 			    		<input class="input-mini" type="text" id="horaI1" maxlength="8" name="hora_inicio" onChange="horaInicio1()" autocomplete="off" required>
 			    		a
 			    		<input class="input-small" type="text" id="fechaF1" maxlength="10" name="fecha_fin" autocomplete="off">
-			    		<input class="input-mini" type="text" id="horaF1" maxlength="8" name="hora_fin" onChange="horaFin1()" autocomplete="off" required>	
+			    		<input class="input-mini" type="text" id="horaF1" maxlength="8" name="hora_fin" onChange="horaFin1()" autocomplete="off" required>
 			    	</div>
-	    		</div>	    		
+	    		</div>
 	    		<div class="control-group">
 	    			<div class="controls">
 	    				<label class="checkbox">
 							<input type="checkbox" name="repetir" value="0" id="repetir"> repetir
 						</label>
 	    			</div>
-	    		</div>	    		
+	    		</div>
 	    		<div class="well control-group" id="divrepetir" style="display: none;">
-		    		<div class="controls ">						
+		    		<div class="controls ">
 						<label>Se repite: </label>
 						<select class="span2" name="op_repetir">
 							<option value="1">cada día</option>
 							<option value="2">cada semana</option>
-						</select>						
+						</select>
 						<label>Finaliza el: </label>
 			    		<input class="input-small" type="text" id="fechaT" maxlength="10" name="fecha_termino" autocomplete="off" required>
 			    	</div>
-	    		</div>	    		
+	    		</div>
 	    		<div class="control-group">
 	    			<label class="control-label">Descripción</label>
 	    			<div class="controls">
 	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500"></textarea>
 	    			</div>
-	    		</div> 	    		
+	    		</div>
  	    		<div class="control-group">
 	 	    		<label class="control-label">Prioridad Tarea</label>
 	 	    		<div class="controls">
@@ -514,31 +523,31 @@
 		 	    			<option value="3">Baja</option>
 		 	    		</select>
 		 	    	</div>
-		 	    </div>		 	    
-		 	    <input type="hidden" name="usuario.correo" value="@usuario.correo">	    		
-	    	</div>	    
+		 	    </div>
+		 	    <input type="hidden" name="usuario.correo" value="@usuario.correo">
+	    	</div>
 	    	<div class="modal-footer">
 	    		<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
 	    		<input type="button" onClick=formatea_envia() class="btn btn-primary" name="agrega" value="Crear">
 	    	</div>
-    	</form>			
+    	</form>
     </div>
-    
+
 	<!-- 	Modal pop-up Edita y elimina-->
-	<div class="modal hide" id="myModalEdita">		
-		<form name="edita" method="post">			
+	<div class="modal hide" id="myModalEdita">
+		<form name="edita" method="post">
 			<div class="modal-header">
 	    		<button type="button" class="close" data-dismiss="modal">×</button>
 	    		<h3>Tarea</h3>
-	    	</div>	    	
+	    	</div>
 	    	<div class="modal-body">
 	    		<input type="hidden" name="id" value="@if(tareaMostrar.id != null) {@tareaMostrar.id}">
 	    		<div class="control-group">
 	    			<label class="control-label">Nombre Tarea</label>
-	    			<div class="controls">	    			
-	    				<input class="input-medium" type="text" name="nombre" value="@tareaMostrar.nombre" required>	    			
+	    			<div class="controls">
+	    				<input class="input-medium" type="text" name="nombre" value="@tareaMostrar.nombre" required>
 	    			</div>
-	    		</div>	    		
+	    		</div>
 	    		<div class="control-group">
 		    		<label class="control-label">Duracion Tarea</label>
 		    		<div class="controls">
@@ -548,13 +557,13 @@
 			    		<input class="input-small" type="text" name="fecha_fin" maxlength="10" autocomplete="off" id="fechaF2" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
 			    		<input class="input-mini" type="text" name="hora_fin" maxlength="8" autocomplete="off" onChange="horaFin2()" id="horaF2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm:ss")}'>
 			    	</div>
-	    		</div>	    		
+	    		</div>
 	    		<div class="control-group">
 	    			<label class="control-label">Descripción</label>
 	    			<div class="controls">
 	    				<textarea class="input-xlarge span3" name="descripcion" maxlength="500">@tareaMostrar.descripcion</textarea>
 	    			</div>
-	    		</div> 	    		
+	    		</div>
  	    		<div class="control-group">
 	 	    		<label class="control-label">Prioridad Tarea</label>
 	 	    		<div class="controls">
@@ -576,20 +585,20 @@
 	 	    				</script>
 		 	    		</select>
 		 	    	</div>
-		 	    </div>		 	    
-		 	    <input type="hidden" name="usuario.correo" value="@usuario.correo">	    		
-	    	</div>	    
+		 	    </div>
+		 	    <input type="hidden" name="usuario.correo" value="@usuario.correo">
+	    	</div>
 	    	<div class="modal-footer">
-				<a class="btn btn-primary" onClick=enviar_a('@routes.Home.editaTarea')> 
+				<a class="btn btn-primary" onClick=enviar_a('@routes.Home.editaTarea')>
 					<i class="icon-refresh"> </i>
 					Actualizar
 				</a>
 				<a class="btn btn-danger" onClick=enviar_a('@routes.Home.eliminaTarea')>
 					<i class="icon-trash"></i>
-					Eliminar 
+					Eliminar
 				</a>
 				<input class="btn" data-dismiss="modal" type="button" onclick=redireccionar() value="Cerrar"/>
 	    	</div>
-    	</form>						
+    	</form>
     </div>
 }
