@@ -180,11 +180,15 @@ public class Grupos extends Controller {
 	 * 
 	 * @return
 	 */
-	public static Result muestraGrupos() {
+	public static Result muestraGrupos(int page) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(muestra_grupos.render(Usuario.find.byId(session("email")), Grupo.getGrupos(session("email")), ""));
+			return ok(muestra_grupos.render(Usuario.find.byId(session("email")), 
+						Grupo.pageGrupos(page),
+						""
+					)
+				);
 		}
 	}
 
@@ -234,7 +238,7 @@ public class Grupos extends Controller {
 				    	else if (pag == 2)
 				    		return badRequest(muestra_grupos.render(
 									Usuario.find.byId(session("email")), 
-									Grupo.getGrupos(session("email")), 
+									Grupo.pageGrupos(0), 
 									"La imagen supera el limite"
 									));
 				    	else if (pag == 3)
@@ -307,7 +311,7 @@ public class Grupos extends Controller {
 					    	else if (pag == 2)
 					    		return badRequest(muestra_grupos.render(
 										Usuario.find.byId(session("email")), 
-										Grupo.getGrupos(session("email")), 
+										Grupo.pageGrupos(0),
 										"Debe seleccionar una imagen"
 										));
 					    	else if (pag == 3)

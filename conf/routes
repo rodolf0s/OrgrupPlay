@@ -82,7 +82,7 @@ POST	/configurar/cuenta			controllers.Cuenta.desactivarCuenta()
 GET		/configurar/activar-cuenta	controllers.Cuenta.activarCuenta()
 
 #Grupo
-GET		/grupos								controllers.Grupos.muestraGrupos()
+GET		/grupos								controllers.Grupos.muestraGrupos(p:Int ?= 0)
 POST	/crear-grupo						controllers.Grupos.crearGrupo(pag: Integer, id: Long, idReunion: Long)
 GET		/grupo/:id							controllers.Grupos.index(id: Long)
 POST	/grupo/agregar-integrante			controllers.Grupos.agregaIntegrante(pag: Integer)
