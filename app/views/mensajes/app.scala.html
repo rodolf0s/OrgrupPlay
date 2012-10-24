@@ -38,7 +38,7 @@
 							<li class="divider-vertical"></li>
 							<li><a href="@routes.Contactos.contactos()">Contactos</a></li>
 							@if(Home.notificacionAmigos() != 0){
-							<li><a href="@routes.Contactos.muestraAgregarContactos"><span class="badge badge-important">@{Home.notificacionAmigos()}</span></a></li>
+							<li><a href="@routes.Contactos.muestraAgregarContactos(0, "")"><span class="badge badge-important">@{Home.notificacionAmigos()}</span></a></li>
 							}
 							<li class="divider-vertical"></li>
 							<li><a href="@routes.Grupos.muestraGrupos(0)">Grupos</a></li>
