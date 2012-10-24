@@ -1,4 +1,14 @@
-@(user: Usuario, lista: List[Contacto])
+@(user: Usuario, lista: Page[Contacto], currentFilter: String)
+
+@****************************************
+* Ayuda a generar los link de navegacion*
+****************************************@
+@link(newPage:Int) = @{
+
+    // Generate the link
+    routes.Contactos.muestraAgregarContactos(newPage, currentFilter)
+    
+}
 
 @app(title = "Orgrup", user.nombre){
 
@@ -8,7 +18,7 @@
 			<legend>Solicitudes pendientes</legend>
 				<div class="span8">	
 					<table class="table">
-						@for(p<-lista){
+						@for(p<-lista.getList){
 							<tr>
 								<form action="@routes.Contactos.agregaContactoBd" method="post">
 								
@@ -36,5 +46,32 @@
 					</table>
 				</div>	
 		</fieldset>
+		
+		<div id="pagination" class="pagination pull-right">
+			<ul>
+				@if(lista.hasPrev) {
+					<li class="prev">
+						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+					</li>
+				} else {
+					<li class="prev disabled">
+						<a>&larr; Anterior</a>
+					</li>
+				}
+				<li class="current">
+					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+				</li>
+				@if(lista.hasNext) {
+					<li class="next">
+						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+					</li>
+				} else {
+					<li class="next disabled">
+						<a>Siguente &rarr;</a>
+					</li>
+				}
+			</ul>
+		</div>
+		
 	</div>
 }

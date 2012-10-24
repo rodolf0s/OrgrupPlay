@@ -7,6 +7,7 @@
         <title>@title</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/agenda.css")"> 
        	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap.min.css")"> 
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap-responsive.min.css")">
 		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/fullcalendar.css")">
@@ -21,7 +22,11 @@
         <script src="@routes.Assets.at("javascripts/jquery-ui-1.8.23.custom.min.js")" type="text/javascript"></script>
     </head>
     <body>
-    
+    	<style>
+    		body {
+			    background-color: #F2F2F2;
+			}
+    	</style>
     	<!-- Barra superior -->
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
@@ -38,12 +43,12 @@
 							<li class="divider-vertical"></li>
 							<li><a href="@routes.Contactos.contactos()">Contactos</a></li>
 							@if(Home.notificacionAmigos() != 0){
-							<li><a href="@routes.Contactos.muestraAgregarContactos"><span class="badge badge-important">@{Home.notificacionAmigos()}</span></a></li>
+							<li><a href="@routes.Contactos.muestraAgregarContactos(0, "")"><span class="badge badge-important">@{Home.notificacionAmigos()}</span></a></li>
 							}
 							<li class="divider-vertical"></li>
 							<li><a href="@routes.Grupos.muestraGrupos(0)">Grupos</a></li>
 							@if(Home.notificacionesGrupos() != 0){
-							<li><a href="@routes.Grupos.muestraSolicitudes"><span class="badge badge-important">@{Home.notificacionesGrupos()}</span></a></li>
+							<li><a href="@routes.Grupos.muestraSolicitudes(0, "")"><span class="badge badge-important">@{Home.notificacionesGrupos()}</span></a></li>
 							}
 							<li class="divider-vertical"></li>
 							<li><a href="@routes.Mensajes.index">Mensajes</a></li>
@@ -75,7 +80,7 @@
 		
 		<br><br><br>
 		
-		<div class="container-fluid">
+		<div class="container">
 			@content		
 		</div>
 		<hr>

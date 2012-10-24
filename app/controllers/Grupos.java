@@ -693,8 +693,13 @@ public class Grupos extends Controller {
 	 * Muestra la pagina de solicitudes de grupo para confirmar o rechazar invitacion 
 	 * @return
 	 */
-	public static Result muestraSolicitudes() {
-		return ok(solicitudes_de_grupo.render(Usuario.find.byId(session("email")), Integrante.cuentaGruposInactivos(session("email"))));
+	public static Result muestraSolicitudes(int page, String filter) {
+		return ok(solicitudes_de_grupo.render(
+					Usuario.find.byId(session("email")), 
+					Integrante.page(page, filter, (session("email"))),
+					filter
+				)
+		);
 	}
 	
 	public static Result ingresarAGrupo() {
@@ -705,7 +710,7 @@ public class Grupos extends Controller {
 			Integrante.cambiaEstadoIntegrante(aceptaSolicitud.get().usuario.correo, aceptaSolicitud.get().grupo.id);
 
 		}
-		return redirect(routes.Grupos.muestraSolicitudes());
+		return redirect(routes.Grupos.muestraSolicitudes(0, ""));
 	}
 	
 	public static Result eliminaInvitacion(Long id) {
@@ -713,6 +718,6 @@ public class Grupos extends Controller {
 				.eq("usuario_correo", session("email"))
 				.eq("grupo_id", id).findUnique();
 		integrante.delete();
-		return redirect(routes.Grupos.muestraSolicitudes());
+		return redirect(routes.Grupos.muestraSolicitudes(0, ""));
 	}
 }

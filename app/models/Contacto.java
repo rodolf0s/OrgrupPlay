@@ -217,4 +217,15 @@ public class Contacto extends Model {
 					.getPage(page);
 	}
 	
+	public static Page<Contacto> page2(int page, String filter, String email) {
+		return 
+				find
+					.where()
+					.eq("usuario2_correo", email)
+					.eq("amigos", "no")
+					.order().asc("usuario1_correo")
+					.findPagingList(10)
+					.getPage(page);
+	}
+	
 }
