@@ -2,85 +2,85 @@
 
 @main(title = "Ingresar") {
 
-	<style>
-		.well {
-			color: black;
-		}
-		.well div h3 a { 
-			color: white;
-			display: inline-block;
-			font-weight: normal;
-		 }
-	</style>
+    <style>
+        .well {
+            color: black;
+        }
+        .well div h3 a {
+            color: white;
+            display: inline-block;
+            font-weight: normal;
+         }
+    </style>
 
     <!-- Simple Formulario para ingresar -->
     <div class="contenedor">
         <div class="row">
             <div class="span9" style="float:right">
                 <div class="span4" style="float:left;">
-                	<div class="well">
-                		<div>
-							<h3>Ingresar a Orgrup							
-							</h3>
-						</div>
-						<hr>
-						<div>
-							<form class="form" action="@routes.Application.comprobarLogin" method="post">
-								<div class="control-group">
-									<label class="control-label" for="correo">Correo electronico</label>
-									<div class="controls">
-										<input class="input-xlarge" type="email" placeholder="Correo electronico" id="correo" name="correo" autofocus="autofocus" required>
-									</div>
-								</div>
-								<div class="control-group">
-									<label class="control-label" for="password">Contraseña</label>
-									<div class="controls">
-										<input class="input-xlarge" type="password" placeholder="Contraseña" name="password" id="password" required>
-										<br>
-										<i class="icon-search"></i>
-										<a href="@routes.Application.recuperar">¿Olvidaste tu contraseña?</a><br>
-										<i class="icon-user"></i>
-										<a href="@routes.Application.registro">¿Eres nuevo en Orgrup?</a>
-										
-									</div>
-								</div>
-								@if(form.hasGlobalErrors) { 
-	                				<div class="alert alert-error" id="error">
-										<button type="button" class="close" data-dismiss="alert">×</button>
-										<small>
-											<strong>Error!</strong>
-											@form.globalError.message
-										</small>
-									</div>
-	            				}
-	            				@if(error != "") {
-	            					<div class="alert alert-error" id="alerta">
-										<button type="button" class="close" data-dismiss="alert">×</button>
-										<small>
-											<strong>Error!</strong>
-											@error
-										</small>
-									</div>
-								}
-								<div class="form-actions">
-									<button type="submit" class="btn btn-large btn-primary">Ingresar</button>
-								</div>
-							</form>
-						</div>
-                	</div>
+                    <div class="well">
+                        <div>
+                            <h3>Ingresar a Orgrup
+                            </h3>
+                        </div>
+                        <hr>
+                        <div>
+                            <form class="form" action="@routes.Application.comprobarLogin" method="post">
+                                <div class="control-group">
+                                    <label class="control-label" for="correo">Correo electronico</label>
+                                    <div class="controls">
+                                        <input class="input-xlarge" type="email" placeholder="Correo electronico" id="correo" name="correo" autofocus="autofocus" maxlength="50" required>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="password">Contraseña</label>
+                                    <div class="controls">
+                                        <input class="input-xlarge" type="password" placeholder="Contraseña" name="password" id="password" maxlength="20" required>
+                                        <br>
+                                        <i class="icon-search"></i>
+                                        <a href="@routes.Application.recuperar">¿Olvidaste tu contraseña?</a><br>
+                                        <i class="icon-user"></i>
+                                        <a href="@routes.Application.registro">¿Eres nuevo en Orgrup?</a>
+
+                                    </div>
+                                </div>
+                                @if(form.hasGlobalErrors) {
+                                    <div class="alert alert-error" id="error">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <small>
+                                            <strong>Error!</strong>
+                                            @form.globalError.message
+                                        </small>
+                                    </div>
+                                }
+                                @if(error != "") {
+                                    <div class="alert alert-error" id="alerta">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <small>
+                                            <strong>Error!</strong>
+                                            @error
+                                        </small>
+                                    </div>
+                                }
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-large btn-primary">Ingresar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <br><br>
-	</div>
-        
-	<script>
-		$('.input-xlarge').keypress(function() {
-	   		$('#error').hide();
-	   	});
-	   	
-	   	$('.input-xlarge').keypress(function() {
-	   		$('#alerta').hide();
-	   	});
-	</script>
+    </div>
+
+    <script>
+        $('.input-xlarge').keypress(function() {
+            $('#error').hide();
+        });
+
+        $('.input-xlarge').keypress(function() {
+            $('#alerta').hide();
+        });
+    </script>
 }
