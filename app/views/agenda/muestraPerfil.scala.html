@@ -21,9 +21,12 @@
             </div>
             <div class="span8">
                 @if(!Usuario.cuentaInactiva(user.correo)) {
-                    <a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()">
-                        Enviar mensaje
-                    </a>
+                    @if(user.correo != user2.correo) {
+                        <a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()">
+                            Enviar mensaje
+                        </a>
+                    }
+
                 }
                 <h1>@user2.nombre</h1>
                 <address>
