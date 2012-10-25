@@ -28,6 +28,7 @@ public class Reuniones extends Controller {
 		Integer duracion = null;
 		Integer idGrupo = 0;
 		Integer miembros = 0;
+		String correosMiembros = "";
 		
  		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
 		
@@ -138,8 +139,8 @@ public class Reuniones extends Controller {
 		Date transicionHora = null;
 		Integer contarFecha = 0;
 		
-		//Buscar miembros dell grupo
-		miembros = Integrante.contarMiembros(idGrupo.longValue()) -1;
+		//Buscar miembros del grupo
+		miembros = Integrante.contarMiembros(idGrupo.longValue())-1;
 		
 		Integer resultados = 0;
 		//Comprobar que excistan bloques consecutivos igual a la duracion de la reunion y que cumplan con el minimo de asistencia
