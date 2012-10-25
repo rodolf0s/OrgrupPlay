@@ -115,12 +115,30 @@ public class Tarea extends Model {
          tarea.save();
      }
 
-
+     /**
+      * Busca un bloque determminado
+      * @param fecha
+      * @param hora
+      * @param correo
+      * @return
+      */
      public static Integer buscarTarea(Date fecha, Date hora, String correo) {
          return find.where()
                  .eq("fecha_inicio", fecha)
                  .eq("hora_inicio", hora)
                  .eq("usuario_correo", correo)
                  .findRowCount();
+     }
+     
+     public static Date buscaHoraTermino(Date fecha, Date hora, String correo) {
+    	 Tarea tarea = Ebean.find(Tarea.class)
+                 .select("descripcion")
+                 .where()
+                 .eq("fecha_inicio", fecha)
+                 .eq("hora_inicio", hora)
+                 .eq("usuario_correo", correo)
+                 .findUnique();
+         return tarea.hora_fin;
+         
      }
 }
