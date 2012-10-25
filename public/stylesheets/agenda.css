@@ -22,35 +22,32 @@ body {
     text-decoration: none;
 }
 
-/*.row {
-    background-color: #252525;
-    border-radius: 10px;
-}*/
-
-
-.row .span4 h3 {
-    color: gray;
-}
-
-.row .span4 h3 a {
-    color: gray;
-    text-decoration: none;
-}
-
-.row .span4 h3 a:hover {
-    text-decoration: none;
-}
-
-.row .span4 {
-    color: white;
-}
-
-.span4 {
+.row .span3 {
     background-color: #252525;
     border-radius: 15px;
+    color: white;
+    font-size: 11px;
 }
 
-.span8 {
+.row .span3 h4 {
+    color: gray;
+}
+
+.row .span3 h4 a {
+    color: gray;
+    text-decoration: none;
+}
+
+.row .span3 h4 a:hover {
+    text-decoration: none;
+}
+
+.row .span9 {
+    background-color: #FFF;
+    border-radius: 10px;
+}
+
+.perfil {
     background-color: #FFF;
     border-radius: 10px;
 }

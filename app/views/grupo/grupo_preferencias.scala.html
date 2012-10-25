@@ -8,6 +8,7 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            $("[rel=tooltip]").tooltip();
             // si hay un error al subir la imagen del grupo.
             @if(errorImagen != "") {
                 $('#creaGrupo').modal('show');
@@ -22,55 +23,133 @@
         }
     </script>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="span3">
-            <div class="well well-small">
-                <ul class="nav nav-list">
-                    <li> <img class="img-polaroid" style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
-                    <li><b>@usuario.nombre</b></li>
+            <div class="panel">
+                <ul class="nav">
+                    <li>
+                <h5>
+                    <a href="@routes.Contactos.muestraElPerfil(usuario.correo)" rel="tooltip" title="Ver mi perfil">
+                    <img class="img-rounded" style="width: 38px; height: 38px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario">
+                    @usuario.nombre
+                    </a>
+                </h5>
+                </li>
+                <li>
+                <h5>Mi información <a href="@routes.Cuenta.perfil" rel="tooltip" title="Editar mi información personal">(editar)</a> </h5>
+                </li>
+                <li>
+                <p><strong>Ciudad:</strong> @usuario.ciudad</p>
+                </li>
+                <li>
+                <p><strong>Correo:</strong> @usuario.correo</p>
+                </li>
+                @if(usuario.telefono!=null){
+                <li>
+                    <p><strong>Telefono:</strong> @usuario.telefono</p>
+                </li>
+                }
                 </ul>
-            </div>
-            <div class="well well-small">
-                <form name="muestraGrupo">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="nav-header">
-                            Grupos
-                        </li>
-                        @if(!grupos.isEmpty()) {
+                <hr>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="nav-header">
+                        Grupos
+                    </li>
+                    @if(!grupos.isEmpty()) {
+                        @if(grupos.length <= 8) {
                             @for(g <- grupos) {
-                                <li @if(grupo.getString("id") == g.getString("id")) { class="active" })>
-                                    <a href='@routes.Grupos.index(g.getString("id").toLong)'>
-                                        <img class="img-polaroid" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
+                                <li>
+                                    <a href='@routes.Grupos.index(g.getString("id").toLong)' rel="tooltip" title='@g.getString("descripcion")' data-toggle="top">
+                                        <img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
                                         @g.getString("nombre")
                                     </a>
                                 </li>
                             }
+                        } else {
+                            <li>
+                                <a href='@routes.Grupos.index(grupos(0).getString("id").toLong)' rel="tooltip" title='@grupos(0).getString("descripcion")' data-toggle="top">
+                                    <img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(0).getString("id")/@grupos(0).getString("imagen")' alt="imagen grupo">
+                                    @grupos(0).getString("nombre")
+                                </a>
+                            </li>
+                            <li>
+                                <a href='@routes.Grupos.index(grupos(1).getString("id").toLong)' rel="tooltip" title='@grupos(1).getString("descripcion")' data-toggle="top">
+                                    <img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(1).getString("id")/@grupos(1).getString("imagen")' alt="imagen grupo">
+                                    @grupos(1).getString("nombre")
+                                </a>
+                            </li>
+                            <li>
+                                <a href='@routes.Grupos.index(grupos(2).getString("id").toLong)' rel="tooltip" title='@grupos(2).getString("descripcion")' data-toggle="top">
+                                    <img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(2).getString("id")/@grupos(2).getString("imagen")' alt="imagen grupo">
+                                    @grupos(2).getString("nombre")
+                                </a>
+                            </li>
+                            <li>
+                                <a href='@routes.Grupos.index(grupos(3).getString("id").toLong)' rel="tooltip" title='@grupos(3).getString("descripcion")' data-toggle="top">
+                                    <img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(3).getString("id")/@grupos(3).getString("imagen")' alt="imagen grupo">
+                                    @grupos(3).getString("nombre")
+                                </a>
+                            </li>
+                            <li>
+                                <a href='@routes.Grupos.index(grupos(4).getString("id").toLong)' rel="tooltip" title='@grupos(4).getString("descripcion")' data-toggle="top">
+                                    <img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(4).getString("id")/@grupos(4).getString("imagen")' alt="imagen grupo">
+                                    @grupos(4).getString("nombre")
+                                </a>
+                            </li>
+                            <li>
+                                <a href='@routes.Grupos.index(grupos(5).getString("id").toLong)' rel="tooltip" title='@grupos(5).getString("descripcion")' data-toggle="top">
+                                    <img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(5).getString("id")/@grupos(5).getString("imagen")' alt="imagen grupo">
+                                    @grupos(5).getString("nombre")
+                                </a>
+                            </li>
+                            <li>
+                                <a href='@routes.Grupos.index(grupos(6).getString("id").toLong)' rel="tooltip" title='@grupos(6).getString("descripcion")' data-toggle="top">
+                                    <img class="img-rounded" style="width: 32px; height: 32px;" src='/assets/grupos/@grupos(6).getString("id")/@grupos(6).getString("imagen")' alt="imagen grupo">
+                                    @grupos(6).getString("nombre")
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@routes.Grupos.muestraGrupos(0)" rel="tooltip" title='Todos los grupos' data-toggle="top">Más...</a>
+                            </li>
                         }
-                    </ul>
-                </form>
-                <a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
+                    }
+                </ul>
+                @if(!Usuario.cuentaInactiva(usuario.correo)) {
+                    <a href="#" role="button" class="btn btn-large btn-success" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
+                }
             </div>
         </div>
 
-        <div class="span7">
+        <div class="span9">
+            <ul class="nav nav-tabs">
+                <li><a href='@routes.Grupos.index(grupo.getString("id").toLong)'>Inicio</a></li>
+                <li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
+                <li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Integrantes</a></li>
+                @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+                <li class="active"><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
+                }
+            </ul>
             <div class="page-header">
                 <h1>
                     @grupo.getString("nombre") <small> Preferencias </small>
                     <input type="hidden" name="id" value='@grupo.getString("id")'>
-                    <a class="btn btn-danger pull-right" href='@routes.Grupos.eliminaGrupo(grupo.getString("id").toLong)'>Eliminar grupo</a>
+                    <a class="btn btn-danger pull-right" href='@routes.Grupos.eliminaGrupo(grupo.getString("id").toLong)'>
+                        <i class="icon-remove"> </i>
+                        Eliminar grupo
+                    </a>
                 </h1>
             </div>
             <form class="form-horizontal" action="@routes.Grupos.editaGrupo" enctype="multipart/form-data" method="post">
                 <div class="control-group">
                     <label class="control-label" for="nombre">Nombre del grupo</label>
                     <div class="controls">
-                        <input type="text" id="nombre" name="nombre" value='@grupo.getString("nombre")' required>
+                        <input class="input-xlarge" type="text" id="nombre" name="nombre" maxlength="25" value='@grupo.getString("nombre")' required>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="descripcion">Descripcion del grupo</label>
                     <div class="controls">
-                        <textarea id="descripcion" name="descripcion" rows="3" cols="3">@grupo.getString("descripcion")</textarea>
+                        <textarea class="input-xlarge" rows="6" id="descripcion" name="descripcion" maxlength="150" >@grupo.getString("descripcion")</textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -88,7 +167,7 @@
             </form>
         </div>
 
-        <div class="span2">
+        <!-- <div class="span2">
             <div class="tabbable tabs-right">
             <ul class="nav nav-tabs">
                 <li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
@@ -98,7 +177,7 @@
                 }
             </ul>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- Modal crear grupo -->

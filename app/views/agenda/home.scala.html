@@ -309,20 +309,22 @@
     }
 </script>
 
-    <div class="row conenedor">
-        <div class="span4">
+    <div class="row">
+        <div class="span3">
             <div class="panel">
                 <ul class="nav">
                     <li>
-                <h3>
+                <h5>
                     <a href="@routes.Contactos.muestraElPerfil(usuario.correo)" rel="tooltip" title="Ver mi perfil">
                     <img class="img-rounded" style="width: 38px; height: 38px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario">
                     @usuario.nombre
                     </a>
-                </h3>
+                </h5>
                 </li>
                 <li>
-                <h5>Mi información <a href="@routes.Cuenta.perfil" rel="tooltip" title="Editar mi información personal">(editar)</a> </h5>
+                <h6>
+                    Mi información <a href="@routes.Cuenta.perfil" rel="tooltip" title="Editar mi información personal">(editar)</a>
+                </h6>
                 </li>
                 <li>
                 <p><strong>Ciudad:</strong> @usuario.ciudad</p>
@@ -337,15 +339,6 @@
                 }
                 </ul>
                 <hr>
-                <!-- <ul class="nav nav-list">
-                    <li> <img class="img-polaroid" style="width: 100px; height: 100px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
-                    <li><font size="4">@usuario.nombre</font></li>
-                    <li><font size="2">Ciudad: @usuario.ciudad</font></li>
-                    <li><font size="2">Correo: @usuario.correo</font></li>
-                    @if(usuario.telefono!=null){
-                        <li><font size="2">Telefono: @usuario.telefono</font></li>
-                    }
-                </ul> -->
                 <ul class="nav nav-pills nav-stacked">
                     <li class="nav-header">
                         Grupos
@@ -413,10 +406,9 @@
                     <a href="#" role="button" class="btn btn-large btn-success" data-toggle="modal"onClick=modal() >crear nuevo grupo</a>
                 }
             </div>
-
         </div>
 
-        <div class="span8">
+        <div class="span9">
             <div>
                 <div id='calendar'></div>
             </div>
