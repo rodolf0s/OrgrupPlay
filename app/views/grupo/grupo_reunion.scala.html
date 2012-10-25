@@ -1,170 +1,166 @@
 @(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], reunion: Reunion, archivos: List[Archivo], errorImagen: String)
 
 @app(title = reunion.nombre, usuario.nombre) {
-	
-	<script>
-		$(document).ready(function() {
-			@if(errorImagen != "") {
-				$('#creaGrupo').modal('show');
-			}
-		});
-		
-		function modalDocumentos() {
-			$('#document').modal('show');
-		}
-		function modalGrupos() {
-			$('#creaGrupo').modal('show');
-		}	
-	</script>
-	
-	<div class="row-fluid">
-		<div class="span3">
-			
-			<div class="well well-small">
-				<ul class="nav nav-list">
-					<li> <img class="img-polaroid" style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
-					<li><b>@usuario.nombre</b></li>					
-				</ul>
-			</div>
 
-			<div class="well well-small"> 
-   				<form name="muestraGrupo">
-	   				<ul class="nav nav-pills nav-stacked">
-	   					<li class="nav-header">
-	   						Grupos				
-	   					</li>
-	   					@if(!grupos.isEmpty()) {
-		   					@for(g <- grupos) {		   						
-			   					<li @if(grupo.getString("id") == g.getString("id")) { class="active" })>
-			   						<a href='@routes.Grupos.index(g.getString("id").toLong)'>
-			   							<img class="img-polaroid" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
-			   							@g.getString("nombre")
-			   						</a>
-			   					</li>		   						
-		   					}
-	   					}
-	   				</ul>
-   				</form>
-   				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
-   			</div>
-   		</div>
-   		
-   		<div class="span7">
-			<div class="page-header">
-				<h1>				
-					@reunion.nombre <small> @reunion.descripcion </small>				
-					<input type="hidden" name="id" value='@grupo.getString("id")'>
-					@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-					<button class="btn btn-success pull-right" onClick="modalDocumentos()">Subir Documento</button>
-					}
-				</h1>
-			</div>
-			
-			<div>
-				<h2>Personas que asistieron a la reunion</h2>
-				<h2>Documentos</h2>
-				@if(!archivos.isEmpty()) {
-					<table class="table table-hover table-bordered">
-						<thead>
-							<tr>
-								<th>Nombre</th>
-								<th>Fecha</th>
-								<th>Autor</th>
-								<th>Descargar</th>
-								@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-								<th>Eliminar</th>
-								}
-							</tr>
-						</thead>
-						<tbody>
-							@for(ar <- archivos) {
-								<tr>
-									<td>@ar.nombre</td>
-									<td>@ar.fecha.format("dd/MM/yyyy") @ar.hora.format("HH:mm")</td>
-									<td>@Usuario.getNombre(ar.usuario.correo)</td>
-									<td><a class="btn btn-primary" href='@routes.Grupos.descargarArchivo(ar.id, grupo.getString("id").toLong)'>descargar</a></td>
-									@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-									<td><a class="btn btn-danger" href='@routes.Grupos.eliminarArchivo(ar.id, reunion.id, grupo.getString("id").toLong)'>eliminar</a></td>
-									}
-								</tr>
-							}
-						</tbody>
-					</table>
-				}
-			</div>
-		</div>
-		
-		<div class="span2">
-			<div class="tabbable tabs-right">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
-				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Integrantes</a></li>
-				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
-				}
-			</ul>
-			</div>
-		</div>
-	</div>
+    <script>
+        $(document).ready(function() {
+            @if(errorImagen != "") {
+                $('#creaGrupo').modal('show');
+            }
+        });
+
+        function modalDocumentos() {
+            $('#document').modal('show');
+        }
+        function modalGrupos() {
+            $('#creaGrupo').modal('show');
+        }
+    </script>
+
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well well-small">
+                <ul class="nav nav-list">
+                    <li> <img class="img-polaroid" style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
+                    <li><b>@usuario.nombre</b></li>
+                </ul>
+            </div>
+            <div class="well well-small">
+                <form name="muestraGrupo">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="nav-header">
+                            Grupos
+                        </li>
+                        @if(!grupos.isEmpty()) {
+                            @for(g <- grupos) {
+                                <li @if(grupo.getString("id") == g.getString("id")) { class="active" })>
+                                    <a href='@routes.Grupos.index(g.getString("id").toLong)'>
+                                        <img class="img-polaroid" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
+                                        @g.getString("nombre")
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </form>
+                <a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
+            </div>
+        </div>
+
+        <div class="span7">
+            <div class="page-header">
+                <h1>
+                    @reunion.nombre <small> @reunion.descripcion </small>
+                    <input type="hidden" name="id" value='@grupo.getString("id")'>
+                    @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+                    <button class="btn btn-success pull-right" onClick="modalDocumentos()">Subir Documento</button>
+                    }
+                </h1>
+            </div>
+
+            <div>
+                <h2>Personas que asistieron a la reunion</h2>
+                <h2>Documentos</h2>
+                @if(!archivos.isEmpty()) {
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Fecha</th>
+                                <th>Autor</th>
+                                <th>Descargar</th>
+                                @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+                                <th>Eliminar</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(ar <- archivos) {
+                                <tr>
+                                    <td>@ar.nombre</td>
+                                    <td>@ar.fecha.format("dd/MM/yyyy") @ar.hora.format("HH:mm")</td>
+                                    <td>@Usuario.getNombre(ar.usuario.correo)</td>
+                                    <td><a class="btn btn-primary" href='@routes.Grupos.descargarArchivo(ar.id, grupo.getString("id").toLong)'>descargar</a></td>
+                                    @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+                                    <td><a class="btn btn-danger" href='@routes.Grupos.eliminarArchivo(ar.id, reunion.id, grupo.getString("id").toLong)'>eliminar</a></td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+
+        <div class="span2">
+            <div class="tabbable tabs-right">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
+                <li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Integrantes</a></li>
+                @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+                <li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
+                }
+            </ul>
+            </div>
+        </div>
+    </div>
 }
 
-	<!-- Modal subir archivo -->
-	<div class="modal hide fade" id="document">
-		<form action='@routes.Grupos.subeArchivo(reunion.id, grupo.getString("id").toLong)' class="form-horizontal" name="documentos" enctype="multipart/form-data" method="post">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Subir un nuevo documento</h3>
-			</div>
-			<div class="modal-body">
-				<input class="input-file" type="file" name="nombre">
-				<input type="hidden" name="reunion.id" value="@reunion.id" id="reunion">
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Subir">
-			</div>
-		</form>	
-	</div>
-	
-	<!-- Modal crear grupo -->
-	<div class="modal hide fade" id="creaGrupo">
-		<form action='@routes.Grupos.crearGrupo(6, grupo.getString("id").toLong, reunion.id)' class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
-			<div class="modal-header">
-				<a href='@routes.Grupos.verReunion(grupo.getString("id").toLong, reunion.id)' class="close" aria-hidden="true">&times;</a>
-				<h3>Grupo Nuevo</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-	    			<label class="control-label">Nombre del grupo</label>
-	    			<div class="controls">
-	    				<input type="text" name="nombre" required>
-	    			</div>
-	    		</div>
-	    		
-	    		<div class="control-group">
-	    			<label class="control-label">Descripcion</label>
-	    			<div class="controls">
-	    				<textarea name="descripcion" maxlength="500" required></textarea>
-	    			</div>
-	    		</div>
-	    		
-	    		<div class="control-group">
-				<label class="control-label" for="imagen">Imagen de grupo</label>
-					<div class="controls">
-						<img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
-						<input class="input-file" id="imagen" type="file" name="imagen"><br>
-						tamaño maximo = 1 MB
-					</div>
-				</div>
-				<div class="control-group>">
-					<div class="controls">
-						<span style="color: red;">@errorImagen</span>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href='@routes.Grupos.verReunion(grupo.getString("id").toLong, reunion.id)' class="btn">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Crear">
-			</div>
-		</form>		
-	</div>
+    <!-- Modal subir archivo -->
+    <div class="modal hide fade" id="document">
+        <form action='@routes.Grupos.subeArchivo(reunion.id, grupo.getString("id").toLong)' class="form-horizontal" name="documentos" enctype="multipart/form-data" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Subir un nuevo documento</h3>
+            </div>
+            <div class="modal-body">
+                <input class="input-file" type="file" name="nombre">
+                <input type="hidden" name="reunion.id" value="@reunion.id" id="reunion">
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+                <input type="submit" class="btn btn-primary" value="Subir">
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal crear grupo -->
+    <div class="modal hide fade" id="creaGrupo">
+        <form action='@routes.Grupos.crearGrupo(6, grupo.getString("id").toLong, reunion.id)' class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+            <div class="modal-header">
+                <a href='@routes.Grupos.verReunion(grupo.getString("id").toLong, reunion.id)' class="close" aria-hidden="true">&times;</a>
+                <h3>Grupo Nuevo</h3>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label">Nombre del grupo</label>
+                    <div class="controls">
+                        <input type="text" name="nombre" autofocus="autofocus" maxlength="25" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Descripcion</label>
+                    <div class="controls">
+                        <textarea name="descripcion" maxlength="150" required></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                <label class="control-label" for="imagen">Imagen de grupo</label>
+                    <div class="controls">
+                        <img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
+                        <input class="input-file" id="imagen" type="file" name="imagen"><br>
+                        tamaño maximo = 1 MB
+                    </div>
+                </div>
+                <div class="control-group>">
+                    <div class="controls">
+                        <span style="color: red;">@errorImagen</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href='@routes.Grupos.verReunion(grupo.getString("id").toLong, reunion.id)' class="btn">Cerrar</a>
+                <input type="submit" class="btn btn-primary" value="Crear">
+            </div>
+        </form>
+    </div>

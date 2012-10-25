@@ -7,135 +7,129 @@
 
     // Generate the link
     routes.Grupos.muestraGrupos(newPage)
-    
+
 }
 
 @app(title = "Orgrup", user.nombre) {
 
-	<style type="text/css">
-		ul { list-style: none; }
-		.well h3 a { font-weight: normal; }
-	</style>
-
-	
-	<div class="container">
-		<div class="well">			
-			<h3>
-				Grupos a los que pertenece
-				@if(!Usuario.cuentaInactiva(user.correo)) {
-					<a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Crear grupo</a>
-				}				
-			</h3>	
-			
-			@if(grupos.getTotalRowCount > 0) {
-		   		@for(g <- grupos.getList) {
-		   			@if(Integrante.esIntegrante(user.correo, g.id) == false) {
-					<div class="row">
-						<div class="span8">
-							<ul class="nav nav-pills nav-stacked">
-				   				<li>
-				   					<a href='@routes.Grupos.index(g.id)'>
-				   						<img class="img-polaroid" style="width: 35px; height: 35px;" src='/assets/grupos/@g.id/@g.imagen' alt="imagen grupo">
-				   						@g.nombre
-				   					</a>
-				  				</li>
-							</ul>
-						</div>
-						<div class="span3">
-							<ul>
-								<li>
-				   					@if(Integrante.esAdmin(g.id, user.correo)==false){
-				   						<a class="btn btn-danger" href='@routes.Grupos.dejarGrupo(g.id)'>Dejar Grupo</a>
-				   					}
-				   				</li>
-				   			</ul>
-				   		</div>
-				   	</div>
-				   	}
-		   		}
-	   		}	   			
-		</div>
-		
-		<div id="pagination" class="pagination pull-right">
-			<ul>
-				@if(grupos.hasPrev) {
-					<li class="prev">
-						<a href="@link(grupos.getPageIndex - 1)">&larr; Anterior</a>
-					</li>
-				} else {
-					<li class="prev disabled">
-						<a>&larr; Anterior</a>
-					</li>
-				}
-				<li class="current">
-					<a>Mostrando @grupos.getDisplayXtoYofZ(" hasta "," de ")</a>
-				</li>
-				@if(grupos.hasNext) {
-					<li class="next">
-						<a href="@link(grupos.getPageIndex + 1)">Siguente &rarr;</a>
-					</li>
-				} else {
-					<li class="next disabled">
-						<a>Siguente &rarr;</a>
-					</li>
-				}
-			</ul>
-		</div>
-	</div>
-	
-	<!-- Modal crear grupo -->
-	<div class="modal hide fade" id="creaGrupo">
-		<form action="@routes.Grupos.crearGrupo(2, 0, 0)" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
-			<div class="modal-header">
-				<a href='@routes.Grupos.muestraGrupos()' class="close" aria-hidden="true">&times;</a>
-				<h3>Grupo Nuevo</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-	    			<label class="control-label">Nombre del grupo</label>
-	    			<div class="controls">
-	    				<input type="text" name="nombre" required>
-	    			</div>
-	    		</div>
-	    		
-	    		<div class="control-group">
-	    			<label class="control-label">Descripcion</label>
-	    			<div class="controls">
-	    				<textarea name="descripcion" maxlength="500" required></textarea>
-	    			</div>
-	    		</div>
-	    		
-	    		<div class="control-group">
-				<label class="control-label" for="imagen">Imagen de grupo</label>
-					<div class="controls">
-						<img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
-						<input class="input-file" id="imagen" type="file" name="imagen"><br>
-						tamaño maximo = 1 MB
-					</div>
-				</div>
-				<div class="control-group>">
-					<div class="controls">
-						<span style="color: red;">@errorImagen</span>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href='@routes.Grupos.muestraGrupos()' class="btn">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Crear">
-			</div>
-		</form>		
-	</div>
-
-	<script type="text/javascript">	
-		function modal(){
-			$('#creaGrupo').modal('show');
-		}
-		
-		@if(errorImagen != "") {
-			$('#creaGrupo').modal('show');
-		}		
-	</script>
+    <style type="text/css">
+        ul { list-style: none; }
+        .well h3 a { font-weight: normal; }
+    </style>
 
 
+    <div class="container">
+        <div class="well">
+            <h3>
+                Grupos a los que pertenece
+                @if(!Usuario.cuentaInactiva(user.correo)) {
+                    <a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Crear grupo</a>
+                }
+            </h3>
+            @if(grupos.getTotalRowCount > 0) {
+                @for(g <- grupos.getList) {
+                    @if(Integrante.esIntegrante(user.correo, g.id) == false) {
+                    <div class="row">
+                        <div class="span8">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li>
+                                    <a href='@routes.Grupos.index(g.id)'>
+                                        <img class="img-polaroid" style="width: 35px; height: 35px;" src='/assets/grupos/@g.id/@g.imagen' alt="imagen grupo">
+                                        @g.nombre
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="span3">
+                            <ul>
+                                <li>
+                                    @if(Integrante.esAdmin(g.id, user.correo)==false){
+                                        <a class="btn btn-danger" href='@routes.Grupos.dejarGrupo(g.id)'>Dejar Grupo</a>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                }
+            }
+        </div>
 
+        <div id="pagination" class="pagination pull-right">
+            <ul>
+                @if(grupos.hasPrev) {
+                    <li class="prev">
+                        <a href="@link(grupos.getPageIndex - 1)">&larr; Anterior</a>
+                    </li>
+                } else {
+                    <li class="prev disabled">
+                        <a>&larr; Anterior</a>
+                    </li>
+                }
+                <li class="current">
+                    <a>Mostrando @grupos.getDisplayXtoYofZ(" hasta "," de ")</a>
+                </li>
+                @if(grupos.hasNext) {
+                    <li class="next">
+                        <a href="@link(grupos.getPageIndex + 1)">Siguente &rarr;</a>
+                    </li>
+                } else {
+                    <li class="next disabled">
+                        <a>Siguente &rarr;</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal crear grupo -->
+    <div class="modal hide fade" id="creaGrupo">
+        <form action="@routes.Grupos.crearGrupo(2, 0, 0)" class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+            <div class="modal-header">
+                <a href='@routes.Grupos.muestraGrupos()' class="close" aria-hidden="true">&times;</a>
+                <h3>Grupo Nuevo</h3>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label">Nombre del grupo</label>
+                    <div class="controls">
+                        <input type="text" name="nombre" autofocus="autofocus" maxlength="25" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Descripcion</label>
+                    <div class="controls">
+                        <textarea name="descripcion" maxlength="150" required></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                <label class="control-label" for="imagen">Imagen de grupo</label>
+                    <div class="controls">
+                        <img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
+                        <input class="input-file" id="imagen" type="file" name="imagen"><br>
+                        tamaño maximo = 1 MB
+                    </div>
+                </div>
+                <div class="control-group>">
+                    <div class="controls">
+                        <span style="color: red;">@errorImagen</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href='@routes.Grupos.muestraGrupos()' class="btn">Cerrar</a>
+                <input type="submit" class="btn btn-primary" value="Crear">
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        function modal(){
+            $('#creaGrupo').modal('show');
+        }
+
+        @if(errorImagen != "") {
+            $('#creaGrupo').modal('show');
+        }
+    </script>
 }
