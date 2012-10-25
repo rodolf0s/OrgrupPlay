@@ -1,254 +1,254 @@
 @(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto], errorImagen: String)
 
 @app(title = grupo.getString("nombre"), usuario.nombre) {
-	
-	<script type="text/javascript">	
-		$(document).ready(function() {
-			$("[rel=tooltip]").tooltip();
-			$("[rel=popover]").popover({
-				trigger: 'focus',
-				content: '<a href="#">ver perfil</a>',
-				animate: false
-			});
-			
-			// si hay un error al subir la imagen del grupo.
-			@if(errorImagen != "") {
-				$('#creaGrupo').modal('show');
-			}
-			
-// 			$("#idIntegrantes").click(function {
-// 				$("#idIntegrantes").val('-');
-// 			});
-		});
-		
-		function modalMiembros() {
-			$('#agregaIntegrantes').modal('show');
-		}
-		
-		function modalAdmin() {
-			$('#modalAdmin').modal('show');
-		}
-		
-		function modalGrupos(){
-			$('#creaGrupo').modal('show');
-		}
-		
-		window.onload = function() {
-			var integrantes = document.getElementById('idIntegrantes');
-			var admins = document.getElementById('idAdmin');
-			
-			divIntegrantes = document.getElementById('alerta');
-			divAdmins = document.getElementById('alertaAdmin');
-			divAdmins.style.display = "none";
-			divIntegrantes.style.display = "none";
 
-			if (integrantes.length == 0) {
-				integrantes.disabled = true;
-				document.integrante.elements['agrega'].disabled = true;
-				divIntegrantes.style.display = "";
-			}
-			
-			if (admins.length == 0) {
-				admins.disabled = true;
-				document.admin.elements['btnAdmin'].disabled = true;
-				divAdmins.style.display = "";
-			}
-		}
-	</script>
-	
-	<style>
-		.achievements-wrapper { height: 54px; overflow: auto; }
-	</style>
-	
-	<div class="row-fluid">
-		<div class="span3">			
-			<div class="well well-small">
-				<ul class="nav nav-list">
-					<li> <img class="img-polaroid" style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
-					<li><b>@usuario.nombre</b></li>
-					
-				</ul>
-			</div>
-			<div class="well well-small"> 
-   				<form name="muestraGrupo">
-	   				<ul class="nav nav-pills nav-stacked">
-	   					<li class="nav-header">
-	   						Grupos				
-	   					</li>
-	   					@if(!grupos.isEmpty()) {
-		   					@for(g <- grupos) {
-			   					<li @if(grupo.getString("id") == g.getString("id")) { class="active" })>
-			   						<a href='@routes.Grupos.index(g.getString("id").toLong)'>
-			   							<img class="img-polaroid" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
-			   							@g.getString("nombre")
-			   						</a>
-			   					</li>
-		   					}
-	   					}
-	   				</ul>
-   				</form>
-   				<a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
-   			</div>
-		</div>		
-		<div class="span7">
-			<div class="page-header">
-				<h1>
-					@grupo.getString("nombre")<small> @grupo.getString("descripcion")</small>
-					@if(!Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-						<a class="btn btn-danger pull-right" href='@routes.Grupos.dejarGrupo(grupo.getString("id").toLong)'>Dejar Grupo</a>
-					} 
-				</h1>
-				@for(c <- integrantes) {
-					@if(c.tipo == 1) {
-						<div class="alert alert-info">
-							<img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(c.usuario.correo)" alt="imagen usuario">
-			   				<strong><a href="@routes.Contactos.muestraElPerfil(c.usuario.correo)">@Usuario.getNombre(c.usuario.correo)</a></strong> es el administrador de este grupo.
-			   				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-			   					<a href="#" onClick="modalAdmin()">cambiar</a>
-			   				}
-			   			</div>
-					}
-				}				
-				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-					<div>
-						<a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick=modalMiembros() >
-							<i class="icon-plus"> </i>
-							Agregar integrante
-						</a>
-					</div>
-				}				
-				<h3>Integrantes</h3>
-				<div class="well achievements-wrapper">
-					@for(mi <- integrantes) {
-						<a class="inte" href="@routes.Contactos.muestraElPerfil(mi.usuario.correo)" rel="tooltip" title='@Usuario.getNombre(mi.usuario.correo)' data-placement="top">
-							<img class="img-polaroid" style="width: 50px; height: 50px;" src="/assets/images/usuarios/@Usuario.getImagen(mi.usuario.correo)" alt="imagen usuario">
-						</a>
-					}
-				</div>
-			</div>			
-		</div>	
-		
-		<div class="span2">
-			<div class="tabbable tabs-right">
-			<ul class="nav nav-tabs">
-				<li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
-				<li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Integrantes</a></li>
-				@if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-				<li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
-				}
-			</ul>
-			</div>
-		</div>
-	</div>	
-	
-	<!-- Modal agrega miembros -->
-	<div class="modal hide fade" id="agregaIntegrantes">
-		<form action="@routes.Grupos.agregaIntegrante(1)" class="form-horizontal" name="integrante" method="post">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Agregar Miembros</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-	    			<label class="control-label">Nombre del miembro</label>
-	    			<div class="controls">
-						<select name="usuario.correo" id="idIntegrantes">
-			    			@if(!contactos.isEmpty()) {
-				 				@for(c <- contactos) {
-				 					@if(Integrante.esIntegrante(c.usuario2.correo, grupo.getString("id").toLong)) {
-				 						@if(!Usuario.cuentaInactiva(c.usuario2.correo)) {
-				 							<option value="@c.usuario2.correo">@Usuario.getNombre(c.usuario2.correo)</option>
-				 						}
-				 					}
-				 				}
-				 			}
-			    		</select>
-	    			</div>
-	    		</div>
-				<div class="alert" id="alerta">
-					<button type="button" class="close" data-dismiss="alert">×</button>
-					<strong>Atencion!</strong> Usted no tiene ningun contacto para agregar.
-				</div>
-	    		<input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" name="agrega" value="Agregar">
-			</div>
-		</form>		
-	</div>
-	
-	<!-- Modal cambiar admin -->
-	<div class="modal hide fade" id="modalAdmin">
-		<form action='@routes.Grupos.cambiarAdmin()' class="form-horizontal" name="admin" method="post">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Cambiar de administrador</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-	    			<label class="control-label">Integrantes</label>
-	    			<div class="controls">
-	    				<select name="usuario.correo" id="idAdmin">
-	    					@for(inte <- integrantes) {
-	    						@if(inte.tipo != 1) {
-	    							<option value="@inte.usuario.correo">@Usuario.getNombre(inte.usuario.correo)</option>
-	    						}
-	    					}
-	    				</select>
-	    			</div>
-	    		</div>
-	    		<div class="alert" id="alertaAdmin">
-					<button type="button" class="close" data-dismiss="alert">×</button>
-					<strong>Atencion!</strong> Usted no tiene ningun contacto para dejar como Administrador.
-				</div>
-	    		<input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Cerrar</a>
-				<input type="submit" class="btn btn-primary" name="btnAdmin" value="Cambiar">
-			</div>
-		</form>		
-	</div>
-	
-	<!-- Modal crear grupo -->
-	<div class="modal hide fade" id="creaGrupo">
-		<form action='@routes.Grupos.crearGrupo(3, grupo.getString("id").toLong, 0)' class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
-			<div class="modal-header">
-				<a href='@routes.Grupos.index(grupo.getString("id").toLong)' class="close" aria-hidden="true">&times;</a>
-				<h3>Grupo Nuevo</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-	    			<label class="control-label">Nombre del grupo</label>
-	    			<div class="controls">
-	    				<input type="text" name="nombre" required>
-	    			</div>
-	    		</div>	    		
-	    		<div class="control-group">
-	    			<label class="control-label">Descripcion</label>
-	    			<div class="controls">
-	    				<textarea name="descripcion" maxlength="500" required></textarea>
-	    			</div>
-	    		</div>	    		
-	    		<div class="control-group">
-				<label class="control-label" for="imagen">Imagen de grupo</label>
-					<div class="controls">
-						<img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
-						<input class="input-file" id="imagen" type="file" name="imagen"><br>
-						tamaño maximo = 1 MB
-					</div>
-				</div>
-				<div class="control-group>">
-					<div class="controls">
-						<span style="color: red;">@errorImagen</span>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href='@routes.Grupos.index(grupo.getString("id").toLong)' class="btn">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Crear">
-			</div>
-		</form>		
-	</div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("[rel=tooltip]").tooltip();
+            $("[rel=popover]").popover({
+                trigger: 'focus',
+                content: '<a href="#">ver perfil</a>',
+                animate: false
+            });
+
+            // si hay un error al subir la imagen del grupo.
+            @if(errorImagen != "") {
+                $('#creaGrupo').modal('show');
+            }
+
+//          $("#idIntegrantes").click(function {
+//              $("#idIntegrantes").val('-');
+//          });
+        });
+
+        function modalMiembros() {
+            $('#agregaIntegrantes').modal('show');
+        }
+
+        function modalAdmin() {
+            $('#modalAdmin').modal('show');
+        }
+
+        function modalGrupos(){
+            $('#creaGrupo').modal('show');
+        }
+
+        window.onload = function() {
+            var integrantes = document.getElementById('idIntegrantes');
+            var admins = document.getElementById('idAdmin');
+
+            divIntegrantes = document.getElementById('alerta');
+            divAdmins = document.getElementById('alertaAdmin');
+            divAdmins.style.display = "none";
+            divIntegrantes.style.display = "none";
+
+            if (integrantes.length == 0) {
+                integrantes.disabled = true;
+                document.integrante.elements['agrega'].disabled = true;
+                divIntegrantes.style.display = "";
+            }
+
+            if (admins.length == 0) {
+                admins.disabled = true;
+                document.admin.elements['btnAdmin'].disabled = true;
+                divAdmins.style.display = "";
+            }
+        }
+    </script>
+
+    <style>
+        .achievements-wrapper { height: 54px; overflow: auto; }
+    </style>
+
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well well-small">
+                <ul class="nav nav-list">
+                    <li> <img class="img-polaroid" style="width: 90px; height: 90px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario"> </li>
+                    <li><b>@usuario.nombre</b></li>
+
+                </ul>
+            </div>
+            <div class="well well-small">
+                <form name="muestraGrupo">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="nav-header">
+                            Grupos
+                        </li>
+                        @if(!grupos.isEmpty()) {
+                            @for(g <- grupos) {
+                                <li @if(grupo.getString("id") == g.getString("id")) { class="active" })>
+                                    <a href='@routes.Grupos.index(g.getString("id").toLong)'>
+                                        <img class="img-polaroid" style="width: 32px; height: 32px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
+                                        @g.getString("nombre")
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </form>
+                <a href="#" role="button" class="btn btn-mini" data-toggle="modal"onClick=modalGrupos() >crear grupo</a>
+            </div>
+        </div>
+        <div class="span7">
+            <div class="page-header">
+                <h1>
+                    @grupo.getString("nombre")<small> @grupo.getString("descripcion")</small>
+                    @if(!Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+                        <a class="btn btn-danger pull-right" href='@routes.Grupos.dejarGrupo(grupo.getString("id").toLong)'>Dejar Grupo</a>
+                    }
+                </h1>
+                @for(c <- integrantes) {
+                    @if(c.tipo == 1) {
+                        <div class="alert alert-info">
+                            <img class="img-polaroid" style="width: 32px; height: 32px;" src="/assets/images/usuarios/@Usuario.getImagen(c.usuario.correo)" alt="imagen usuario">
+                            <strong><a href="@routes.Contactos.muestraElPerfil(c.usuario.correo)">@Usuario.getNombre(c.usuario.correo)</a></strong> es el administrador de este grupo.
+                            @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+                                <a href="#" onClick="modalAdmin()">cambiar</a>
+                            }
+                        </div>
+                    }
+                }
+                @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+                    <div>
+                        <a href="#" role="button" class="btn btn-success" data-toggle="modal" onClick=modalMiembros() >
+                            <i class="icon-plus"> </i>
+                            Agregar integrante
+                        </a>
+                    </div>
+                }
+                <h3>Integrantes</h3>
+                <div class="well achievements-wrapper">
+                    @for(mi <- integrantes) {
+                        <a class="inte" href="@routes.Contactos.muestraElPerfil(mi.usuario.correo)" rel="tooltip" title='@Usuario.getNombre(mi.usuario.correo)' data-placement="top">
+                            <img class="img-polaroid" style="width: 50px; height: 50px;" src="/assets/images/usuarios/@Usuario.getImagen(mi.usuario.correo)" alt="imagen usuario">
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="span2">
+            <div class="tabbable tabs-right">
+            <ul class="nav nav-tabs">
+                <li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
+                <li><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Integrantes</a></li>
+                @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
+                <li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
+                }
+            </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal agrega miembros -->
+    <div class="modal hide fade" id="agregaIntegrantes">
+        <form action="@routes.Grupos.agregaIntegrante(1)" class="form-horizontal" name="integrante" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Agregar Miembros</h3>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label">Nombre del miembro</label>
+                    <div class="controls">
+                        <select name="usuario.correo" id="idIntegrantes">
+                            @if(!contactos.isEmpty()) {
+                                @for(c <- contactos) {
+                                    @if(Integrante.esIntegrante(c.usuario2.correo, grupo.getString("id").toLong)) {
+                                        @if(!Usuario.cuentaInactiva(c.usuario2.correo)) {
+                                            <option value="@c.usuario2.correo">@Usuario.getNombre(c.usuario2.correo)</option>
+                                        }
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="alert" id="alerta">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Atencion!</strong> Usted no tiene ningun contacto para agregar.
+                </div>
+                <input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+                <input type="submit" class="btn btn-primary" name="agrega" value="Agregar">
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal cambiar admin -->
+    <div class="modal hide fade" id="modalAdmin">
+        <form action='@routes.Grupos.cambiarAdmin()' class="form-horizontal" name="admin" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Cambiar de administrador</h3>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label">Integrantes</label>
+                    <div class="controls">
+                        <select name="usuario.correo" id="idAdmin">
+                            @for(inte <- integrantes) {
+                                @if(inte.tipo != 1) {
+                                    <option value="@inte.usuario.correo">@Usuario.getNombre(inte.usuario.correo)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="alert" id="alertaAdmin">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Atencion!</strong> Usted no tiene ningun contacto para dejar como Administrador.
+                </div>
+                <input type="hidden" name="grupo.id" value='@grupo.getString("id")'>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+                <input type="submit" class="btn btn-primary" name="btnAdmin" value="Cambiar">
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal crear grupo -->
+    <div class="modal hide fade" id="creaGrupo">
+        <form action='@routes.Grupos.crearGrupo(3, grupo.getString("id").toLong, 0)' class="form-horizontal" name="grupo" enctype="multipart/form-data" method="post">
+            <div class="modal-header">
+                <a href='@routes.Grupos.index(grupo.getString("id").toLong)' class="close" aria-hidden="true">&times;</a>
+                <h3>Grupo Nuevo</h3>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label">Nombre del grupo</label>
+                    <div class="controls">
+                        <input type="text" name="nombre" autofocus="autofocus" maxlength="25" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Descripcion</label>
+                    <div class="controls">
+                        <textarea name="descripcion" maxlength="150" required></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                <label class="control-label" for="imagen">Imagen de grupo</label>
+                    <div class="controls">
+                        <img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
+                        <input class="input-file" id="imagen" type="file" name="imagen"><br>
+                        tamaño maximo = 1 MB
+                    </div>
+                </div>
+                <div class="control-group>">
+                    <div class="controls">
+                        <span style="color: red;">@errorImagen</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href='@routes.Grupos.index(grupo.getString("id").toLong)' class="btn">Cerrar</a>
+                <input type="submit" class="btn btn-primary" value="Crear">
+            </div>
+        </form>
+    </div>
 }
