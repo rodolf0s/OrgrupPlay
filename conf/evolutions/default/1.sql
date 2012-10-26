@@ -41,7 +41,7 @@ create table correo (
 create table grupo (
   id                        bigint not null,
   nombre                    varchar(25) not null,
-  descripcion               varchar(255) not null,
+  descripcion               varchar(150) not null,
   imagen                    varchar(350) not null,
   constraint pk_grupo primary key (id))
 ;
@@ -114,12 +114,12 @@ create table tarea (
 
 create table usuario (
   correo                    varchar(50) not null,
-  nombre                    varchar(60) not null,
-  password                  varchar(100) not null,
-  ciudad                    varchar(60) not null,
+  nombre                    varchar(30) not null,
+  password                  varchar(40) not null,
+  ciudad                    varchar(20) not null,
   telefono                  integer,
-  leyenda                   varchar(300),
-  imagen                    varchar(350) not null,
+  leyenda                   varchar(150),
+  imagen                    varchar(300) not null,
   color_tarea_alta          varchar(7) not null,
   color_tarea_media         varchar(7) not null,
   color_tarea_baja          varchar(7) not null,
