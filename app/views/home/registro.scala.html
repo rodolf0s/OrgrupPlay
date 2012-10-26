@@ -124,8 +124,9 @@
             var nombre = $("input#nombre").val().length;
             var correo = $("input#correo").val().length;
             var ciudad = $("input#ciudad").val().length;
+            var correo2 = $("input#correo").val();
 
-            if (nombre != "" && correo != "" && pass != "" && ciudad != ""){
+            if (nombre != "" && correo != "" && pass != "" && ciudad != "" && validar_email($("#correo").val()) == true){
                 if(pass < 6) {
                     $("#alerta").show("fast");
                     $("#password").focus();
@@ -136,7 +137,19 @@
                 }
             }
         });
-
+        
+        //Verifica si lo que se ingresa en el campo correo es valido o no
+        function validar_email(valor)
+        {
+            // creamos nuestra regla con expresiones regulares.
+            var filter = /[\w-\.]{3,}@@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+            // utilizamos test para comprobar si el parametro valor cumple la regla
+            if(filter.test(valor))
+                return true;
+            else
+                return false;
+        }
+        
         $('#password').keypress(function() {
             $('#alerta').hide();
         });
