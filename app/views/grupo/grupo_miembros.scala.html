@@ -42,27 +42,30 @@
             <div class="panel">
                 <ul class="nav">
                     <li>
-                <h5>
-                    <a href="@routes.Contactos.muestraElPerfil(usuario.correo)" rel="tooltip" title="Ver mi perfil">
-                    <img class="img-rounded" style="width: 38px; height: 38px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario">
-                    @usuario.nombre
-                    </a>
-                </h5>
-                </li>
-                <li>
-                <h5>Mi información <a href="@routes.Cuenta.perfil" rel="tooltip" title="Editar mi información personal">(editar)</a> </h5>
-                </li>
-                <li>
-                <p><strong>Ciudad:</strong> @usuario.ciudad</p>
-                </li>
-                <li>
-                <p><strong>Correo:</strong> @usuario.correo</p>
-                </li>
-                @if(usuario.telefono!=null){
-                <li>
-                    <p><strong>Telefono:</strong> @usuario.telefono</p>
-                </li>
-                }
+                        <h5>
+                            <a href="@routes.Contactos.muestraElPerfil(usuario.correo)" rel="tooltip" title="Ver mi perfil">
+                                <img class="img-rounded" style="width: 38px; height: 38px;" src="/assets/images/usuarios/@usuario.imagen" alt="imagen usuario">
+                                @usuario.nombre
+                            </a>
+                        </h5>
+                    </li>
+                    <li>
+                        <h5>
+                            Mi información
+                            <a href="@routes.Cuenta.perfil" rel="tooltip" title="Editar mi información personal">(editar)</a>
+                        </h5>
+                    </li>
+                    <li>
+                        <p><strong>Ciudad:</strong> @usuario.ciudad</p>
+                    </li>
+                    <li>
+                        <p><strong>Correo:</strong> @usuario.correo</p>
+                    </li>
+                    @if(usuario.telefono!=null){
+                        <li>
+                            <p><strong>Telefono:</strong> @usuario.telefono</p>
+                        </li>
+                    }
                 </ul>
                 <hr>
                 <ul class="nav nav-pills nav-stacked">
@@ -134,7 +137,7 @@
             </div>
         </div>
 
-        <div class="span9">
+        <div class="span9" style="box-shadow: 2px 2px 5px 2px #999;">
             <ul class="nav nav-tabs">
                 <li><a href='@routes.Grupos.index(grupo.getString("id").toLong)'>Inicio</a></li>
                 <li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
@@ -160,11 +163,11 @@
                         @if(a.tipo == 1) {
                             <tr>
                                 <td>
-                                    <img style="width: 60px; height: 60px;" src="/assets/images/usuarios/@Usuario.getImagen(a.usuario.correo)" alt="imagen usuario">
+                                    <img class="img-rounded" style="width: 60px; height: 60px;" src="/assets/images/usuarios/@Usuario.getImagen(a.usuario.correo)" alt="imagen usuario">
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="@routes.Contactos.muestraElPerfil(a.usuario.correo)">
+                                        <a href="@routes.Contactos.muestraElPerfil(a.usuario.correo)" rel="tooltip" title="Ver Perfil">
                                             @Usuario.getNombre(a.usuario.correo)
                                         </a>
                                     </strong>
@@ -174,6 +177,7 @@
                                     @Usuario.getCiudad(a.usuario.correo)<br>
                                     @Usuario.getTelefono(a.usuario.correo)<br>
                                 </td>
+                                <td></td>
                             </tr>
                         }
                     }
@@ -181,11 +185,11 @@
                         @if(m.tipo != 1) {
                             <tr>
                                 <td>
-                                    <img style="width: 60px; height: 60px;" src="/assets/images/usuarios/@Usuario.getImagen(m.usuario.correo)" alt="imagen usuario">
+                                    <img class="img-rounded" style="width: 60px; height: 60px;" src="/assets/images/usuarios/@Usuario.getImagen(m.usuario.correo)" alt="imagen usuario">
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="@routes.Contactos.muestraElPerfil(m.usuario.correo)">
+                                        <a href="@routes.Contactos.muestraElPerfil(m.usuario.correo)" rel="tooltip" title="Ver Perfil">
                                             @Usuario.getNombre(m.usuario.correo)
                                         </a>
                                     </strong><br>
@@ -196,7 +200,9 @@
                                 @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
                                     @if(m.tipo != 1) {
                                         <td>
-                                            <a class="btn btn-danger" href="@routes.Grupos.eliminaIntegrante(m.usuario.correo, m.grupo.id)">Eliminar</a>
+                                            <a class="btn btn-danger" href="@routes.Grupos.eliminaIntegrante(m.usuario.correo, m.grupo.id)">
+                                                Eliminar
+                                            </a>
                                         </td>
                                     } else {
                                         <td></td>
@@ -208,18 +214,6 @@
                 </table>
             </div>
         </div>
-
-        <!-- <div class="span2">
-            <div class="tabbable tabs-right">
-            <ul class="nav nav-tabs">
-                <li><a href='@routes.Grupos.muestraReuniones(grupo.getString("id").toLong)'>Reuniones</a></li>
-                <li class="active"><a href='@routes.Grupos.muestraMiembros(grupo.getString("id").toLong)'>Integrantes</a></li>
-                @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-                <li><a href='@routes.Grupos.muestraPreferencias(grupo.getString("id").toLong)'>Preferencias</a></li>
-                }
-            </ul>
-            </div>
-        </div> -->
     </div>
 
     <!-- Modal agrega miembros -->
@@ -282,7 +276,7 @@
                 <div class="control-group">
                 <label class="control-label" for="imagen">Imagen de grupo</label>
                     <div class="controls">
-                        <img style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
+                        <img class="img-rounded"style="width: 90px; height: 90px;" src="/assets/grupos/group.png" alt="imagen grupo">
                         <input class="input-file" id="imagen" type="file" name="imagen"><br>
                         tamaño maximo = 1 MB
                     </div>

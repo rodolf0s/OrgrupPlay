@@ -42,9 +42,33 @@ body {
     text-decoration: none;
 }
 
+.row .span7 a:hover {
+    text-decoration: none;
+}
+
 .row .span9 {
     background-color: #FFF;
     border-radius: 10px;
+}
+
+.row .span9 .form-horizontal {
+    padding: 10px;
+}
+
+.row .span9 button {
+    margin-right: 10px;
+}
+
+.row .span9 .page-header h1 a {
+    font-weight: normal;
+}
+
+.row .span9 .nav {
+    padding: 5px;
+}
+
+.row .span9 .page-header {
+    padding: 10px;
 }
 
 .row .span11 .span9 .grupos {
