@@ -3,12 +3,7 @@
 @main(title = "Registro") {
 
     <style>
-        span { color: red;}
-        .section-header h3 a {
-            color: white;
-            display: inline-block;
-            font-weight: normal;
-         }
+        span { color: red; }
          .well {
             color: black;
          }
@@ -137,7 +132,7 @@
                 }
             }
         });
-        
+
         //Verifica si lo que se ingresa en el campo correo es valido o no
         function validar_email(valor)
         {
@@ -149,7 +144,7 @@
             else
                 return false;
         }
-        
+
         $('#password').keypress(function() {
             $('#alerta').hide();
         });
