@@ -37,7 +37,7 @@
                                     @if(Integrante.esIntegrante(user.correo, g.id) == false) {
                                         <tr>
                                             <td>
-                                                <a href='@routes.Grupos.index(g.id)'>
+                                                <a href='@routes.Grupos.index(g.id)' rel="tooltip" title='@g.descripcion'>
                                                     <img class="img-rounded" style="width: 35px; height: 35px;" src='/assets/grupos/@g.id/@g.imagen' alt="imagen grupo">
                                                     @g.nombre
                                                 </a>
@@ -126,6 +126,10 @@
     </div>
 
     <script type="text/javascript">
+         $(document).ready(function() {
+            $("[rel=tooltip]").tooltip();
+        });
+
         function modal(){
             $('#creaGrupo').modal('show');
         }
