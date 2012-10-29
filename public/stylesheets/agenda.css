@@ -49,6 +49,9 @@ body {
 .row .span9 {
     background-color: #FFF;
     border-radius: 10px;
+    margin-right: 0px;
+    margin-left: 15px;
+    padding: 7px;
 }
 
 .row .span9 .form-horizontal {
