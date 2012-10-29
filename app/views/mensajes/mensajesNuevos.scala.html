@@ -7,91 +7,91 @@
 
     // Generate the link
     routes.Mensajes.mensajesNuevos(newPage, currentFilter)
-    
+
 }
 
 @app(title = "Orgrup", user.nombre) {
-	
-	
-	<div class="container">
-		<div class="tab-pane" id="mensajes_enviados">
- 	 			@if(lista.getTotalRowCount > 0) {
- 	 				<form name="formulario" method="post">
-	        			<table class="table table-hover">	        				
-	        				<thead>
-	        					<th><a class="btn" onclick="cuenta()" >Eliminar</a></th>
-	        					<th>De: </th>
-	        					<th>Asunto: </th>
-	        					<th>Fecha: </th>
-	        				</thead>
-	        				@for(p <- lista.getList) {	        					
-								<tr @if(p.leido == "no"){class="alert alert-info"}>
-									<td><input type="checkbox" name="id1" value="@p.id"></td>				
-									<td><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.remitente.correo)}</a></td>
-									<td>@p.asunto</td>
-									<td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>	
-								</tr>
-                			}
-        				</table>
-        				<input type="hidden" name="asunto">
-        			</form>
-        		}
-        	</div>
-		
-		<div id="pagination" class="pagination pull-right">
-			<ul>
-				@if(lista.hasPrev) {
-					<li class="prev">
-						<a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
-					</li>
-				} else {
-					<li class="prev disabled">
-						<a>&larr; Anterior</a>
-					</li>
-				}
-				<li class="current">
-					<a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
-				</li>
-				@if(lista.hasNext) {
-					<li class="next">
-						<a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
-					</li>
-				} else {
-					<li class="next disabled">
-						<a>Siguente &rarr;</a>
-					</li>
-				}
-			</ul>
-		</div>
-		
-	</div>
-	
-	<script type="text/javascript">
-	
-	function cuenta() {
-		var cont = 0;
-		var valores = [];
-		var c = 0;
-		var concatena = "";
 
-		var checkboxes = document.formulario.id1.length;
-		
-		if (checkboxes > 1) {
-				for(var x=0; x < document.formulario.id1.length; x++) {
-					if (document.formulario.id1[x].checked == true) {
-						concatena = concatena + ';' + document.formulario.id1[x].value;
-					}
-				}
-		}
-		else {
-			if(document.formulario.id1.checked == true) {
-				concatena = ';' + document.formulario.id1.value;
-			}
-		}
-		document.formulario.asunto.value = concatena;
-		document.formulario.action = "@routes.Mensajes.eliminaMensajes(3)";
-		document.formulario.submit();
-	}	
-	
-	</script>	
+
+    <div class="row">
+        <div class="span11" style="float:right">
+            <div class="span9" style="float:left; box-shadow: 2px 2px 5px 2px #999;">
+                <div class="tabbable" id="mensajes_enviados">
+                    @if(lista.getTotalRowCount > 0) {
+                        <form name="formulario" method="post">
+                            <table class="table table-hover">
+                                <thead>
+                                    <th><a class="btn" onclick="cuenta()" >Eliminar</a></th>
+                                    <th>De: </th>
+                                    <th>Asunto: </th>
+                                    <th>Fecha: </th>
+                                </thead>
+                                @for(p <- lista.getList) {
+                                    <tr @if(p.leido == "no"){class="alert alert-info"}>
+                                        <td><input type="checkbox" name="id1" value="@p.id"></td>
+                                        <td><a href="@routes.Mensajes.leerMensaje(p.id)">@{Usuario.getNombre(p.remitente.correo)}</a></td>
+                                        <td>@p.asunto</td>
+                                        <td>@p.fecha.format("HH:mm:ss dd/MM/yyyy")</td>
+                                    </tr>
+                                }
+                            </table>
+                            <input type="hidden" name="asunto">
+                        </form>
+                    }
+                    <div id="pagination" class="pagination pull-right">
+                        <ul>
+                            @if(lista.hasPrev) {
+                                <li class="prev">
+                                    <a href="@link(lista.getPageIndex - 1)">&larr; Anterior</a>
+                                </li>
+                            } else {
+                                <li class="prev disabled">
+                                    <a>&larr; Anterior</a>
+                                </li>
+                            }
+                            <li class="current">
+                                <a>Mostrando @lista.getDisplayXtoYofZ(" hasta "," de ")</a>
+                            </li>
+                            @if(lista.hasNext) {
+                                <li class="next">
+                                    <a href="@link(lista.getPageIndex + 1)">Siguente &rarr;</a>
+                                </li>
+                            } else {
+                                <li class="next disabled">
+                                    <a>Siguente &rarr;</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function cuenta() {
+            var cont = 0;
+            var valores = [];
+            var c = 0;
+            var concatena = "";
+
+            var checkboxes = document.formulario.id1.length;
+
+            if (checkboxes > 1) {
+                    for(var x=0; x < document.formulario.id1.length; x++) {
+                        if (document.formulario.id1[x].checked == true) {
+                            concatena = concatena + ';' + document.formulario.id1[x].value;
+                        }
+                    }
+            }
+            else {
+                if(document.formulario.id1.checked == true) {
+                    concatena = ';' + document.formulario.id1.value;
+                }
+            }
+            document.formulario.asunto.value = concatena;
+            document.formulario.action = "@routes.Mensajes.eliminaMensajes(3)";
+            document.formulario.submit();
+        }
+    </script>
 }

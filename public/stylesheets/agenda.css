@@ -93,6 +93,15 @@ body {
     padding: 10px;
 }
 
+.row .span11 .span9 .tabbable {
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.row .span11 .span9 .tabbable a:hover {
+    text-decoration: none;
+}
+
 .perfil {
     background-color: #FFF;
     border-radius: 10px;

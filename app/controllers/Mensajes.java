@@ -15,31 +15,31 @@ import play.mvc.Result;
 import views.html.mensajes.*;
 
 public class Mensajes extends Controller {
-	
+
 	public static Result GO_HOME = redirect(
 			routes.Mensajes.mensajesRecibidos(0, "")
 	);
-	
+
 	public static Result GO_INDEX2 = redirect(
 			routes.Mensajes.mensajesEnviados(0, "")
 	);
-	
+
 	public static Result GO_INDEX3 = redirect(
-			routes.Mensajes.mensajesNuevos(0, "")		
+			routes.Mensajes.mensajesNuevos(0, "")
 	);
-	
+
 	public static Result index() {
         return GO_HOME;
     }
-	
+
 	public static Result index2() {
 		return GO_INDEX2;
 	}
-		
+
 	public static Result index3() {
 		return GO_INDEX3;
 	}
-	
+
 	public static Result mensajesRecibidos(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -52,11 +52,11 @@ public class Mensajes extends Controller {
 				)
 			);
 //			return ok(mensajesRecibidos.render(
-//					Usuario.find.byId(session("email")), 
+//					Usuario.find.byId(session("email")),
 //					Mensaje.listaMensajesRecibidos(session("email"))));
 		}
 	}
-	
+
 	public static Result mensajesEnviados(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -69,11 +69,11 @@ public class Mensajes extends Controller {
 					)
 				);
 //			return ok(mensajesEnviados.render(
-//					Usuario.find.byId(session("email")), 
+//					Usuario.find.byId(session("email")),
 //					Mensaje.listaMensajesEnviados(Usuario.find.byId(session("email")))));
 		}
 	}
-	
+
 	public static Result mensajesNuevos(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -87,27 +87,27 @@ public class Mensajes extends Controller {
 				);
 		}
 	}
-	
+
 	public static Result crearMensaje() {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
 			return ok(crearMensaje.render(
-					Usuario.find.byId(session("email")), 
+					Usuario.find.byId(session("email")),
 					Contacto.listaAmigos(session("email"))));
 		}
 	}
-	
+
 	public static Result leerMensaje(Long id) {
 		Mensaje.cambiaEstadoLeido(id, session("email"));
 		return ok(muestraMensaje.render(
-				Usuario.find.byId(session("email")), 
+				Usuario.find.byId(session("email")),
 				Mensaje.muestraId(id)));
 	}
-	
+
 	public static Result enviaMensaje() throws ParseException {
 		Form<Mensaje> mensajeForm = form(Mensaje.class).bindFromRequest();
-		
+
 		if (mensajeForm.hasErrors()) {
 			return badRequest();
 		} else {
@@ -118,20 +118,20 @@ public class Mensajes extends Controller {
 			mensaje.save();
 			Mensaje.copiaMensaje(
 					mensaje.fecha,
-					mensaje.remitente, 
-					mensaje.destinatario, 
-					mensaje.asunto, 
-					mensaje.mensaje, 
+					mensaje.remitente,
+					mensaje.destinatario,
+					mensaje.asunto,
+					mensaje.mensaje,
 					mensaje.leido);
 			return ok(crearMensaje.render(
-					Usuario.find.byId(session("email")), 
+					Usuario.find.byId(session("email")),
 					Contacto.listaAmigos(session("email"))));
 		}
 	}
-	
+
 	public static Result enviaMensajeModal(String email) throws ParseException {
 		Form<Mensaje> mensajeForm2 = form(Mensaje.class).bindFromRequest();
-		
+
 		if (mensajeForm2.hasErrors()) {
 			return badRequest();
 		} else {
@@ -141,27 +141,28 @@ public class Mensajes extends Controller {
 			mensaje.notificado = "si";
 			mensaje.save();
 			Mensaje.copiaMensaje(
-					mensaje.fecha, 
-					mensaje.remitente, 
-					mensaje.destinatario, 
-					mensaje.asunto, 
-					mensaje.mensaje, 
+					mensaje.fecha,
+					mensaje.remitente,
+					mensaje.destinatario,
+					mensaje.asunto,
+					mensaje.mensaje,
 					mensaje.leido);
-			return ok(views.html.agenda.muestraPerfil.render(
-					Usuario.find.byId(session("email")), 
-					Usuario.find.byId(email)));
+			return redirect(routes.Mensajes.mensajesRecibidos(0, ""));
+			// return ok(views.html.agenda.muestraPerfil.render(
+			// 		Usuario.find.byId(session("email")),
+			// 		Usuario.find.byId(email)));
 		}
 	}
-	
-	
+
+
 	/**
 	 * Obtiene el valor de los ids de los mensajes a eliminar concatenados
 	 * @param pag
 	 * @return
 	 */
-	public static Result eliminaMensajes(Integer pag) {		
+	public static Result eliminaMensajes(Integer pag) {
 		Form<Mensaje> mensajeAEliminar = form(Mensaje.class).bindFromRequest();
-		
+
 		if (mensajeAEliminar.hasErrors()) {
 			return badRequest();
 		} else {
@@ -175,9 +176,9 @@ public class Mensajes extends Controller {
 		else
 			return redirect(routes.Mensajes.index3());
 	}
-	
+
 	/**
-	 * Separa el valor de los ids concatenados y elimina uno por uno 
+	 * Separa el valor de los ids concatenados y elimina uno por uno
 	 * @param valor
 	 * @return
 	 */
@@ -187,17 +188,17 @@ public class Mensajes extends Controller {
 			String id = st.nextToken();
 			Mensaje.eliminaMensaje(Long.parseLong(id));
 		}
-		return ok();	
+		return ok();
 	}
-	
+
 	/**
 	 * Comprueba la variable de session del usuario.
-	 * 
+	 *
 	 * @return true si es distinta de null, y false si no a
-	 * iniciado session. 
+	 * iniciado session.
 	 */
 	public static boolean verificaSession() {
-		if (session("email") == null) 
+		if (session("email") == null)
 			return false;
 		else
 			return true;

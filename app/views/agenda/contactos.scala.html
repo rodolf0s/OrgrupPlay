@@ -35,7 +35,7 @@
 												<img style="width: 65px; height: 65px;" src="/assets/images/usuarios/@p.imagen" class="img-rounded" alt="imagen usuario">
 											</td>
 											<td>
-												<font size="4">@p.nombre</font><br>Correo: @p.correo<br>Vive en: @p.ciudad</font>
+												<font size="4">@p.nombre</font><br>Correo: @p.correo<br>Vive en: @p.ciudad
 											</td>
 											@if(!Usuario.cuentaInactiva(user.correo)) {
 												@if(user.correo != p.correo && Contacto.compruebaUsuarioExistente(user.correo, p.correo) != p.correo && Contacto.compruebaSolicitud(user.correo, p.correo) != p.correo){

@@ -1,71 +1,78 @@
 @(user: Usuario, list: List[Mensaje])
 
 @app(title = "Orgrup", user.nombre) {
+    <div class="row">
+        <div class="span11" style="float:right">
+            <div class="span9" style="float:left;">
+                <div class="tabbable" style="box-shadow: 2px 2px 5px 2px #999;">
+                    @for(p<-list){
+                        <form>
+                            <fieldset >
+                                <legend>
+                                    <font color="#1d1d1d" size="5">
+                                        <b>Asunto: </b>
+                                    </font>
+                                    <font color="#0088cc" size="5">@p.asunto</font>
+                                    @if(p.estado=="recibido"){
+                                        <a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()">
+                                            <i class="icon-envelope"></i>
+                                            Responder
+                                        </a>
+                                    }
+                                </legend>
+                                    <img class="img-rounded" style="width: 50px; height: 50px;"  class="img-polaroid" src="/assets/images/usuarios/@{Usuario.getImagen(p.remitente.correo)}">
+                                    <b><font color="#1d1d1d" size="4">
+                                        <a href="@routes.Contactos.muestraElPerfil(p.remitente.correo)">
+                                            @{Usuario.getNombre(p.remitente.correo)}
+                                        </a>
+                                    </font></b>
+                                    @p.remitente.correo<br><br>
+                                    <div class="well" style="border: solid 1px #cccccc">
+                                        <font color="#0088cc">@p.mensaje</font>
+                                    </div>
+<!--                                    <input type="button" class="btn" onclick="history.back(-1)" value="Atras"> -->
+                                    <a href="@routes.Mensajes.mensajesRecibidos()" class="btn btn-primary">Atras</a>
+                            </fieldset>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 
-	
-		<div class="row">
-	 		<div class="span11" style="float:right">
-              	  <div class="span8" style="float:left;">
-              	  <div class="well" style="background: linear-gradient(top, #8fc400 0%,#68a500 100%); border: solid 1px #0088cc; box-shadow: 3px 3px 6px #999; ">
-	 					@for(p<-list){
-	 						<form>
-	 							<fieldset >
-	 								<legend>
-	 									<font color="#1d1d1d" size="5"><b>Asunto</b></font>: <font color="#0088cc" size="5">@p.asunto</font>
-	 									@if(p.estado=="recibido"){
-	 									<a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()"><i class="icon-envelope"></i> Responder</a>
-	 									}
-	 								</legend>
-	 									<img style="width: 50px; height: 50px;"  class="img-polaroid" src="/assets/images/usuarios/@{Usuario.getImagen(p.remitente.correo)}">
-	 									<b><font color="#1d1d1d" size="4">@{Usuario.getNombre(p.remitente.correo)}</font></b>
-										@p.remitente.correo<br>
-										<div class="well" style="border: solid 1px #cccccc">
-											<font color="#0088cc">@p.mensaje</font>
-										</div>
-<!-- 									<input type="button" class="btn" onclick="history.back(-1)" value="Atras"> -->
-										<a href="@routes.Mensajes.mensajesRecibidos()" class="btn btn-primary">Atras</a>
-								</fieldset>
-							</form>
-						}
-	 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-		<!-- Modal crear grupo -->
-	@for(p<-list){
-	<div class="modal hide fade" id="myModal">
-		<form action="@routes.Mensajes.enviaMensajeModal(p.remitente.correo)" class="form-horizontal" name="mensaje" enctype="multipart/form-data" method="post">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">Mensaje</h3>
-  			</div>
-  			<div class="modal-body">
-  			
-  				<label for="destinatario">Para</label>
-  				<input type="text" name="destinatario" value="@p.remitente.correo" id="destinatario" readonly="readonly">
-   				<label for="asunto">Asunto</label>
-   				<input type="text" name="asunto" id="asunto" required>
-   				<label for="mensaje">Mensaje</label>
-   				<textarea rows="3" cols="20" name="mensaje" id="mensaje" required></textarea>
-   				<input type="hidden" name="remitente.correo" value="@user.correo">
-   				<input type="hidden" name="leido" value="no">
-   				<input type="hidden" name="estado" value="enviado">
-  			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</a>
-				<input type="submit" class="btn btn-primary" value="Enviar respuesta">
-			</div>
-		</form>		
-	</div>
-	}
-}
+    <!-- Modal crear grupo -->
+    @for(p<-list){
+    <div class="modal hide fade" id="myModal">
+        <form action="@routes.Mensajes.enviaMensajeModal(p.remitente.correo)" class="form-horizontal" name="mensaje" enctype="multipart/form-data" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Mensaje</h3>
+            </div>
+            <div class="modal-body">
+
+                <label for="destinatario">Para</label>
+                <input type="text" name="destinatario" value="@p.remitente.correo" id="destinatario" readonly="readonly">
+                <label for="asunto">Asunto</label>
+                <input type="text" name="asunto" id="asunto" autofocus="autofocus" required>
+                <label for="mensaje">Mensaje</label>
+                <textarea rows="3" cols="20" name="mensaje" id="mensaje" required></textarea>
+                <input type="hidden" name="remitente.correo" value="@user.correo">
+                <input type="hidden" name="leido" value="no">
+                <input type="hidden" name="estado" value="enviado">
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</a>
+                <input type="submit" class="btn btn-primary" value="Enviar respuesta">
+            </div>
+        </form>
+    </div>
+    }
 
 <script type="text/javascript">
-	
-	function modal() {
-		$('#myModal').modal('show');
-	}
-		
+
+    function modal() {
+        $('#myModal').modal('show');
+    }
+
 </script>
+}
