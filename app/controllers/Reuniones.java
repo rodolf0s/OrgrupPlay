@@ -31,6 +31,7 @@ public class Reuniones extends Controller {
 		Integer miembros = 0;
 		String [] correosMiembrosAsistentes = null;
 		List<Integrante> listaMiembros = null;
+		Integer [] valor = null;
 		
  		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
 		
@@ -144,6 +145,7 @@ public class Reuniones extends Controller {
 		//Buscar miembros del grupo
 		miembros = Integrante.contarMiembros(idGrupo.longValue())-1;
 		correosMiembrosAsistentes = new String[miembros];
+		valor = new Integer [miembros];
 		
 		//Se reciben todos los miembros del grupo en una lista
 		listaMiembros = Integrante.buscaMiembros(idGrupo.longValue());
@@ -157,8 +159,16 @@ public class Reuniones extends Controller {
 			
 				//Comprobar que el bloque este libre y sea consecutivo
 				if(bloque[z] == 0){
+					
+					//Buscar miembros que pueden asistir
+					for(int y = 0 ; y < miembros; y++){
+						valor [y] = Tarea.valorTarea(fechaComparar, horas[z], listaMiembros.get(y).usuario.correo);
+						
+					}
+					
+					//Poner if si se cumple con asistencia minima
 					contarBloques = contarBloques + 1;
-				
+
 					//Comprobar que la fecha que se guarde sea la fecha de inicio de la reunion
 					if(contarBloques == 1){
 						transicionHora = horas[z];
@@ -200,6 +210,6 @@ public class Reuniones extends Controller {
 				
 			}
 		}
-		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha, idGrupo, miembros, listaMiembros));
+		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha, idGrupo, miembros, listaMiembros, valor));
 	}
 }
