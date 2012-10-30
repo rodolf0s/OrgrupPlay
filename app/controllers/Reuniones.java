@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Reuniones extends Controller {
 
@@ -28,7 +29,8 @@ public class Reuniones extends Controller {
 		Integer duracion = null;
 		Integer idGrupo = 0;
 		Integer miembros = 0;
-		String correosMiembros = "";
+		String [] correosMiembrosAsistentes = null;
+		List<Integrante> listaMiembros = null;
 		
  		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
 		
@@ -141,7 +143,11 @@ public class Reuniones extends Controller {
 		
 		//Buscar miembros del grupo
 		miembros = Integrante.contarMiembros(idGrupo.longValue())-1;
+		correosMiembrosAsistentes = new String[miembros];
 		
+		//Se reciben todos los miembros del grupo en una lista
+		listaMiembros = Integrante.buscaMiembros(idGrupo.longValue());
+
 		Integer resultados = 0;
 		//Comprobar que excistan bloques consecutivos igual a la duracion de la reunion y que cumplan con el minimo de asistencia
 		for(int z = 0 ; z < posiciones; z++){
@@ -166,12 +172,13 @@ public class Reuniones extends Controller {
 						diasUso[contarFecha] = fechaComparar;
 						horasUso[contarFecha] = transicionHora;
 						contarFecha = contarFecha +1;
+						//calcular puntaje reunion
+
+						//Resetear valores
+						contarBloques = 0;
 						transicionHora = null;
 						
-//						//calcular puntaje reunion
-
-
-						contarBloques = 0;
+						//retroceder el contador para ver las otras combinaciones
 						z = z - (duracion - 1);
 
 					}
@@ -193,6 +200,6 @@ public class Reuniones extends Controller {
 				
 			}
 		}
-		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha, idGrupo, miembros));
+		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha, idGrupo, miembros, listaMiembros));
 	}
 }

@@ -186,6 +186,7 @@ public class Integrante extends Model {
     /*
      * Cambia el estado del integrante en un grupo al aceptar la invitacion para ingresar a un grupo
      */
+    
     public static void cambiaEstadoIntegrante(String email, Long grupoId) {
         Integrante integrante = find.where().eq("usuario_correo", email).eq("grupo_id", grupoId).findUnique();
                 integrante.estado = "activo";
@@ -202,4 +203,21 @@ public class Integrante extends Model {
                     .findPagingList(10)
                     .getPage(page);
     }
+    
+/**
+ * busca los miembros de un grupo determinado
+ * @param grupoId
+ * @return
+ */
+  public static List<Integrante> buscaMiembros(long grupoId) {
+      return Integrante.find
+//    		  .select("usuario_correo")
+    		  .where()
+              .eq("grupo_id", grupoId)
+              .eq("tipo", 2)
+              .findList();
+  }
+
+
+    
 }

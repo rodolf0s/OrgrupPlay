@@ -1,4 +1,4 @@
-@(user: String, correo: String, vector: Array[Integer], resultados: Integer, dias: Array[Date], horas: Array[Date], hora: Integer, idgrupo: Integer, miembros: Integer)
+@(user: String, correo: String, vector: Array[Integer], resultados: Integer, dias: Array[Date], horas: Array[Date], hora: Integer, idgrupo: Integer, miembros: Integer, listaMiembros: List[Integrante])
 
 @app(title = "Orgrup", user){
 		
@@ -9,5 +9,9 @@
 	@horas<br>
 	@hora<br>
 	@idgrupo<br>
-	@miembros
+	@miembros<br>
+	
+	@for(l<-listaMiembros){
+		<b>correo</b>: @l.usuario.correo
+	}
 }
