@@ -4,12 +4,13 @@
 		<div class="container">
 			<h1>Orgrup</h1>
 			<p>Crea tareas y organiza tus reuniones automaticamente.</p>
-			<p><a href="@routes.Application.registro" class="btn btn-primary btn-large">Registrate Ahora!</a></p>
+			<a href="@routes.Application.registro" class="btn btn-primary btn-large">Registrate Ahora!</a><br><br>
+			<p><a href="#caracteristicas" class="btn btn-primary btn-large smooth" id="scroll">Características</a></p>
 		</div>
 		<br><br><br><br><br>
 	</div>
 	
-	<div class="container">
+	<div class="container" id="caracteristicas" >
 		<div class="marketing">
 			<h1>Caracteristicas de Orgrup.</h1>
 			<p class="marketing-byline">Te facilitara crear reuniones.</p>
@@ -37,3 +38,21 @@
 	</div>
 	
 }
+
+	<script >
+	$(function(){
+		    //clic en un enlace de la lista
+		    $('p a').on('click',function(e){
+		        //prevenir en comportamiento predeterminado del enlace
+		        e.preventDefault();
+		        //obtenemos el id del elemento en el que debemos posicionarnos
+		        var strAncla=$(this).attr('href');
+		         
+		        //utilizamos body y html, ya que dependiendo del navegador uno u otro no funciona
+		        $('body,html').stop(true,true).animate({
+		            //realizamos la animacion hacia el ancla
+		            scrollTop: $(strAncla).offset().top
+		        },1400);
+		    });
+		});
+	</script>
