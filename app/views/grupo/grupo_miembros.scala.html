@@ -24,6 +24,14 @@
         function modalAlerta() {
             $('#alerta').modal('show');
         }
+        function modalConfirmar(correo, idGrupo, id, nombre) {
+            document.getElementById('integrante').innerHTML = nombre;
+            document.getElementById('correo').value = correo;
+            document.getElementById('idGrupo').value = idGrupo;
+            document.getElementById('id').value = id;
+            $('#modalConfirmar').modal('show');
+
+        }
         window.onload = function() {
             var foo = document.getElementById('idIntegrantes');
             div = document.getElementById('alerta');
@@ -200,7 +208,7 @@
                                 @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
                                     @if(m.tipo != 1) {
                                         <td>
-                                            <a class="btn btn-danger" href="@routes.Grupos.eliminaIntegrante(m.usuario.correo, m.grupo.id)">
+                                            <a href="#" class="btn btn-danger" data-toggle="modal" onClick="modalConfirmar('@m.usuario.correo', '@m.grupo.id.toString', '@m.id', '@Usuario.getNombre(m.usuario.correo)')">
                                                 Eliminar
                                             </a>
                                         </td>
@@ -214,6 +222,26 @@
                 </table>
             </div>
         </div>
+    </div>
+
+    <!-- Modal de confirmacion -->
+    <div class="modal hide fade" id="modalConfirmar">
+        <form action="@routes.Grupos.eliminaIntegrante()" id="confirma" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Eliminar Integrante</h3>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de eliminar a <span id="integrante"></span> de este grupo?
+                <input type="hidden" name="usuario.correo" id="correo">
+                <input type="hidden" name="grupo.id" id="idGrupo">
+                <input type="hidden" name="id" id="id">
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">No</a>
+                <input type="submit" class="btn btn-primary" name="agrega" value="Si">
+            </div>
+        </form>
     </div>
 
     <!-- Modal agrega miembros -->

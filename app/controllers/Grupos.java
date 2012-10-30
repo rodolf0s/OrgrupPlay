@@ -45,7 +45,7 @@ public class Grupos extends Controller {
 
 	/**
 	 * Muestra la pagina principal de un grupo.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -67,12 +67,12 @@ public class Grupos extends Controller {
 			} else {
 				return redirect(routes.Home.index());
 			}
-		}			
+		}
 	}
-	
+
 	/**
 	 * Muestra las reuniones del grupo.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -91,17 +91,17 @@ public class Grupos extends Controller {
 						Contacto.listaAmigos(session("email")),
 						Reunion.find.where().eq("grupo_id", id).findList(),
 						"",
-						Integrante.contarMiembros(id)	
+						Integrante.contarMiembros(id)
 						));
 			} else {
 				return redirect(routes.Home.index());
 			}
-		}	
+		}
 	}
-	
+
 	/**
 	 * Muestra los miembros del grupo.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -123,12 +123,12 @@ public class Grupos extends Controller {
 			} else {
 				return redirect(routes.Home.index());
 			}
-		}	
+		}
 	}
-	
+
 	/**
 	 * Muestra las preferencias del grupo.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -150,12 +150,12 @@ public class Grupos extends Controller {
 			} else {
 				return redirect(routes.Home.index());
 			}
-		}	
+		}
 	}
-	
+
 	/**
 	 * Muestra una reunion y sus documentos asociados.
-	 * 
+	 *
 	 * @param idReunion
 	 * @param idGrupo
 	 * @return
@@ -174,17 +174,17 @@ public class Grupos extends Controller {
 					));
 		}
 	}
-	
+
 	/**
 	 * Muestra los grupos a los que pertenece el usuario.
-	 * 
+	 *
 	 * @return
 	 */
 	public static Result muestraGrupos(int page) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
-			return ok(muestra_grupos.render(Usuario.find.byId(session("email")), 
+			return ok(muestra_grupos.render(Usuario.find.byId(session("email")),
 						Grupo.pageGrupos(page),
 						""
 					)
@@ -194,9 +194,9 @@ public class Grupos extends Controller {
 
 	/**
 	 * Crea un grupo nuevo.
-	 * 
+	 *
 	 * @return redirecciona al grupo donde esta.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static Result crearGrupo(Integer pag, Long id, Long idReunion) throws IOException {
 		Tarea t = new Tarea();
@@ -237,8 +237,8 @@ public class Grupos extends Controller {
 				    				));
 				    	else if (pag == 2)
 				    		return badRequest(muestra_grupos.render(
-									Usuario.find.byId(session("email")), 
-									Grupo.pageGrupos(0), 
+									Usuario.find.byId(session("email")),
+									Grupo.pageGrupos(0),
 									"La imagen supera el limite"
 									));
 				    	else if (pag == 3)
@@ -310,7 +310,7 @@ public class Grupos extends Controller {
 					    				));
 					    	else if (pag == 2)
 					    		return badRequest(muestra_grupos.render(
-										Usuario.find.byId(session("email")), 
+										Usuario.find.byId(session("email")),
 										Grupo.pageGrupos(0),
 										"Debe seleccionar una imagen"
 										));
@@ -361,7 +361,7 @@ public class Grupos extends Controller {
 										"Debe seleccionar una imagen",
 										Integrante.contarMiembros(id)
 										));
-					    
+
 					    nuevoGrupo.nombre = creaGrupo.get().nombre;
 						nuevoGrupo.descripcion = creaGrupo.get().descripcion;
 					    nuevoGrupo.imagen = "group.png";
@@ -370,7 +370,7 @@ public class Grupos extends Controller {
 					    // Crea un directorio al grupo para los documentos.
 					    File directorio = new File("./public/grupos/" + nuevoGrupo.id.toString());
 					    directorio.mkdir();
-					    
+
 					    // crea el nombre de la imagen + la extension.
 					    fileName = nuevoGrupo.id.toString() + extension;
 
@@ -380,18 +380,18 @@ public class Grupos extends Controller {
 					    nuevoGrupo.imagen = fileName;
 					    nuevoGrupo.update();
 					}
-				} else { 
+				} else {
 					File file = new File("./public/grupos/group.png");
-					
+
 					nuevoGrupo.nombre = creaGrupo.get().nombre;
 					nuevoGrupo.descripcion = creaGrupo.get().descripcion;
 				    nuevoGrupo.imagen = "group.png";
 				    nuevoGrupo.save();
-				    
+
 				    // guarda la imagen group.png en el directorio del grupo.
 				    String path = "./public/grupos/" + nuevoGrupo.id.toString() + "/" + "group.png";
 				    org.apache.commons.io.FileUtils.copyFile(file, new File(path));
-				    
+
 				    // Crea un directorio al grupo para los documentos.
 				    File directorio = new File("./public/grupos/" + nuevoGrupo.id.toString());
 				    directorio.mkdir();
@@ -402,7 +402,7 @@ public class Grupos extends Controller {
 				Integrante nuevoIntegrante = new Integrante();
 				Date fecha = new Date();
 
-				user.correo = session("email");				
+				user.correo = session("email");
 
 				// crea el nuevo integrante pasando los datos correspondientes
 				nuevoIntegrante.grupo = nuevoGrupo;
@@ -419,7 +419,7 @@ public class Grupos extends Controller {
 
 	/**
 	 * Agrega un nuevo integrante al grupo.
-	 * 
+	 *
 	 * @return al la pagina grupo donde esta (/grupo/?)
 	 * donde ? es el id del grupo.
 	 */
@@ -436,7 +436,7 @@ public class Grupos extends Controller {
 				Long id = agregaIntegrante.get().grupo.id;
 				Grupo grupo = new Grupo();
 				grupo.id = id;
-				
+
 				integrante.fecha_ingreso = fecha;
 				integrante.tipo = 2;
 				integrante.usuario = agregaIntegrante.get().usuario;
@@ -445,7 +445,7 @@ public class Grupos extends Controller {
 				if (Notificaciones.getGrupoAgregan(agregaIntegrante.get().usuario.correo))
 					integrante.notificado = "agregan";
 				integrante.save();
-				
+
 				if (pag == 1)
 					return redirect(routes.Grupos.index(id));
 				else
@@ -453,24 +453,33 @@ public class Grupos extends Controller {
 			}
 		}
 	}
-	
+
 	/**
 	 * Elimina un integrante del grupo.
-	 * 
+	 *
 	 * @return
 	 */
-	public static Result eliminaIntegrante(String email, Long idGrupo) {
-		Integrante integrante = Integrante.find.where().eq("usuario_correo", email).eq("grupo_id", idGrupo).findUnique();
-		if (Notificaciones.getGrupoEliminan(email))
-			integrante.notificado = "delete";
-		integrante.estado = "delete";
-		integrante.update();
-		return redirect(routes.Grupos.muestraMiembros(idGrupo));
+	public static Result eliminaIntegrante() {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Integrante> formIntegrante = form(Integrante.class).bindFromRequest();
+			if (formIntegrante.hasErrors()) {
+				return badRequest();
+			} else {
+				Integrante integrante = Integrante.find.ref(formIntegrante.get().id);
+				if (Notificaciones.getGrupoEliminan(formIntegrante.get().usuario.correo))
+					integrante.notificado = "delete";
+				integrante.estado = "delete";
+				integrante.update();
+				return redirect(routes.Grupos.muestraMiembros(formIntegrante.get().grupo.id));
+			}
+		}
 	}
-	
+
 	/**
 	 * Edita un grupo.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -485,11 +494,11 @@ public class Grupos extends Controller {
 				Grupo grupo = Grupo.find.ref(editaGrupo.get().id);
 				String extension = "";
 				String fileName = "";
-				
+
 				// Obtiene la imagen de la vista perfil.
 				MultipartFormData body = request().body().asMultipartFormData();
 				FilePart picture = body.getFile("imagen");
-				
+
 				if (picture != null) {
 					String contentType = picture.getContentType();
 					File file = picture.getFile();
@@ -529,13 +538,13 @@ public class Grupos extends Controller {
 				    grupo.update();
 				}
 				return redirect(routes.Grupos.muestraPreferencias(editaGrupo.get().id));
-			}			
+			}
 		}
 	}
-	
+
 	/**
 	 * Elimina un grupo.
-	 * 
+	 *
 	 * @return
 	 */
 	public static Result eliminaGrupo(Long id) {
@@ -543,45 +552,45 @@ public class Grupos extends Controller {
 		File file = new File("./public/grupos/" + id.toString());
 		// Obtiene todas las reuniones del grupo.
 		List<Reunion> reuniones = Reunion.getReuniones(id);
-		
+
 		// Elimina en la BD todos los archivos de las reuniones
 		for (int i = 0; i < reuniones.size(); i++) {
 			Archivo.eliminaTodo(reuniones.get(i).id);
 		}
-		
+
 		// Se crea un array con todos los archivos dentro del directorio
 		// del grupo.
 		File[] ficheros = file.listFiles();
-		
+
 		// Elimina cada archivo dentro del directorio.
 		for (int x = 0; x < ficheros.length; x++) {
 			ficheros[x].delete();
 		}
 		// Elimina el directorio una vez vacio.
 		file.delete();
-		
+
 		Reunion.eliminaTodo(id);
 		Integrante.eliminaTodos(id);
-		Grupo.find.ref(id).delete();				
+		Grupo.find.ref(id).delete();
 		return redirect(routes.Home.index());
 	}
 
 	/**
 	 * Comprueba la variable de session del usuario.
-	 * 
+	 *
 	 * @return true si es distinta de null, y false si no a
-	 * iniciado session. 
+	 * iniciado session.
 	 */
 	public static boolean verificaSession() {
-		if (session("email") == null) 
+		if (session("email") == null)
 			return false;
 		else
 			return true;
 	}
-	
+
 	/**
 	 * Sube archivos a una determinada reunion.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 * @throws ParseException
@@ -592,36 +601,36 @@ public class Grupos extends Controller {
 			return badRequest();
 		} else {
 			Archivo archivo = upload.get();
-			DateFormat formatter; 
-			
+			DateFormat formatter;
+
 			// Se recibe el archivo de la vista.
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart file = body.getFile("nombre");
-			
+
 			// Si no es nulo.
 			if (file != null) {
 				// Genera un random de 9 digitos.
 				Integer id = (int)(Math.random()*1000000000);
 				// Agrega los 9 digitos mas el nombre del archivo.
 				String fileName = id.toString() + "_" + file.getFilename();
-				File documento = file.getFile();				
+				File documento = file.getFile();
 				String path = "./public/grupos/" + idGrupo.toString() + "/" + fileName;
-				
+
 				Date fecha = new Date();
-				String hora = new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();				 
+				String hora = new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
 				formatter = new SimpleDateFormat("HH:mm:ss");
 				Date hour = (Date)formatter.parse(hora);
-				
+
 				Usuario user = new Usuario();
 				user.correo = session("email");
-				
+
 				archivo.nombre = fileName;
 				archivo.fecha = fecha;
 				archivo.hora = hour;
 				archivo.usuario = user;
 				archivo.reunion.id = idReunion;
 				archivo.save();
-				
+
 				// Sube el archivo y lo guarda en la ruta especificada.
 				org.apache.commons.io.FileUtils.copyFile(documento, new File(path));
 				return redirect(routes.Grupos.verReunion(idReunion, idGrupo));
@@ -629,10 +638,10 @@ public class Grupos extends Controller {
 		}
 		return ok();
 	}
-	
+
 	/**
 	 * Descarga un archivo.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -642,10 +651,10 @@ public class Grupos extends Controller {
         response().setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
 		return ok(file);
 	}
-	
+
 	/**
 	 * Elimina un archivo.
-	 * 
+	 *
 	 * @param idArchivo
 	 * @param idReunion
 	 * @param idGrupo
@@ -658,10 +667,10 @@ public class Grupos extends Controller {
 		archivo.delete();
 		return redirect(routes.Grupos.verReunion(idReunion, idGrupo));
 	}
-	
+
 	/**
 	 * Cambia de administrador en un grupo.
-	 * 
+	 *
 	 * @return
 	 */
 	public static Result cambiarAdmin() {
@@ -674,10 +683,10 @@ public class Grupos extends Controller {
 		}
 		return redirect(routes.Grupos.index(cambiaAdmin.get().grupo.id));
 	}
-	
+
 	/**
 	 * Deja un grupo determinado un integrante.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -688,20 +697,20 @@ public class Grupos extends Controller {
 		integrante.delete();
 		return redirect(routes.Home.index());
 	}
-	
+
 	/**
-	 * Muestra la pagina de solicitudes de grupo para confirmar o rechazar invitacion 
+	 * Muestra la pagina de solicitudes de grupo para confirmar o rechazar invitacion
 	 * @return
 	 */
 	public static Result muestraSolicitudes(int page, String filter) {
 		return ok(solicitudes_de_grupo.render(
-					Usuario.find.byId(session("email")), 
+					Usuario.find.byId(session("email")),
 					Integrante.page(page, filter, (session("email"))),
 					filter
 				)
 		);
 	}
-	
+
 	public static Result ingresarAGrupo() {
 		Form<Integrante> aceptaSolicitud = form(Integrante.class).bindFromRequest();
 		if(aceptaSolicitud.hasErrors()) {
@@ -712,7 +721,7 @@ public class Grupos extends Controller {
 		}
 		return redirect(routes.Grupos.muestraSolicitudes(0, ""));
 	}
-	
+
 	public static Result eliminaInvitacion(Long id) {
 		Integrante integrante = Integrante.find.where()
 				.eq("usuario_correo", session("email"))
