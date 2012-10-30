@@ -27,9 +27,9 @@
                                                 }
                                             </select>
                                             <label for="asunto">Asunto</label>
-                                            <input type="text" name="asunto" id="asunto" autofocus="autofocus" required>
+                                            <input type="text" name="asunto" id="asunto" autofocus="autofocus" maxlength="100" required>
                                             <label>Mensaje</label>
-                                            <textarea rows="7" name="mensaje" required></textarea>
+                                            <textarea rows="7" name="mensaje" maxlength="255" required></textarea>
                                             <br>
                                             <input type="submit" class="btn" value="Enviar mensaje">
                                             <input type="hidden" name="remitente.correo" value="@user.correo">
