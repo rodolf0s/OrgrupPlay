@@ -700,12 +700,25 @@ public class Grupos extends Controller {
 	 * @param id
 	 * @return
 	 */
-	public static Result dejarGrupo(Long id) {
-		Integrante integrante = Integrante.find.where()
-				.eq("usuario_correo", session("email"))
-				.eq("grupo_id", id).findUnique();
-		integrante.delete();
-		return redirect(routes.Home.index());
+	public static Result dejarGrupo(Integer pag) {
+		if (!verificaSession()) {
+			return redirect(routes.Application.index());
+		} else {
+			Form<Integrante> formIntegrante = form(Integrante.class).bindFromRequest();
+			if (formIntegrante.hasErrors()) {
+				return badRequest();
+			} else {
+				Long id = formIntegrante.get().id;
+				Integrante integrante = Integrante.find.where()
+						.eq("usuario_correo", session("email"))
+						.eq("grupo_id", id).findUnique();
+				integrante.delete();
+				if (pag == 1)
+					return redirect(routes.Home.index());
+				else
+					return redirect(routes.Grupos.muestraGrupos(0));
+			}
+		}
 	}
 
 	/**

@@ -44,7 +44,7 @@
                                             </td>
                                             <td>
                                                 @if(Integrante.esAdmin(g.id, user.correo)==false){
-                                                    <a class="btn btn-danger pull-right" href='@routes.Grupos.dejarGrupo(g.id)'>Dejar Grupo</a>
+                                                    <a class="btn btn-danger pull-right" href="#" data-toggle="modal" onClick="modalConfirmar('@g.id', '@g.nombre')">Dejar Grupo</a>
                                                 }
                                             </td>
                                         </tr>
@@ -125,6 +125,24 @@
         </form>
     </div>
 
+    <!-- Modal de confirmacion -->
+    <div class="modal hide fade" id="modalConfirmar">
+        <form action="@routes.Grupos.dejarGrupo(2)" id="confirma" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Abandonar Grupo</h3>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de abandonar el grupo <span id="grupo"></span>?
+                <input type="hidden" name="id" id="id">
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">No</a>
+                <input type="submit" class="btn btn-primary" name="agrega" value="Si">
+            </div>
+        </form>
+    </div>
+
     <script type="text/javascript">
          $(document).ready(function() {
             $("[rel=tooltip]").tooltip();
@@ -133,6 +151,12 @@
         function modal(){
             $('#creaGrupo').modal('show');
         }
+
+        function modalConfirmar(id, nombre) {
+            document.getElementById('grupo').innerHTML = nombre;
+            document.getElementById('id').value = id;
+            $('#modalConfirmar').modal('show');
+        }z
 
         @if(errorImagen != "") {
             $('#creaGrupo').modal('show');
