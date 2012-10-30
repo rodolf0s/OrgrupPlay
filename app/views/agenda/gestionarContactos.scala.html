@@ -36,11 +36,11 @@
 										<td>
 											<a class="btn btn-primary" href="@routes.Contactos.muestraElPerfil(p.usuario2.correo)">Ver Perfil</a>
 										</td>
-			 	 						<form action="@routes.Contactos.eliminaContacto(0, "")" method="post">
-			 	 							<input type="hidden" name="usuario1.correo" value="@user.correo">
-			 	 							<input type="hidden" name="usuario2.correo" value="@p.usuario2.correo">
-			 	 							<td><input type="submit" class="btn btn-danger" value="Eliminar"></td>
-			 	 						</form>
+										<td>
+			 	 						<a href="#" class="btn btn-danger" data-toggle="modal" onClick="modalConfirmar('@user.correo', '@p.usuario2.correo', '@Usuario.getNombre(p.usuario2.correo)')">
+                                                Eliminar
+                                            </a>
+                                        </td>
 		 	 						</tr>
 		 	 					}
 		 	 				</table>
@@ -76,9 +76,35 @@
 		</div>
 	</div>
 
+	<!-- Modal de confirmacion -->
+    <div class="modal hide fade" id="modalConfirmar">
+        <form action="@routes.Contactos.eliminaContacto(0, "")" id="confirma" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Eliminar Contacto</h3>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de eliminar a <span id="integrante"></span> de sus contactos?
+                <input type="hidden" name="usuario1.correo" id="usu1">
+			 	<input type="hidden" name="usuario2.correo" id="usu2">
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">No</a>
+                <input type="submit" class="btn btn-primary" name="agrega" value="Si">
+            </div>
+        </form>
+    </div>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("[rel=tooltip]").tooltip();
 		});
+
+		function modalConfirmar(usu1, usu2, nombre) {
+            document.getElementById('integrante').innerHTML = nombre;
+            document.getElementById('usu1').value = usu1;
+            document.getElementById('usu2').value = usu2;
+            $('#modalConfirmar').modal('show');
+        }
 	</script>
 }
