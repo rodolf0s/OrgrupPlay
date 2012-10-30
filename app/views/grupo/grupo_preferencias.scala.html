@@ -21,6 +21,11 @@
         function modalGrupos() {
             $('#creaGrupo').modal('show');
         }
+        function modalConfirmar(id, nombre) {
+            document.getElementById('grupo').innerHTML = nombre;
+            document.getElementById('id').value = id;
+            $('#modalConfirmar').modal('show');
+        }
     </script>
 
     <div class="row">
@@ -136,7 +141,7 @@
                 <h1>
                     @grupo.getString("nombre") <small> Preferencias </small>
                     <input type="hidden" name="id" value='@grupo.getString("id")'>
-                    <a class="btn btn-danger pull-right" href='@routes.Grupos.eliminaGrupo(grupo.getString("id").toLong)'>
+                    <a href="" class="btn btn-danger pull-right" data-toggle="modal" onClick="modalConfirmar('@grupo.getString("id")', '@grupo.getString("nombre")')">
                         <i class="icon-remove"> </i>
                         Eliminar grupo
                     </a>
@@ -170,6 +175,24 @@
                 </div>
             </form>
         </div>
+    </div>
+
+    <!-- Modal de confirmacion -->
+    <div class="modal hide fade" id="modalConfirmar">
+        <form action="@routes.Grupos.eliminaGrupo()" id="confirma" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Eliminar Grupo</h3>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de eliminar el grupo <span id="grupo"></span> definitivamente?
+                <input type="hidden" name="id" id="id">
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">No</a>
+                <input type="submit" class="btn btn-primary" name="agrega" value="Si">
+            </div>
+        </form>
     </div>
 
     <!-- Modal crear grupo -->
