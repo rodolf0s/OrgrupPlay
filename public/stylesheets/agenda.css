@@ -119,3 +119,15 @@ body {
 #calendar {
     padding: 10px;
 }
+
+#perfil {
+	padding: 15px;
+}
+
+#imagen {
+	margin-left: 30px;
+}
+
+.span3 {
+	border-right: 1px solid #e6e6e6;
+}

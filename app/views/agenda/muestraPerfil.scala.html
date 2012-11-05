@@ -14,12 +14,12 @@
     </style>
 
 
-    <div class="container span8 perfil">
+    <div class="container span11 perfil" style="box-shadow: 2px 2px 5px 2px #999;">
         <div class="row-fluid">
             <div class="span3">
-                <img class="img-rounded" style="width: 150px; height: 150px;" src="/assets/images/usuarios/@user2.imagen" alt="imagen usuario">
+                <img id="imagen" class="img-polaroid" style="border-radius: 5px; width: 160px; height: 160px;" src="/assets/images/usuarios/@user2.imagen" alt="imagen usuario">
             </div>
-            <div class="span8">
+            <div class="span9" id="perfil">
                 @if(!Usuario.cuentaInactiva(user.correo)) {
                     @if(user.correo != user2.correo) {
                         <a href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()">
@@ -28,22 +28,23 @@
                     }
 
                 }
-                <h1>@user2.nombre</h1>
+                <b><font size="6">@user2.nombre</font></b><br>             
+                    <a href="mailto:@user2.correo">@user2.correo</a><br>
+             
                 <address>
-                    <strong>@user2.nombre</strong><br>
-                    @user2.ciudad<br>
+                    Ciudad: @user2.ciudad<br>
                     @if(user2.telefono != null) {
                         <abbr title="Telefono">
-                            T: @user2.telefono<br>
+                            Telefono: @user2.telefono<br>
                         </abbr>
                     }
                     @if(user2.leyenda != null) {
-                        <p>@user2.leyenda</p>
+                    	<hr>
+                    	Sobre mi: 
+                        <i><p>@user2.leyenda</p></i>
                     }
                 </address>
-                <address>
-                    <a href="mailto:#">@user2.correo</a>
-                </address>
+                
             </div>
         </div>
     </div>
