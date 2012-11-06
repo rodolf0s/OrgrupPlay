@@ -199,6 +199,7 @@ public class Reuniones extends Controller {
 							transicionHora = horas[z];
 							contarBloques = contarBloques + 1;
 							sumatoriaValoresBloque = 0;
+
 							
 						}else{
 							//reiniciar todos los valores en caso de que no se cumpla el minimo de asistencia
@@ -277,10 +278,14 @@ public class Reuniones extends Controller {
 							
 
 							//Resetear valores
+							asistentesAux = 0;
+							correosMiembrosAsistentesAux = null;
+							sumatoriaValoresBloque = 0;
 							contarBloques = 0;
 							transicionHora = null;
-							asistentes = 0;
 							correosMiembrosAsistentes = null;
+							asistentes = 0;
+							puntajeBloque = 0;
 							
 							//retroceder el contador para ver las otras combinaciones
 							z = z - (duracion - 1);
@@ -333,6 +338,6 @@ public class Reuniones extends Controller {
 				
 			}
 		}
-		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha, idGrupo, miembros, listaMiembros, asistentes));
+		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha, idGrupo, miembros, listaMiembros, asistentes, puntajeReunion));
 	}
 }
