@@ -155,7 +155,6 @@ public class Reuniones extends Controller {
 		miembros = Integrante.contarMiembros(idGrupo.longValue())-1;
 		
 		//Variables de puntajes
-		puntajeBloque = new Integer [duracion];
 		puntajeReunion = new Integer [posiciones];
 		
 		//Se reciben todos los miembros del grupo en una lista
@@ -194,23 +193,27 @@ public class Reuniones extends Controller {
 						//Comprobar que se cumple asistencia minima
 						if(asistenciaMinima <= asistentes){
 							
-							transicionHora = horas[z];
 							//Sumatoria puntajes del bloque
 							puntajeBloque = puntajeBloque + (asistentes * 3 - sumatoriaValoresBloque);
+							
+							transicionHora = horas[z];
 							contarBloques = contarBloques + 1;
 							sumatoriaValoresBloque = 0;
 							
 						}else{
 							//reiniciar todos los valores en caso de que no se cumpla el minimo de asistencia
+							asistentesAux = 0;
+							correosMiembrosAsistentesAux = null;
+							sumatoriaValoresBloque = 0;
 							contarBloques = 0;
 							transicionHora = null;
 							correosMiembrosAsistentes = null;
 							asistentes = 0;
-							sumatoriaValoresBloque = 0;
 							puntajeBloque = 0;
+							
 						}
 						
-					}
+					}else{
 					
 					//Comparar la asistencia de los bloques con el primero de la reunion
 					for(int y = 0 ; y < miembros; y++){
@@ -251,44 +254,63 @@ public class Reuniones extends Controller {
 						
 						//Sumatoria puntajes del bloque
 						puntajeBloque = puntajeBloque + (asistentes * 3 - sumatoriaValoresBloque);
+						
 						contarBloques = contarBloques + 1;
 						asistentesAux = 0;
 						correosMiembrosAsistentesAux = null;
 						sumatoriaValoresBloque = 0;
 						
+
+						
+						//Comprobar que la reunion cumple con las horas necesarias
+						if(contarBloques == duracion){
+							resultados = resultados + 1;
+							//Guardar el dia y el bloque de la reunion
+							diasUso[contarFecha] = fechaComparar;
+							horasUso[contarFecha] = transicionHora;
+							
+							//almacena puntaje de la reunion
+							puntajeReunion [contarFecha] = puntajeBloque; 
+							
+							//Contador para los resultados (dia, hora y puntaje reunion)
+							contarFecha = contarFecha +1;
+							
+
+							//Resetear valores
+							contarBloques = 0;
+							transicionHora = null;
+							asistentes = 0;
+							correosMiembrosAsistentes = null;
+							
+							//retroceder el contador para ver las otras combinaciones
+							z = z - (duracion - 1);
+
+						}
+						
 					}else{
+						
+						//reiniciar todos los valores
 						asistentesAux = 0;
 						correosMiembrosAsistentesAux = null;
 						sumatoriaValoresBloque = 0;
+						contarBloques = 0;
+						transicionHora = null;
+						correosMiembrosAsistentes = null;
+						asistentes = 0;
 						puntajeBloque = 0;
 					}
 					
-					
-					//Comprobar que la reunion cumple con las horas necesarias
-					if(contarBloques == duracion){
-						
-						//Guardar el dia y el bloque de la reunion
-						diasUso[contarFecha] = fechaComparar;
-						horasUso[contarFecha] = transicionHora;
-						contarFecha = contarFecha +1;
-						//calcular puntaje reunion
-
-						//Resetear valores
-						contarBloques = 0;
-						transicionHora = null;
-						asistentes = 0;
-						correosMiembrosAsistentes = null;
-						
-						//retroceder el contador para ver las otras combinaciones
-						z = z - (duracion - 1);
-
-					}
+				   }
 				}else{
 					//resetear todos los valores en caso de no alcanzar duracion
+					asistentesAux = 0;
+					correosMiembrosAsistentesAux = null;
+					sumatoriaValoresBloque = 0;
 					contarBloques = 0;
 					transicionHora = null;
 					correosMiembrosAsistentes = null;
 					asistentes = 0;
+					puntajeBloque = 0;
 				
 				}
 				
@@ -300,10 +322,14 @@ public class Reuniones extends Controller {
 				z = z -1;
 				
 				//resetear valores
+				asistentesAux = 0;
+				correosMiembrosAsistentesAux = null;
+				sumatoriaValoresBloque = 0;
 				contarBloques = 0;
 				transicionHora = null;
-				asistentes = 0;
 				correosMiembrosAsistentes = null;
+				asistentes = 0;
+				puntajeBloque = 0;
 				
 			}
 		}
