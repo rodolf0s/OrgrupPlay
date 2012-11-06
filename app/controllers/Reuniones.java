@@ -14,12 +14,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class Reuniones extends Controller {
 
 	public static Result generarReunion(String correo) {
 		
 		Integer [] bloque = null;
+		Integer puntajeBloque = 0;
+		Integer [] puntajeReunion = null;
+		Integer sumatoriaValoresBloque = 0;
 		Date [] dias = null;
 		Date [] horas = null;
 		Integer posiciones = null;
@@ -29,10 +33,13 @@ public class Reuniones extends Controller {
 		Integer duracion = null;
 		Integer idGrupo = 0;
 		Integer miembros = 0;
-		String [] correosMiembrosAsistentes = null;
+		String correosMiembrosAsistentes = null;
+		String correosMiembrosAsistentesAux = null;
 		List<Integrante> listaMiembros = null;
 		Integer valor = null;
 		Integer asistentes = 0;
+		Integer asistentesAux = 0;
+		Integer asistenciaMinima = 0;
 		
  		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
 		
@@ -47,6 +54,7 @@ public class Reuniones extends Controller {
 			Date horaFin = objetoReunion.hora_fin;
 			duracion = objetoReunion.duracion;
 			idGrupo = objetoReunion.grupo.id.intValue();
+			asistenciaMinima = objetoReunion.asistencia;
 			
 			//Transformamos los tipo Date en tipo Calendar
 			Calendar fechaInicioCalendar = new GregorianCalendar(); 
@@ -145,7 +153,10 @@ public class Reuniones extends Controller {
 		
 		//Buscar miembros del grupo
 		miembros = Integrante.contarMiembros(idGrupo.longValue())-1;
-		correosMiembrosAsistentes = new String[miembros];
+		
+		//Variables de puntajes
+		puntajeBloque = new Integer [duracion];
+		puntajeReunion = new Integer [posiciones];
 		
 		//Se reciben todos los miembros del grupo en una lista
 		listaMiembros = Integrante.buscaMiembros(idGrupo.longValue());
@@ -160,32 +171,101 @@ public class Reuniones extends Controller {
 				//Comprobar que el bloque este libre y sea consecutivo
 				if(bloque[z] == 0){
 					
-					contarBloques = contarBloques + 1;
-
 					//Comprobar que sea el primer bloque de la reunion
-					if(contarBloques == 1){
+					if(contarBloques == 0){
 						
 						//Buscar miembros que pueden asistir (cuando es el primer bloque extrae los correos de los asistentes)
 						for(int y = 0 ; y < miembros; y++){
 							
 							valor = Tarea.valorTarea(fechaComparar, horas[z], listaMiembros.get(y).usuario.correo);
 							
-							if((valor == null) || (valor == 1) || (valor == 2)){
+							//Guardar los asistentes a la reunion
+							if((valor == 0) || (valor == 1) || (valor == 2)){
 								
-								correosMiembrosAsistentes [asistentes] = listaMiembros.get(y).usuario.correo;
+								correosMiembrosAsistentes = correosMiembrosAsistentes + ";" + listaMiembros.get(y).usuario.correo;
 								asistentes = asistentes + 1;
-							}else {
-								//vaciar todo
 								
+								//Sumatoria de los puntaje de las tareas
+								sumatoriaValoresBloque = sumatoriaValoresBloque + valor;
 							}
-							
+								
 						}
-						transicionHora = horas[z];
+						
+						//Comprobar que se cumple asistencia minima
+						if(asistenciaMinima <= asistentes){
+							
+							transicionHora = horas[z];
+							//Sumatoria puntajes del bloque
+							puntajeBloque = puntajeBloque + (asistentes * 3 - sumatoriaValoresBloque);
+							contarBloques = contarBloques + 1;
+							sumatoriaValoresBloque = 0;
+							
+						}else{
+							//reiniciar todos los valores en caso de que no se cumpla el minimo de asistencia
+							contarBloques = 0;
+							transicionHora = null;
+							correosMiembrosAsistentes = null;
+							asistentes = 0;
+							sumatoriaValoresBloque = 0;
+							puntajeBloque = 0;
+						}
+						
 					}
+					
+					//Comparar la asistencia de los bloques con el primero de la reunion
+					for(int y = 0 ; y < miembros; y++){
+						
+						valor = Tarea.valorTarea(fechaComparar, horas[z], listaMiembros.get(y).usuario.correo);
+						
+						//Guardar los asistentes a la reunion
+						if((valor == 0) || (valor == 1) || (valor == 2)){
+							
+							correosMiembrosAsistentesAux = correosMiembrosAsistentesAux + ";" + listaMiembros.get(y).usuario.correo;
+							
+							//Sumatoria de los puntaje de las tareas
+							sumatoriaValoresBloque = sumatoriaValoresBloque + valor;
+						}
+							
+					}
+									
+					StringTokenizer token = new StringTokenizer(correosMiembrosAsistentes, ";");
+					
+					//Compara los asistentes entre bloques
+					while(token.hasMoreTokens()) {
+						String miembroConfirmado = token.nextToken();
+						
+						StringTokenizer token2 = new StringTokenizer(correosMiembrosAsistentesAux, ";");
+						
+						while(token2.hasMoreTokens()){
+							
+							String miembroConfirmado2 = token2.nextToken();
+							
+							if(miembroConfirmado.equals(miembroConfirmado2) ) {
+								asistentesAux = asistentesAux +1;
+							}
+						}	
+					}
+					
+					//Comprobar que el nuevo bloque cumple con el minimo de asistencia
+					if(asistenciaMinima <= asistentesAux){
+						
+						//Sumatoria puntajes del bloque
+						puntajeBloque = puntajeBloque + (asistentes * 3 - sumatoriaValoresBloque);
+						contarBloques = contarBloques + 1;
+						asistentesAux = 0;
+						correosMiembrosAsistentesAux = null;
+						sumatoriaValoresBloque = 0;
+						
+					}else{
+						asistentesAux = 0;
+						correosMiembrosAsistentesAux = null;
+						sumatoriaValoresBloque = 0;
+						puntajeBloque = 0;
+					}
+					
 					
 					//Comprobar que la reunion cumple con las horas necesarias
 					if(contarBloques == duracion){
-						resultados = resultados +1;
 						
 						//Guardar el dia y el bloque de la reunion
 						diasUso[contarFecha] = fechaComparar;
@@ -196,6 +276,8 @@ public class Reuniones extends Controller {
 						//Resetear valores
 						contarBloques = 0;
 						transicionHora = null;
+						asistentes = 0;
+						correosMiembrosAsistentes = null;
 						
 						//retroceder el contador para ver las otras combinaciones
 						z = z - (duracion - 1);
@@ -205,6 +287,8 @@ public class Reuniones extends Controller {
 					//resetear todos los valores en caso de no alcanzar duracion
 					contarBloques = 0;
 					transicionHora = null;
+					correosMiembrosAsistentes = null;
+					asistentes = 0;
 				
 				}
 				
@@ -214,11 +298,15 @@ public class Reuniones extends Controller {
 				
 				//disminuir el contador para que no pase por alto el bloque que cambia la fecha
 				z = z -1;
+				
+				//resetear valores
 				contarBloques = 0;
 				transicionHora = null;
+				asistentes = 0;
+				correosMiembrosAsistentes = null;
 				
 			}
 		}
-		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha, idGrupo, miembros, listaMiembros, valor));
+		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha, idGrupo, miembros, listaMiembros, asistentes));
 	}
 }

@@ -152,12 +152,19 @@ public class Tarea extends Model {
       * @return
       */
      public static Integer valorTarea(Date fecha, Date hora, String correo) {
-    	 Tarea tarea = Ebean.find(Tarea.class)
+    	Tarea tarea = Ebean.find(Tarea.class)
                  .where()
                  .eq("fecha_inicio", fecha)
                  .eq("hora_inicio", hora)
                  .eq("usuario_correo", correo)
                  .findUnique();
-         return tarea.prioridad;
+        try{ 
+        	return tarea.prioridad;
+        	
+        	}catch(Exception e){
+        		
+                return 0;	
+        	}
+        }
      }
-}
+
