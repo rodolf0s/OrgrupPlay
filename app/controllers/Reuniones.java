@@ -31,7 +31,8 @@ public class Reuniones extends Controller {
 		Integer miembros = 0;
 		String [] correosMiembrosAsistentes = null;
 		List<Integrante> listaMiembros = null;
-		Integer [] valor = null;
+		Integer valor = null;
+		Integer asistentes = 0;
 		
  		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
 		
@@ -145,7 +146,6 @@ public class Reuniones extends Controller {
 		//Buscar miembros del grupo
 		miembros = Integrante.contarMiembros(idGrupo.longValue())-1;
 		correosMiembrosAsistentes = new String[miembros];
-		valor = new Integer [miembros];
 		
 		//Se reciben todos los miembros del grupo en una lista
 		listaMiembros = Integrante.buscaMiembros(idGrupo.longValue());
@@ -160,17 +160,26 @@ public class Reuniones extends Controller {
 				//Comprobar que el bloque este libre y sea consecutivo
 				if(bloque[z] == 0){
 					
-					//Buscar miembros que pueden asistir
-					for(int y = 0 ; y < miembros; y++){
-						valor [y] = Tarea.valorTarea(fechaComparar, horas[z], listaMiembros.get(y).usuario.correo);
-						
-					}
-					
-					//Poner if si se cumple con asistencia minima
 					contarBloques = contarBloques + 1;
 
-					//Comprobar que la fecha que se guarde sea la fecha de inicio de la reunion
+					//Comprobar que sea el primer bloque de la reunion
 					if(contarBloques == 1){
+						
+						//Buscar miembros que pueden asistir (cuando es el primer bloque extrae los correos de los asistentes)
+						for(int y = 0 ; y < miembros; y++){
+							
+							valor = Tarea.valorTarea(fechaComparar, horas[z], listaMiembros.get(y).usuario.correo);
+							
+							if((valor == null) || (valor == 1) || (valor == 2)){
+								
+								correosMiembrosAsistentes [asistentes] = listaMiembros.get(y).usuario.correo;
+								asistentes = asistentes + 1;
+							}else {
+								//vaciar todo
+								
+							}
+							
+						}
 						transicionHora = horas[z];
 					}
 					
