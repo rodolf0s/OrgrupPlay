@@ -269,7 +269,7 @@
                         <input class="input-small" type="text" name="asistencia" id="asistencia" maxlength="8">
                     </div><br>
                     <div class="alert alert-error">
-                        En la asistencia minima no se considera el administrador.
+                        En la asistencia minima considere al administrador.
                     </div>
                 </div>
             </div>
@@ -415,7 +415,7 @@
                 if(duracion <= diferenciaHora){
 
                     //Verifica que la asistencia minima no sea mayor a la cantidad de miembros de un grupo
-                    if(@miembros-1 >= asistenciaMinima) {
+                    if(@miembros >= asistenciaMinima) {
                         document.reunion.submit();
                     }else {
                         alert("La asistencia minima no puede ser mayor a los integrantes del grupo");

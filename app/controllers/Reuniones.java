@@ -41,6 +41,7 @@ public class Reuniones extends Controller {
 		Integer asistentesAux = 0;
 		Integer asistenciaMinima = 0;
 		
+		
  		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
 		
 		if(formReunion.hasErrors()){
@@ -105,8 +106,8 @@ public class Reuniones extends Controller {
 					Date horaInicio1 = horaInicioCalendar.getTime();
 				
 					//Indica si el bloque esta libre o no
-					estado = Tarea.buscarTarea(fechaInicio1, horaInicio1, correo);
-					if (estado > 0){
+					estado = Tarea.valorTarea(fechaInicio1, horaInicio1, correo);
+					if (estado == 3){
 						
 						//Obtenemos hora termino de la tarea
 						Date termino = Tarea.buscaHoraTermino(fechaInicio1, horaInicio1, correo);
@@ -152,7 +153,7 @@ public class Reuniones extends Controller {
 		Integer contarFecha = 0;
 		
 		//Buscar miembros del grupo
-		miembros = Integrante.contarMiembros(idGrupo.longValue())-1;
+		miembros = Integrante.contarMiembros(idGrupo.longValue());
 		
 		//Variables de puntajes
 		puntajeReunion = new Integer [posiciones];
@@ -199,6 +200,32 @@ public class Reuniones extends Controller {
 							transicionHora = horas[z];
 							contarBloques = contarBloques + 1;
 							sumatoriaValoresBloque = 0;
+							
+							//Comprobar que la reunion cumple con las horas necesarias
+							if(contarBloques == duracion){
+								resultados = resultados + 1;
+								//Guardar el dia y el bloque de la reunion
+								diasUso[contarFecha] = fechaComparar;
+								horasUso[contarFecha] = transicionHora;
+								
+								//almacena puntaje de la reunion
+								puntajeReunion [contarFecha] = puntajeBloque; 
+								
+								//Contador para los resultados (dia, hora y puntaje reunion)
+								contarFecha = contarFecha +1;
+								
+
+								//Resetear valores
+								asistentesAux = 0;
+								correosMiembrosAsistentesAux = null;
+								sumatoriaValoresBloque = 0;
+								contarBloques = 0;
+								transicionHora = null;
+								correosMiembrosAsistentes = null;
+								asistentes = 0;
+								puntajeBloque = 0;
+
+							}
 
 							
 						}else{

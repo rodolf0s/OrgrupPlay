@@ -214,7 +214,6 @@ public class Integrante extends Model {
 //    		  .select("usuario_correo")
     		  .where()
               .eq("grupo_id", grupoId)
-              .eq("tipo", 2)
               .findList();
   }
 
