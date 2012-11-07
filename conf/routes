@@ -3,6 +3,7 @@
 # ~~~~
 
 GET     /reunion                    controllers.Algoritmo.index()
+POST    /calcula                    controllers.Algoritmo.calcula()
 
 # Home page
 GET     /                           controllers.Application.index()
