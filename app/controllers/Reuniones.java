@@ -90,7 +90,7 @@ public class Reuniones extends Controller {
 			//puntero del vector
 			Integer a = 0;
 			
-			//Revisamos dias con bloques libres del administrador
+			//Revisamos dias con bloques donde puede asistir del administrador
 			while(fechaInicioCalendar.before(fechaFinCalendar)) {
 				
 				//reiniciar el valor de las horas			
@@ -365,6 +365,33 @@ public class Reuniones extends Controller {
 				
 			}
 		}
-		return ok(mensajeReunion.render(session("email"), correo, bloque, resultados, diasUso, horasUso, contarFecha, idGrupo, miembros, listaMiembros, asistentes, puntajeReunion));
+		
+		//Ordenar los vectores de mayor a menor segun puntaje
+		for(int contador = 0; contador < contarFecha; contador++){
+		
+			for(int contador2 = contador + 1; contador2 < contarFecha - 1; contador2++){
+				
+				if(puntajeReunion[contador] < puntajeReunion[contador2]){
+					
+					//variables auxiliares para todos los vectores
+					Integer auxiliar1 = puntajeReunion[contador];
+					Date	auxiliar2 = diasUso[contador];
+					Date	auxiliar3 = horasUso[contador];
+					
+					//Reemplazo de los vectores
+					puntajeReunion[contador] = puntajeReunion[contador2];
+					diasUso[contador] = diasUso[contador2];
+					horasUso[contador] = horasUso[contador2];
+					
+					//Ordenamiento
+					puntajeReunion[contador2] = auxiliar1;
+					diasUso[contador2] = auxiliar2;
+					horasUso[contador2] = auxiliar3;
+					
+				}
+			}
+			
+		}
+		return ok(mensajeReunion.render(session("email"), bloque, resultados, diasUso, horasUso, listaMiembros, puntajeReunion));
 	}
 }
