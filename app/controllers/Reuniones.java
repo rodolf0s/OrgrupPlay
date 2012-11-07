@@ -369,7 +369,7 @@ public class Reuniones extends Controller {
 		//Ordenar los vectores de mayor a menor segun puntaje
 		for(int contador = 0; contador < contarFecha; contador++){
 		
-			for(int contador2 = contador + 1; contador2 < contarFecha - 1; contador2++){
+			for(int contador2 = contador + 1; contador2 < contarFecha; contador2++){
 				
 				if(puntajeReunion[contador] < puntajeReunion[contador2]){
 					
