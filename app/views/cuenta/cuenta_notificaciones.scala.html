@@ -1,130 +1,139 @@
-@(usuario: Usuario, notificaciones: Notificaciones)
+@(usuario: Usuario, notificaciones: Notificaciones, msj: String)
 
 @app(title = "Configurar Notificaciones", usuario.nombre) {
 
-	<div class="container">
-		<ul id="myTab" class="nav nav-tabs">
-			<li>
-				<a href="@routes.Cuenta.perfil">Perfil</a>
-			</li>
-			<li>
-				<a href="@routes.Cuenta.password">Contraseña</a>
-			</li>
-			<li>
-				<a href="@routes.Cuenta.colores">Agenda</a>
-			</li>
-			<li class="active">
-				<a href="@routes.Cuenta.notificaciones">Notificaciones</a>
-			</li>
-			<li>
-				<a href="@routes.Cuenta.cuenta">Cuenta</a>
-			</li>
-		</ul>
-			
-	            
-		<form class="form-horizontal well span6" id="form" action="@routes.Cuenta.guardaNotificaciones" method="post">
-			<h5>Tareas</h5>
-			<label class="checkbox">
-				Recordarme las tareas del día.
-				<input type="checkbox" name="ctarea">
-				<input type="hidden" name="tarea" value="@notificaciones.tarea">
-			</label>
-			
-			<h5>Contactos</h5>
-			<label class="checkbox">
-				Al recibir una solicitud de amistad.
-				<input type="checkbox" name="ccontacto">
-				<input type="hidden" name="contacto" value="@notificaciones.contacto">
-			</label>
-			
-			<h5>Mensajes</h5>
-			<label class="checkbox">
-				Al recibir un nuevo mensajes.
-				<input type="checkbox" name="cmensaje">
-				<input type="hidden" name="mensaje" value="@notificaciones.mensaje">
-			</label>
-			
-			<h5>Grupos</h5>
-			<label class="checkbox">
-				Cuando me agregen a un grupo.
-				<input type="checkbox" name="cgrupoAgregan">
-				<input type="hidden" name="grupoAgregan" value="@notificaciones.grupoAgregan">
-			</label>
-			<label class="checkbox">
-				Cuando me eliminen de un grupo.
-				<input type="checkbox" name="cgrupoEliminan">
-				<input type="hidden" name="grupoEliminan" value="@notificaciones.grupoEliminan">
-			</label>
-			<label class="checkbox">
-				Cuando sea administrador de un grupo.
-				<input type="checkbox" name="cgrupoAdmin">
-				<input type="hidden" name="grupoAdmin" value="@notificaciones.grupoAdmin">
-			</label>
-						
-			<div class="form-actions">
-				<a class="btn" href="@routes.Home.index">Cancelar</a>
-				<button onClick="enviar()" id="fat-btn" class="btn btn-primary pull-right" data-loading-text="Guardando..."> Guardar </button>
-			</div>		
-		</form>
-	</div>
-	
-	<script type="text/javascript">
-		$('#fat-btn').on('click', function () {
-	   		$(this).button('loading')
-	   	});
-	   	
-		window.onload = function() {
-			@if(notificaciones.tarea == "si") {
-				document.forms.form.ctarea.click();
-			}
-			@if(notificaciones.contacto == "si") {
-				document.forms.form.ccontacto.click();
-			}
-			@if(notificaciones.mensaje == "si") {
-				document.forms.form.cmensaje.click();
-			}
-			@if(notificaciones.grupoAgregan == "si") {
-				document.forms.form.cgrupoAgregan.click();
-			}
-			@if(notificaciones.grupoEliminan == "si") {
-				document.forms.form.cgrupoEliminan.click();
-			}
-			@if(notificaciones.grupoAdmin == "si") {
-				document.forms.form.cgrupoAdmin.click();
-			}
-		}
-		function enviar() {
-			if (document.forms.form.ctarea.checked == true)
-				document.forms.form.tarea.value = "si";
-			else
-				document.forms.form.tarea.value = "no";
-			
-			if (document.forms.form.ccontacto.checked == true)
-				document.forms.form.contacto.value = "si";
-			else
-				document.forms.form.contacto.value = "no";
-			
-			if (document.forms.form.cmensaje.checked == true)
-				document.forms.form.mensaje.value = "si";
-			else
-				document.forms.form.mensaje.value = "no";
-			
-			if (document.forms.form.cgrupoAgregan.checked == true)
-				document.forms.form.grupoAgregan.value = "si";
-			else
-				document.forms.form.grupoAgregan.value = "no";
-			
-			if (document.forms.form.cgrupoEliminan.checked == true)
-				document.forms.form.grupoEliminan.value = "si";
-			else
-				document.forms.form.grupoEliminan.value = "no";
-			
-			if (document.forms.form.cgrupoAdmin.checked == true)
-				document.forms.form.grupoAdmin.value = "si";
-			else
-				document.forms.form.grupoAdmin.value = "no";
-			
-			document.forms.form.submit();
-		}
-	</script>
+    <div class="container">
+        <ul id="myTab" class="nav nav-tabs">
+            <li>
+                <a href="@routes.Cuenta.perfil">Perfil</a>
+            </li>
+            <li>
+                <a href="@routes.Cuenta.password">Contraseña</a>
+            </li>
+            <li>
+                <a href="@routes.Cuenta.colores">Agenda</a>
+            </li>
+            <li class="active">
+                <a href="@routes.Cuenta.notificaciones">Notificaciones</a>
+            </li>
+            <li>
+                <a href="@routes.Cuenta.cuenta">Cuenta</a>
+            </li>
+        </ul>
+
+
+        <form class="form-horizontal well span6" id="form" action="@routes.Cuenta.guardaNotificaciones" method="post">
+            <h5>Tareas</h5>
+            <label class="checkbox">
+                Recordarme las tareas del día.
+                <input type="checkbox" name="ctarea">
+                <input type="hidden" name="tarea" value="@notificaciones.tarea">
+            </label>
+
+            <h5>Contactos</h5>
+            <label class="checkbox">
+                Al recibir una solicitud de amistad.
+                <input type="checkbox" name="ccontacto">
+                <input type="hidden" name="contacto" value="@notificaciones.contacto">
+            </label>
+
+            <h5>Mensajes</h5>
+            <label class="checkbox">
+                Al recibir un nuevo mensajes.
+                <input type="checkbox" name="cmensaje">
+                <input type="hidden" name="mensaje" value="@notificaciones.mensaje">
+            </label>
+
+            <h5>Grupos</h5>
+            <label class="checkbox">
+                Cuando me agregen a un grupo.
+                <input type="checkbox" name="cgrupoAgregan">
+                <input type="hidden" name="grupoAgregan" value="@notificaciones.grupoAgregan">
+            </label>
+            <label class="checkbox">
+                Cuando me eliminen de un grupo.
+                <input type="checkbox" name="cgrupoEliminan">
+                <input type="hidden" name="grupoEliminan" value="@notificaciones.grupoEliminan">
+            </label>
+            <label class="checkbox">
+                Cuando sea administrador de un grupo.
+                <input type="checkbox" name="cgrupoAdmin">
+                <input type="hidden" name="grupoAdmin" value="@notificaciones.grupoAdmin">
+            </label>
+            @if(msj != "") {
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <small>
+                        <strong>Actualizado!</strong>
+                        @msj
+                    </small>
+                </div>
+            }
+            <hr>
+            <div class="pull-right">
+                <a class="btn" href="@routes.Home.index">Cancelar</a>
+                <button onClick="enviar()" id="fat-btn" class="btn btn-primary" data-loading-text="Guardando..."> Guardar </button>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $('#fat-btn').on('click', function () {
+            $(this).button('loading')
+        });
+
+        window.onload = function() {
+            @if(notificaciones.tarea == "si") {
+                document.forms.form.ctarea.click();
+            }
+            @if(notificaciones.contacto == "si") {
+                document.forms.form.ccontacto.click();
+            }
+            @if(notificaciones.mensaje == "si") {
+                document.forms.form.cmensaje.click();
+            }
+            @if(notificaciones.grupoAgregan == "si") {
+                document.forms.form.cgrupoAgregan.click();
+            }
+            @if(notificaciones.grupoEliminan == "si") {
+                document.forms.form.cgrupoEliminan.click();
+            }
+            @if(notificaciones.grupoAdmin == "si") {
+                document.forms.form.cgrupoAdmin.click();
+            }
+        }
+        function enviar() {
+            if (document.forms.form.ctarea.checked == true)
+                document.forms.form.tarea.value = "si";
+            else
+                document.forms.form.tarea.value = "no";
+
+            if (document.forms.form.ccontacto.checked == true)
+                document.forms.form.contacto.value = "si";
+            else
+                document.forms.form.contacto.value = "no";
+
+            if (document.forms.form.cmensaje.checked == true)
+                document.forms.form.mensaje.value = "si";
+            else
+                document.forms.form.mensaje.value = "no";
+
+            if (document.forms.form.cgrupoAgregan.checked == true)
+                document.forms.form.grupoAgregan.value = "si";
+            else
+                document.forms.form.grupoAgregan.value = "no";
+
+            if (document.forms.form.cgrupoEliminan.checked == true)
+                document.forms.form.grupoEliminan.value = "si";
+            else
+                document.forms.form.grupoEliminan.value = "no";
+
+            if (document.forms.form.cgrupoAdmin.checked == true)
+                document.forms.form.grupoAdmin.value = "si";
+            else
+                document.forms.form.grupoAdmin.value = "no";
+
+            document.forms.form.submit();
+        }
+    </script>
 }

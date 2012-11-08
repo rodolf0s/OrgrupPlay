@@ -20,14 +20,14 @@
 				<a href="@routes.Cuenta.cuenta">Cuenta</a>
 			</li>
 		</ul>
-		
+
 		<form class="form-horizontal well span6" action="@routes.Cuenta.actualizaColores" enctype="multipart/form-data" method="post">
 			<div class="control-group">
 				<label class="control-label" for="colorA">Color tarea alta</label>
 				<div class="controls">
 					<input class="input-mini uneditable-input" id="colorA" value="@usuario.colorTareaAlta" type="text" name="colorTareaAlta"  maxlength="7" required>
 					<div id="color1"></div>
-				</div>				
+				</div>
 			</div>
 			<hr>
 			<div class="control-group">
@@ -35,7 +35,7 @@
 				<div class="controls">
 					<input class="input-mini uneditable-input" id="colorM" value="@usuario.colorTareaMedia" type="text" name="colorTareaMedia" maxlength="7" required>
 					<div id="color2"></div>
-				</div>				
+				</div>
 			</div>
 			<hr>
 			<div class="control-group">
@@ -43,12 +43,13 @@
 				<div class="controls">
 					<input class="input-mini uneditable-input" id="colorB" value="@usuario.colorTareaBaja" type="text" name="colorTareaBaja" maxlength="7" required>
 					<div id="color3"></div>
-				</div>				
+				</div>
 			</div>
-			<div class="form-actions">
+			<hr>
+            <div class="pull-right">
 				<a class="btn" href="@routes.Home.index">Cancelar</a>
-				<button class="btn btn-primary pull-right" type="submit" id="fat-btn" data-loading-text="Guardando..."> Guardar </button>
-			</div>			
+				<button class="btn btn-primary" type="submit" id="fat-btn" data-loading-text="Guardando..."> Guardar </button>
+			</div>
 		</form>
 	</div>
 
@@ -56,11 +57,11 @@
  	   	$('#fat-btn').on('click', function () {
  	   		$(this).button('loading')
  	   	});
- 	   	
+
 		$('#color1').farbtastic('#colorA');
- 	   
+
 		$('#color2').farbtastic('#colorM');
- 	  
+
 		$('#color3').farbtastic('#colorB');
  	</script>
 }

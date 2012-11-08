@@ -1,4 +1,4 @@
-@(usuario: Usuario, error: String)
+@(usuario: Usuario, error: String, msj: String)
 
 @app(title = "Actualizar perfil", usuario.nombre) {
 
@@ -54,14 +54,29 @@
                     tamaño maximo = 1 MB
                 </div>
             </div>
-            <div class="control-group>">
-                <div class="controls">
-                    <span style="color: red;">@error</span>
+            @if(error != "") {
+                <div class="alert alert-error" id="error">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <small>
+                        <strong>Error!</strong>
+                        @error
+                        <script>$("input#pass1").focus();</script>
+                    </small>
                 </div>
-            </div>
-            <div class="form-actions">
-                <a class="btn" href="@routes.Home.index">Cancelar</a>
-                <button class="btn btn-primary pull-right" type="submit" id="fat-btn" data-loading-text="Guardando..."> Guardar </button>
+            }
+            @if(msj != "") {
+                <div class="alert alert-success" id="msj">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <small>
+                        <strong>Actualizado!</strong>
+                        @msj
+                    </small>
+                </div>
+            }
+            <hr>
+            <div class="pull-right">
+                <a class="btn " href="@routes.Home.index">Cancelar</a>
+                <button class="btn btn-primary" type="submit" id="fat-btn" data-loading-text="Guardando..."> Guardar </button>
             </div>
         </form>
     </div>
@@ -71,6 +86,11 @@
             if($('input[name=nombre]').attr('value') >= "1") {
                 $(this).button('loading')
             }
-        })
+        });
+
+        $('#nombre, #telefono, #leyenda').keypress(function() {
+            $('#error').hide();
+            $('#msj').hide();
+        });
     </script>
 }

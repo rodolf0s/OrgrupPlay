@@ -44,7 +44,7 @@ public class Cuenta extends Controller {
 		} else {
 			return ok(cuenta_perfil.render(
 					Usuario.find.byId(session("email")),
-					""));
+					"", ""));
 		}
 	}
 
@@ -109,7 +109,8 @@ public class Cuenta extends Controller {
 		} else {
 			return ok(cuenta_notificaciones.render(
 					Usuario.find.byId(session("email")),
-					Notificaciones.find.where().eq("usuario_correo", session("email")).findUnique()
+					Notificaciones.find.where().eq("usuario_correo", session("email")).findUnique(),
+					""
 					));
 		}
 	}
@@ -150,7 +151,7 @@ public class Cuenta extends Controller {
 					if (file.length() > 1000000) {
 						return badRequest(cuenta_perfil.render(
 								Usuario.find.byId(session("email")),
-								"La imagen supera el limite"));
+								"La imagen supera el limite.", ""));
 					} else {
 
 						// Revisa que extension tiene la imagen subida por
@@ -165,7 +166,7 @@ public class Cuenta extends Controller {
 					    else
 					    	return badRequest(cuenta_perfil.render(
 					    			Usuario.find.byId(session("email")),
-					    			"Debe seleccionar una imagen"));
+					    			"Debe seleccionar una imagen.", ""));
 
 					    // Crea el nombre del archivo con el correo del usuario mas la extension
 					    // y luego sube la imagen y la guarda en el disco.
@@ -178,13 +179,17 @@ public class Cuenta extends Controller {
 					    user.setNombre(user.nombre, session("email"));
 						user.setTelefono(session("email"), user.telefono);
 						user.setLeyenda(session("email"), user.leyenda);
-					    return redirect (routes.Cuenta.perfil());
+					    return ok(cuenta_perfil.render(
+							Usuario.find.byId(session("email")),
+							"", "Cambios guardados exitosamente."));
 					}
 				} else {
 					user.setNombre(user.nombre, session("email"));
 					user.setTelefono(session("email"), user.telefono);
 					user.setLeyenda(session("email"), user.leyenda);
-				    return redirect (routes.Cuenta.perfil());
+				    return ok(cuenta_perfil.render(
+							Usuario.find.byId(session("email")),
+							"", "Cambios guardados exitosamente."));
 				}
 			}
 		}
@@ -219,11 +224,11 @@ public class Cuenta extends Controller {
 								"",
 								"",
 								"",
-								"Tu contraseña a sido cambiada"));
+								"Tu contraseña a sido cambiada exitosamente."));
 					} else {
 						return ok(cuenta_password.render(Usuario.find.byId(session("email")),
 								"",
-								"Las Contraseñas no coinciden",
+								"Las Contraseñas no coinciden.",
 								claves.passOld,
 								claves.passNew,
 								claves.passNew2,
@@ -231,7 +236,7 @@ public class Cuenta extends Controller {
 					}
 				} else {
 					return ok(cuenta_password.render(Usuario.find.byId(session("email")),
-							"La contraseña es incorrecta",
+							"La contraseña es incorrecta.",
 							"",
 							claves.passOld,
 							claves.passNew,
@@ -331,17 +336,11 @@ public class Cuenta extends Controller {
 			} else {
 				Notificaciones notificaciones = formNotificaciones.get();
 				Notificaciones.actualizaNotificaciones(notificaciones, session("email"));
-//				Notificaciones notificaciones = Notificaciones.find.where()
-//						.eq("usuario_correo", session("email"))
-//						.findUnique();
-//				notificaciones.tarea = formNotificaciones.get().tarea;
-//				notificaciones.contacto = formNotificaciones.get().contacto;
-//				notificaciones.mensaje = formNotificaciones.get().mensaje;
-//				notificaciones.grupoAgregan = formNotificaciones.get().grupoAgregan;
-//				notificaciones.grupoEliminan = formNotificaciones.get().grupoEliminan;
-//				notificaciones.grupoAdmin = formNotificaciones.get().grupoAdmin;
-//				notificaciones.update();
-				return redirect(routes.Cuenta.notificaciones());
+				return ok(cuenta_notificaciones.render(
+					Usuario.find.byId(session("email")),
+					Notificaciones.find.where().eq("usuario_correo", session("email")).findUnique(),
+					"Cambios guardados exitosamente."
+					));
 			}
 		}
 	}

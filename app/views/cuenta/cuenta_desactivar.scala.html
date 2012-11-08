@@ -20,13 +20,13 @@
 				<a href="@routes.Cuenta.cuenta">Cuenta</a>
 			</li>
 		</ul>
-		
+
 		@if(!Usuario.cuentaInactiva(usuario.correo)) {
 			<form class="form-horizontal well span6" action="@routes.Cuenta.desactivarCuenta" enctype="multipart/form-data" method="post">
 				<blockquote>
 	  				<h4>¿Seguro que quieres desactivar tu cuenta?</h4><br>
 					<p>
-						Al desactivar tu cuenta desactivarás tu perfil, tu nombre, foto y demás cosas que hayas guardado 
+						Al desactivar tu cuenta desactivarás tu perfil, tu nombre, foto y demás cosas que hayas guardado
 						en Orgrup. Alguna información tuya aún puede ser visible a otros, como tu nombre y mensajes que enviaste.
 					</p>
 					<p>
@@ -43,10 +43,11 @@
 							</small>
 						</div>
 					}
-				<div class="form-actions">
+				<hr>
+            	<div class="pull-right">
 					<a class="btn" href="@routes.Home.index">Cancelar</a>
-					<button class="btn btn-primary pull-right" type="submit" id="fat-btn" data-loading-text="Desactivando..."> Desactivar </button>
-				</div>			
+					<button class="btn btn-primary" type="submit" id="fat-btn" data-loading-text="Desactivando..."> Desactivar </button>
+				</div>
 			</form>
 		} else {
 			<div class="well span6">
@@ -57,9 +58,10 @@
 						a los demas contactos para que le envien mensajes o lo agregen como amigo.
 					</p>
 				</blockquote>
-				<div class="form-actions">
+				<hr>
+            	<div class="pull-right">
 					<a class="btn" href="@routes.Home.index">Cancelar</a>
-					<a class="btn btn-primary pull-right" href="@routes.Cuenta.activarCuenta()"  id="fat-btn" data-loading-text="Activando..."> Activar </a>
+					<a class="btn btn-primary" href="@routes.Cuenta.activarCuenta()"  id="fat-btn" data-loading-text="Activando..."> Activar </a>
 				</div>
 			</div>
 		}
