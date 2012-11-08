@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import com.avaje.ebean.SqlRow;
 
 import models.Grupo;
@@ -201,12 +203,12 @@ public class Cuenta extends Controller {
 				CambioPassword claves = formPassword.get();
 				
 				// Verifica que la contraseña anterior sea la misma de la BD.
-				if (Usuario.getPassword(session("email")).equals(claves.passOld)) {
+				if (Usuario.getPassword(session("email")).equals(DigestUtils.shaHex(claves.passOld))) {
 					
 					// Comprueba que las nuevas contraseñas sean iguales.
 					if (claves.passNew.equals(claves.passNew2)) {
 						Usuario usuario = new Usuario();
-						usuario.setPassword(session("email"), claves.passNew);
+						usuario.setPassword(session("email"), DigestUtils.shaHex(claves.passNew));
 						return ok(cuenta_password.render(Usuario.find.byId(session("email")), 
 								"", 
 								"",  
