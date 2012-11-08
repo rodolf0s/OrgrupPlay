@@ -1,11 +1,8 @@
-@(user: String, vector: Array[Integer], resultados: Integer, dias: Array[Date], horas: Array[Date], listaMiembros: List[Integrante], puntajes: Array[Integer])
+@(user: String, puntaje1: Integer, puntaje2: Integer, puntaje3: Integer, hora1: Integer, hora2: Integer, hora3: Integer, fin1: Integer, fin2: Integer, fin3: Integer, dia1: Integer, dia2: Integer, dia3: Integer, mes1: Integer, mes2: Integer, mes3: Integer, anio1: Integer, anio2: Integer, anio3: Integer)
 
 @app(title = "Orgrup", user){
 		
-	@vector <br>
-	@resultados<br>
-	@dias<br>
-	@horas<br>
-	@puntajes<br>
-
+	@puntaje1 De las: @hora1 hrs. hasta las: @fin1 hrs. el dia: @dia1 - @mes1 - @anio1<br>
+	@puntaje2 De las: @hora2 hrs. hasta las: @fin2 hrs. el dia: @dia2 - @mes2 - @anio2<br>
+	@puntaje3 De las: @hora3 hrs. hasta las: @fin3 hrs. el dia: @dia3 - @mes3 - @anio3<br>
 }

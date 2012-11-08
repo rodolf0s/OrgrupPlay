@@ -392,6 +392,54 @@ public class Reuniones extends Controller {
 			}
 			
 		}
-		return ok(mensajeReunion.render(session("email"), bloque, resultados, diasUso, horasUso, listaMiembros, puntajeReunion));
+		
+		//Preparar las fechas para mostrarlas por pantalla
+		
+		//Convertir en Calendar
+		Calendar horasUso1 = new GregorianCalendar(); 
+		horasUso1.setTime(horasUso[0]);
+		
+		Calendar horasUso2 = new GregorianCalendar(); 
+		horasUso2.setTime(horasUso[1]);
+		
+		Calendar horasUso3 = new GregorianCalendar(); 
+		horasUso3.setTime(horasUso[2]);
+		
+		Calendar diasUso1 = new GregorianCalendar(); 
+		diasUso1.setTime(diasUso[0]);
+		
+		Calendar diasUso2 = new GregorianCalendar(); 
+		diasUso2.setTime(diasUso[1]);
+		
+		Calendar diasUso3 = new GregorianCalendar(); 
+		diasUso3.setTime(diasUso[2]);
+		
+		//Extraer los valores de cada fecha
+		//Inicio de reunion
+		Integer hora1 = horasUso1.get(Calendar.HOUR_OF_DAY); 
+		Integer hora2 = horasUso2.get(Calendar.HOUR_OF_DAY); 
+		Integer hora3 = horasUso3.get(Calendar.HOUR_OF_DAY); 
+		
+		//Termino de reunion
+		Integer fin1 = hora1 + duracion;
+		Integer fin2 = hora2 + duracion;
+		Integer fin3 = hora3 + duracion;
+		
+		//Dia de la reunion
+		Integer dia1 = diasUso1.get(Calendar.DAY_OF_MONTH);   
+		Integer dia2 = diasUso2.get(Calendar.DAY_OF_MONTH);   
+		Integer dia3 = diasUso3.get(Calendar.DAY_OF_MONTH);  
+		
+		//Mes de la reunion (los meses van de 0 a 11)
+		Integer mes1 = diasUso1.get(Calendar.MONTH) +1; 
+		Integer mes2 = diasUso2.get(Calendar.MONTH) +1;  
+		Integer mes3 = diasUso3.get(Calendar.MONTH) +1; 
+		
+		//Anio de la reunion
+		Integer anio1 = diasUso1.get(Calendar.YEAR); 
+		Integer anio2 = diasUso2.get(Calendar.YEAR);  
+		Integer anio3 = diasUso3.get(Calendar.YEAR);  
+		
+		return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3, dia1, dia2, dia3, mes1, mes2, mes3, anio1, anio2, anio3));
 	}
 }
