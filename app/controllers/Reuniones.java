@@ -425,7 +425,21 @@ public class Reuniones extends Controller {
 		Integer fin2 = hora2 + duracion;
 		Integer fin3 = hora3 + duracion;
 		
+		//Dia de la reunion
+		Integer dia1 = diasUso1.get(Calendar.DAY_OF_MONTH);   
+		Integer dia2 = diasUso2.get(Calendar.DAY_OF_MONTH);   
+		Integer dia3 = diasUso3.get(Calendar.DAY_OF_MONTH);  
 		
-		return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3));
+		//Mes de la reunion (los meses van de 0 a 11)
+		Integer mes1 = diasUso1.get(Calendar.MONTH) +1; 
+		Integer mes2 = diasUso2.get(Calendar.MONTH) +1;  
+		Integer mes3 = diasUso3.get(Calendar.MONTH) +1; 
+		
+		//Anio de la reunion
+		Integer anio1 = diasUso1.get(Calendar.YEAR); 
+		Integer anio2 = diasUso2.get(Calendar.YEAR);  
+		Integer anio3 = diasUso3.get(Calendar.YEAR);  
+		
+		return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3, dia1, dia2, dia3, mes1, mes2, mes3, anio1, anio2, anio3));
 	}
 }
