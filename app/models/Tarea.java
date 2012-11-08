@@ -129,7 +129,7 @@ public class Tarea extends Model {
                  .eq("usuario_correo", correo)
                  .findRowCount();
      }
-     
+
      /**
       * Busca la hora de termino de una tarea
       */
@@ -141,9 +141,9 @@ public class Tarea extends Model {
                  .eq("usuario_correo", correo)
                  .findUnique();
          return tarea.hora_fin;
-         
+
      }
-     
+
      /**
       * Busca el valor de una tarea
       * @param fecha
@@ -158,13 +158,30 @@ public class Tarea extends Model {
                  .eq("hora_inicio", hora)
                  .eq("usuario_correo", correo)
                  .findUnique();
-        try{ 
+        try{
         	return tarea.prioridad;
-        	
+
         	}catch(Exception e){
-        		
-                return 0;	
+
+                return 0;
         	}
         }
-     }
+
+    public static String getTarea(Date fecha, Date hora) {
+        Tarea tarea = Ebean.find(Tarea.class)
+                .select("nombre")
+                .where()
+                .eq("fecha_inicio", fecha)
+                .eq("hora_inicio", hora)
+                .findUnique();
+        try {
+            if (tarea.nombre.isEmpty()) {
+                return "";
+            } else {
+                return "1";
+            }
+        } catch(Exception e) {}
+        return "";
+    }
+}
 
