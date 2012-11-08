@@ -205,13 +205,13 @@
                         {
                             id: @l.id,
                             title: '@l.nombre',
-                            @if(l.prioridad == 1) {
+                            @if(l.prioridad == 3) {
                                 color: '@usuario.colorTareaAlta',
                             }
                             @if(l.prioridad == 2) {
                                 color: '@usuario.colorTareaMedia',
                             }
-                            @if(l.prioridad == 3) {
+                            @if(l.prioridad == 1) {
                                 color: '@usuario.colorTareaBaja',
                             }
                             start: new Date(y, @l.fecha_inicio.getMonth(), @l.fecha_inicio.getDate(), @l.hora_inicio.getHours(), @l.hora_inicio.getMinutes()),
@@ -549,9 +549,9 @@
                     <label class="control-label">Prioridad Tarea</label>
                     <div class="controls">
                         <select class="span2" name="prioridad">
-                            <option value="1">Alta</option>
+                            <option value="3">Alta</option>
                             <option value="2">Media</option>
-                            <option value="3">Baja</option>
+                            <option value="1">Baja</option>
                         </select>
                     </div>
                 </div>
@@ -600,18 +600,18 @@
                     <div class="controls">
                         <select class="span2" name="prioridad">
                             <script type="text/javascript">
-                                if (@tareaMostrar.prioridad == 1) {
+                                if (@tareaMostrar.prioridad == 3) {
                                     document.write("<option value='1' selected='selected'>Alta</option>");
                                     document.write("<option value='2'>Media</option>");
-                                    document.write("<option value='3'>Baja</option>");
+                                    document.write("<option value='1'>Baja</option>");
                                 } else if(@tareaMostrar.prioridad == 2) {
-                                    document.write("<option value='1'>Alta</option>");
+                                    document.write("<option value='3'>Alta</option>");
                                     document.write("<option value='2' selected='selected'>Media</option>");
-                                    document.write("<option value='3'>Baja</option>");
+                                    document.write("<option value='1'>Baja</option>");
                                 } else {
-                                    document.write("<option value='1'>Alta</option>");
+                                    document.write("<option value='3'>Alta</option>");
                                     document.write("<option value='2'>Media</option>");
-                                    document.write("<option value='3' selected='selected'>Baja</option>");
+                                    document.write("<option value='1' selected='selected'>Baja</option>");
                                 }
                             </script>
                         </select>
