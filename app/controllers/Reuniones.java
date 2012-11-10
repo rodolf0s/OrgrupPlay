@@ -436,7 +436,8 @@ public class Reuniones extends Controller {
 		String fecha1 = null;
 		String fecha2 = null;
 		String fecha3 = null;
-		
+		Calendar [] finalReunionCalendar = new GregorianCalendar[3];
+		Date [] finalReunion = new Date[3];
 		//Preparar las fechas para mostrarlas por pantalla
 		
 		//Convertir en Calendar
@@ -463,6 +464,11 @@ public class Reuniones extends Controller {
 		
 		//Fecha de la reunion
 		fecha1 = dia1 + "/" + mes1 + "/" + anio1;
+		
+		//Hora en que termina la reunion
+		finalReunionCalendar[0] = horasUso1;
+		finalReunionCalendar[0].add(finalReunionCalendar[0].HOUR_OF_DAY, +duracion);
+		finalReunion[0] = finalReunionCalendar[0].getTime();
 		
 			if(puntajeReunion[1] != null){
 				
@@ -507,7 +513,7 @@ public class Reuniones extends Controller {
 			}
 		
 		
-		return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3, fecha1, fecha2, fecha3, idGrupo, duracion));
+		return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3, fecha1, fecha2, fecha3, idGrupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion, listaMiembros));
 	
 		}else{
 		

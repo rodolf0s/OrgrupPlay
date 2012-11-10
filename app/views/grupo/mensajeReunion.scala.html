@@ -1,4 +1,4 @@
-@(user: String, puntaje1: Integer, puntaje2: Integer, puntaje3: Integer, hora1: Integer, hora2: Integer, hora3: Integer, fin1: Integer, fin2: Integer, fin3: Integer, fecha1: String, fecha2: String, fecha3: String, id: Integer, time: Integer)
+@(user: String, puntaje1: Integer, puntaje2: Integer, puntaje3: Integer, hora1: Integer, hora2: Integer, hora3: Integer, fin1: Integer, fin2: Integer, fin3: Integer, fecha1: String, fecha2: String, fecha3: String, id: Integer, time: Integer, day: Array[Date], hours: Array[Date], asist: Integer, termino: Array[Date], lista: List[Integrante])
 
 @app(title = "Orgrup", user){
 
@@ -33,6 +33,11 @@
 						</tr>
 						</table>
 						@id @time
+						@day(0)
+						@hours(0)
+						@asist
+						@termino(0)
+						@lista(0).usuario.correo
 
 												
 					</div>
