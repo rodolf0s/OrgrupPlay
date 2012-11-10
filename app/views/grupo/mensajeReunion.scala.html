@@ -11,11 +11,13 @@
 						<tr>
 							<td>De las: @hora1 hrs. hasta las: @fin1 hrs. el dia: @dia1 - @mes1 - @anio1 <input type="radio" name="reunion" value="" checked></td>
 						</tr>
-						<tr>
+						<tr>@if(puntaje2 != null){
 							<td>De las: @hora2 hrs. hasta las: @fin2 hrs. el dia: @dia2 - @mes2 - @anio2 <input type="radio" name="reunion" value=""></td>
+							}
 						</tr>
-						<tr>
+						<tr>@if(puntaje3 != null){
 							<td>De las: @hora3 hrs. hasta las: @fin3 hrs. el dia: @dia3 - @mes3 - @anio3 <input type="radio" name="reunion" value=""></td>
+							}
 						</tr>
 					</table>
 					<div class="tabbable" style="box-shadow: 2px 2px 5px 2px #999;">

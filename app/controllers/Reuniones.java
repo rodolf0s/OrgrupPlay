@@ -118,6 +118,9 @@ public class Reuniones extends Controller {
 						Calendar terminoCalendar = new GregorianCalendar(); 
 						terminoCalendar.setTime(termino);
 						
+						 //Comprobar si la hora fin tarea es mayor a la hora fin reunion
+						if(terminoCalendar.after(horaFinCalendar)){
+							
 						//Marcar todos los bloques ocupados de la tarea (en caso de que la tarea dure mas de una hora)
 						while(horaInicioCalendar.before(horaFinCalendar)) {
 						
@@ -131,7 +134,23 @@ public class Reuniones extends Controller {
 						//aumenta contador y hora
 						a = a + 1;
 						horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
+						 }
 						
+						}else{
+							
+							while(horaInicioCalendar.before(terminoCalendar)) {
+								
+								horaInicio1 = horaInicioCalendar.getTime();
+								
+								//guardar la fecha y valor del bloque
+								dias[a] = fechaInicio1;
+								horas[a] = horaInicio1; 	
+								bloque [a] = 1;
+								
+								//aumenta contador y hora
+								a = a + 1;
+								horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
+								 }
 						}
 						
 					}else{
