@@ -1,4 +1,4 @@
-@(user: String, puntaje1: Integer, puntaje2: Integer, puntaje3: Integer, hora1: Integer, hora2: Integer, hora3: Integer, fin1: Integer, fin2: Integer, fin3: Integer, dia1: Integer, dia2: Integer, dia3: Integer, mes1: Integer, mes2: Integer, mes3: Integer, anio1: Integer, anio2: Integer, anio3: Integer)
+@(user: String, puntaje1: Integer, puntaje2: Integer, puntaje3: Integer, hora1: Integer, hora2: Integer, hora3: Integer, fin1: Integer, fin2: Integer, fin3: Integer, fecha1: String, fecha2: String, fecha3: String, id: Integer, time: Integer)
 
 @app(title = "Orgrup", user){
 
@@ -9,14 +9,14 @@
 				<div class="span9" style="float:left; background-color: #F2F2F2;  border:1px #646464 solid;" >
 					<table class="table table-hover">
 						<tr>
-							<td>De las: @hora1 hrs. hasta las: @fin1 hrs. el dia: @dia1 - @mes1 - @anio1 <input type="radio" name="reunion" value="" checked></td>
+							<td>De las: @hora1 hrs. hasta las: @fin1 hrs. el dia: @fecha1 <input type="radio" name="reunion" value="" checked></td>
 						</tr>
 						<tr>@if(puntaje2 != null){
-							<td>De las: @hora2 hrs. hasta las: @fin2 hrs. el dia: @dia2 - @mes2 - @anio2 <input type="radio" name="reunion" value=""></td>
+							<td>De las: @hora2 hrs. hasta las: @fin2 hrs. el dia: @fecha2 <input type="radio" name="reunion" value=""></td>
 							}
 						</tr>
 						<tr>@if(puntaje3 != null){
-							<td>De las: @hora3 hrs. hasta las: @fin3 hrs. el dia: @dia3 - @mes3 - @anio3 <input type="radio" name="reunion" value=""></td>
+							<td>De las: @hora3 hrs. hasta las: @fin3 hrs. el dia: @fecha3 <input type="radio" name="reunion" value=""></td>
 							}
 						</tr>
 					</table>
@@ -32,8 +32,8 @@
 							<td><textarea class="input-xlarge"></textarea></td>
 						</tr>
 						</table>
-						
-						 
+						@id @time
+
 												
 					</div>
 				</div>

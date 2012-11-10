@@ -433,6 +433,9 @@ public class Reuniones extends Controller {
 		Integer anio1 = 0;
 		Integer anio2 = 0;
 		Integer anio3 = 0;
+		String fecha1 = null;
+		String fecha2 = null;
+		String fecha3 = null;
 		
 		//Preparar las fechas para mostrarlas por pantalla
 		
@@ -456,7 +459,10 @@ public class Reuniones extends Controller {
 		mes1 = diasUso1.get(Calendar.MONTH) +1; 
 				
 		//Anio de la reunion
-		anio1 = diasUso1.get(Calendar.YEAR); 
+		anio1 = diasUso1.get(Calendar.YEAR);
+		
+		//Fecha de la reunion
+		fecha1 = dia1 + "/" + mes1 + "/" + anio1;
 		
 			if(puntajeReunion[1] != null){
 				
@@ -476,6 +482,8 @@ public class Reuniones extends Controller {
 				
 				anio2 = diasUso2.get(Calendar.YEAR);
 				
+				fecha2 = dia2 + "/" + mes2 + "/" + anio2;
+				
 					if(puntajeReunion[2] != null){
 				
 						Calendar horasUso3 = new GregorianCalendar(); 
@@ -493,11 +501,13 @@ public class Reuniones extends Controller {
 						mes3 = diasUso3.get(Calendar.MONTH) +1; 
 								  
 						anio3 = diasUso3.get(Calendar.YEAR);
+						
+						fecha3 = dia3 + "/" + mes3 + "/" + anio3;
 					}
 			}
 		
 		
-		return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3, dia1, dia2, dia3, mes1, mes2, mes3, anio1, anio2, anio3));
+		return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3, fecha1, fecha2, fecha3, idGrupo, duracion));
 	
 		}else{
 		
