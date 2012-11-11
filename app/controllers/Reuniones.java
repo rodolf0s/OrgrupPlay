@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Correo;
 import models.Integrante;
 import models.Reunion;
 import models.Tarea;
@@ -518,6 +519,21 @@ public class Reuniones extends Controller {
 		}else{
 		
 			return ok(informaciones.render("no se puede generar una reunion con los datos entregados, porfavor intente nuevamente.", "Error Reunion"));
+		}
+	}
+	
+	public static Result guardaReunion(){
+		
+		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
+		
+		if (formReunion.hasErrors()){
+			return badRequest(informaciones.render("Error al guardar reunion", "Reunion"));
+		} else {
+			Reunion reu = formReunion.get();
+			reu.save();
+			return ok(informaciones.render(
+					"Su mensaje a sido enviado exitosamente.", 
+					"Contacto"));
 		}
 	}
 }

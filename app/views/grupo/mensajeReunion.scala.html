@@ -7,6 +7,7 @@
 		<div class="span11" style="float:right">
 		<h3>ELIJA FECHA PARA LA REUNION</h3>
 				<div class="span9" style="float:left; background-color: #F2F2F2;  border:1px #646464 solid;" >
+				<form name="formulario" action="@routes.Reuniones.guardaReunion()" method="post">
 					<table class="table table-hover">
 						<tr>
 							<td>De las: @hora1 hrs. hasta las: @fin1 hrs. el dia: @fecha1 <input type="radio" name="reunion" value="" checked></td>
@@ -24,23 +25,27 @@
 						<table>
 						<tr>
 							<td>Nombre para la reunion </td>
-							<td> <input type="text"></td>
+							<td> <input type="text" name="nombre" id="nombre"></td>
 						</tr>
 						
 						<tr>
 							<td>Descripcion</td>
-							<td><textarea class="input-xlarge"></textarea></td>
+							<td><textarea class="input-xlarge" name="descripcion" id="descripcion"></textarea></td>
 						</tr>
-						</table>
-						@id @time
-						@day(0)
-						@hours(0)
-						@asist
-						@termino(0)
-						@lista(0).usuario.correo
-
-												
+						</table>	
+						<input type="hidden" name="estado" value="pendiente">	
+						<input type="hidden" name="duracion" value="@time">		
+						<input type="hidden" name="asistencia" value="@asist">	
+						<input type="hidden" name="grupo.id" value="@id">
+						
+						<input type="hidden" name="fecha_inicio" value="@day(0)">
+						<input type="hidden" name="fecha_fin" value="@day(0)">
+						
+						<input type="hidden" name="hora_fin" value="@termino(0)">
 					</div>
+					<br>
+					<button type="submit" class="btn"> Guardar Reunion </button>
+				</form>
 				</div>
 		</div>
 	</div>
