@@ -119,40 +119,40 @@ public class Reuniones extends Controller {
 						Calendar terminoCalendar = new GregorianCalendar(); 
 						terminoCalendar.setTime(termino);
 						
-						 //Comprobar si la hora fin tarea es mayor a la hora fin reunion
-						if(terminoCalendar.after(horaFinCalendar)){
+						 	//Comprobar si la hora fin tarea es mayor a la hora fin reunion
+							if(terminoCalendar.after(horaFinCalendar)){
 							
-						//Marcar todos los bloques ocupados de la tarea (en caso de que la tarea dure mas de una hora)
-						while(horaInicioCalendar.before(horaFinCalendar)) {
+								//Marcar todos los bloques ocupados de la tarea (en caso de que la tarea dure mas de una hora)
+								while(horaInicioCalendar.before(horaFinCalendar)) {
 						
-						horaInicio1 = horaInicioCalendar.getTime();
+									horaInicio1 = horaInicioCalendar.getTime();
 						
-						//guardar la fecha y valor del bloque
-						dias[a] = fechaInicio1;
-						horas[a] = horaInicio1; 	
-						bloque [a] = 1;
+									//guardar la fecha y valor del bloque
+									dias[a] = fechaInicio1;
+									horas[a] = horaInicio1; 	
+									bloque [a] = 1;
 						
-						//aumenta contador y hora
-						a = a + 1;
-						horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
-						 }
+									//aumenta contador y hora
+									a = a + 1;
+									horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
+								}
 						
-						}else{
+							}else{
 							
-							while(horaInicioCalendar.before(terminoCalendar)) {
+								while(horaInicioCalendar.before(terminoCalendar)) {
 								
-								horaInicio1 = horaInicioCalendar.getTime();
+									horaInicio1 = horaInicioCalendar.getTime();
 								
-								//guardar la fecha y valor del bloque
-								dias[a] = fechaInicio1;
-								horas[a] = horaInicio1; 	
-								bloque [a] = 1;
+									//guardar la fecha y valor del bloque
+									dias[a] = fechaInicio1;
+									horas[a] = horaInicio1; 	
+									bloque [a] = 1;
 								
-								//aumenta contador y hora
-								a = a + 1;
-								horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
-								 }
-						}
+									//aumenta contador y hora
+									a = a + 1;
+									horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
+								}
+							}
 						
 					}else{
 						
@@ -266,68 +266,85 @@ public class Reuniones extends Controller {
 						
 					}else{
 					
-					//Comparar la asistencia de los bloques con el primero de la reunion
-					for(int y = 0 ; y < miembros; y++){
+						//Comparar la asistencia de los bloques con el primero de la reunion
+						for(int y = 0 ; y < miembros; y++){
 						
-						valor = Tarea.valorTarea(fechaComparar, horas[z], listaMiembros.get(y).usuario.correo);
+							valor = Tarea.valorTarea(fechaComparar, horas[z], listaMiembros.get(y).usuario.correo);
 						
-						//Guardar los asistentes a la reunion
-						if((valor == 0) || (valor == 1) || (valor == 2)){
+							//Guardar los asistentes a la reunion
+								if((valor == 0) || (valor == 1) || (valor == 2)){
 							
-							correosMiembrosAsistentesAux = correosMiembrosAsistentesAux + ";" + listaMiembros.get(y).usuario.correo;
+									correosMiembrosAsistentesAux = correosMiembrosAsistentesAux + ";" + listaMiembros.get(y).usuario.correo;
 							
-							//Sumatoria de los puntaje de las tareas
-							sumatoriaValoresBloque = sumatoriaValoresBloque + valor;
+									//Sumatoria de los puntaje de las tareas
+									sumatoriaValoresBloque = sumatoriaValoresBloque + valor;
+								}
+							
 						}
-							
-					}
 									
-					StringTokenizer token = new StringTokenizer(correosMiembrosAsistentes, ";");
+						StringTokenizer token = new StringTokenizer(correosMiembrosAsistentes, ";");
 					
-					//Compara los asistentes entre bloques
-					while(token.hasMoreTokens()) {
-						String miembroConfirmado = token.nextToken();
+						//Compara los asistentes entre bloques
+						while(token.hasMoreTokens()) {
+							String miembroConfirmado = token.nextToken();
 						
-						StringTokenizer token2 = new StringTokenizer(correosMiembrosAsistentesAux, ";");
+							StringTokenizer token2 = new StringTokenizer(correosMiembrosAsistentesAux, ";");
 						
-						while(token2.hasMoreTokens()){
+							while(token2.hasMoreTokens()){
 							
-							String miembroConfirmado2 = token2.nextToken();
+								String miembroConfirmado2 = token2.nextToken();
 							
-							if(miembroConfirmado.equals(miembroConfirmado2) ) {
-								asistentesAux = asistentesAux +1;
+									if(miembroConfirmado.equals(miembroConfirmado2) ) {
+										asistentesAux = asistentesAux +1;
+									}
+							}	
+						}
+					
+						//Comprobar que el nuevo bloque cumple con el minimo de asistencia
+						if(asistenciaMinima <= asistentesAux){
+						
+							//Sumatoria puntajes del bloque
+							puntajeBloque = puntajeBloque + (asistentes * 3 - sumatoriaValoresBloque);
+						
+							contarBloques = contarBloques + 1;
+							asistentesAux = 0;
+							correosMiembrosAsistentesAux = null;
+							sumatoriaValoresBloque = 0;
+						
+
+						
+							//Comprobar que la reunion cumple con las horas necesarias
+							if(contarBloques == duracion){
+								resultados = resultados + 1;
+								//Guardar el dia y el bloque de la reunion
+								diasUso[contarFecha] = fechaComparar;
+								horasUso[contarFecha] = transicionHora;
+							
+								//almacena puntaje de la reunion
+								puntajeReunion [contarFecha] = puntajeBloque; 
+							
+								//Contador para los resultados (dia, hora y puntaje reunion)
+								contarFecha = contarFecha +1;
+							
+
+								//Resetear valores
+								asistentesAux = 0;
+								correosMiembrosAsistentesAux = null;
+								sumatoriaValoresBloque = 0;
+								contarBloques = 0;
+								transicionHora = null;
+								correosMiembrosAsistentes = null;
+								asistentes = 0;
+								puntajeBloque = 0;
+							
+								//retroceder el contador para ver las otras combinaciones
+								z = z - (duracion - 1);
+
 							}
-						}	
-					}
-					
-					//Comprobar que el nuevo bloque cumple con el minimo de asistencia
-					if(asistenciaMinima <= asistentesAux){
 						
-						//Sumatoria puntajes del bloque
-						puntajeBloque = puntajeBloque + (asistentes * 3 - sumatoriaValoresBloque);
+						}else{
 						
-						contarBloques = contarBloques + 1;
-						asistentesAux = 0;
-						correosMiembrosAsistentesAux = null;
-						sumatoriaValoresBloque = 0;
-						
-
-						
-						//Comprobar que la reunion cumple con las horas necesarias
-						if(contarBloques == duracion){
-							resultados = resultados + 1;
-							//Guardar el dia y el bloque de la reunion
-							diasUso[contarFecha] = fechaComparar;
-							horasUso[contarFecha] = transicionHora;
-							
-							//almacena puntaje de la reunion
-							puntajeReunion [contarFecha] = puntajeBloque; 
-							
-							//Contador para los resultados (dia, hora y puntaje reunion)
-							contarFecha = contarFecha +1;
-							
-
-							//Resetear valores
+							//reiniciar todos los valores
 							asistentesAux = 0;
 							correosMiembrosAsistentesAux = null;
 							sumatoriaValoresBloque = 0;
@@ -336,26 +353,9 @@ public class Reuniones extends Controller {
 							correosMiembrosAsistentes = null;
 							asistentes = 0;
 							puntajeBloque = 0;
-							
-							//retroceder el contador para ver las otras combinaciones
-							z = z - (duracion - 1);
-
 						}
-						
-					}else{
-						
-						//reiniciar todos los valores
-						asistentesAux = 0;
-						correosMiembrosAsistentesAux = null;
-						sumatoriaValoresBloque = 0;
-						contarBloques = 0;
-						transicionHora = null;
-						correosMiembrosAsistentes = null;
-						asistentes = 0;
-						puntajeBloque = 0;
-					}
 					
-				   }
+					}
 				}else{
 					//resetear todos los valores en caso de no alcanzar duracion
 					asistentesAux = 0;
@@ -419,57 +419,57 @@ public class Reuniones extends Controller {
 		//Comprobar que exista por lo menos una solucion
 		if (puntajeReunion[0] != null){
 		
-		Integer hora1 = 0;
-		Integer hora2 = 0;
-		Integer hora3 = 0;
-		Integer fin1 = 0;
-		Integer fin2 = 0;
-		Integer fin3 = 0;
-		Integer dia1 = 0;   
-		Integer dia2 = 0; 
-		Integer dia3 = 0;   
-		Integer mes1 = 0; 
-		Integer mes2 = 0; 	
-		Integer mes3 = 0;  
-		Integer anio1 = 0;
-		Integer anio2 = 0;
-		Integer anio3 = 0;
-		String fecha1 = null;
-		String fecha2 = null;
-		String fecha3 = null;
-		Calendar [] finalReunionCalendar = new GregorianCalendar[3];
-		Date [] finalReunion = new Date[3];
-		//Preparar las fechas para mostrarlas por pantalla
+			Integer hora1 = 0;
+			Integer hora2 = 0;
+			Integer hora3 = 0;
+			Integer fin1 = 0;
+			Integer fin2 = 0;
+			Integer fin3 = 0;
+			Integer dia1 = 0;   
+			Integer dia2 = 0; 
+			Integer dia3 = 0;   
+			Integer mes1 = 0; 
+			Integer mes2 = 0; 	
+			Integer mes3 = 0;  
+			Integer anio1 = 0;
+			Integer anio2 = 0;
+			Integer anio3 = 0;
+			String fecha1 = null;
+			String fecha2 = null;
+			String fecha3 = null;
+			Calendar [] finalReunionCalendar = new GregorianCalendar[3];
+			Date [] finalReunion = new Date[3];
+			//Preparar las fechas para mostrarlas por pantalla
 		
-		//Convertir en Calendar
-		Calendar horasUso1 = new GregorianCalendar(); 
-		horasUso1.setTime(horasUso[0]);
+			//Convertir en Calendar
+			Calendar horasUso1 = new GregorianCalendar(); 
+			horasUso1.setTime(horasUso[0]);
 		
-		Calendar diasUso1 = new GregorianCalendar(); 
-		diasUso1.setTime(diasUso[0]);
+			Calendar diasUso1 = new GregorianCalendar(); 
+			diasUso1.setTime(diasUso[0]);
 		
-		//Inicio de reunion
-		hora1 = horasUso1.get(Calendar.HOUR_OF_DAY); 
+			//Inicio de reunion
+			hora1 = horasUso1.get(Calendar.HOUR_OF_DAY); 
+			
+			//Termino de reunion
+			fin1 = hora1 + duracion;
 		
-		//Termino de reunion
-		fin1 = hora1 + duracion;
+			//Dia de la reunion
+			dia1 = diasUso1.get(Calendar.DAY_OF_MONTH);   
 		
-		//Dia de la reunion
-		dia1 = diasUso1.get(Calendar.DAY_OF_MONTH);   
-		
-		//Mes de la reunion (los meses van de 0 a 11)
-		mes1 = diasUso1.get(Calendar.MONTH) +1; 
+			//Mes de la reunion (los meses van de 0 a 11)
+			mes1 = diasUso1.get(Calendar.MONTH) +1; 
 				
-		//Anio de la reunion
-		anio1 = diasUso1.get(Calendar.YEAR);
+			//Anio de la reunion
+			anio1 = diasUso1.get(Calendar.YEAR);
 		
-		//Fecha de la reunion
-		fecha1 = dia1 + "/" + mes1 + "/" + anio1;
+			//Fecha de la reunion
+			fecha1 = dia1 + "/" + mes1 + "/" + anio1;
 		
-		//Hora en que termina la reunion
-		finalReunionCalendar[0] = horasUso1;
-		finalReunionCalendar[0].add(finalReunionCalendar[0].HOUR_OF_DAY, +duracion);
-		finalReunion[0] = finalReunionCalendar[0].getTime();
+			//Hora en que termina la reunion
+			finalReunionCalendar[0] = horasUso1;
+			finalReunionCalendar[0].add(finalReunionCalendar[0].HOUR_OF_DAY, +duracion);
+			finalReunion[0] = finalReunionCalendar[0].getTime();
 		
 			if(puntajeReunion[1] != null){
 				
@@ -514,7 +514,7 @@ public class Reuniones extends Controller {
 			}
 		
 		
-		return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3, fecha1, fecha2, fecha3, idGrupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion, listaMiembros));
+			return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3, fecha1, fecha2, fecha3, idGrupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion, listaMiembros));
 	
 		}else{
 		
@@ -528,7 +528,7 @@ public class Reuniones extends Controller {
 		
 		if (formReunion.hasErrors()){
 			return badRequest(informaciones.render("Error al guardar reunion", "Reunion"));
-		} else {
+		}else {
 			Reunion reu = formReunion.get();
 			reu.save();
 			return ok(informaciones.render(
