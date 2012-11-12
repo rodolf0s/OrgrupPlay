@@ -516,7 +516,7 @@ public class Reuniones extends Controller {
 			}
 
 
-			return ok(mensajeReunion.render(session("email"), puntajeReunion, hora, fin, fecha1, fecha2, fecha3, grupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion, listaMiembros));
+			return ok(mensajeReunion.render(session("email"), puntajeReunion, hora, fin, fecha1, fecha2, fecha3, grupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion));
 
 		}else{
 

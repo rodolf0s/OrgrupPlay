@@ -1,4 +1,4 @@
-@(user: String, puntaje: Array[Integer], hora: Array[Integer], fin: Array[Integer], fecha1: String, fecha2: String, fecha3: String, id: Long, time: Integer, day: Array[Date], hours: Array[Date], asist: Integer, termino: Array[Date], lista: List[Integrante])
+@(user: String, puntaje: Array[Integer], hora: Array[Integer], fin: Array[Integer], fecha1: String, fecha2: String, fecha3: String, id: Long, time: Integer, day: Array[Date], hours: Array[Date], asist: Integer, termino: Array[Date])
 
 @app(title = "Orgrup", user){
 
@@ -12,13 +12,23 @@
 					<table class="table table-hover">
 						<tr>
 							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 <input type="radio" name="reunion" checked> </td>
+							<input type="hidden" name="fechai1" value="@day(0).format("dd/MM/yyyy")">
+							<input type="hidden" name="hora_i1" value="@hours(0).format("HH:mm:ss")">
+							<input type="hidden" name="hora_f1" value="@termino(0).format("HH:mm:ss")">
 						</tr>
 						<tr>@if(puntaje(1) != null){
 							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el dia: @fecha2 <input type="radio" name="reunion"></td>
+							<input type="hidden" name="fechai2" value="@day(1).format("dd/MM/yyyy")">
+							<input type="hidden" name="hora_i2" value="@hours(1).format("HH:mm:ss")">
+							<input type="hidden" name="hora_f2" value="@termino(1).format("HH:mm:ss")">
 							}
 						</tr>
 						<tr>@if(puntaje(2) != null){
 							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el dia: @fecha3 <input type="radio" name="reunion"></td>
+						<input type="hidden" name="fechai3" value="@day(2).format("dd/MM/yyyy")">
+						<input type="hidden" name="hora_i3" value="@hours(2).format("HH:mm:ss")">
+						<input type="hidden" name="hora_f3" value="@termino(2).format("HH:mm:ss")">
+
 							}
 						</tr>
 					</table>
@@ -43,15 +53,8 @@
 						<input type="hidden" name="duracion" id="duracion"value="@time">
 						<input type="hidden" name="asistencia" id="asistencia" value="@asist">
 						<input type="hidden" name="grupo.id" id="grupo.id" value="@id">
-						<input type="hidden" name="fechai1" value="@day(0).format("dd/MM/yyyy")">
-						<input type="hidden" name="fechai2" value="@day(1).format("dd/MM/yyyy")">
-						<input type="hidden" name="fechai3" value="@day(2).format("dd/MM/yyyy")">
-						<input type="hidden" name="hora_i1" value="@hours(0).format("HH:mm:ss")">
-						<input type="hidden" name="hora_i2" value="@hours(1).format("HH:mm:ss")">
-						<input type="hidden" name="hora_i3" value="@hours(2).format("HH:mm:ss")">
-						<input type="hidden" name="hora_f1" value="@termino(0).format("HH:mm:ss")">
-						<input type="hidden" name="hora_f2" value="@termino(1).format("HH:mm:ss")">
-						<input type="hidden" name="hora_f3" value="@termino(2).format("HH:mm:ss")">
+
+
 					</div>
 					<br>
 					<button class="btn" onclick="almacenar()" >Guardar Reunion</button>
