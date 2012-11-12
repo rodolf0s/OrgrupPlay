@@ -11,14 +11,14 @@
 				<form name="form" action="@routes.Reuniones.guardaReunion()" method="post">
 					<table class="table table-hover">
 						<tr>
-							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 </td>
+							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 <input type="radio" name="reunion" checked> </td>
 						</tr>
 						<tr>@if(puntaje(1) != null){
-							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el dia: @fecha2 </td>
+							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el dia: @fecha2 <input type="radio" name="reunion"></td>
 							}
 						</tr>
 						<tr>@if(puntaje(2) != null){
-							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el dia: @fecha3 </td>
+							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el dia: @fecha3 <input type="radio" name="reunion"></td>
 							}
 						</tr>
 					</table>
