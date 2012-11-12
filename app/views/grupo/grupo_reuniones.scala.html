@@ -168,7 +168,7 @@
                                         <input type="hidden" name="grupo.id" value="@r.grupo.id">
                                         <a href='@routes.Grupos.verReunion(r.id, grupo.getString("id").toLong)' rel="tooltip" title="@r.nombre" data-content="@r.nombre" data-placement="top">
                                             @if(r.nombre.length < 15) {@r.nombre} else {@r.nombre.substring(0, 14)...}
-                                        </a>ya la cambie
+                                        </a>
                                     </td>
                                     <td>@r.fecha_inicio.format("dd/MM/yyyy")</td>
                                     <td>@r.fecha_fin.format("dd/MM/yyyy")</td>
