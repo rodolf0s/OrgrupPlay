@@ -41,6 +41,22 @@
 						<input type="hidden" name="hora_inicio" value="">
 						<input type="hidden" name="hora_fin" value="">
 						<input type="hidden" name="estado" id="estado" value="pendiente">
+							<tr>
+								<td>Nombre para la reunion </td>
+								<td> <input type="text" name="nombre" id="nombre" required></td>
+							</tr>
+
+							<tr>
+								<td>Descripcion</td>
+								<td><textarea class="input-xlarge" name="descripcion" id="descripcion"></textarea></td>
+							</tr>
+						</table>
+
+
+						<input type="hidden" name="fecha_inicio" value="@day(0).format("dd/MM/yyyy")">
+						<input type="hidden" name="hora_inicio" value="@hours(0).format("HH:mm:ss")">
+						<input type="hidden" name="hora_fin" value="@termino(0).format("HH:mm:ss")">
+						<input type="hidden" name="estado" id="estado" value="pendiente">
 						<input type="hidden" name="duracion" id="duracion"value="@time">
 						<input type="hidden" name="asistencia" id="asistencia" value="@asist">
 						<input type="hidden" name="grupo.id" id="grupo.id" value="@id">
