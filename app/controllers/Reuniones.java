@@ -34,6 +34,7 @@ public class Reuniones extends Controller {
 		Date [] diasUso = null;
 		Integer duracion = null;
 		Integer idGrupo = 0;
+		Long grupo = null;
 		Integer miembros = 0;
 		String correosMiembrosAsistentes = null;
 		String correosMiembrosAsistentesAux = null;
@@ -57,6 +58,7 @@ public class Reuniones extends Controller {
 			Date horaFin = objetoReunion.hora_fin;
 			duracion = objetoReunion.duracion;
 			idGrupo = objetoReunion.grupo.id.intValue();
+			grupo = objetoReunion.grupo.id;
 			asistenciaMinima = objetoReunion.asistencia;
 			
 			//Transformamos los tipo Date en tipo Calendar
@@ -504,7 +506,7 @@ public class Reuniones extends Controller {
 			}
 		
 		
-			return ok(mensajeReunion.render(session("email"), puntajeReunion, hora, fin, fecha1, fecha2, fecha3, idGrupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion, listaMiembros));
+			return ok(mensajeReunion.render(session("email"), puntajeReunion, hora, fin, fecha1, fecha2, fecha3, grupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion, listaMiembros));
 	
 		}else{
 		

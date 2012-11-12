@@ -1,4 +1,4 @@
-@(user: String, puntaje: Array[Integer], hora: Array[Integer], fin: Array[Integer], fecha1: String, fecha2: String, fecha3: String, id: Integer, time: Integer, day: Array[Date], hours: Array[Date], asist: Integer, termino: Array[Date], lista: List[Integrante])
+@(user: String, puntaje: Array[Integer], hora: Array[Integer], fin: Array[Integer], fecha1: String, fecha2: String, fecha3: String, id: Long, time: Integer, day: Array[Date], hours: Array[Date], asist: Integer, termino: Array[Date], lista: List[Integrante])
 
 @app(title = "Orgrup", user){
 
@@ -7,7 +7,8 @@
 		<div class="span11" style="float:right">
 		<h3>ELIJA FECHA PARA LA REUNION</h3>
 				<div class="span9" style="float:left; background-color: #F2F2F2;  border:1px #646464 solid;" >
-				<form name="formulario" action="@routes.Reuniones.guardaReunion()" method="post">
+				
+				<form name="form" action="@routes.Reuniones.guardaReunion()" method="post">
 					<table class="table table-hover">
 						<tr>
 							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 </td>
@@ -33,15 +34,15 @@
 							<td><textarea class="input-xlarge" name="descripcion" id="descripcion"></textarea></td>
 						</tr>
 						</table>	
-						<input type="hidden" name="fecha_inicio" value="@day(0)">
-						<input type="hidden" name="fecha_fin" value="@day(0)">
-						<input type="hidden" name="hora_inicio" value="@hours(0)">
-						<input type="hidden" name="hora_fin" value="@termino(0)">
+						<input type="hidden" name="fecha_inicio" value="@day(0).format("dd/MM/yyyy")">
+						<input type="hidden" name="fecha_fin" value="@day(0).format("dd/MM/yyyy")">
+						<input type="hidden" name="hora_inicio" value="@hours(0).format("HH:mm:ss")">
+						<input type="hidden" name="hora_fin" value="@termino(0).format("HH:mm:ss")">
 						
-						<input type="hidden" name="estado" value="pendiente">	
-						<input type="hidden" name="duracion" value="@time">	
-						<input type="hidden" name="asistencia" value="@asist">
-						<input type="hidden" name="grupo.id" value="@id">
+						<input type="hidden" name="estado" id="estado" value="pendiente">	
+						<input type="hidden" name="duracion" id="duracion"value="@time">
+						<input type="hidden" name="asistencia" id="asistencia" value="@asist">
+						<input type="hidden" name="grupo.id" id="grupo.id" value="@id">
 						
 					</div>
 					<br>

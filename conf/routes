@@ -106,7 +106,7 @@ POST	/elimina-solicitud-grupo			controllers.Grupos.eliminaInvitacion(id: Long)
 
 #Reunion
 POST	/generar					controllers.Reuniones.generarReunion(correo: String)
-POST	/guardar					controllers.Reuniones.guardaReunion()
+POST 	/guardar					controllers.Reuniones.guardaReunion()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
