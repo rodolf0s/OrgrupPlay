@@ -8,17 +8,17 @@
 		<h3>ELIJA FECHA PARA LA REUNION</h3>
 				<div class="span9" style="float:left; background-color: #F2F2F2;  border:1px #646464 solid;" >
 				
-				<form name="form" action="@routes.Reuniones.guardaReunion()" method="post">
+				<form name="form" action="" method="post">
 					<table class="table table-hover">
 						<tr>
-							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 <input type="radio" name="reunion" checked> </td>
+							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 <input type="radio" name="reunion" value="1" checked> </td>
 						</tr>
 						<tr>@if(puntaje(1) != null){
-							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el dia: @fecha2 <input type="radio" name="reunion"></td>
+							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el dia: @fecha2 <input type="radio" name="reunion" value="2"></td>
 							}
 						</tr>
 						<tr>@if(puntaje(2) != null){
-							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el dia: @fecha3 <input type="radio" name="reunion"></td>
+							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el dia: @fecha3 <input type="radio" name="reunion" value="3"></td>
 							}
 						</tr>
 					</table>
@@ -34,11 +34,12 @@
 							<td><textarea class="input-xlarge" name="descripcion" id="descripcion"></textarea></td>
 						</tr>
 						</table>	
+		
+									
 						<input type="hidden" name="fecha_inicio" value="@day(0).format("dd/MM/yyyy")">
 						<input type="hidden" name="fecha_fin" value="@day(0).format("dd/MM/yyyy")">
 						<input type="hidden" name="hora_inicio" value="@hours(0).format("HH:mm:ss")">
 						<input type="hidden" name="hora_fin" value="@termino(0).format("HH:mm:ss")">
-						
 						<input type="hidden" name="estado" id="estado" value="pendiente">	
 						<input type="hidden" name="duracion" id="duracion"value="@time">
 						<input type="hidden" name="asistencia" id="asistencia" value="@asist">
@@ -46,10 +47,22 @@
 						
 					</div>
 					<br>
-					<button type="submit" class="btn"> Guardar Reunion </button>
+					<a class="btn" onclick="almacenar()" >Guardar Reunion</a>
 				</form>
 				</div>
 		</div>
 	</div>
 	</div>
+	
+	<script type="text/javascript">
+	
+	function almacenar() {
+		
+			
+		document.form.action = "@routes.Reuniones.guardaReunion()";
+		document.form.submit();
+	}
+	
+	</script>	
+		
 }

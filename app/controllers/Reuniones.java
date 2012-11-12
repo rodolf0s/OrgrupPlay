@@ -483,6 +483,11 @@ public class Reuniones extends Controller {
 				
 				fecha2 = dia[1] + "/" + mes[1] + "/" + anio[1];
 				
+				//Hora en que termina la reunion
+				finalReunionCalendar[1] = horasUso2;
+				finalReunionCalendar[1].add(finalReunionCalendar[0].HOUR_OF_DAY, +duracion);
+				finalReunion[1] = finalReunionCalendar[1].getTime();
+				
 					if(puntajeReunion[2] != null){
 				
 						Calendar horasUso3 = new GregorianCalendar(); 
@@ -502,6 +507,11 @@ public class Reuniones extends Controller {
 						anio[2] = diasUso3.get(Calendar.YEAR);
 						
 						fecha3 = dia[2] + "/" + mes[2] + "/" + anio[2];
+						
+						//Hora en que termina la reunion
+						finalReunionCalendar[2] = horasUso2;
+						finalReunionCalendar[2].add(finalReunionCalendar[0].HOUR_OF_DAY, +duracion);
+						finalReunion[2] = finalReunionCalendar[2].getTime();
 					}
 			}
 		
