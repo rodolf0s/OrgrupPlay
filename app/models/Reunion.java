@@ -28,11 +28,6 @@ public class Reunion extends Model {
 	
 	@Formats.NonEmpty
 	@Column(nullable=false)
-	@Formats.DateTime(pattern="dd/MM/yyyy")
-	public Date fecha_fin;
-	
-	@Formats.NonEmpty
-	@Column(nullable=false)
 	@Formats.DateTime(pattern="HH")
 	public Date hora_inicio;
 	
