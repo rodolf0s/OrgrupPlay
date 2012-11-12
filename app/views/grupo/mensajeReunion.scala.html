@@ -35,17 +35,23 @@
 						</tr>
 						</table>
 
-						<input type="hidden" name="fecha_inicio" value="@day(0).format("dd/MM/yyyy")">
-						<input type="hidden" name="fecha_fin" value="@day(0).format("dd/MM/yyyy")">
-						<input type="hidden" name="hora_inicio" value="@hours(0).format("HH:mm:ss")">
-						<input type="hidden" name="hora_fin" value="@termino(0).format("HH:mm:ss")">
+						<input type="hidden" name="fecha_inicio" value="">
+						<input type="hidden" name="fecha_fin" value="">
+						<input type="hidden" name="hora_inicio" value="">
+						<input type="hidden" name="hora_fin" value="">
 						<input type="hidden" name="estado" id="estado" value="pendiente">
 						<input type="hidden" name="duracion" id="duracion"value="@time">
 						<input type="hidden" name="asistencia" id="asistencia" value="@asist">
 						<input type="hidden" name="grupo.id" id="grupo.id" value="@id">
-						<input type="hidden" name="fechai1" value="@fecha1.format("dd/MM/yyyy")">
-						<input type="hidden" name="fechai2" value="@fecha2.format("dd/MM/yyyy")">
-						<input type="hidden" name="fechai3" value="@fecha3.format("dd/MM/yyyy")">
+						<input type="hidden" name="fechai1" value="@day(0).format("dd/MM/yyyy")">
+						<input type="hidden" name="fechai2" value="@day(0).format("dd/MM/yyyy")">
+						<input type="hidden" name="fechai3" value="@day(2).format("dd/MM/yyyy")">
+						<input type="hidden" name="hora_i1" value="@hours(0).format("HH:mm:ss")">
+						<input type="hidden" name="hora_i2" value="@hours(1).format("HH:mm:ss")">
+						<input type="hidden" name="hora_i3" value="@hours(2).format("HH:mm:ss")">
+						<input type="hidden" name="hora_f1" value="@termino(0).format("HH:mm:ss")">
+						<input type="hidden" name="hora_f2" value="@termino(1).format("HH:mm:ss")">
+						<input type="hidden" name="hora_f3" value="@termino(2).format("HH:mm:ss")">
 					</div>
 					<br>
 					<button class="btn" onclick="almacenar()" >Guardar Reunion</button>
@@ -58,22 +64,23 @@
 	<script type="text/javascript">
 
 	function almacenar() {
-		if (document.reunion[0].checked) {
-			document.form.fecha_inicio.value = @day(0).format("dd/MM/yyyy");
-			document.form.fecha_fin.value = @day(0).format("dd/MM/yyyy");
-			document.form.hora_inicio.value = @hours(0).format("HH:mm:ss");
-			document.form.hora_fin.value = @termino(0).format("HH:mm:ss");
+		if(document.reunion[0].checked) {
+			document.form.fecha_inicio.value = document.form.fechai1.value;
+			document.form.fecha_fin.value = document.form.fechai1.value;
+			document.form.hora_inicio.value = document.form.hora_i1.value;
+			document.form.hora_fin.value = document.form.hora_f1.value;
 		} else if (document.reunion[1].checked) {
-			document.form.fecha_inicio.value = @day(1).format("dd/MM/yyyy");
-			document.form.fecha_fin.value = @day(1).format("dd/MM/yyyy");
-			document.form.hora_inicio.value = @hours(1).format("HH:mm:ss");
-			document.form.hora_fin.value = @termino(1).format("HH:mm:ss");
+			document.form.fecha_inicio.value = document.form.fechai2.value;
+			document.form.fecha_fin.value = document.form.fechai2.value;
+			document.form.hora_inicio.value = document.form.hora_i2.value;
+			document.form.hora_fin.value = document.form.hora_f2.value;
 		} else {
-			document.form.fecha_inicio.value = @day(2).format("dd/MM/yyyy");
-			document.form.fecha_fin.value = @day(2).format("dd/MM/yyyy");
-			document.form.hora_inicio.value = @hours(2).format("HH:mm:ss");
-			document.form.hora_fin.value = @termino(2).format("HH:mm:ss");
+			document.form.fecha_inicio.value = document.form.fechai3.value;
+			document.form.fecha_fin.value = document.form.fechai3.value;
+			document.form.hora_inicio.value = document.form.hora_i3.value;
+			document.form.hora_fin.value = document.form.hora_f3.value;
 		}
+
 		document.form.action = "@routes.Reuniones.guardaReunion()";
 		document.form.submit();
 	}
