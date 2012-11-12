@@ -7,62 +7,105 @@
 		<div class="span11" style="float:right">
 		<h3>ELIJA FECHA PARA LA REUNION</h3>
 				<div class="span9" style="float:left; background-color: #F2F2F2;  border:1px #646464 solid;" >
-				
+
 				<form name="form" action="" method="post">
 					<table class="table table-hover">
 						<tr>
-							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 <input type="radio" name="reunion" value="1" checked> </td>
+							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 <input type="radio" name="reunion" checked> </td>
 						</tr>
 						<tr>@if(puntaje(1) != null){
-							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el dia: @fecha2 <input type="radio" name="reunion" value="2"></td>
+							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el dia: @fecha2 <input type="radio" name="reunion"></td>
 							}
 						</tr>
 						<tr>@if(puntaje(2) != null){
-							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el dia: @fecha3 <input type="radio" name="reunion" value="3"></td>
+							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el dia: @fecha3 <input type="radio" name="reunion"></td>
 							}
 						</tr>
 					</table>
 					<div class="tabbable" style="box-shadow: 2px 2px 5px 2px #999;">
 						<table>
+						<tr>
+							<td>Nombre para la reunion </td>
+							<td> <input type="text" name="nombre" id="nombre" required></td>
+						</tr>
+
+						<tr>
+							<td>Descripcion</td>
+							<td><textarea class="input-xlarge" name="descripcion" id="descripcion"></textarea></td>
+						</tr>
+						</table>
+
+
+						<input type="hidden" name="fecha_inicio" value="">
+						<input type="hidden" name="fecha_fin" value="">
+						<input type="hidden" name="hora_inicio" value="">
+						<input type="hidden" name="hora_fin" value="">
+						<input type="hidden" name="estado" id="estado" value="pendiente">
 							<tr>
 								<td>Nombre para la reunion </td>
 								<td> <input type="text" name="nombre" id="nombre" required></td>
 							</tr>
-						
+
 							<tr>
 								<td>Descripcion</td>
 								<td><textarea class="input-xlarge" name="descripcion" id="descripcion"></textarea></td>
 							</tr>
-						</table>	
-		
-									
+						</table>
+
+
 						<input type="hidden" name="fecha_inicio" value="@day(0).format("dd/MM/yyyy")">
 						<input type="hidden" name="fecha_fin" value="@day(0).format("dd/MM/yyyy")">
 						<input type="hidden" name="hora_inicio" value="@hours(0).format("HH:mm:ss")">
 						<input type="hidden" name="hora_fin" value="@termino(0).format("HH:mm:ss")">
-						<input type="hidden" name="estado" id="estado" value="pendiente">	
+						<input type="hidden" name="estado" id="estado" value="pendiente">
 						<input type="hidden" name="duracion" id="duracion"value="@time">
 						<input type="hidden" name="asistencia" id="asistencia" value="@asist">
 						<input type="hidden" name="grupo.id" id="grupo.id" value="@id">
-						
+						<input type="hidden" name="fechai1" value="@fecha1.format("dd/MM/yyyy")">
+						<input type="hidden" name="fechai2" value="@fecha2.format("dd/MM/yyyy")">
+						<input type="hidden" name="fechai3" value="@fecha3.format("dd/MM/yyyy")">
+						<input type="hidden" name="fechaf1" value="">
+						<input type="hidden" name="fechaf2" value="">
+						<input type="hidden" name="fechaf3" value="">
+						<input type="hidden" name="fechahi1" value="">
+						<input type="hidden" name="fechahi2" value="">
+						<input type="hidden" name="fechahi3" value="">
+						<input type="hidden" name="fechahf1" value="">
+						<input type="hidden" name="fechahf2" value="">
+						<input type="hidden" name="fechahf3" value="">
+
 					</div>
 					<br>
-					<a class="btn" onclick="almacenar()" >Guardar Reunion</a>
+					<button class="btn" onclick="almacenar()" >Guardar Reunion</button>
 				</form>
 				</div>
 		</div>
 	</div>
 	</div>
-	
+
 	<script type="text/javascript">
-	
+
 	function almacenar() {
-		
-			
+		if (document.reunion[0].checked) {
+			document.form.fecha_inicio.value = @day(0).format("dd/MM/yyyy");
+			document.form.fecha_fin.value = @day(0).format("dd/MM/yyyy");
+			document.form.hora_inicio.value = @hours(0).format("HH:mm:ss");
+			document.form.hora_fin.value = @termino(0).format("HH:mm:ss");
+		} else if (document.reunion[1].checked) {
+			document.form.fecha_inicio.value = @day(1).format("dd/MM/yyyy");
+			document.form.fecha_fin.value = @day(1).format("dd/MM/yyyy");
+			document.form.hora_inicio.value = @hours(1).format("HH:mm:ss");
+			document.form.hora_fin.value = @termino(1).format("HH:mm:ss");
+		} else {
+			document.form.fecha_inicio.value = @day(2).format("dd/MM/yyyy");
+			document.form.fecha_fin.value = @day(2).format("dd/MM/yyyy");
+			document.form.hora_inicio.value = @hours(2).format("HH:mm:ss");
+			document.form.hora_fin.value = @termino(2).format("HH:mm:ss");
+		}
 		document.form.action = "@routes.Reuniones.guardaReunion()";
 		document.form.submit();
 	}
-	
-	</script>	
-		
+
+	</script>
+
 }
