@@ -231,7 +231,7 @@
 
         <!-- Modal crear reunion -->
     <div class="modal hide fade" id="crearReunion">
-        <form name="reunion" action="@routes.Reuniones.generarReunion(usuario.correo)" class="form-horizontal" method="post">
+        <form name="reunion2" action="@routes.Reuniones.generarReunion(usuario.correo)" class="form-horizontal" method="post">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3>Nueva reunion</h3>
@@ -399,12 +399,18 @@
         ----------------- Verifica campos ------------------
         **/
         function comparaFechas() {
-            var fechaInicio = document.getElementById("fechaI1").value;
-            var fechaFin = document.getElementById("fechaF1").value;
-            var horaInicio = document.getElementById("horaI1").value;
-            var horaFin = document.getElementById("horaF1").value;
-            var duracion = document.getElementById("duracion").value;
-            var asistenciaMinima = document.getElementById("asistencia").value;
+        	var fechaInicio = null;
+            var fechaFin = null;
+            var horaInicio = null;
+            var horaFin = null;
+            var duracion = null;
+            var asistenciaMinima = null;
+            fechaInicio = document.getElementById("fechaI1").value;
+            fechaFin = document.getElementById("fechaF1").value;
+            horaInicio = document.getElementById("horaI1").value;
+            horaFin = document.getElementById("horaF1").value;
+            duracion = document.getElementById("duracion").value;
+            asistenciaMinima = document.getElementById("asistencia").value;
 
             // Verifica que la fecha de inicio sea anterior a la fecha de termino
             if(fechaInicio < fechaFin){
@@ -415,7 +421,7 @@
 
                     //Verifica que la asistencia minima no sea mayor a la cantidad de miembros de un grupo
                     if(@miembros >= asistenciaMinima) {
-                        document.reunion.submit();
+                        document.reunion2.submit();
                     }else {
                         alert("La asistencia minima no puede ser mayor a los integrantes del grupo");
                     }
