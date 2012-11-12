@@ -8,7 +8,7 @@
 		<h3>ELIJA FECHA PARA LA REUNION</h3>
 				<div class="span9" style="float:left; background-color: #F2F2F2;  border:1px #646464 solid;" >
 
-				<form name="form" action="" method="post">
+				<form name="form1" action="" method="post">
 					<table class="table table-hover">
 						<tr>
 							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 <input type="radio" name="reunion" checked> </td>
@@ -44,7 +44,7 @@
 						<input type="hidden" name="asistencia" id="asistencia" value="@asist">
 						<input type="hidden" name="grupo.id" id="grupo.id" value="@id">
 						<input type="hidden" name="fechai1" value="@day(0).format("dd/MM/yyyy")">
-						<input type="hidden" name="fechai2" value="@day(0).format("dd/MM/yyyy")">
+						<input type="hidden" name="fechai2" value="@day(1).format("dd/MM/yyyy")">
 						<input type="hidden" name="fechai3" value="@day(2).format("dd/MM/yyyy")">
 						<input type="hidden" name="hora_i1" value="@hours(0).format("HH:mm:ss")">
 						<input type="hidden" name="hora_i2" value="@hours(1).format("HH:mm:ss")">
@@ -64,25 +64,25 @@
 	<script type="text/javascript">
 
 	function almacenar() {
-		if(document.reunion[0].checked) {
-			document.form.fecha_inicio.value = document.form.fechai1.value;
-			document.form.fecha_fin.value = document.form.fechai1.value;
-			document.form.hora_inicio.value = document.form.hora_i1.value;
-			document.form.hora_fin.value = document.form.hora_f1.value;
-		} else if (document.reunion[1].checked) {
-			document.form.fecha_inicio.value = document.form.fechai2.value;
-			document.form.fecha_fin.value = document.form.fechai2.value;
-			document.form.hora_inicio.value = document.form.hora_i2.value;
-			document.form.hora_fin.value = document.form.hora_f2.value;
+		if(document.form1.reunion[0].checked) {
+			document.forms.form1.fecha_inicio.value = document.forms.form1.fechai1.value;
+			document.forms.form1.fecha_fin.value = document.forms.form1.fechai1.value;
+			document.forms.form1.hora_inicio.value = document.forms.form1.hora_i1.value;
+			document.forms.form1.hora_fin.value = document.forms.form1.hora_f1.value;
+		} else if (document.form1.reunion[1].checked) {
+			document.forms.form1.fecha_inicio.value = document.forms.form1.fechai2.value;
+			document.forms.form1.fecha_fin.value = document.forms.form1.fechai2.value;
+			document.forms.form1.hora_inicio.value = document.forms.form1.hora_i2.value;
+			document.forms.form1.hora_fin.value = document.forms.form1.hora_f2.value;
 		} else {
-			document.form.fecha_inicio.value = document.form.fechai3.value;
-			document.form.fecha_fin.value = document.form.fechai3.value;
-			document.form.hora_inicio.value = document.form.hora_i3.value;
-			document.form.hora_fin.value = document.form.hora_f3.value;
+			document.forms.form1.fecha_inicio.value = document.forms.form1.fechai3.value;
+			document.forms.form1.fecha_fin.value = document.forms.form1.fechai3.value;
+			document.forms.form1.hora_inicio.value = document.forms.form1.hora_i3.value;
+			document.forms.form1.hora_fin.value = document.forms.form1.hora_f3.value;
 		}
 
-		document.form.action = "@routes.Reuniones.guardaReunion()";
-		document.form.submit();
+		document.forms.form1.action = "@routes.Reuniones.guardaReunion()";
+		document.forms.form1.submit();
 	}
 
 	</script>
