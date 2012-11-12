@@ -419,21 +419,11 @@ public class Reuniones extends Controller {
 		//Comprobar que exista por lo menos una solucion
 		if (puntajeReunion[0] != null){
 		
-			Integer hora1 = 0;
-			Integer hora2 = 0;
-			Integer hora3 = 0;
-			Integer fin1 = 0;
-			Integer fin2 = 0;
-			Integer fin3 = 0;
-			Integer dia1 = 0;   
-			Integer dia2 = 0; 
-			Integer dia3 = 0;   
-			Integer mes1 = 0; 
-			Integer mes2 = 0; 	
-			Integer mes3 = 0;  
-			Integer anio1 = 0;
-			Integer anio2 = 0;
-			Integer anio3 = 0;
+			Integer [] hora = new Integer[3];
+			Integer [] fin = new Integer[3];
+			Integer [] dia = new Integer[3];     
+			Integer [] mes = new Integer[3];  
+			Integer [] anio = new Integer[3];
 			String fecha1 = null;
 			String fecha2 = null;
 			String fecha3 = null;
@@ -449,22 +439,22 @@ public class Reuniones extends Controller {
 			diasUso1.setTime(diasUso[0]);
 		
 			//Inicio de reunion
-			hora1 = horasUso1.get(Calendar.HOUR_OF_DAY); 
+			hora[0] = horasUso1.get(Calendar.HOUR_OF_DAY); 
 			
 			//Termino de reunion
-			fin1 = hora1 + duracion;
+			fin[0] = hora[0] + duracion;
 		
 			//Dia de la reunion
-			dia1 = diasUso1.get(Calendar.DAY_OF_MONTH);   
+			dia[0] = diasUso1.get(Calendar.DAY_OF_MONTH);   
 		
 			//Mes de la reunion (los meses van de 0 a 11)
-			mes1 = diasUso1.get(Calendar.MONTH) +1; 
+			mes[0] = diasUso1.get(Calendar.MONTH) +1; 
 				
 			//Anio de la reunion
-			anio1 = diasUso1.get(Calendar.YEAR);
+			anio[0] = diasUso1.get(Calendar.YEAR);
 		
 			//Fecha de la reunion
-			fecha1 = dia1 + "/" + mes1 + "/" + anio1;
+			fecha1 = dia[0] + "/" + mes[0] + "/" + anio[0];
 		
 			//Hora en que termina la reunion
 			finalReunionCalendar[0] = horasUso1;
@@ -479,17 +469,17 @@ public class Reuniones extends Controller {
 				Calendar diasUso2 = new GregorianCalendar(); 
 				diasUso2.setTime(diasUso[1]);
 				
-				hora2 = horasUso2.get(Calendar.HOUR_OF_DAY);
+				hora[1] = horasUso2.get(Calendar.HOUR_OF_DAY);
 				
-				fin2 = hora2 + duracion;
+				fin[1] = hora[1] + duracion;
 				
-				dia2 = diasUso2.get(Calendar.DAY_OF_MONTH);   
+				dia[1] = diasUso2.get(Calendar.DAY_OF_MONTH);   
 				
-				mes2 = diasUso2.get(Calendar.MONTH) +1;  
+				mes[1] = diasUso2.get(Calendar.MONTH) +1;  
 				
-				anio2 = diasUso2.get(Calendar.YEAR);
+				anio[1] = diasUso2.get(Calendar.YEAR);
 				
-				fecha2 = dia2 + "/" + mes2 + "/" + anio2;
+				fecha2 = dia[1] + "/" + mes[1] + "/" + anio[1];
 				
 					if(puntajeReunion[2] != null){
 				
@@ -499,22 +489,22 @@ public class Reuniones extends Controller {
 						Calendar diasUso3 = new GregorianCalendar(); 
 						diasUso3.setTime(diasUso[2]);
 											 
-						hora3 = horasUso3.get(Calendar.HOUR_OF_DAY); 
+						hora[2] = horasUso3.get(Calendar.HOUR_OF_DAY); 
 												
-						fin3 = hora3 + duracion;
+						fin[2] = hora[2] + duracion;
 								
-						dia3 = diasUso3.get(Calendar.DAY_OF_MONTH);  
+						dia[2] = diasUso3.get(Calendar.DAY_OF_MONTH);  
 								
-						mes3 = diasUso3.get(Calendar.MONTH) +1; 
+						mes[2] = diasUso3.get(Calendar.MONTH) +1; 
 								  
-						anio3 = diasUso3.get(Calendar.YEAR);
+						anio[2] = diasUso3.get(Calendar.YEAR);
 						
-						fecha3 = dia3 + "/" + mes3 + "/" + anio3;
+						fecha3 = dia[2] + "/" + mes[2] + "/" + anio[2];
 					}
 			}
 		
 		
-			return ok(mensajeReunion.render(session("email"), puntajeReunion[0], puntajeReunion[1], puntajeReunion[2], hora1, hora2, hora3, fin1, fin2, fin3, fecha1, fecha2, fecha3, idGrupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion, listaMiembros));
+			return ok(mensajeReunion.render(session("email"), puntajeReunion, hora, fin, fecha1, fecha2, fecha3, idGrupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion, listaMiembros));
 	
 		}else{
 		

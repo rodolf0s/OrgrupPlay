@@ -1,4 +1,4 @@
-@(user: String, puntaje1: Integer, puntaje2: Integer, puntaje3: Integer, hora1: Integer, hora2: Integer, hora3: Integer, fin1: Integer, fin2: Integer, fin3: Integer, fecha1: String, fecha2: String, fecha3: String, id: Integer, time: Integer, day: Array[Date], hours: Array[Date], asist: Integer, termino: Array[Date], lista: List[Integrante])
+@(user: String, puntaje: Array[Integer], hora: Array[Integer], fin: Array[Integer], fecha1: String, fecha2: String, fecha3: String, id: Integer, time: Integer, day: Array[Date], hours: Array[Date], asist: Integer, termino: Array[Date], lista: List[Integrante])
 
 @app(title = "Orgrup", user){
 
@@ -10,14 +10,14 @@
 				<form name="formulario" action="@routes.Reuniones.guardaReunion()" method="post">
 					<table class="table table-hover">
 						<tr>
-							<td>De las: @hora1 hrs. hasta las: @fin1 hrs. el dia: @fecha1 <input type="radio" name="reunion" value="" checked></td>
+							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 </td>
 						</tr>
-						<tr>@if(puntaje2 != null){
-							<td>De las: @hora2 hrs. hasta las: @fin2 hrs. el dia: @fecha2 <input type="radio" name="reunion" value=""></td>
+						<tr>@if(puntaje(1) != null){
+							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el dia: @fecha2 </td>
 							}
 						</tr>
-						<tr>@if(puntaje3 != null){
-							<td>De las: @hora3 hrs. hasta las: @fin3 hrs. el dia: @fecha3 <input type="radio" name="reunion" value=""></td>
+						<tr>@if(puntaje(2) != null){
+							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el dia: @fecha3 </td>
 							}
 						</tr>
 					</table>
