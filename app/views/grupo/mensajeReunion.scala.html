@@ -35,24 +35,6 @@
 						</tr>
 						</table>
 
-
-						<input type="hidden" name="fecha_inicio" value="">
-						<input type="hidden" name="fecha_fin" value="">
-						<input type="hidden" name="hora_inicio" value="">
-						<input type="hidden" name="hora_fin" value="">
-						<input type="hidden" name="estado" id="estado" value="pendiente">
-							<tr>
-								<td>Nombre para la reunion </td>
-								<td> <input type="text" name="nombre" id="nombre" required></td>
-							</tr>
-
-							<tr>
-								<td>Descripcion</td>
-								<td><textarea class="input-xlarge" name="descripcion" id="descripcion"></textarea></td>
-							</tr>
-						</table>
-
-
 						<input type="hidden" name="fecha_inicio" value="@day(0).format("dd/MM/yyyy")">
 						<input type="hidden" name="fecha_fin" value="@day(0).format("dd/MM/yyyy")">
 						<input type="hidden" name="hora_inicio" value="@hours(0).format("HH:mm:ss")">
@@ -64,16 +46,6 @@
 						<input type="hidden" name="fechai1" value="@fecha1.format("dd/MM/yyyy")">
 						<input type="hidden" name="fechai2" value="@fecha2.format("dd/MM/yyyy")">
 						<input type="hidden" name="fechai3" value="@fecha3.format("dd/MM/yyyy")">
-						<input type="hidden" name="fechaf1" value="">
-						<input type="hidden" name="fechaf2" value="">
-						<input type="hidden" name="fechaf3" value="">
-						<input type="hidden" name="fechahi1" value="">
-						<input type="hidden" name="fechahi2" value="">
-						<input type="hidden" name="fechahi3" value="">
-						<input type="hidden" name="fechahf1" value="">
-						<input type="hidden" name="fechahf2" value="">
-						<input type="hidden" name="fechahf3" value="">
-
 					</div>
 					<br>
 					<button class="btn" onclick="almacenar()" >Guardar Reunion</button>

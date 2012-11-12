@@ -147,7 +147,7 @@ public class Mensajes extends Controller {
 					mensaje.asunto,
 					mensaje.mensaje,
 					mensaje.leido);
-			return redirect(routes.Mensajes.mensajesRecibidos(0, ""));
+			return redirect(routes.Mensajes.mensajesEnviados(0, ""));
 			// return ok(views.html.agenda.muestraPerfil.render(
 			// 		Usuario.find.byId(session("email")),
 			// 		Usuario.find.byId(email)));
