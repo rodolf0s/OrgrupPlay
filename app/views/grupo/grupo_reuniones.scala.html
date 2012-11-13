@@ -259,14 +259,14 @@
                 <div class="control-group">
                     <label class="control-label">Duracion (en horas)</label>
                     <div class="controls">
-                        <input class="input-small" type="text" name="duracion" id="duracion" maxlength="8" >
+                        <input class="input-small" type="text" name="duracion" id="duracion" maxlength="8" onkeypress="return soloNumeros(event)" >
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">Asistencia minima</label>
                     <div class="controls">
-                        <input class="input-small" type="text" name="asistencia" id="asistencia" maxlength="8">
+                        <input class="input-small" type="text" name="asistencia" id="asistencia" maxlength="8" onkeypress="return soloNumeros(event)">
                     </div><br>
                     <div class="alert alert-error">
                         En la asistencia minima considere al administrador.
@@ -427,6 +427,12 @@
             }else{
                 alert("La fecha de termino debe ser posterior a la fecha de inicio");
             }
+        }
+        
+        function soloNumeros(evt)
+        {
+          var keyPressed = (evt.which) ? evt.which : event.keyCode
+          return !(keyPressed > 31 && (keyPressed < 48 || keyPressed > 57));
         }
     </script>
 }
