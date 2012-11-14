@@ -210,6 +210,7 @@ public class Grupos extends Controller {
 			} else {
 				String fileName = "";
 				String extension = "";
+				String [] error = new String[7];
 
 				Grupo nuevoGrupo = new Grupo();
 
@@ -233,7 +234,8 @@ public class Grupos extends Controller {
 				    				Tarea.find.where().eq("usuario_correo", session("email")).findList(),
 				    				t,
 				    				Grupo.getGrupos(session("email")),
-				    				"La imagen supera el limite"
+				    				"La imagen supera el limite",
+				    				error
 				    				));
 				    	else if (pag == 2)
 				    		return badRequest(muestra_grupos.render(
@@ -306,7 +308,8 @@ public class Grupos extends Controller {
 					    				Tarea.find.where().eq("usuario_correo", session("email")).findList(),
 					    				t,
 					    				Grupo.getGrupos(session("email")),
-					    				"Debe seleccionar una imagen"
+					    				"Debe seleccionar una imagen",
+					    				error
 					    				));
 					    	else if (pag == 2)
 					    		return badRequest(muestra_grupos.render(

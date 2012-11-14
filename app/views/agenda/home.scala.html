@@ -1,4 +1,4 @@
-@(usuario: Usuario, tareas: List[Tarea], tareaMostrar: Tarea, grupos: List[SqlRow], errorImagen: String)
+@(usuario: Usuario, tareas: List[Tarea], tareaMostrar: Tarea, grupos: List[SqlRow], errorImagen: String, errorHora: Array[String])
 
 @import java.util.Date
 
@@ -11,6 +11,17 @@
         // Desactiva las teclas
         $('#horaI1, #horaF1, #horaI2, #horaF2, #fechaI1, #fechaI2, #fechaF1, #fechaF2').keypress(function(e) {
             if(e.which > 0) return false;
+        });
+
+        // oculta el error de 2 o mas tareas en la misma hora de inicio.
+        $('.input-xlarge').keypress(function() {
+            $('#alerta').hide();
+            $('#alerta2').hide();
+        });
+
+        $('#horaI1, #horaF1, #horaI2, #horaF2').focus(function() {
+            $('#alerta').hide();
+            $('#alerta2').hide();
         });
 
         /**
@@ -95,6 +106,14 @@
             $('#creaGrupo').modal('show');
         }
 
+        @if(errorHora(0) != null) {
+            @if(errorHora(5) == "1") {
+                $('#myModal').modal('show');
+            } else {
+                $('#myModalEdita').modal('show');
+            }
+        }
+
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
@@ -148,50 +167,6 @@
                 document.forms.tarea.fecha_fin.value = date.getDate() + '/' + mes + '/' + date.getFullYear();
                 $('#myModal').modal('show');
             },
-            // Cuando selecciona uno a varios dias, o selecciona por bloques.
-            // select: function(start, end, allDay) {
-            //     document.forms.tarea.nombre.value = "Nueva Tarea";
-
-            //     if((start.getMonth() + 1) < 10)
-            //         var mes1 = 0 + "" + (start.getMonth() + 1);
-            //     else
-            //         var mes1 = (start.getMonth() + 1);
-
-            //     if((end.getMonth() + 1) < 10)
-            //         var mes2 = 0 + "" + (end.getMonth() + 1);
-            //     else
-            //         var mes2 = (end.getMonth() + 1);
-
-            //     if(allDay) {
-            //         document.forms.tarea.hora_inicio.value = "";
-            //         document.forms.tarea.hora_fin.value = "";
-            //     } else {
-            //         if(start.getMinutes() == 0)
-            //             var min1 = ":00:00";
-            //         else
-            //             var min1 = start.getMinutes();
-            //         if(end.getMinutes() == 0)
-            //             var min2 = ":00:00";
-            //         else
-            //             var min2 = end.getMinutes();
-
-            //         if(start.getHours() == 0)
-            //             var hora1 = "00";
-            //         else
-            //             var hora1 = start.getHours();
-            //         if(end.getHours() == 0)
-            //             var hora2 = "00";
-            //         else
-            //             var hora2 = end.getHours();
-            //         document.forms.tarea.hora_inicio.value = hora1 + min1;
-            //         document.forms.tarea.hora_fin.value = hora2 + min2;
-            //     }
-            //     document.getElementById("dateM").innerHTML = "";
-            //     document.getElementById("dateM").innerHTML = start.getDate() + '/' + mes1 + '/' + start.getFullYear();
-            //     document.forms.tarea.fecha_inicio.value = start.getDate() + '/' + mes1 + '/' + start.getFullYear();
-            //     document.forms.tarea.fecha_fin.value = end.getDate() + '/' + mes2 + '/' + end.getFullYear();
-            //     $('#myModal').modal('show');
-            // },
             // Cuando hace click en una tarea. Muestra los datos de la tarea.
             eventClick: function(calEvent, jsEvent){
                 document.forms.edita.id.value = calEvent.id;
@@ -232,9 +207,17 @@
         document.edita.submit();
     }
 
-    function enviar_a(url){
-        document.edita.action = url;
-        document.edita.submit();
+    function enviar_a(url) {
+        if (document.forms.edita.hora_inicio.value != "" && document.forms.edita.hora_fin.value != "" && document.forms.edita.nombre.value != "") {
+            document.edita.action = url;
+            document.edita.submit();
+        } else if (document.forms.edita.nombre.value == "") {
+            document.forms.edita.nombre.focus()
+        } else if (document.forms.edita.hora_inicio.value == "") {
+            document.forms.edita.hora_inicio.focus()
+        } else if (document.forms.edita.hora_fin.value == "") {
+            document.forms.edita.hora_fin.focus();
+        }
      }
 
     function formatea_envia() {
@@ -501,23 +484,32 @@
     <div class="modal hide" id="myModal">
         <form name="tarea" method="post">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Nueva Tarea para el dia <span id="dateM"></span></span></h3>
+                <button type="button" class="close" onclick=redireccionar() data-dismiss="modal">×</button>
+                <h3>Nueva Tarea para el dia <span id="dateM"></span>@if(errorHora(1) != null){@errorHora(1)}</span></h3>
             </div>
             <div class="modal-body">
+                @if(errorHora(0) != null) {
+                    <div class="alert alert-error" id="alerta">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <small>
+                            <strong>Error!</strong>
+                            @errorHora(0)
+                        </small>
+                    </div>
+                }
                 <div class="control-group">
                     <label class="control-label">Nombre Tarea</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="text" id="name" name="nombre" autofocus="autofocus" placeholder="Nombre de la tarea" required>
+                        <input class="input-xlarge" type="text" id="name" name="nombre" autofocus="autofocus" placeholder="Nombre de la tarea" value="@if(errorHora(2) != null) { @errorHora(2) }" required>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Duracion Tarea</label>
                     <div class="controls">
-                        <input class="input-small" type="hidden" id="fechaI1" maxlength="10" name="fecha_inicio" autocomplete="off">
+                        <input class="input-small" type="hidden" id="fechaI1" maxlength="10" name="fecha_inicio" autocomplete="off" value="@if(errorHora(1) != null) { @errorHora(1) }">
                         <input class="input-small" type="text" id="horaI1" maxlength="8" name="hora_inicio" onChange="horaInicio1()" autocomplete="off" placeholder="Hora inicio" required>
                         a
-                        <input class="input-small" type="hidden" id="fechaF1" maxlength="10" name="fecha_fin" autocomplete="off">
+                        <input class="input-small" type="hidden" id="fechaF1" maxlength="10" name="fecha_fin" autocomplete="off" value="@if(errorHora(1) != null) { @errorHora(1) }">
                         <input class="input-small" type="text" id="horaF1" maxlength="8" name="hora_fin" onChange="horaFin1()" autocomplete="off" placeholder="Hora Fin" required>
                     </div>
                 </div>
@@ -542,23 +534,41 @@
                 <div class="control-group">
                     <label class="control-label">Descripción</label>
                     <div class="controls">
-                        <textarea class="input-xlarge" rows="4" name="descripcion" placeholder="Descripción de la tarea" maxlength="500"></textarea>
+                        <textarea class="input-xlarge" rows="4" name="descripcion" placeholder="Descripción de la tarea" maxlength="500">@if(errorHora(3) != null){@errorHora(3)}</textarea>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Prioridad Tarea</label>
                     <div class="controls">
                         <select class="span2" name="prioridad">
-                            <option value="3">Alta</option>
-                            <option value="2">Media</option>
-                            <option value="1">Baja</option>
+                            <script>
+                                @if(errorHora(4) != null) {
+                                    if(@errorHora(4) == "3") {
+                                        document.write("<option value='3' selected='selected'>Alta</option>");
+                                        document.write("<option value='2'>Media</option>");
+                                        document.write("<option value='1'>Baja</option>");
+                                    } else if(@errorHora(4) == "2") {
+                                        document.write("<option value='3'>Alta</option>");
+                                        document.write("<option value='2' selected='selected'>Media</option>");
+                                        document.write("<option value='1'>Baja</option>");
+                                    } else {
+                                        document.write("<option value='3'>Alta</option>");
+                                        document.write("<option value='2'>Media</option>");
+                                        document.write("<option value='1' selected='selected'>Baja</option>");
+                                    }
+                                } else {
+                                    document.write("<option value='3' selected='selected'>Alta</option>");
+                                    document.write("<option value='2'>Media</option>");
+                                    document.write("<option value='1'>Baja</option>");
+                                }
+                            </script>
                         </select>
                     </div>
                 </div>
                 <input type="hidden" name="usuario.correo" value="@usuario.correo">
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+                <input class="btn" data-dismiss="modal" type="button" onclick=redireccionar() value="Cerrar"/>
                 <input type="button" onClick=formatea_envia() class="btn btn-primary" name="agrega" value="Crear">
             </div>
         </form>
@@ -569,30 +579,39 @@
         <form name="edita" method="post">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Tarea @if(tareaMostrar.fecha_inicio != null){@tareaMostrar.nombre @tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}</h3>
+                <h3>Tarea @if(tareaMostrar.fecha_inicio != null){@tareaMostrar.nombre @tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}else{@if(errorHora(1) != null){@errorHora(2) @errorHora(1)}}</h3>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="id" value="@if(tareaMostrar.id != null) {@tareaMostrar.id}">
+                @if(errorHora(0) != null) {
+                    <div class="alert alert-error" id="alerta2">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <small>
+                            <strong>Error!</strong>
+                            @errorHora(0)
+                        </small>
+                    </div>
+                }
+                <input type="hidden" name="id" value="@if(tareaMostrar.id != null) {@tareaMostrar.id}else{@if(errorHora(6) != null){@errorHora(6)}}">
                 <div class="control-group">
                     <label class="control-label">Nombre Tarea</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="text" name="nombre" value="@tareaMostrar.nombre" autofocus="autofocus" placeholder="Nombre de la tarea" required>
+                        <input class="input-xlarge" type="text" name="nombre" value="@if(errorHora(2) != null) { @errorHora(2) } else {@tareaMostrar.nombre}" autofocus="autofocus" placeholder="Nombre de la tarea" required>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Duracion Tarea</label>
                     <div class="controls">
-                        <input class="input-small" type="hidden" name="fecha_inicio" maxlength="10" autocomplete="off" id="fechaI2" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}'>
+                        <input class="input-small" type="hidden" name="fecha_inicio" maxlength="10" autocomplete="off" id="fechaI2" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}else{@if(errorHora(1) != null){@errorHora(1)}}'>
                         <input class="input-small" type="text" name="hora_inicio" maxlength="8" autocomplete="off" onChange="horaInicio2()" id="horaI2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm:ss")}' placeholder="Hora inicio">
                         a
-                        <input class="input-small" type="hidden" name="fecha_fin" maxlength="10" autocomplete="off" id="fechaF2" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}'>
+                        <input class="input-small" type="hidden" name="fecha_fin" maxlength="10" autocomplete="off" id="fechaF2" value='@if(tareaMostrar.fecha_fin != null) {@tareaMostrar.fecha_fin.format("dd/MM/yyyy")}else{@if(errorHora(1) != null){@errorHora(1)}}'>
                         <input class="input-small" type="text" name="hora_fin" maxlength="8" autocomplete="off" onChange="horaFin2()" id="horaF2" value='@if(tareaMostrar.hora_fin != null) {@tareaMostrar.hora_fin.format("HH:mm:ss")}' placeholder="Hora fin">
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Descripción</label>
                     <div class="controls">
-                        <textarea class="input-xlarge" rows="4" name="descripcion" placeholder="Descripción de la tarea" maxlength="500">@tareaMostrar.descripcion</textarea>
+                        <textarea class="input-xlarge" rows="4" name="descripcion" placeholder="Descripción de la tarea" maxlength="500">@if(errorHora(3) != null){@errorHora(3)}else{@tareaMostrar.descripcion}</textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -600,18 +619,34 @@
                     <div class="controls">
                         <select class="span2" name="prioridad">
                             <script type="text/javascript">
-                                if (@tareaMostrar.prioridad == 3) {
-                                    document.write("<option value='3' selected='selected'>Alta</option>");
-                                    document.write("<option value='2'>Media</option>");
-                                    document.write("<option value='1'>Baja</option>");
-                                } else if(@tareaMostrar.prioridad == 2) {
-                                    document.write("<option value='3'>Alta</option>");
-                                    document.write("<option value='2' selected='selected'>Media</option>");
-                                    document.write("<option value='1'>Baja</option>");
+                                @if(errorHora(4) != null) {
+                                    if(@errorHora(4) == "3") {
+                                        document.write("<option value='3' selected='selected'>Alta</option>");
+                                        document.write("<option value='2'>Media</option>");
+                                        document.write("<option value='1'>Baja</option>");
+                                    } else if(@errorHora(4) == "2") {
+                                        document.write("<option value='3'>Alta</option>");
+                                        document.write("<option value='2' selected='selected'>Media</option>");
+                                        document.write("<option value='1'>Baja</option>");
+                                    } else {
+                                        document.write("<option value='3'>Alta</option>");
+                                        document.write("<option value='2'>Media</option>");
+                                        document.write("<option value='1' selected='selected'>Baja</option>");
+                                    }
                                 } else {
-                                    document.write("<option value='3'>Alta</option>");
-                                    document.write("<option value='2'>Media</option>");
-                                    document.write("<option value='1' selected='selected'>Baja</option>");
+                                    if (@tareaMostrar.prioridad == 3) {
+                                        document.write("<option value='3' selected='selected'>Alta</option>");
+                                        document.write("<option value='2'>Media</option>");
+                                        document.write("<option value='1'>Baja</option>");
+                                    } else if(@tareaMostrar.prioridad == 2) {
+                                        document.write("<option value='3'>Alta</option>");
+                                        document.write("<option value='2' selected='selected'>Media</option>");
+                                        document.write("<option value='1'>Baja</option>");
+                                    } else {
+                                        document.write("<option value='3'>Alta</option>");
+                                        document.write("<option value='2'>Media</option>");
+                                        document.write("<option value='1' selected='selected'>Baja</option>");
+                                    }
                                 }
                             </script>
                         </select>
