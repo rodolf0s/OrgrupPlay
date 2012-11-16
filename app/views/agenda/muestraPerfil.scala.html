@@ -6,7 +6,7 @@
         p { word-wrap: break-word; }
     </style>
 
-    @if(Contacto.compruebaUsuarioExistente(user.correo, user2.correo) != "") {
+    @if(Contacto.compruebaUsuarioExistente(user.correo, user2.correo) != "" || user.correo == user2.correo) {
         <div class="container span11 perfil" style="box-shadow: 2px 2px 5px 2px #999;">
             <div class="row-fluid">
                 <div class="span3">
