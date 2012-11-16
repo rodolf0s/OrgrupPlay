@@ -673,12 +673,17 @@ public class Grupos extends Controller {
 	 * @param idGrupo
 	 * @return
 	 */
-	public static Result eliminarArchivo(Long idArchivo, Long idReunion, Long idGrupo) {
-		Archivo archivo = Archivo.find.byId(idArchivo);
-		File file = new File("./public/grupos/" + idGrupo.toString() + "/" + archivo.nombre);
-		file.delete();
-		archivo.delete();
-		return redirect(routes.Grupos.verReunion(idReunion, idGrupo));
+	public static Result eliminarArchivo() {
+		Form<Archivo> formArchivo = form(Archivo.class).bindFromRequest();
+		if (formArchivo.hasErrors()) {
+			return badRequest();
+		} else {
+			Archivo archivo = Archivo.find.byId(formArchivo.get().id);
+			File file = new File("./public/grupos/" + formArchivo.get().nombre + "/" + archivo.nombre);
+			file.delete();
+			archivo.delete();
+			return redirect(routes.Grupos.verReunion(formArchivo.get().reunion.id, Long.valueOf(formArchivo.get().nombre)));
+		}
 	}
 
 	/**

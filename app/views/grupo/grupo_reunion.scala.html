@@ -16,6 +16,13 @@
         function modalGrupos() {
             $('#creaGrupo').modal('show');
         }
+        function modalConfirmar(arId, reunionId, grupoId, nombre) {
+            document.getElementById('file').innerHTML = nombre;
+            document.getElementById("id1").value = arId;
+            document.getElementById("id2").value = reunionId;
+            document.getElementById("id3").value = grupoId;
+            $('#modalConfirmar').modal('show');
+        }
     </script>
 
     <div class="row">
@@ -159,7 +166,7 @@
                                     <td>@Usuario.getNombre(ar.usuario.correo)</td>
                                     <td><a class="btn btn-primary" href='@routes.Grupos.descargarArchivo(ar.id, grupo.getString("id").toLong)'>descargar</a></td>
                                     @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-                                    <td><a class="btn btn-danger" href='@routes.Grupos.eliminarArchivo(ar.id, reunion.id, grupo.getString("id").toLong)'>eliminar</a></td>
+                                    <td><button class="btn btn-danger" onClick='modalConfirmar(@ar.id, @reunion.id, @grupo.getString("id").toLong, "@ar.nombre")'>eliminar</button></td>
                                     }
                                 </tr>
                             }
@@ -179,7 +186,7 @@
                 <h3>Subir un nuevo documento</h3>
             </div>
             <div class="modal-body">
-                <input class="input-file" type="file" name="nombre">
+                <input class="input-file" type="file" name="nombre" required>
                 <input type="hidden" name="reunion.id" value="@reunion.id" id="reunion">
             </div>
             <div class="modal-footer">
@@ -226,6 +233,26 @@
             <div class="modal-footer">
                 <a href='@routes.Grupos.verReunion(grupo.getString("id").toLong, reunion.id)' class="btn">Cerrar</a>
                 <input type="submit" class="btn btn-primary" value="Crear">
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal de confirmacion -->
+    <div class="modal hide fade" id="modalConfirmar">
+        <form action="@routes.Grupos.eliminarArchivo()" id="confirma" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Eliminar Contacto</h3>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de eliminar el archivo "<span id="file"></span>"?
+                <input type="hidden" name="id" id="id1">
+                <input type="hidden" name="reunion.id" id="id2">
+                <input type="hidden" name="nombre" id="id3">
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">No</a>
+                <input type="submit" class="btn btn-primary" value="Si">
             </div>
         </form>
     </div>
