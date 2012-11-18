@@ -43,7 +43,7 @@ public class Reuniones extends Controller {
 		Integer asistentes = 0;
 		Integer asistentesAux = 0;
 		Integer asistenciaMinima = 0;
-
+		Date revizar = null;
 
  		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
 
@@ -66,10 +66,15 @@ public class Reuniones extends Controller {
 			Calendar fechaFinCalendar = new GregorianCalendar();
 			Calendar horaInicioCalendar = new GregorianCalendar();
 			Calendar horaFinCalendar = new GregorianCalendar();
+			Calendar revizarCalendar = new GregorianCalendar();
 			fechaInicioCalendar.setTime(fechaInicio);
 			fechaFinCalendar.setTime(fechaFin);
 			horaInicioCalendar.setTime(horaInicio);
 			horaFinCalendar.setTime(horaFin);
+			//Hora para recorrer tareas
+			revizarCalendar.setTime(horaInicio);
+			revizarCalendar.set(revizarCalendar.HOUR_OF_DAY, 00);
+			revizar = revizarCalendar.getTime();
 
 			//aumentamos en 1 la fecha de fin para la busqueda porque before no cuenta el igual
 			fechaFinCalendar.add(fechaFinCalendar.DAY_OF_MONTH, +1);
@@ -84,6 +89,7 @@ public class Reuniones extends Controller {
 
 			//Calcular la catidad de posiciones del vector
 			posiciones = diferenciaDias * diferenciaHoras;
+//			posiciones = 30;
 
 			//Inicializar los vectores
 			bloque = new Integer[posiciones];
@@ -101,77 +107,99 @@ public class Reuniones extends Controller {
 				//reiniciar el valor de las horas
 				horaInicioCalendar.setTime(horaInicio);
 				horaFinCalendar.setTime(horaFin);
-
+				revizarCalendar.setTime(revizar);
+				
+				
 				//aumentamos en 1 la hora de fin para la busqueda porque before no cuenta el igual
 				horaFinCalendar.add(horaFinCalendar.HOUR, +1);
-
-				while(horaInicioCalendar.before(horaFinCalendar)) {
+				
+				while(revizarCalendar.before(horaFinCalendar)) {
+					
 					Integer estado = null;
 					Date fechaInicio1 = fechaInicioCalendar.getTime();
 					Date horaInicio1 = horaInicioCalendar.getTime();
-
+					Date revizar1 = revizarCalendar.getTime();
+					
+					
 					//Indica si el bloque esta libre o no
-					estado = Tarea.valorTarea(fechaInicio1, horaInicio1, correo);
+					estado = Tarea.valorTarea(fechaInicio1, revizar1, correo);
+
 					if (estado == 3){
 
 						//Obtenemos hora termino de la tarea
-						Date termino = Tarea.buscaHoraTermino(fechaInicio1, horaInicio1, correo);
+						Date termino = Tarea.buscaHoraTermino(fechaInicio1, revizar1, correo);
 
 						//Lo transformamos a calendar
 						Calendar terminoCalendar = new GregorianCalendar();
 						terminoCalendar.setTime(termino);
 
-						 	//Comprobar si la hora fin tarea es mayor a la hora fin reunion
+						 	//Comprobar si la hora fin tarea es mayor a la hora fin de la reunion
 							if(terminoCalendar.after(horaFinCalendar)){
 
-								//Marcar todos los bloques ocupados de la tarea (en caso de que la tarea dure mas de una hora)
-								while(horaInicioCalendar.before(horaFinCalendar)) {
+									//Marcar todos los bloques ocupados de la tarea
+									while(horaInicioCalendar.before(horaFinCalendar)) {
 
-									horaInicio1 = horaInicioCalendar.getTime();
+										horaInicio1 = horaInicioCalendar.getTime();
 
-									//guardar la fecha y valor del bloque
-									dias[a] = fechaInicio1;
-									horas[a] = horaInicio1;
-									bloque [a] = 1;
+										//guardar la fecha y valor del bloque
+										dias[a] = fechaInicio1;
+										horas[a] = horaInicio1;
+										bloque [a] = 1;
 
-									//aumenta contador y hora
-									a = a + 1;
-									horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
-								}
+										//aumenta contador y hora
+										a = a + 1;
+										horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
+										revizarCalendar.add(revizarCalendar.HOUR, +1);
+									}								
 
 							}else{
+									//Comprobar que la tarea esta dentro del rango de la reunion
+									if(terminoCalendar.after(horaInicioCalendar)){
+									
+										while(horaInicioCalendar.before(terminoCalendar)) {
 
-								while(horaInicioCalendar.before(terminoCalendar)) {
+											horaInicio1 = horaInicioCalendar.getTime();
 
-									horaInicio1 = horaInicioCalendar.getTime();
+											//guardar la fecha y valor del bloque
+											dias[a] = fechaInicio1;
+											horas[a] = horaInicio1;
+											bloque [a] = 1;
 
-									//guardar la fecha y valor del bloque
-									dias[a] = fechaInicio1;
-									horas[a] = horaInicio1;
-									bloque [a] = 1;
-
-									//aumenta contador y hora
-									a = a + 1;
-									horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
+											//aumenta contador y hora
+											a = a + 1;
+											horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
+											revizarCalendar.add(revizarCalendar.HOUR, +1);
+										}
+									
+									}else{
+									
+										//Igual avanza ya que son bloques que pueden estar antes del filtro reunion
+										revizarCalendar.add(revizarCalendar.HOUR, +1);
+									}
 								}
-							}
 
 					}else{
+						
+						//comprueba que revizar este dentro de las horas asiganadas para la reunion
+						if(revizarCalendar.equals(horaInicioCalendar) || revizarCalendar.after(horaInicioCalendar)){
+							//guardar la fecha y valor del bloque
+							dias[a] = fechaInicio1;
+							horas[a] = horaInicio1;
+							bloque [a] = 0;
 
-						//guardar la fecha y valor del bloque
-						dias[a] = fechaInicio1;
-						horas[a] = horaInicio1;
-						bloque [a] = 0;
-
-						//aumenta contador y hora
-						a = a+1;
-						horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
+							//aumenta contador y hora
+							a = a+1;
+							horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
+							revizarCalendar.add(revizarCalendar.HOUR, +1);
+						}else{
+							
+							//Igual avanza ya que son bloques que pueden estar antes del filtro reunion
+							revizarCalendar.add(revizarCalendar.HOUR, +1);
+						}
 					}
-
 				}
 				fechaInicioCalendar.add(fechaInicioCalendar.DAY_OF_MONTH, +1);
 			}
-	}
 		//variables para comprobacion bloques
 		Date fechaComparar = dias[0];
 		Date transicionHora = null;
@@ -522,6 +550,7 @@ public class Reuniones extends Controller {
 
 			return ok(informaciones.render("no se puede generar una reunion con los datos entregados, porfavor intente nuevamente.", "Error Reunion"));
 		}
+	 }
 	}
 
 	public static Result guardaReunion(){
