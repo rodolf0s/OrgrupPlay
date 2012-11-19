@@ -89,7 +89,6 @@ public class Reuniones extends Controller {
 
 			//Calcular la catidad de posiciones del vector
 			posiciones = diferenciaDias * diferenciaHoras;
-//			posiciones = 30;
 
 			//Inicializar los vectores
 			bloque = new Integer[posiciones];
@@ -200,6 +199,7 @@ public class Reuniones extends Controller {
 				}
 				fechaInicioCalendar.add(fechaInicioCalendar.DAY_OF_MONTH, +1);
 			}
+			
 		//variables para comprobacion bloques
 		Date fechaComparar = dias[0];
 		Date transicionHora = null;

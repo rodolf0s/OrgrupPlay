@@ -94,6 +94,7 @@ create table reunion (
   duracion                  integer not null,
   asistencia                integer not null,
   grupo_id                  bigint,
+  notificado                varchar(255) not null,
   constraint pk_reunion primary key (id))
 ;
 
