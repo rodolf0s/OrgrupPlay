@@ -39,7 +39,7 @@ public class Integrante extends Model {
     public Date fecha_ingreso;
 
     @Formats.NonEmpty
-    @Column(nullable=false)
+    @Column(length=8,nullable=false)
     public String estado;
 
     @Formats.NonEmpty

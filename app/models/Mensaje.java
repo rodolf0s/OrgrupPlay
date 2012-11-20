@@ -35,23 +35,23 @@ public class Mensaje extends Model{
     public Usuario remitente;
 
     @Formats.NonEmpty
-    @Column(nullable=false)
+    @Column(length=50, nullable=false)
     public String destinatario;
 
     @Formats.NonEmpty
-    @Column(length=100, nullable=false)
+    @Column(length=50, nullable=false)
     public String asunto;
 
     @Formats.NonEmpty
-    @Column(nullable=false)
+    @Column(length=300, nullable=false)
     public String mensaje;
 
     @Formats.NonEmpty
-    @Column(nullable=false)
+    @Column(length=2, nullable=false)
     public String leido;
 
     @Formats.NonEmpty
-    @Column(nullable=false)
+    @Column(length=8, nullable=false)
     public String estado;
 
     @Formats.NonEmpty

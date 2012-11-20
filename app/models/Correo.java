@@ -26,12 +26,12 @@ public class Correo extends Model {
 
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(length=60, nullable=false)
+    @Column(length=50, nullable=false)
     public String nombre;
 
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(length=60, nullable=false)
+    @Column(length=50, nullable=false)
     public String asunto;
 
     @Constraints.Required
@@ -41,12 +41,12 @@ public class Correo extends Model {
 
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(length=500, nullable=false)
+    @Column(length=300, nullable=false)
     public String mensaje;
 
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(nullable=false)
+    @Column(length=2, nullable=false)
     public Integer estado;
 
     // Consultas

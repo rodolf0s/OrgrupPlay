@@ -24,11 +24,11 @@ public class Usuario extends Model {
     public String correo;
 
     @Formats.NonEmpty
-    @Column(length=30, nullable=false)
+    @Column(length=40, nullable=false)
     public String nombre;
 
     @Formats.NonEmpty
-    @Column(length=40, nullable=false)
+    @Column(length=20, nullable=false)
     public String password;
 
     @Formats.NonEmpty
@@ -44,7 +44,7 @@ public class Usuario extends Model {
     public String leyenda;
 
     @Formats.NonEmpty
-    @Column(length=300, nullable=false)
+    @Column(length=150, nullable=false)
     public String imagen;
 
     @Formats.NonEmpty
@@ -66,10 +66,6 @@ public class Usuario extends Model {
     @Formats.NonEmpty
     @Column(length=11, nullable=false)
     public String estado;
-
-    @Formats.DateTime(pattern="dd/MM/yyyy")
-    @Column(nullable=true)
-    public Date inicioSesion;
 
     @Column(length=2, nullable=false)
     public String notificado;

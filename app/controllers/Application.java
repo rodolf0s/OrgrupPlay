@@ -135,7 +135,6 @@ public class Application extends Controller {
 				user.colorTareaAlta = "#B71616";
 				user.colorTareaMedia = "#381BCA";
 				user.colorTareaBaja = "#EBDF32";				
-				user.inicioSesion = new Date();
 				user.notificado = "no";
 				String pass = user.password;
 				String encript = DigestUtils.shaHex(pass);

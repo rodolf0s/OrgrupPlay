@@ -32,7 +32,7 @@ public class Contacto extends Model {
 
     @Formats.NonEmpty
     @Column(length=2, nullable=false)
-    public String amigos;
+    public String amigo;
 
     @Formats.NonEmpty
     @Column(length=2, nullable=false)

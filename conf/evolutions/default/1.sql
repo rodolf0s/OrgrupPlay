@@ -126,7 +126,6 @@ create table usuario (
   color_tarea_baja          varchar(7) not null,
   id_verificador            integer not null,
   estado                    varchar(11) not null,
-  inicio_sesion             timestamp,
   notificado                varchar(2) not null,
   constraint pk_usuario primary key (correo))
 ;

@@ -38,10 +38,10 @@ public class Tarea extends Model {
     public Date hora_fin;
 
     @Constraints.Required
-    @Column(length=60, nullable=false)
+    @Column(length=25, nullable=false)
     public String nombre;
 
-    @Column(length=500, nullable=true)
+    @Column(length=150, nullable=true)
     public String descripcion;
 
     @Column(nullable=false)

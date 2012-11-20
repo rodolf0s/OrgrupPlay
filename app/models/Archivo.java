@@ -22,7 +22,7 @@ public class Archivo extends Model {
     public Long id;
 
     @Formats.NonEmpty
-    @Column(length=255, nullable=false)
+    @Column(length=60, nullable=false)
     public String nombre;
 
     @Formats.NonEmpty

@@ -46,7 +46,7 @@ public class Reunion extends Model {
 	public String nombre;
 
     @Formats.NonEmpty
-    @Column(length=500, nullable=true)
+    @Column(length=150, nullable=true)
 	public String descripcion;
 
     @Formats.NonEmpty
@@ -65,7 +65,7 @@ public class Reunion extends Model {
 	public Grupo grupo;
 	
 	@Formats.NonEmpty
-    @Column(nullable=false)
+    @Column(length=2, nullable=false)
     public String notificado;
 
 	// Consultas

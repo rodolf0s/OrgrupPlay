@@ -31,7 +31,7 @@ public class Grupo extends Model {
     public String descripcion;
 
     @Formats.NonEmpty
-    @Column(length=350, nullable=false)
+    @Column(length=150, nullable=false)
     public String imagen;
 
     // Consultas
