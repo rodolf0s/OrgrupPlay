@@ -14,15 +14,15 @@ import play.mvc.Result;
 import views.html.agenda.*;
 
 public class Contactos extends Controller {
-	
+
 	public static Result GO_INDEX = redirect(
-			routes.Contactos.gestionaContactos(0, "")	
+			routes.Contactos.gestionaContactos(0, "")
 	);
-	
+
 	public static Result index4() {
         return GO_INDEX;
     }
-	
+
 	public static Result gestionaContactos(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -36,14 +36,14 @@ public class Contactos extends Controller {
 				);
 		}
 	}
-	
-	public static Result buscaContactos() {		
-		List<Usuario> usuarioVacio = new ArrayList<Usuario>();		
-		Form<Usuario> formBuscaContactos = form(Usuario.class).bindFromRequest();	
-		
+
+	public static Result buscaContactos() {
+		List<Usuario> usuarioVacio = new ArrayList<Usuario>();
+		Form<Usuario> formBuscaContactos = form(Usuario.class).bindFromRequest();
+
 		if (formBuscaContactos.hasErrors()) {
 			return badRequest(contactos.render(
-					Usuario.find.byId(session("email")), 
+					Usuario.find.byId(session("email")),
 					null
 				)
 			);
@@ -51,16 +51,16 @@ public class Contactos extends Controller {
 			Usuario amigos = formBuscaContactos.get();
 			return ok(
 					contactos.render(
-						Usuario.find.byId(session("email")), 
+						Usuario.find.byId(session("email")),
 						Usuario.listaUsuarios(amigos.nombre)
 					)
 				);
-			
+
 		}
 	}
-	
+
 	public static Result contactos() {
-		List<Usuario> usuarioVacio = new ArrayList<Usuario>();		
+		List<Usuario> usuarioVacio = new ArrayList<Usuario>();
 
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -68,7 +68,7 @@ public class Contactos extends Controller {
 			try {
 				return ok(
 						contactos.render(
-							Usuario.find.byId(session("email")), 
+							Usuario.find.byId(session("email")),
 							usuarioVacio
 						)
 					);
@@ -76,7 +76,7 @@ public class Contactos extends Controller {
 			return ok();
 		}
 	}
-	
+
 	public static Result muestraMensajeContacto() {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
@@ -84,20 +84,20 @@ public class Contactos extends Controller {
 			return ok(views.html.mensajes.mensajeAgregaContacto.render(Usuario.find.byId(session("email"))));
 		}
 	}
-	
-	public static Result agregaContacto() {		
-		List<Usuario> usuarioVacio = new ArrayList<Usuario>();		
+
+	public static Result agregaContacto() {
+		List<Usuario> usuarioVacio = new ArrayList<Usuario>();
 		Form<Contacto> formAgregaContacto = form(Contacto.class).bindFromRequest();
-		
+
 		if (formAgregaContacto.hasErrors()) {
 			return badRequest(contactos.render(
-					Usuario.find.byId(session("email")), 
+					Usuario.find.byId(session("email")),
 					usuarioVacio
 				)
 			);
 		} else {
 			Contacto amigoEncontrado = formAgregaContacto.get();
-			amigoEncontrado.amigos = "no";
+			amigoEncontrado.amigo = "no";
 			if (Notificaciones.getContacto(amigoEncontrado.usuario2.correo))
 				amigoEncontrado.notificado = "no";
 			else
@@ -105,30 +105,30 @@ public class Contactos extends Controller {
 			amigoEncontrado.save();
 			try {
 				return redirect(routes.Contactos.muestraMensajeContacto());
-			} catch(Exception e) {}			
+			} catch(Exception e) {}
 		}
 		return ok("2222");
 	}
-	
+
 	public static Result muestraAgregarContactos(int page, String filter) {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
 			return ok(agregaContactos.render(
-					Usuario.find.byId(session("email")), 
+					Usuario.find.byId(session("email")),
 					Contacto.page2(page, filter, (session("email"))),
 					filter
 					)
 				);
 		}
 	}
-	
+
 	public static Result agregaContactoBd() {
 		Form<Contacto> formAgregaContactoBd = form(Contacto.class).bindFromRequest();
-		
+
 		if (formAgregaContactoBd.hasErrors()) {
 			return badRequest(agregaContactos.render(
-					Usuario.find.byId(session("email")), 
+					Usuario.find.byId(session("email")),
 					Contacto.page2(0, "", (session("email"))),
 					""
 					)
@@ -140,7 +140,7 @@ public class Contactos extends Controller {
 			Contacto.cambiaEstado(amigoGuardar.usuario2.correo, amigoGuardar.usuario1.correo);
 			try {
 				return ok(agregaContactos.render(
-						Usuario.find.byId(session("email")), 
+						Usuario.find.byId(session("email")),
 						Contacto.page2(0, "", (session("email"))),
 						""
 					)
@@ -149,13 +149,13 @@ public class Contactos extends Controller {
 		}
 		return ok();
 	}
-	
+
 	public static Result eliminaSolicitud() {
 		Form<Contacto> formEliminaSolicitud = form(Contacto.class).bindFromRequest();
-		
+
 		if (formEliminaSolicitud.hasErrors()) {
 			return badRequest(agregaContactos.render(
-					Usuario.find.byId(session("email")), 
+					Usuario.find.byId(session("email")),
 					Contacto.page2(0, "", (session("email"))),
 					""
 				)
@@ -163,11 +163,11 @@ public class Contactos extends Controller {
 		} else {
 			Contacto solicitudEliminar = formEliminaSolicitud.get();
 			Contacto.eliminaSolicitudAmistad(Contacto.obtieneId(
-					solicitudEliminar.usuario1.correo, 
+					solicitudEliminar.usuario1.correo,
 					solicitudEliminar.usuario2.correo));
 			try {
 				return ok(agregaContactos.render(
-						Usuario.find.byId(session("email")), 
+						Usuario.find.byId(session("email")),
 						Contacto.page2(0, "", (session("email"))),
 						""
 					)
@@ -176,23 +176,23 @@ public class Contactos extends Controller {
 		}
 		return ok();
 	}
-	
+
 //	public static Result gestionaContactos() {
 //		if (!verificaSession()) {
 //			return redirect(routes.Application.index());
 //		} else {
 //			return ok(gestionarContactos.render(
-//					Usuario.find.byId(session("email")), 
+//					Usuario.find.byId(session("email")),
 //					Contacto.listaAmigos(session("email"))));
 //		}
 //	}
-	
+
 	public static Result eliminaContacto(int page, String filter) {
 		Form<Contacto> formEliminaContacto = form(Contacto.class).bindFromRequest();
-		
+
 		if (formEliminaContacto.hasErrors()) {
 			return ok(gestionarContactos.render(
-					Usuario.find.byId(session("email")), 
+					Usuario.find.byId(session("email")),
 					Contacto.page(page, filter, session("email")),
 					filter
 					)
@@ -203,7 +203,7 @@ public class Contactos extends Controller {
 			Contacto.eliminaContacto(Contacto.obtieneId2(eliminaContacto.usuario1.correo, eliminaContacto.usuario2.correo));
 			try {
 				return ok(gestionarContactos.render(
-						Usuario.find.byId(session("email")), 
+						Usuario.find.byId(session("email")),
 						Contacto.page(page, filter, session("email")),
 						filter
 					)
@@ -212,25 +212,25 @@ public class Contactos extends Controller {
 		}
 		return ok();
 	}
-	
+
 	public static Result muestraElPerfil(String email) {
 		return ok(muestraPerfil.render(
-				Usuario.find.byId(session("email")), 
+				Usuario.find.byId(session("email")),
 				Usuario.find.byId(email)));
 	}
-	
+
 	/**
 	 * Comprueba la variable de session del usuario.
-	 * 
+	 *
 	 * @return true si es distinta de null, y false si no a
-	 * iniciado session. 
+	 * iniciado session.
 	 */
 	public static boolean verificaSession() {
-		if (session("email") == null) 
+		if (session("email") == null)
 			return false;
 		else
 			return true;
 	}
-	
-	
+
+
 }

@@ -138,9 +138,7 @@
                 <h1>
                     @reunion.nombre <small> @reunion.descripcion </small>
                     <input type="hidden" name="id" value='@grupo.getString("id")'>
-                    @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
                     <button class="btn btn-success pull-right" onClick="modalDocumentos()">Subir Documento</button>
-                    }
                 </h1>
             </div>
             <div>
