@@ -115,7 +115,7 @@ create table tarea (
 create table usuario (
   correo                    varchar(50) not null,
   nombre                    varchar(40) not null,
-  password                  varchar(40) not null,
+  password                  varchar(50) not null,
   ciudad                    varchar(20) not null,
   telefono                  integer,
   leyenda                   varchar(150),
