@@ -71,15 +71,14 @@ create table mensaje (
 ;
 
 create table notificaciones (
-  id                        bigint not null,
+  usuario_correo            varchar(255) not null,
   tarea                     varchar(2) not null,
   mensaje                   varchar(2) not null,
   contacto                  varchar(2) not null,
   grupo_agregan             varchar(2) not null,
   grupo_eliminan            varchar(2) not null,
   grupo_admin               varchar(2) not null,
-  usuario_correo            varchar(50),
-  constraint pk_notificaciones primary key (id))
+  constraint pk_notificaciones primary key (usuario_correo))
 ;
 
 create table reunion (
@@ -116,7 +115,7 @@ create table tarea (
 create table usuario (
   correo                    varchar(50) not null,
   nombre                    varchar(40) not null,
-  password                  varchar(20) not null,
+  password                  varchar(50) not null,
   ciudad                    varchar(20) not null,
   telefono                  integer,
   leyenda                   varchar(150),
@@ -166,12 +165,10 @@ alter table integrante add constraint fk_integrante_grupo_6 foreign key (grupo_i
 create index ix_integrante_grupo_6 on integrante (grupo_id);
 alter table mensaje add constraint fk_mensaje_remitente_7 foreign key (remitente_correo) references usuario (correo);
 create index ix_mensaje_remitente_7 on mensaje (remitente_correo);
-alter table notificaciones add constraint fk_notificaciones_usuario_8 foreign key (usuario_correo) references usuario (correo);
-create index ix_notificaciones_usuario_8 on notificaciones (usuario_correo);
-alter table reunion add constraint fk_reunion_grupo_9 foreign key (grupo_id) references grupo (id);
-create index ix_reunion_grupo_9 on reunion (grupo_id);
-alter table tarea add constraint fk_tarea_usuario_10 foreign key (usuario_correo) references usuario (correo);
-create index ix_tarea_usuario_10 on tarea (usuario_correo);
+alter table reunion add constraint fk_reunion_grupo_8 foreign key (grupo_id) references grupo (id);
+create index ix_reunion_grupo_8 on reunion (grupo_id);
+alter table tarea add constraint fk_tarea_usuario_9 foreign key (usuario_correo) references usuario (correo);
+create index ix_tarea_usuario_9 on tarea (usuario_correo);
 
 
 

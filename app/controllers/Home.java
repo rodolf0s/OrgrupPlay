@@ -281,7 +281,7 @@ public class Home extends Controller {
 	public static Integer notificacionAmigos(){
 		return Contacto.find.where()
 				.eq("usuario2_correo", session("email"))
-				.eq("amigos", "no")
+				.eq("amigo", "no")
 				.findRowCount();
 	}
 
