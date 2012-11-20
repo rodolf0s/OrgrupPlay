@@ -11,7 +11,7 @@ create table administrador (
 
 create table archivo (
   id                        bigint not null,
-  nombre                    varchar(255) not null,
+  nombre                    varchar(60) not null,
   fecha                     timestamp not null,
   hora                      timestamp not null,
   usuario_correo            varchar(50),
@@ -23,17 +23,17 @@ create table contacto (
   id                        bigint not null,
   usuario1_correo           varchar(50),
   usuario2_correo           varchar(50),
-  amigos                    varchar(2) not null,
+  amigo                     varchar(2) not null,
   notificado                varchar(2) not null,
   constraint pk_contacto primary key (id))
 ;
 
 create table correo (
   id                        bigint not null,
-  nombre                    varchar(60) not null,
-  asunto                    varchar(60) not null,
+  nombre                    varchar(50) not null,
+  asunto                    varchar(50) not null,
   correo                    varchar(50) not null,
-  mensaje                   varchar(500) not null,
+  mensaje                   varchar(300) not null,
   estado                    integer not null,
   constraint pk_correo primary key (id))
 ;
@@ -42,7 +42,7 @@ create table grupo (
   id                        bigint not null,
   nombre                    varchar(25) not null,
   descripcion               varchar(150) not null,
-  imagen                    varchar(350) not null,
+  imagen                    varchar(150) not null,
   constraint pk_grupo primary key (id))
 ;
 
@@ -52,7 +52,7 @@ create table integrante (
   grupo_id                  bigint,
   tipo                      integer not null,
   fecha_ingreso             timestamp not null,
-  estado                    varchar(255) not null,
+  estado                    varchar(8) not null,
   notificado                varchar(7),
   constraint pk_integrante primary key (id))
 ;
@@ -61,25 +61,24 @@ create table mensaje (
   id                        bigint not null,
   fecha                     timestamp not null,
   remitente_correo          varchar(50),
-  destinatario              varchar(255) not null,
-  asunto                    varchar(100) not null,
-  mensaje                   varchar(255) not null,
-  leido                     varchar(255) not null,
-  estado                    varchar(255) not null,
+  destinatario              varchar(50) not null,
+  asunto                    varchar(50) not null,
+  mensaje                   varchar(300) not null,
+  leido                     varchar(2) not null,
+  estado                    varchar(8) not null,
   notificado                varchar(2) not null,
   constraint pk_mensaje primary key (id))
 ;
 
 create table notificaciones (
-  id                        bigint not null,
+  usuario_correo            varchar(255) not null,
   tarea                     varchar(2) not null,
   mensaje                   varchar(2) not null,
   contacto                  varchar(2) not null,
   grupo_agregan             varchar(2) not null,
   grupo_eliminan            varchar(2) not null,
   grupo_admin               varchar(2) not null,
-  usuario_correo            varchar(50),
-  constraint pk_notificaciones primary key (id))
+  constraint pk_notificaciones primary key (usuario_correo))
 ;
 
 create table reunion (
@@ -89,12 +88,12 @@ create table reunion (
   hora_inicio               timestamp not null,
   hora_fin                  timestamp not null,
   nombre                    varchar(50) not null,
-  descripcion               varchar(500),
+  descripcion               varchar(150),
   estado                    varchar(20) not null,
   duracion                  integer not null,
   asistencia                integer not null,
   grupo_id                  bigint,
-  notificado                varchar(255) not null,
+  notificado                varchar(2) not null,
   constraint pk_reunion primary key (id))
 ;
 
@@ -104,8 +103,8 @@ create table tarea (
   hora_inicio               timestamp not null,
   fecha_fin                 timestamp not null,
   hora_fin                  timestamp not null,
-  nombre                    varchar(60) not null,
-  descripcion               varchar(500),
+  nombre                    varchar(25) not null,
+  descripcion               varchar(150),
   prioridad                 integer not null,
   usuario_correo            varchar(50),
   fecha_termino             timestamp,
@@ -115,12 +114,12 @@ create table tarea (
 
 create table usuario (
   correo                    varchar(50) not null,
-  nombre                    varchar(30) not null,
+  nombre                    varchar(40) not null,
   password                  varchar(40) not null,
   ciudad                    varchar(20) not null,
   telefono                  integer,
   leyenda                   varchar(150),
-  imagen                    varchar(300) not null,
+  imagen                    varchar(150) not null,
   color_tarea_alta          varchar(7) not null,
   color_tarea_media         varchar(7) not null,
   color_tarea_baja          varchar(7) not null,
@@ -166,12 +165,10 @@ alter table integrante add constraint fk_integrante_grupo_6 foreign key (grupo_i
 create index ix_integrante_grupo_6 on integrante (grupo_id);
 alter table mensaje add constraint fk_mensaje_remitente_7 foreign key (remitente_correo) references usuario (correo);
 create index ix_mensaje_remitente_7 on mensaje (remitente_correo);
-alter table notificaciones add constraint fk_notificaciones_usuario_8 foreign key (usuario_correo) references usuario (correo);
-create index ix_notificaciones_usuario_8 on notificaciones (usuario_correo);
-alter table reunion add constraint fk_reunion_grupo_9 foreign key (grupo_id) references grupo (id);
-create index ix_reunion_grupo_9 on reunion (grupo_id);
-alter table tarea add constraint fk_tarea_usuario_10 foreign key (usuario_correo) references usuario (correo);
-create index ix_tarea_usuario_10 on tarea (usuario_correo);
+alter table reunion add constraint fk_reunion_grupo_8 foreign key (grupo_id) references grupo (id);
+create index ix_reunion_grupo_8 on reunion (grupo_id);
+alter table tarea add constraint fk_tarea_usuario_9 foreign key (usuario_correo) references usuario (correo);
+create index ix_tarea_usuario_9 on tarea (usuario_correo);
 
 
 
