@@ -49,7 +49,7 @@ public class Contacto extends Model {
      * @return
      */
     public static List<Contacto> listaContactosPendientes(String email){
-        return Contacto.find.where().eq("usuario2_correo", email).eq("amigos", "no").findList();
+        return Contacto.find.where().eq("usuario2_correo", email).eq("amigo", "no").findList();
     }
 
     /**
@@ -72,7 +72,7 @@ public class Contacto extends Model {
     public static List<Contacto> listaAmigos(String email) {
         return Contacto.find.where()
                 .eq("usuario1_correo", email)
-                .eq("amigos", "si")
+                .eq("amigo", "si")
                 .order().asc("usuario2_correo")
                 .findList();
     }
@@ -90,7 +90,7 @@ public class Contacto extends Model {
                 .where()
                 .eq("usuario1_correo", usuario1)
                 .eq("usuario2_correo", usuario2)
-                .eq("amigos", "si")
+                .eq("amigo", "si")
                 .findUnique();
         try {
             if (contacto.usuario2.correo.toString().isEmpty()) {
@@ -115,7 +115,7 @@ public class Contacto extends Model {
                 .where()
                 .eq("usuario1_correo", usuario1)
                 .eq("usuario2_correo", usuario2)
-                .eq("amigos", "no")
+                .eq("amigo", "no")
                 .findUnique();
         try {
             if (contacto.usuario2.correo.toString().isEmpty()) {
@@ -135,7 +135,7 @@ public class Contacto extends Model {
      */
     public static void cambiaEstado(String usuario1, String usuario2) {
         Ebean.createSqlUpdate(
-                "update Contacto set amigos = 'si' where " +
+                "update Contacto set amigo = 'si' where " +
                 "usuario1_correo = '"+usuario1+"' and usuario2_correo = '"+usuario2+"'"
                 ).execute();
     }
@@ -211,7 +211,7 @@ public class Contacto extends Model {
                 find
                     .where()
                     .eq("usuario1_correo", email)
-                    .eq("amigos", "si")
+                    .eq("amigo", "si")
                     .orderBy().asc("usuario2_correo")
                     .findPagingList(10)
                     .getPage(page);
@@ -222,7 +222,7 @@ public class Contacto extends Model {
                 find
                     .where()
                     .eq("usuario2_correo", email)
-                    .eq("amigos", "no")
+                    .eq("amigo", "no")
                     .order().asc("usuario1_correo")
                     .findPagingList(10)
                     .getPage(page);

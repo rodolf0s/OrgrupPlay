@@ -15,7 +15,7 @@ import play.db.ebean.Model;
 public class Notificaciones extends Model {
 
     @Id
-    public Long id;
+    public String usuario_correo;
 
     @Column(length=2, nullable=false)
     public String tarea;
@@ -35,12 +35,9 @@ public class Notificaciones extends Model {
     @Column(length=2, nullable=false)
     public String grupoAdmin;
 
-    @ManyToOne
-    public Usuario usuario;
-
     // Consultas
 
-    public static Finder<Long,Notificaciones> find = new Finder<Long,Notificaciones>(Long.class, Notificaciones.class);
+    public static Finder<String,Notificaciones> find = new Finder<String,Notificaciones>(String.class, Notificaciones.class);
 
     /**
      * Actualiza las notificaciones del usuario.
