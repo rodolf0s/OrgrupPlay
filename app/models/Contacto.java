@@ -59,7 +59,7 @@ public class Contacto extends Model {
      */
     public static void estado(Long id){
         Contacto contacto = find.ref(id);
-        contacto.amigos = "si";
+        contacto.amigo = "si";
         contacto.update();
     }
 

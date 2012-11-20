@@ -97,7 +97,7 @@ public class Contactos extends Controller {
 			);
 		} else {
 			Contacto amigoEncontrado = formAgregaContacto.get();
-			amigoEncontrado.amigos = "no";
+			amigoEncontrado.amigo = "no";
 			if (Notificaciones.getContacto(amigoEncontrado.usuario2.correo))
 				amigoEncontrado.notificado = "no";
 			else
