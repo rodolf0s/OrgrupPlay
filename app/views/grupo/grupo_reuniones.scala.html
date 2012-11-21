@@ -1,4 +1,4 @@
-@(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto], reuniones: List[Reunion], errorImagen: String, miembros: Integer)
+@(usuario: Usuario, grupo: SqlRow, grupos: List[SqlRow], integrantes: List[Integrante], contactos: List[Contacto], reuniones: List[Reunion], errorImagen: String, miembros: Integer, error: String)
 
 @app(title = grupo.getString("nombre"), usuario.nombre) {
 
@@ -17,6 +17,10 @@
             // si hay un error al subir la imagen del grupo.
             @if(errorImagen != "") {
                 $('#creaGrupo').modal('show');
+            }
+
+            @if(error != "") {
+                $('#crearReunion').modal('show');
             }
         });
 
@@ -268,16 +272,30 @@
                     <div class="controls">
                         <input class="input-small" type="text" name="asistencia" id="asistencia" maxlength="8" onkeypress="return soloNumeros(event)">
                     </div><br>
-                    <div class="alert alert-error">
-                        En la asistencia minima considere al administrador.
+                    <div class="alert alert-info">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <small>
+                            <strong>Info!</strong>
+                            En la asistencia minima considere al administrador.
+                        </small>
                     </div>
+                    @if(error != "") {
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <small>
+                            <strong>Error!</strong>
+                            No se pudo generar la reunion, lo más probable es que no se cumpla el minimo de integrantes o no exista bloques disponibles en los filtros de hora asignado.
+                            Intente cambiar los datos para generar una reunion.
+                        </small>
+                    </div>
+                    }
                 </div>
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="nombre" id="nombre" value="temporal">
                 <input type="hidden" name="descripcion" id="descripcion" value="descripcion">
                 <input type="hidden" name="estado" id="estado"  value="pendiente">
-                <input type="hidden" name="grupo.id" id="grupo.id"  value='@grupo.getString("id").toLong'>
+                <input type="hidden" name="grupo.id" id="grupo.id"  value='@if(error != "") { @error.toLong } else { @grupo.getString("id").toLong }'>
                 <a href="#" class="btn" data-dismiss="modal">Cerrar</a>
                 <input type="button" onclick="comparaFechas();" class="btn btn-primary" value="Generar" >
             </div>
@@ -428,7 +446,7 @@
                 alert("La fecha de termino debe ser posterior a la fecha de inicio");
             }
         }
-        
+
         function soloNumeros(evt)
         {
           var keyPressed = (evt.which) ? evt.which : event.keyCode
