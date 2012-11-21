@@ -416,6 +416,7 @@ public class Grupos extends Controller {
 				nuevoIntegrante.tipo = 1;
 				nuevoIntegrante.fecha_ingreso = fecha;
 				nuevoIntegrante.estado = "activo";
+				nuevoIntegrante.notificado = "si";
 				nuevoIntegrante.save();
 
 				return redirect(routes.Grupos.index(nuevoGrupo.id));
