@@ -5,11 +5,15 @@ import models.Integrante;
 import models.Reunion;
 import models.Tarea;
 import models.Usuario;
+import models.Grupo;
+import models.Contacto;
+
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.grupo.*;
 import views.html.home.*;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -107,19 +111,19 @@ public class Reuniones extends Controller {
 				horaInicioCalendar.setTime(horaInicio);
 				horaFinCalendar.setTime(horaFin);
 				revizarCalendar.setTime(revizar);
-				
-				
+
+
 				//aumentamos en 1 la hora de fin para la busqueda porque before no cuenta el igual
 				horaFinCalendar.add(horaFinCalendar.HOUR, +1);
-				
+
 				while(revizarCalendar.before(horaFinCalendar)) {
-					
+
 					Integer estado = null;
 					Date fechaInicio1 = fechaInicioCalendar.getTime();
 					Date horaInicio1 = horaInicioCalendar.getTime();
 					Date revizar1 = revizarCalendar.getTime();
-					
-					
+
+
 					//Indica si el bloque esta libre o no
 					estado = Tarea.valorTarea(fechaInicio1, revizar1, correo);
 
@@ -149,12 +153,12 @@ public class Reuniones extends Controller {
 										a = a + 1;
 										horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
 										revizarCalendar.add(revizarCalendar.HOUR, +1);
-									}								
+									}
 
 							}else{
 									//Comprobar que la tarea esta dentro del rango de la reunion
 									if(terminoCalendar.after(horaInicioCalendar)){
-									
+
 										while(horaInicioCalendar.before(terminoCalendar)) {
 
 											horaInicio1 = horaInicioCalendar.getTime();
@@ -169,16 +173,16 @@ public class Reuniones extends Controller {
 											horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
 											revizarCalendar.add(revizarCalendar.HOUR, +1);
 										}
-									
+
 									}else{
-									
+
 										//Igual avanza ya que son bloques que pueden estar antes del filtro reunion
 										revizarCalendar.add(revizarCalendar.HOUR, +1);
 									}
 								}
 
 					}else{
-						
+
 						//comprueba que revizar este dentro de las horas asiganadas para la reunion
 						if(revizarCalendar.equals(horaInicioCalendar) || revizarCalendar.after(horaInicioCalendar)){
 							//guardar la fecha y valor del bloque
@@ -191,7 +195,7 @@ public class Reuniones extends Controller {
 							horaInicioCalendar.add(horaInicioCalendar.HOUR, +1);
 							revizarCalendar.add(revizarCalendar.HOUR, +1);
 						}else{
-							
+
 							//Igual avanza ya que son bloques que pueden estar antes del filtro reunion
 							revizarCalendar.add(revizarCalendar.HOUR, +1);
 						}
@@ -199,7 +203,7 @@ public class Reuniones extends Controller {
 				}
 				fechaInicioCalendar.add(fechaInicioCalendar.DAY_OF_MONTH, +1);
 			}
-			
+
 		//variables para comprobacion bloques
 		Date fechaComparar = dias[0];
 		Date transicionHora = null;
@@ -547,8 +551,17 @@ public class Reuniones extends Controller {
 			return ok(mensajeReunion.render(session("email"), puntajeReunion, hora, fin, fecha1, fecha2, fecha3, grupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion));
 
 		}else{
-
-			return ok(informaciones.render("no se puede generar una reunion con los datos entregados, porfavor intente nuevamente.", "Error Reunion"));
+			return ok(views.html.grupo.grupo_reuniones.render(
+						Usuario.find.byId(session("email")),
+						Grupo.getGrupo(session("email"), grupo),
+						Grupo.getGrupos(session("email")),
+						Integrante.find.where().eq("grupo_id", grupo).eq("estado", "activo").findList(),
+						Contacto.listaAmigos(session("email")),
+						Reunion.find.where().eq("grupo_id", grupo).findList(),
+						"",
+						Integrante.contarMiembros(grupo),
+						grupo.toString()
+						));
 		}
 	 }
 	}

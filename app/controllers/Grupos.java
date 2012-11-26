@@ -91,7 +91,8 @@ public class Grupos extends Controller {
 						Contacto.listaAmigos(session("email")),
 						Reunion.find.where().eq("grupo_id", id).findList(),
 						"",
-						Integrante.contarMiembros(id)
+						Integrante.contarMiembros(id),
+						""
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -288,7 +289,8 @@ public class Grupos extends Controller {
 									Contacto.listaAmigos(session("email")),
 									Reunion.find.where().eq("grupo_id", id).findList(),
 									"La imagen supera el limite",
-									Integrante.contarMiembros(id)
+									Integrante.contarMiembros(id),
+									""
 									));
 					} else {
 						// Revisa que extension tiene la imagen subida por
@@ -362,7 +364,8 @@ public class Grupos extends Controller {
 										Contacto.listaAmigos(session("email")),
 										Reunion.find.where().eq("grupo_id", id).findList(),
 										"Debe seleccionar una imagen",
-										Integrante.contarMiembros(id)
+										Integrante.contarMiembros(id),
+										""
 										));
 
 					    nuevoGrupo.nombre = creaGrupo.get().nombre;
@@ -413,6 +416,7 @@ public class Grupos extends Controller {
 				nuevoIntegrante.tipo = 1;
 				nuevoIntegrante.fecha_ingreso = fecha;
 				nuevoIntegrante.estado = "activo";
+				nuevoIntegrante.notificado = "si";
 				nuevoIntegrante.save();
 
 				return redirect(routes.Grupos.index(nuevoGrupo.id));
