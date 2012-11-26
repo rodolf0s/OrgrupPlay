@@ -37,7 +37,7 @@
             <div class="control-group">
                 <label class="control-label" for="telefono">Telefono</label>
                 <div class="controls">
-                    <input class="input-xlarge" id="telefono" type="text" name="telefono" maxlength="15" value="@usuario.telefono">
+                    <input class="input-xlarge" id="telefono" type="text" name="telefono" maxlength="15" value="@usuario.telefono" onkeypress="return soloNumeros(event)">
                 </div>
             </div>
             <div class="control-group">
@@ -92,5 +92,11 @@
             $('#error').hide();
             $('#msj').hide();
         });
+        
+        function soloNumeros(evt)
+        {
+          var keyPressed = (evt.which) ? evt.which : event.keyCode
+          return !(keyPressed > 31 && (keyPressed < 48 || keyPressed > 57));
+        }
     </script>
 }

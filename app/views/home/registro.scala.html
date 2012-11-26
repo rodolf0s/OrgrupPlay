@@ -70,7 +70,7 @@
                                     <div class="control-group">
                                         <label class="control-label" for="telefono">Telefono</label>
                                         <div class="controls">
-                                            <input class="input-xlarge" type="text" placeholder="Telefono" name="telefono" id="telefono" maxlength="15"/>
+                                            <input class="input-xlarge" type="text" placeholder="Telefono" name="telefono" id="telefono" maxlength="15" onkeypress="return soloNumeros(event)"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -182,5 +182,11 @@
                }
            }
        });
+       
+       function soloNumeros(evt)
+       {
+         var keyPressed = (evt.which) ? evt.which : event.keyCode
+         return !(keyPressed > 31 && (keyPressed < 48 || keyPressed > 57));
+       }
     </script>
 }
