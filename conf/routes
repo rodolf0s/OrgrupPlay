@@ -103,6 +103,8 @@ POST	/grupo/dejar-grupo				    controllers.Grupos.dejarGrupo(pag: Integer)
 GET 	/solicitudes-de-grupos				controllers.Grupos.muestraSolicitudes(p:Int ?= 0, f ?= "")
 POST	/acepta-solicitud					controllers.Grupos.ingresarAGrupo()
 POST	/elimina-solicitud-grupo			controllers.Grupos.eliminaInvitacion(id: Long)
+GET 	/grupo/:id/agregar-reunion-horario		controllers.Grupos.agregarReunionHorario(nombre: String, descripcion: String, prioridad: Integer, horaInicio: String, horaFin: String, fechaInicio: String, id: Long)
+GET 	/grupo/:id/quitar-reunion-horario	controllers.Grupos.quitarReunionHorario(nombre: String, descripcion: String, prioridad: Integer, horaInicio: String, horaFin: String, fechaInicio: String, id: Long)
 
 #Reunion
 POST	/generar					controllers.Reuniones.generarReunion(correo: String)

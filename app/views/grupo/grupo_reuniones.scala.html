@@ -156,11 +156,11 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Fecha inicio</th>
-                                <th>Fecha fin</th>
+                                <th>Fecha</th>
                                 <th>Hora inicio</th>
                                 <th>Hora fin</th>
                                 <th>Descripcion</th>
+                                <th>Agregar a mi calendario</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -175,13 +175,19 @@
                                         </a>
                                     </td>
                                     <td>@r.fecha_inicio.format("dd/MM/yyyy")</td>
-                                    <td>@r.fecha_fin.format("dd/MM/yyyy")</td>
                                     <td>@r.hora_inicio.format("HH:mm")</td>
                                     <td>@r.hora_fin.format("HH:mm")</td>
                                     <td>
                                         <a href="#" rel="tooltip" title="@r.descripcion" data-content="@r.nombre" data-placement="top">
                                             @if(r.descripcion.length < 40) {@r.descripcion} else {@r.descripcion.substring(0, 39)...}
                                         </a>
+                                    </td>
+                                    <td>
+                                        @if(Tarea.buscaReunion(r.fecha_inicio, r.hora_inicio, r.hora_fin, r.nombre, r.descripcion, usuario.correo) > 0) {
+                                            <a href='@routes.Grupos.quitarReunionHorario(r.nombre, r.descripcion, 3, r.hora_inicio.format("HH:mm:ss").toString, r.hora_fin.format("HH:mm:ss").toString, r.fecha_inicio.format("dd/MM/yyyy").toString, grupo.getString("id").toLong)' class="btn btn-danger">Quitar</a>
+                                        } else {
+                                            <a href='@routes.Grupos.agregarReunionHorario(r.nombre, r.descripcion, 3, r.hora_inicio.format("HH:mm:ss").toString, r.hora_fin.format("HH:mm:ss").toString, r.fecha_inicio.format("dd/MM/yyyy").toString, grupo.getString("id").toLong)' class="btn btn-primary">Agregar</a>
+                                        }
                                     </td>
                                 </tr>
                             </form>

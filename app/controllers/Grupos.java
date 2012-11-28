@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.text.ParseException;
 
 import com.avaje.ebean.Ebean;
 
@@ -732,6 +733,61 @@ public class Grupos extends Controller {
 			}
 		}
 	}
+
+	/**
+	* Agrega la reunion al horario del usuario
+	*/
+	public static Result agregarReunionHorario(String nombre, String descripcion, Integer prioridad,
+		String horaInicio, String horaFin, String fechaInicio, Long id) throws ParseException {
+		DateFormat formatter;
+		Date hora_inicio, hora_fin, fecha_inicio;
+
+		// Transforma las fechas y horas a Date
+		formatter = new SimpleDateFormat("HH:mm:ss");
+  		hora_inicio = (Date)formatter.parse(horaInicio);
+  		formatter = new SimpleDateFormat("HH:mm:ss");
+  		hora_fin = (Date)formatter.parse(horaFin);
+    	formatter = new SimpleDateFormat("dd/MM/yyyy");
+    	fecha_inicio = formatter.parse(fechaInicio);
+
+    	// crea un usuario y guarda la reunion como tarea.
+		Usuario usuario = Usuario.find.byId(session("email"));
+		Tarea.setTarea(nombre, descripcion, prioridad, usuario, hora_inicio, hora_fin, fecha_inicio, fecha_inicio);
+		return redirect(routes.Grupos.muestraReuniones(id));
+	}
+
+	/**
+	* Quita la reunion de la agenda del usuario.
+	*/
+	public static Result quitarReunionHorario(String nombre, String descripcion, Integer prioridad,
+		String horaInicio, String horaFin, String fechaInicio, Long id) throws ParseException {
+		DateFormat formatter;
+		Date hora_inicio, hora_fin, fecha_inicio;
+
+		// Transforma las fechas y horas a Date
+		formatter = new SimpleDateFormat("HH:mm:ss");
+  		hora_inicio = (Date)formatter.parse(horaInicio);
+  		formatter = new SimpleDateFormat("HH:mm:ss");
+  		hora_fin = (Date)formatter.parse(horaFin);
+    	formatter = new SimpleDateFormat("dd/MM/yyyy");
+    	fecha_inicio = formatter.parse(fechaInicio);
+
+    	// crea un usuario y busca la tarea a eliminar.
+		Usuario usuario = Usuario.find.byId(session("email"));
+		Tarea tarea = Ebean.find(Tarea.class)
+                 .where()
+                 .eq("nombre", nombre)
+                 .eq("descripcion", descripcion)
+                 .eq("fecha_inicio", fecha_inicio)
+                 .eq("fecha_fin", fecha_inicio)
+                 .eq("hora_inicio", hora_inicio)
+                 .eq("hora_fin", hora_fin)
+                 .eq("usuario_correo", usuario.correo)
+                 .findUnique();
+        tarea.delete();
+        return redirect(routes.Grupos.muestraReuniones(id));
+	}
+
 
 	/**
 	 * Muestra la pagina de solicitudes de grupo para confirmar o rechazar invitacion

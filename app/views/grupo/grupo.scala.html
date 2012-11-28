@@ -186,7 +186,7 @@
                                 <a href="@routes.Contactos.muestraElPerfil(c.usuario.correo)" rel="tooltip" title="Ver Perfil">@Usuario.getNombre(c.usuario.correo)</a>
                             </strong> es el administrador de este grupo.
                             @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-                                <a href="#" onClick="modalAdmin()">cambiar</a>
+                                <a href="#" onClick="modalAdmin()" style="color: red;">cambiar</a>
                             }
                         </div>
                     }
@@ -238,7 +238,7 @@
             </div>
             <div class="modal-body">
                 <div class="control-group">
-                    <label class="control-label">Nombre del miembro</label>
+                    <label class="control-label">Nombre</label>
                     <div class="controls">
                         <select name="usuario.correo" id="idIntegrantes">
                             @if(!contactos.isEmpty()) {

@@ -129,7 +129,21 @@ public class Tarea extends Model {
                  .eq("usuario_correo", correo)
                  .findRowCount();
      }
-     
+
+     /**
+     * busca la reunion en la agenda del usuario.
+     */
+     public static Integer buscaReunion(Date fecha, Date hora_inicio, Date hora_fin, String nombre, String descripcion, String correo) {
+        return find.where()
+                .eq("nombre", nombre)
+                .eq("descripcion", descripcion)
+                .eq("fecha_inicio", fecha)
+                .eq("hora_inicio", hora_inicio)
+                .eq("hora_fin", hora_fin)
+                .eq("usuario_correo", correo)
+                .findRowCount();
+     }
+
      /**
       * Busca la hora de termino de una tarea
       */
@@ -141,9 +155,9 @@ public class Tarea extends Model {
                  .eq("usuario_correo", correo)
                  .findUnique();
          return tarea.hora_fin;
-         
+
      }
-     
+
      /**
       * Busca el valor de una tarea
       * @param fecha
@@ -158,12 +172,12 @@ public class Tarea extends Model {
                  .eq("hora_inicio", hora)
                  .eq("usuario_correo", correo)
                  .findUnique();
-        try{ 
+        try{
         	return tarea.prioridad;
-        	
+
         	}catch(Exception e){
-        		
-                return 0;	
+
+                return 0;
         	}
         }
      }
