@@ -24,7 +24,7 @@ public class Usuario extends Model {
     public String correo;
 
     @Formats.NonEmpty
-    @Column(length=40, nullable=false)
+    @Column(length=50, nullable=false)
     public String nombre;
 
     @Formats.NonEmpty
@@ -32,7 +32,7 @@ public class Usuario extends Model {
     public String password;
 
     @Formats.NonEmpty
-    @Column(length=20, nullable=false)
+    @Column(length=50, nullable=false)
     public String ciudad;
 
     @Formats.NonEmpty
