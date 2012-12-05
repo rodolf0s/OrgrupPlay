@@ -98,19 +98,31 @@
 
         // si hace click en un evento muestra el modal con los datos.
         @if(tareaMostrar.nombre != null) {
-            $('#myModalEdita').modal('show');
+            $('#myModalEdita').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
 
         // si hay un error al subir la imagen del grupo.
         @if(errorImagen != "") {
-            $('#creaGrupo').modal('show');
+            $('#creaGrupo').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
 
         @if(errorHora(0) != null) {
             @if(errorHora(5) == "1") {
-                $('#myModal').modal('show');
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
             } else {
-                $('#myModalEdita').modal('show');
+                $('#myModalEdita').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
             }
         }
 
@@ -165,7 +177,10 @@
                 document.getElementById("dateM").innerHTML = date.getDate() + '/' + mes + '/' + date.getFullYear();
                 document.forms.tarea.fecha_inicio.value = date.getDate() + '/' + mes + '/' + date.getFullYear();
                 document.forms.tarea.fecha_fin.value = date.getDate() + '/' + mes + '/' + date.getFullYear();
-                $('#myModal').modal('show');
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
             },
             // Cuando hace click en una tarea. Muestra los datos de la tarea.
             eventClick: function(calEvent, jsEvent){
@@ -258,7 +273,10 @@
     }
 
     function modal() {
-        $('#creaGrupo').modal('show');
+        $('#creaGrupo').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
     }
 
     function tpStartOnHourShowCallback(hour) {
@@ -427,7 +445,7 @@
                     }
                 </ul>
                 @if(!Usuario.cuentaInactiva(usuario.correo)) {
-                    <a href="#" role="button" class="btn btn-large btn-success" data-toggle="modal"onClick=modal() >crear nuevo grupo</a>
+                    <a href="#" role="button" class="btn btn-large btn-success" data-toggle="modal" onClick=modal() >crear nuevo grupo</a>
                 }
             </div>
         </div>
@@ -481,7 +499,7 @@
     </div>
 
     <!--    Modal pop-up guarda -->
-    <div class="modal hide" id="myModal">
+    <div class="modal hide fade" id="myModal">
         <form name="tarea" method="post">
             <div class="modal-header">
                 <button type="button" class="close" onclick=redireccionar() data-dismiss="modal">×</button>
@@ -516,7 +534,7 @@
                 <div class="control-group">
                     <div class="controls">
                         <label class="checkbox">
-                            <input type="checkbox" name="repetir" value="0" id="repetir"> repetir
+                            <input type="checkbox" name="repetir" value="0" id="repetir" rel="tooltip" title="puede repetir la tarea diariamente o semanlamente"> repetir
                         </label>
                     </div>
                 </div>
