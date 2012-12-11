@@ -155,7 +155,7 @@ public class Application extends Controller {
 			    return ok(informaciones.render(
 			    		"Bienvenidos a la red de Orgrup, red de agendas que te permitirá " +
 			    		"llevar un registro de todas tus actividades, podrás buscar amigos y colegas para gestionar " +
-			    		"reuniones de forma automática, subir apuntes, documentos y más!. " +
+			    		"reuniones de forma automática, subir apuntes, documentos y más! " +
 			    		"Confirme su cuenta a través del enlace enviado a su correo.",
 			    		"Registro"));
 			}
@@ -204,7 +204,7 @@ public class Application extends Controller {
 			Correo mensaje = formContacto.get();
 			mensaje.save();
 			return ok(informaciones.render(
-					"Su mensaje a sido enviado exitosamente.",
+					"Su mensaje ha sido enviado exitosamente.",
 					"Contacto"));
 		}
 	}

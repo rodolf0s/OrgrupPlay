@@ -224,7 +224,7 @@ public class Cuenta extends Controller {
 								"",
 								"",
 								"",
-								"Tu contraseña a sido cambiada exitosamente."));
+								"Tu contraseña ha sido cambiada exitosamente."));
 					} else {
 						return ok(cuenta_password.render(Usuario.find.byId(session("email")),
 								"",
