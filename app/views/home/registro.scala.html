@@ -28,14 +28,14 @@
                                     <div class="control-group">
                                         <label class="control-label" for="nombre">Nombre completo</label>
                                         <div class="controls">
-                                            <input class="input-xlarge" type="text" placeholder="Nombre y Apellido" name="nombre" id="nombre" maxlength="30" required/>
+                                            <input class="input-xlarge" type="text" placeholder="Nombre y Apellido" name="nombre" id="nombre" maxlength="50" required/>
                                             <span>*</span>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label class="control-label" for="correo">Correo electronico</label>
                                         <div class="controls">
-                                            <input class="input-xlarge" type="email" placeholder="Correo electronico" name="correo" id="correo" maxlength="50" required>
+                                            <input class="input-xlarge" type="email" placeholder="me@@example.com" name="correo" id="correo" maxlength="50" required>
                                             <span>*</span>
                                         </div>
                                     </div>
@@ -58,19 +58,34 @@
                                             <div class="meter">
                                             </div>
                                             Seguridad de la contraseña.
+                                            <div class="alert alert-error" id="alerta2" >
+                                        		<button type="button" class="close" data-dismiss="alert">×</button>
+                                       			 <small >
+                                            		<strong>Error!</strong>
+                                            		Las contraseñas ingresadas no coinciden.
+                                       			</small>
+                                    		</div>
+                                            <div class="alert alert-error" id="alerta">
+                                        		<button type="button" class="close" data-dismiss="alert">×</button>
+                                       			 <small>
+                                            		<strong>Error!</strong>
+                                            		La contraseña debe estar formada entre 6-20 carácteres.
+                                       			</small>
+                                    		</div>
+                                    		 
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label class="control-label" for="ciudad">Ciudad</label>
                                         <div class="controls">
-                                            <input class="input-xlarge" type="text" placeholder="Ciudad" name="ciudad" id="ciudad" maxlength="20" required/>
+                                            <input class="input-xlarge" type="text" placeholder="Ciudad" name="ciudad" id="ciudad" maxlength="50" required/>
                                             <span>*</span>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label class="control-label" for="telefono">Telefono</label>
                                         <div class="controls">
-                                            <input class="input-xlarge" type="text" placeholder="Telefono" name="telefono" id="telefono" maxlength="15" onkeypress="return soloNumeros(event)"/>
+                                            <input class="input-xlarge" type="text" placeholder="Telefono" name="telefono" id="telefono" maxlength="20" onkeypress="return soloNumeros(event)"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -79,13 +94,7 @@
                                             <textarea rows="3" class="input-xlarge" name="leyenda" id="leyenda" maxlength="150"></textarea>
                                         </div>
                                     </div>
-                                    <div class="alert alert-error" id="alerta">
-                                        <button type="button" class="close" data-dismiss="alert">×</button>
-                                        <small>
-                                            <strong>Error!</strong>
-                                            La contraseña debe estar formada entre 6-20 carácteres
-                                        </small>
-                                    </div>
+                                    
                                     @if(error != "") {
                                         <div class="alert alert-error" id="error">
                                             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -120,14 +129,21 @@
             var correo = $("input#correo").val().length;
             var ciudad = $("input#ciudad").val().length;
             var correo2 = $("input#correo").val();
-
+            
+            var pass1 = $("input#password").val().length;
+            var pass2 = $("input#password2").val().length;
             if (nombre != "" && correo != "" && pass != "" && ciudad != "" && validar_email($("#correo").val()) == true){
                 if(pass < 6) {
                     $("#alerta").show("fast");
                     $("#password").focus();
                     return false;
                 }
-                else{
+                if(pass1 >= 1 && pass2 >= 1) {
+                	$("#alerta2").show("fast");
+                    $("#password").focus();
+                    return false;
+                }
+           	    else{
                     $(this).button('loading');
                 }
             }
@@ -152,6 +168,10 @@
         $('.input-xlarge').keypress(function() {
             $('#error').hide();
         });
+        
+        $('#password2').keypress(function() {
+            $('#alerta2').hide();
+        });
 
        $(document).ready(function () {
 
@@ -171,16 +191,16 @@
                    errorBox.css('visibility', 'hidden');
            }
            //this function will be called when both passwords match
-           function matchPassword(isMatched) {
-               if (isMatched) {
-                   submitbutton.addClass('unlocked').removeClass('locked');
-                   submitbutton.removeAttr("disabled", "disabled");
-               }
-               else {
-                   submitbutton.attr("disabled", "disabled");
-                   submitbutton.addClass('locked').removeClass('unlocked');
-               }
-           }
+//            function matchPassword(isMatched) {
+//                if (isMatched) {
+//                    submitbutton.addClass('unlocked').removeClass('locked');
+//                    submitbutton.removeAttr("disabled", "disabled");
+//                }
+//                else {
+//                    submitbutton.attr("disabled", "disabled");
+//                    submitbutton.addClass('locked').removeClass('unlocked');
+//                }
+//            }
        });
        
        function soloNumeros(evt)
@@ -188,5 +208,6 @@
          var keyPressed = (evt.which) ? evt.which : event.keyCode
          return !(keyPressed > 31 && (keyPressed < 48 || keyPressed > 57));
        }
+       
     </script>
 }
