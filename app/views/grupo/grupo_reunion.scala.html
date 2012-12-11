@@ -11,17 +11,26 @@
         });
 
         function modalDocumentos() {
-            $('#document').modal('show');
+            $('#document').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
         function modalGrupos() {
-            $('#creaGrupo').modal('show');
+            $('#creaGrupo').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
         function modalConfirmar(arId, reunionId, grupoId, nombre) {
             document.getElementById('file').innerHTML = nombre;
             document.getElementById("id1").value = arId;
             document.getElementById("id2").value = reunionId;
             document.getElementById("id3").value = grupoId;
-            $('#modalConfirmar').modal('show');
+            $('#modalConfirmar').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
     </script>
 
