@@ -16,11 +16,17 @@
 
             // si hay un error al subir la imagen del grupo.
             @if(errorImagen != "") {
-                $('#creaGrupo').modal('show');
+                $('#creaGrupo').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
             }
 
             @if(error != "") {
-                $('#crearReunion').modal('show');
+                $('#crearReunion').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
             }
         });
 
@@ -28,7 +34,10 @@
             document.reunion.submit();
         }
         function modalGrupos() {
-            $('#creaGrupo').modal('show');
+            $('#creaGrupo').modal({
+                backdrop: 'static',
+                    keyboard: false
+            });
         }
     </script>
 
@@ -310,7 +319,10 @@
 
     <script type="text/javascript">
         function modal() {
-            $('#crearReunion').modal('show');
+            $('#crearReunion').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
 
         $(document).ready(function() {

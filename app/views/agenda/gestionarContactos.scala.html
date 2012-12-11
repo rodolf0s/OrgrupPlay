@@ -104,7 +104,10 @@
             document.getElementById('integrante').innerHTML = nombre;
             document.getElementById('usu1').value = usu1;
             document.getElementById('usu2').value = usu2;
-            $('#modalConfirmar').modal('show');
+            $('#modalConfirmar').modal({
+            	backdrop: 'static',
+                keyboard: false
+            });
         }
 	</script>
 }

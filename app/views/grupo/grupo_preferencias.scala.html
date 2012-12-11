@@ -11,20 +11,32 @@
             $("[rel=tooltip]").tooltip();
             // si hay un error al subir la imagen del grupo.
             @if(errorImagen != "") {
-                $('#creaGrupo').modal('show');
+                $('#creaGrupo').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
             }
         });
 
         function modalMiembros() {
-            $('#agregaIntegrantes').modal('show');
+            $('#agregaIntegrantes').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
         function modalGrupos() {
-            $('#creaGrupo').modal('show');
+            $('#creaGrupo').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
         function modalConfirmar(id, nombre) {
             document.getElementById('grupo').innerHTML = nombre;
             document.getElementById('id').value = id;
-            $('#modalConfirmar').modal('show');
+            $('#modalConfirmar').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
     </script>
 
