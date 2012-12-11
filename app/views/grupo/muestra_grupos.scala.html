@@ -149,17 +149,26 @@
         });
 
         function modal(){
-            $('#creaGrupo').modal('show');
+            $('#creaGrupo').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
 
         function modalConfirmar(id, nombre) {
             document.getElementById('grupo').innerHTML = nombre;
             document.getElementById('id').value = id;
-            $('#modalConfirmar').modal('show');
+            $('#modalConfirmar').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }z
 
         @if(errorImagen != "") {
-            $('#creaGrupo').modal('show');
+            $('#creaGrupo').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
     </script>
 }
