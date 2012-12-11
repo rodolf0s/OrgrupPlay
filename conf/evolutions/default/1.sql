@@ -11,7 +11,7 @@ create table administrador (
 
 create table archivo (
   id                        bigint not null,
-  nombre                    varchar(60) not null,
+  nombre                    varchar(300) not null,
   fecha                     timestamp not null,
   hora                      timestamp not null,
   usuario_correo            varchar(50),
@@ -114,9 +114,9 @@ create table tarea (
 
 create table usuario (
   correo                    varchar(50) not null,
-  nombre                    varchar(40) not null,
+  nombre                    varchar(50) not null,
   password                  varchar(50) not null,
-  ciudad                    varchar(20) not null,
+  ciudad                    varchar(50) not null,
   telefono                  integer,
   leyenda                   varchar(150),
   imagen                    varchar(150) not null,
