@@ -51,7 +51,7 @@
                     </li>
                     @if(usuario.telefono!=null){
                         <li>
-                            <p><strong>Telefono:</strong> @usuario.telefono</p>
+                            <p><strong>Tel&eacutefono:</strong> @usuario.telefono</p>
                         </li>
                     }
                 </ul>
@@ -209,7 +209,7 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Descripcion</label>
+                    <label class="control-label">Descripci&oacuten</label>
                     <div class="controls">
                         <textarea class="input-xlarge" rows="6" name="descripcion" maxlength="150" placeholder="Descripción del grupo" required></textarea>
                     </div>
@@ -240,7 +240,7 @@
         <form action="@routes.Grupos.eliminarArchivo()" id="confirma" method="post">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Eliminar Contacto</h3>
+                <h3>Eliminar Archivo</h3>
             </div>
             <div class="modal-body">
                 ¿Esta seguro de eliminar el archivo "<span id="file"></span>"?

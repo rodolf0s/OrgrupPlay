@@ -376,7 +376,7 @@
                 </li>
                 @if(usuario.telefono!=null){
                 <li>
-                    <p><strong>Telefono:</strong> @usuario.telefono</p>
+                    <p><strong>Tel&eacutefono:</strong> @usuario.telefono</p>
                 </li>
                 }
                 </ul>
@@ -472,7 +472,7 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Descripcion</label>
+                    <label class="control-label">Descripci&oacuten</label>
                     <div class="controls">
                         <textarea class="input-xlarge" rows="6" name="descripcion" maxlength="150" placeholder="Descripción del grupo" required></textarea>
                     </div>
@@ -522,7 +522,7 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Duracion Tarea</label>
+                    <label class="control-label">Duraci&oacuten Tarea</label>
                     <div class="controls">
                         <input class="input-small" type="hidden" id="fechaI1" maxlength="10" name="fecha_inicio" autocomplete="off" value="@if(errorHora(1) != null) { @errorHora(1) }">
                         <input class="input-small" type="text" id="horaI1" maxlength="8" name="hora_inicio" onChange="horaInicio1()" autocomplete="off" placeholder="Hora inicio" required>
@@ -617,7 +617,7 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Duracion Tarea</label>
+                    <label class="control-label">Duraci&oacuten Tarea</label>
                     <div class="controls">
                         <input class="input-small" type="hidden" name="fecha_inicio" maxlength="10" autocomplete="off" id="fechaI2" value='@if(tareaMostrar.fecha_inicio != null) {@tareaMostrar.fecha_inicio.format("dd/MM/yyyy")}else{@if(errorHora(1) != null){@errorHora(1)}}'>
                         <input class="input-small" type="text" name="hora_inicio" maxlength="8" autocomplete="off" onChange="horaInicio2()" id="horaI2" value='@if(tareaMostrar.hora_inicio != null) {@tareaMostrar.hora_inicio.format("HH:mm:ss")}' placeholder="Hora inicio">
