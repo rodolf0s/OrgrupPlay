@@ -519,7 +519,7 @@
                 <div class="control-group">
                     <label class="control-label">Nombre Tarea</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="text" id="name" name="nombre" autofocus="autofocus" placeholder="Nombre de la tarea" value="@if(errorHora(2) != null) { @errorHora(2) }" required>
+                        <input class="input-xlarge" type="text" id="name" name="nombre" autofocus="autofocus" placeholder="Nombre de la tarea" maxlength="25" value="@if(errorHora(2) != null) { @errorHora(2) }" required>
                     </div>
                 </div>
                 <div class="control-group">
@@ -553,7 +553,7 @@
                 <div class="control-group">
                     <label class="control-label">Descripción</label>
                     <div class="controls">
-                        <textarea class="input-xlarge" rows="4" name="descripcion" placeholder="Descripción de la tarea" maxlength="500">@if(errorHora(3) != null){@errorHora(3)}</textarea>
+                        <textarea class="input-xlarge" rows="4" name="descripcion" placeholder="Descripción de la tarea" maxlength="150">@if(errorHora(3) != null){@errorHora(3)}</textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -614,7 +614,7 @@
                 <div class="control-group">
                     <label class="control-label">Nombre Tarea</label>
                     <div class="controls">
-                        <input class="input-xlarge" type="text" name="nombre" value="@if(errorHora(2) != null) { @errorHora(2) } else {@tareaMostrar.nombre}" autofocus="autofocus" placeholder="Nombre de la tarea" required>
+                        <input class="input-xlarge" type="text" name="nombre" maxlength="25" value="@if(errorHora(2) != null) { @errorHora(2) } else {@tareaMostrar.nombre}" autofocus="autofocus" placeholder="Nombre de la tarea" required>
                     </div>
                 </div>
                 <div class="control-group">
@@ -630,7 +630,7 @@
                 <div class="control-group">
                     <label class="control-label">Descripción</label>
                     <div class="controls">
-                        <textarea class="input-xlarge" rows="4" name="descripcion" placeholder="Descripción de la tarea" maxlength="500">@if(errorHora(3) != null){@errorHora(3)}else{@tareaMostrar.descripcion}</textarea>
+                        <textarea class="input-xlarge" rows="4" name="descripcion" placeholder="Descripción de la tarea" maxlength="150">@if(errorHora(3) != null){@errorHora(3)}else{@tareaMostrar.descripcion}</textarea>
                     </div>
                 </div>
                 <div class="control-group">

@@ -14,9 +14,9 @@
             			<form class="well" action="@routes.Admin.comprobarLogin" method="post">  
             			         
                 			<label for="usuario">Usuario</label>
-                			<input type="text" class="span3" placeholder="Usuario" name="usuario" required><br>
+                			<input type="text" class="span3" placeholder="Usuario" maxlength="20" name="usuario" required><br>
                 			<label for="pass">Contraseña</label>
-                			<input type="password" class="span3" placeholder="Contraseña" name="password" required><br>
+                			<input type="password" class="span3" placeholder="Contraseña" maxlength="20" name="password" required><br>
                 			<span style="color: red;">@error</span><br>
                 			<button type="submit" class="btn">Entrar</button>
                 			

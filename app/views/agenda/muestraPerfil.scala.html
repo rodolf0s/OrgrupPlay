@@ -57,9 +57,9 @@
                         <label for="destinatario">Para</label>
                         <input type="text" name="destinatario" value="@user2.correo" id="destinatario" readonly="readonly">
                         <label for="asunto">Asunto</label>
-                        <input type="text" name="asunto" id="asunto" autofocus="autofocus" placeholder="Asunto" required>
+                        <input type="text" name="asunto" id="asunto" autofocus="autofocus" placeholder="Asunto" maxlength="50" required>
                         <label for="mensaje">Mensaje</label>
-                        <textarea rows="3" cols="20" name="mensaje" id="mensaje" placeholder="Mensaje" required></textarea>
+                        <textarea rows="3" cols="20" name="mensaje" id="mensaje" placeholder="Mensaje" maxlength="300" required></textarea>
                         <input type="hidden" name="remitente.correo" value="@user.correo">
                         <input type="hidden" name="leido" value="no">
                         <input type="hidden" name="estado" value="enviado">

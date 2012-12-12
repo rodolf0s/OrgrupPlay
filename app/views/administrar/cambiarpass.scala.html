@@ -20,11 +20,11 @@
                         <legend>Cambiar contraseña</legend>
                         <form id="form1" class="well" action="@routes.Admin.cambioPass" method="post">
                         	<label for="usuario">Contraseña actual</label>
-                        	<input type="password" class="span3" placeholder="Contraseña actual" name="old" id="old" maxlength="60" required/><br>
+                        	<input type="password" class="span3" placeholder="Contraseña actual" maxlength="20" name="old" id="old" maxlength="60" required/><br>
                             <label for="pass">Nueva contraseña</label>
-                			<input type="password" class="span3" placeholder="Nueva contraseña" name="password" id="password" maxlength="20" required><br>
+                			<input type="password" class="span3" placeholder="Nueva contraseña" maxlength="20" name="password" id="password" maxlength="20" required><br>
                 			<label for="pass2">Confirmar nueva contraseña</label>
-                			<input type="password" class="span3" placeholder="Confirmar nueva contraseña" name="pass2" maxlength="20" id="pass2" required>
+                			<input type="password" class="span3" placeholder="Confirmar nueva contraseña" maxlength="20" name="pass2" maxlength="20" id="pass2" required>
                    			<span style="color: red;">@error</span>
                             <button type="submit" id="fat-btn" class="btn" data-loading-text="Registrando..."> Guardar </button>
                         </form>
