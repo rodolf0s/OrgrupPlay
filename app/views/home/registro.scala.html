@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="password-container">
                                         <div class="control-group">
-                                            <label class="control-label" for="password">Contraseña</label>
+                                            <label class="control-label" for="password">Contraseña &nbsp; <font size="1">(Debe contener entre 6 y 20 caracteres)</font></label>
                                             <div class="controls">
                                                 <input class="input-xlarge strong-password" type="password" placeholder="Contraseña" name="password" id="password" maxlength="20" required>
                                                 <span>*</span>
@@ -170,6 +170,7 @@
                 return true;
             else
                 return false;
+            	$('#alert').show('fast');
         }
 
         $('#password').keypress(function() {
