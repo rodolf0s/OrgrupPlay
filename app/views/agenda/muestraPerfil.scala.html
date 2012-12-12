@@ -26,12 +26,12 @@
                         Ciudad: @user2.ciudad<br>
                         @if(user2.telefono != null) {
                             <abbr title="Telefono">
-                                Telefono: @user2.telefono<br>
+                                Tel&eacutefono: @user2.telefono<br>
                             </abbr>
                         }
                         @if(user2.leyenda != null) {
                         	<hr>
-                        	Sobre mi:
+                        	Sobre m&iacute:
                             <i><p>@user2.leyenda</p></i>
                         }
                     </address>
@@ -75,7 +75,10 @@
 
     <script type="text/javascript">
         function modal() {
-            $('#myModal').modal('show');
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
     </script>
 }

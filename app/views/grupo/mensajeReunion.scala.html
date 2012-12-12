@@ -2,29 +2,28 @@
 
 @app(title = "Orgrup", user){
 
-<div class="container" style="box-shadow: 2px 2px 5px 2px #1580CC; border:1px #242424 solid; border-radius: 4px; background-color: #1580CC ">
+
 	<div class="row">
 		<div class="span11" style="float:right;" >
-		<h3><font color="#FFFFFF"><i>ELIJA FECHA PARA LA REUNION</i></font></h3>
-				<div class="span9" style="float:left; background-color: #F2F2F2;  box-shadow: 1px 1px 2px 1px #ffffff" >
-
+		<div class="span9" style="float:left; box-shadow: 2px 2px 5px 2px #999;">
+					<h3><i>ELIJA FECHA PARA LA REUNI&OacuteN</i></h3>
 				<form name="form1" action="" method="post">
 					<table class="table table-hover">
 						<tr>
-							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el dia: @fecha1 <input type="radio" name="reunion" checked> </td>
+							<td>De las: @hora(0) hrs. hasta las: @fin(0) hrs. el d&iacutea: @fecha1 <input type="radio" name="reunion" checked> </td>
 							<input type="hidden" name="fechai1" value="@day(0).format("dd/MM/yyyy")">
 							<input type="hidden" name="hora_i1" value="@hours(0).format("HH:mm:ss")">
 							<input type="hidden" name="hora_f1" value="@termino(0).format("HH:mm:ss")">
 						</tr>
 						<tr>@if(puntaje(1) != null){
-							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el dia: @fecha2 <input type="radio" name="reunion"></td>
+							<td>De las: @hora(1) hrs. hasta las: @fin(1) hrs. el d&iacutea: @fecha2 <input type="radio" name="reunion"></td>
 							<input type="hidden" name="fechai2" value="@day(1).format("dd/MM/yyyy")">
 							<input type="hidden" name="hora_i2" value="@hours(1).format("HH:mm:ss")">
 							<input type="hidden" name="hora_f2" value="@termino(1).format("HH:mm:ss")">
 							}
 						</tr>
 						<tr>@if(puntaje(2) != null){
-							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el dia: @fecha3 <input type="radio" name="reunion"></td>
+							<td>De las: @hora(2) hrs. hasta las: @fin(2) hrs. el d&iacutea: @fecha3 <input type="radio" name="reunion"></td>
 						<input type="hidden" name="fechai3" value="@day(2).format("dd/MM/yyyy")">
 						<input type="hidden" name="hora_i3" value="@hours(2).format("HH:mm:ss")">
 						<input type="hidden" name="hora_f3" value="@termino(2).format("HH:mm:ss")">
@@ -35,12 +34,12 @@
 					<div>
 						<table>
 						<tr>
-							<td>Nombre para la reunion </td>
+							<td>Nombre para la reuni&oacuten </td>
 							<td> <input type="text" name="nombre" id="nombre" required></td>
 						</tr>
 
 						<tr>
-							<td>Descripcion</td>
+							<td>Descripci&oacuten</td>
 							<td><textarea class="input-xlarge" name="descripcion" id="descripcion"></textarea></td>
 						</tr>
 						</table>
@@ -57,12 +56,12 @@
 						
 					</div>
 					<br>
-					<button class="btn" onclick="almacenar()" >Guardar Reunion</button>
+					<button class="btn btn-primary" onclick="almacenar()" >Guardar Reuni&oacuten</button>
 				</form>
 				</div>
 		</div>
 	</div>
-	</div>
+
 
 	<script type="text/javascript">
 

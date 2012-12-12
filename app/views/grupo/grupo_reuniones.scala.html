@@ -67,7 +67,7 @@
                     </li>
                     @if(usuario.telefono!=null){
                         <li>
-                            <p><strong>Telefono:</strong> @usuario.telefono</p>
+                            <p><strong>Tel&eacutefono:</strong> @usuario.telefono</p>
                         </li>
                     }
                 </ul>
@@ -155,7 +155,7 @@
                     @grupo.getString("nombre") <small> Reuniones </small>
                     <input type="hidden" name="id" value='@grupo.getString("id")'>
                         @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
-                            <a  href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Generar reunion</a>
+                            <a  href="#" role="button" class="btn btn-success pull-right" data-toggle="modal" onClick="modal()"><i class="icon-plus"></i> Generar reuni&oacuten</a>
                         }
                 </h1>
             </div>
@@ -168,7 +168,7 @@
                                 <th>Fecha</th>
                                 <th>Hora inicio</th>
                                 <th>Hora fin</th>
-                                <th>Descripcion</th>
+                                <th>Descripci&oacuten</th>
                                 <th>Agregar a mi calendario</th>
                             </tr>
                         </thead>
@@ -223,7 +223,7 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Descripcion</label>
+                    <label class="control-label">Descripci&oacuten</label>
                     <div class="controls">
                         <textarea class="input-xlarge" rows="6" name="descripcion" maxlength="150" placeholder="Descripción del grupo" required></textarea>
                     </div>
@@ -254,11 +254,11 @@
         <form name="reunion2" action="@routes.Reuniones.generarReunion(usuario.correo)" class="form-horizontal" method="post">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Nueva reunion</h3>
+                <h3>Nueva reuni&oacuten</h3>
             </div>
             <div class="modal-body">
                 <div class="control-group">
-                    <label class="control-label">Inicia entre los dias</label>
+                    <label class="control-label">Inicia entre los d&iacuteas</label>
                     <div class="controls">
                         <input class="input-small" type="text" id="fechaI1" maxlength="8" name="fecha_inicio">
                         y
@@ -276,14 +276,14 @@
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label">Duracion (en horas)</label>
+                    <label class="control-label">Duraci&oacuten (en horas)</label>
                     <div class="controls">
                         <input class="input-small" type="text" name="duracion" id="duracion" maxlength="8" onkeypress="return soloNumeros(event)" >
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label">Asistencia minima</label>
+                    <label class="control-label">Asistencia m&iacutenima</label>
                     <div class="controls">
                         <input class="input-small" type="text" name="asistencia" id="asistencia" maxlength="8" onkeypress="return soloNumeros(event)">
                     </div><br>
@@ -291,7 +291,7 @@
                         <button type="button" class="close" data-dismiss="alert">×</button>
                         <small>
                             <strong>Info!</strong>
-                            En la asistencia minima considere al administrador.
+                            En la asistencia m&iacutenima considere al administrador.
                         </small>
                     </div>
                     @if(error != "") {
@@ -299,7 +299,7 @@
                         <button type="button" class="close" data-dismiss="alert">×</button>
                         <small>
                             <strong>Error!</strong>
-                            No se pudo generar la reunion, lo más probable es que no se cumpla el minimo de integrantes o no exista bloques disponibles en los filtros de hora asignado.
+                            No se pudo generar la reuni&oacuten, lo más probable es que no se cumpla el m&iacutenimo de integrantes o no existan bloques disponibles en los filtros de hora asignados.
                             Intente cambiar los datos para generar una reunion.
                         </small>
                     </div>
