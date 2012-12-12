@@ -35,12 +35,21 @@
 						<table>
 						<tr>
 							<td>Nombre para la reuni&oacuten </td>
-							<td> <input type="text" name="nombre" id="nombre" required></td>
+							<td> <input type="text" name="nombre" id="nombre"></td>
 						</tr>
 
 						<tr>
 							<td>Descripci&oacuten</td>
 							<td><textarea class="input-xlarge" name="descripcion" id="descripcion"></textarea></td>
+							
+							 <div class="alert alert-error" id="alerta">
+                             	<button type="button" class="close" data-dismiss="alert">×</button>
+                                	<small>
+                                    	<strong>Error!</strong>
+                                        Complete los campos.
+                                    </small>
+                             </div>
+                             
 						</tr>
 						</table>
 
@@ -56,7 +65,7 @@
 						
 					</div>
 					<br>
-					<button class="btn btn-primary" onclick="almacenar()" >Guardar Reuni&oacuten</button>
+					<button id="boton" class="btn btn-primary" onclick="almacenar()" >Guardar Reuni&oacuten</button>
 				</form>
 				</div>
 		</div>
@@ -83,10 +92,42 @@
 			document.forms.form1.hora_fin.value = document.forms.form1.hora_f3.value;
 		}
 
-		document.forms.form1.action = "@routes.Reuniones.guardaReunion()";
-		document.forms.form1.submit();
 	}
+	
+	$(document).ready(function() {
+		$('#alerta').hide();
+	});
+	
+	$(function(){
+	    $("#boton").click(function(){
+	    	nombre = $("input#nombre").val();
+			descripcion = $("textarea#descripcion").val();
+			
+			  if(nombre == "") {
+			  	$('#alerta').show('fast');
+			  	return false;
+			  }
+			  else if(descripcion == ""){
+				$('#alerta').show('fast');
+				return false;
+			  }
+			  else{
+		  	  	document.forms.form1.action = "@routes.Reuniones.guardaReunion()";
+		 	  	document.forms.form1.submit();
+		 	  	return true;
+			  }
+	    });
+	});
+		
+	$('#nombre').keypress(function() {
+        $('#alerta').hide();
+    });
+	
+	$('#descripcion').keypress(function() {
+        $('#alerta').hide();
+    });
 
+	
 	</script>
 
 }
