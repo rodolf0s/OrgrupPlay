@@ -23,12 +23,29 @@
                                 <h3>Registro</h3>
                             </div>
                             <hr>
+                            @if(error != "") {
+                            	<div class="alert alert-error" id="error">
+                                	<button type="button" class="close" data-dismiss="alert">×</button>
+                                    <small>
+                                    	<strong>Error!</strong>
+                                        @error
+                                    </small>
+                                </div>
+                            }
+                            <div class="alert alert-error" id="alert">
+                            	<button type="button" class="close" data-dismiss="alert">×</button>
+                                	<small>
+                                    	<strong>Error!</strong>
+                                        Las contraseñas no coinciden.
+                                     </small>
+                            </div>
+                            
                             <div class='section-body'>
                                 <form class="form" name="registro" action="@routes.Application.comprobarRegistro" method="post">
                                     <div class="control-group">
                                         <label class="control-label" for="nombre">Nombre completo</label>
                                         <div class="controls">
-                                            <input class="input-xlarge" type="text" placeholder="Nombre y Apellido" name="nombre" id="nombre" maxlength="50" required/>
+                                            <input class="input-xlarge" type="text" placeholder="Nombre y Apellido" name="nombre" id="nombre" maxlength="50" onkeypress="return soloLetras(event)" required/>
                                             <span>*</span>
                                         </div>
                                     </div>
@@ -58,21 +75,16 @@
                                             <div class="meter">
                                             </div>
                                             Seguridad de la contraseña.
-                                            <div class="alert alert-error" id="alerta2" >
-                                        		<button type="button" class="close" data-dismiss="alert">×</button>
-                                       			 <small >
-                                            		<strong>Error!</strong>
-                                            		Las contraseñas ingresadas no coinciden.
-                                       			</small>
-                                    		</div>
+                                           
                                             <div class="alert alert-error" id="alerta">
                                         		<button type="button" class="close" data-dismiss="alert">×</button>
                                        			 <small>
                                             		<strong>Error!</strong>
-                                            		La contraseña debe estar formada entre 6-20 carácteres.
+                                            		La contraseña debe estar formada entre 6-20 carácteres y deben coincidir.
                                        			</small>
                                     		</div>
-                                    		 
+                                    		
+                                    		                                     		 
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -95,15 +107,7 @@
                                         </div>
                                     </div>
                                     
-                                    @if(error != "") {
-                                        <div class="alert alert-error" id="error">
-                                            <button type="button" class="close" data-dismiss="alert">×</button>
-                                            <small>
-                                                <strong>Error!</strong>
-                                                @error
-                                            </small>
-                                        </div>
-                                    }
+                                    
                                     <div class='form-actions'>
                                         <button type="submit" id="fat-btn" class="btn btn-primary btn-large submit-button locked" data-loading-text="Registrando..."> Crear cuenta </button>
                                         <p>
@@ -125,25 +129,32 @@
 
         $('#fat-btn').on('click', function() {
             var pass = $("input#password").val().length;
+            var pass2 = $("input#password2").val().length;
             var nombre = $("input#nombre").val().length;
             var correo = $("input#correo").val().length;
             var ciudad = $("input#ciudad").val().length;
             var correo2 = $("input#correo").val();
             
-            var pass1 = $("input#password").val().length;
-            var pass2 = $("input#password2").val().length;
-            if (nombre != "" && correo != "" && pass != "" && ciudad != "" && validar_email($("#correo").val()) == true){
-                if(pass < 6) {
+            passLetra1 = $("input#password").val();
+            passLetra2 = $("input#password2").val();
+            
+            alert(passLetra1);
+            alert(passLetra2);
+            if(passLetra1 == null && passLetra2 == null){
+            	$('#alert').hide();
+            }       
+            if (nombre > 1 && correo > 1 && pass > 1 && pass2 > 1 && ciudad > 1 && validar_email($("#correo").val()) == true){
+                if(pass < 6 || pass2 < 6) {
                     $("#alerta").show("fast");
                     $("#password").focus();
                     return false;
                 }
-                if(pass1 >= 1 && pass2 >= 1) {
-                	$("#alerta2").show("fast");
+                if($("input#password").val() != $("input#password2").val() && pass > 1 && pass2 > 1) {
+                	$("#alert").show("fast");
                     $("#password").focus();
                     return false;
                 }
-           	    else{
+                else{
                     $(this).button('loading');
                 }
             }
@@ -170,7 +181,7 @@
         });
         
         $('#password2').keypress(function() {
-            $('#alerta2').hide();
+            $('#alert').hide();
         });
 
        $(document).ready(function () {
@@ -181,7 +192,7 @@
            var submitbutton = $('.submit-button');
            var errorBox = $('.error');
            errorBox.css('visibility', 'hidden');
-           submitbutton.attr("disabled", "disabled");
+//            submitbutton.attr("disabled", "disabled");
 
            //this function will handle onPasswordValidate callback, which mererly checks the password against minimum length
            function validatePassword(isValid) {
@@ -191,16 +202,16 @@
                    errorBox.css('visibility', 'hidden');
            }
            //this function will be called when both passwords match
-//            function matchPassword(isMatched) {
-//                if (isMatched) {
-//                    submitbutton.addClass('unlocked').removeClass('locked');
-//                    submitbutton.removeAttr("disabled", "disabled");
-//                }
-//                else {
+           function matchPassword(isMatched) {
+               if (isMatched) {
+                   submitbutton.addClass('unlocked').removeClass('locked');
+                   submitbutton.removeAttr("disabled", "disabled");
+               }
+               else {
 //                    submitbutton.attr("disabled", "disabled");
-//                    submitbutton.addClass('locked').removeClass('unlocked');
-//                }
-//            }
+//                    submitbutton.addClass('locked').removeClass('unlocked');               
+               }
+           }
        });
        
        function soloNumeros(evt)
@@ -208,6 +219,15 @@
          var keyPressed = (evt.which) ? evt.which : event.keyCode
          return !(keyPressed > 31 && (keyPressed < 48 || keyPressed > 57));
        }
+
+        function soloLetras(e) 
+        {
+            tecla = (document.all) ? e.keyCode : e.which;
+            if (tecla==8) return true;
+            patron =/[A-Za-zñÑ\s]/;
+            te = String.fromCharCode(tecla);
+            return patron.test(te); 
+        } 
        
     </script>
 }
