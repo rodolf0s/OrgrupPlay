@@ -73,7 +73,10 @@
 
     <script type="text/javascript">
         function modal() {
-            $('#myModal').modal('show');
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
     </script>
 }

@@ -41,7 +41,10 @@
             document.getElementById('correo').value = correo;
             document.getElementById('idGrupo').value = idGrupo;
             document.getElementById('id').value = id;
-            $('#modalConfirmar').modal('show');
+            $('#modalConfirmar').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
 
         window.onload = function() {
