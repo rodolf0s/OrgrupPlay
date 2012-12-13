@@ -126,6 +126,10 @@
 
     <script type="text/javascript">
         $('#alerta').hide();
+        
+        $(document).ready(function() {
+    		$('#alert').hide();
+    	});
 
         $('#fat-btn').on('click', function() {
             var pass = $("input#password").val().length;
@@ -138,9 +142,8 @@
             passLetra1 = $("input#password").val();
             passLetra2 = $("input#password2").val();
             
-            alert(passLetra1);
-            alert(passLetra2);
-            if(passLetra1 == null && passLetra2 == null){
+            
+            if(passLetra1 == "" && passLetra2 == ""){
             	$('#alert').hide();
             }       
             if (nombre > 1 && correo > 1 && pass > 1 && pass2 > 1 && ciudad > 1 && validar_email($("#correo").val()) == true){
