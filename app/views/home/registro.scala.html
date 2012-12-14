@@ -156,14 +156,14 @@
             if(passLetra1 == "" && passLetra2 == ""){
             	$('#alert').hide();
             }       
-            if (nombre > 1 && correo > 1 && pass > 1 && pass2 > 1 && ciudad > 1){
+            if (nombre >= 1 && correo >= 1 && pass >= 1 && pass2 >= 1 && ciudad >= 1){
                 if(pass < 6 || pass2 < 6) {
                     $("#alerta").show("fast");
                     $("#password").focus();
                     a = 1;
                     return false;
                 }
-                else if( pass > 1 && pass2 > 1 && $("input#password").val() != $("input#password2").val()) {
+                else if(pass >= 1 && pass2 >= 1 && $("input#password").val() != $("input#password2").val()) {
                 	$("#alerta2").show("fast");
                     $("#password").focus();
                     b = 1;
@@ -203,6 +203,10 @@
 		}
         
         $('#password').keypress(function() {
+            $('#alerta').hide();
+        });
+        
+        $('#password2').keypress(function() {
             $('#alerta').hide();
         });
 
