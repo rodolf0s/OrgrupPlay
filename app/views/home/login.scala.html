@@ -23,7 +23,7 @@
                                 <div class="control-group">
                                     <label class="control-label" for="correo">Correo electr&oacutenico</label>
                                     <div class="controls">
-                                        <input class="input-xlarge" type="email" placeholder="Correo electronico" id="correo" name="correo" autofocus="autofocus" maxlength="50" required>
+                                        <input class="input-xlarge" type="email" placeholder="Correo electronico" id="correo" name="correo" autofocus="autofocus" maxlength="50" onkeypress="return validar(event)" required>
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -76,5 +76,13 @@
         $('.input-xlarge').keypress(function() {
             $('#alerta').hide();
         });
+        
+        function validar(e) { 
+            tecla = (document.all) ? e.keyCode : e.which; 
+            if (tecla==8) return true; 
+            patron = /[A-Za-zñÑ0-9\s]/;; 
+            te = String.fromCharCode(tecla); 
+            return patron.test(te); 
+        } 
     </script>
 }
