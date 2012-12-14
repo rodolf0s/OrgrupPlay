@@ -49,7 +49,7 @@ public class Reuniones extends Controller {
 		Integer asistenciaMinima = 0;
 		Date revizar = null;
 		Date buscar = null;
-		
+
  		Form<Reunion> formReunion = form(Reunion.class).bindFromRequest();
 
 		if(formReunion.hasErrors()){
@@ -82,8 +82,8 @@ public class Reuniones extends Controller {
 			revizarCalendar.setTime(horaInicio);
 			revizarCalendar.set(revizarCalendar.HOUR_OF_DAY, 00);
 			revizar = revizarCalendar.getTime();
-			
-			
+
+
 			//aumentamos en 1 la fecha de fin para la busqueda porque before no cuenta el igual
 			fechaFinCalendar.add(fechaFinCalendar.DAY_OF_MONTH, +1);
 
@@ -243,54 +243,54 @@ public class Reuniones extends Controller {
 
 						//Buscar miembros que pueden asistir (cuando es el primer bloque extrae los correos de los asistentes)
 						for(int y = 0 ; y < miembros; y++){
-							
+
 							//reiniciar hora de busqueda
 							buscarCalendar.setTime(buscar);
 							usuarioCalendar.setTime(horas[z]);
 							usuarioCalendar.add(usuarioCalendar.HOUR, +1);
-							
+
 							//Busca todas las tareas hasta el bloque seleccionado
 							while(buscarCalendar.before(usuarioCalendar)){
-								
+
 								//toma la hora actual
 								buscar1 = buscarCalendar.getTime();
-								
+
 								//Valor de la tarea (auxiliar)
 								valor1 = Tarea.valorTarea(fechaComparar, buscar1, listaMiembros.get(y).usuario.correo);
-								
+
 								// Si la fecha actual es la misma que la del bloque que se esta revizando
 								if(buscar1.equals(horas[z])){
-																	
+
 									//Se queda con la tarea de mayor prioridad
 									if(valor < valor1){
-										
+
 										valor = valor1;
-										
+
 									}
-									
+
 								}else{
-									
+
 									//Si es un 0 significa que no hay tarea por ende no hay fecha de termino
 									if(valor1 != 0){
-										
+
 										Date termino = Tarea.buscaHoraTermino(fechaComparar, buscar1, listaMiembros.get(y).usuario.correo);
-										
+
 										//Si el termino de la tarea es despues del bloque se considera la tarea
 										if(termino.after(horas[z])){
-											
+
 											//Se queda con la tarea de mayor prioridad
 											if(valor < valor1){
-												
+
 												valor = valor1;
 											}
 										}
 									}
 								}
-								
-								
+
+
 								buscarCalendar.add(buscarCalendar.HOUR, +1);
 							}
-							
+
 							//Guardar los asistentes a la reunion
 							if((valor == 0) || (valor == 1) || (valor == 2)){
 
@@ -299,9 +299,9 @@ public class Reuniones extends Controller {
 
 								//Sumatoria de los puntaje de las tareas
 								sumatoriaValoresBloque = sumatoriaValoresBloque + valor;
-								
+
 							}
-							
+
 							//reiniciar valor
 							valor = 0;
 						}
@@ -360,54 +360,54 @@ public class Reuniones extends Controller {
 
 						//Comparar la asistencia de los bloques con el primero de la reunion
 						for(int y = 0 ; y < miembros; y++){
-							
+
 							//reiniciar hora de busqueda
 							buscarCalendar.setTime(buscar);
 							usuarioCalendar.setTime(horas[z]);
 							usuarioCalendar.add(usuarioCalendar.HOUR, +1);
-							
+
 							//Busca todas las tareas hasta el bloque seleccionado
 							while(buscarCalendar.before(usuarioCalendar)){
-								
+
 								//toma la hora actual
 								buscar1 = buscarCalendar.getTime();
-								
+
 								//Valor de la tarea (auxiliar)
 								valor1 = Tarea.valorTarea(fechaComparar, buscar1, listaMiembros.get(y).usuario.correo);
-								
+
 								// Si la fecha actual es la misma que la del bloque que se esta revizando
 								if(buscar1.equals(horas[z])){
-																	
+
 									//Se queda con la tarea de mayor prioridad
 									if(valor < valor1){
-										
+
 										valor = valor1;
-										
+
 									}
-									
+
 								}else{
-									
+
 									//Si es un 0 significa que no hay tarea por ende no hay fecha de termino
 									if(valor1 != 0){
-										
+
 										Date termino = Tarea.buscaHoraTermino(fechaComparar, buscar1, listaMiembros.get(y).usuario.correo);
-										
+
 										//Si el termino de la tarea es despues del bloque se considera la tarea
 										if(termino.after(horas[z])){
-											
+
 											//Se queda con la tarea de mayor prioridad
 											if(valor < valor1){
-												
+
 												valor = valor1;
 											}
 										}
 									}
 								}
-								
-								
+
+
 								buscarCalendar.add(buscarCalendar.HOUR, +1);
 							}
-						
+
 							//Guardar los asistentes a la reunion
 								if((valor == 0) || (valor == 1) || (valor == 2)){
 
@@ -416,7 +416,7 @@ public class Reuniones extends Controller {
 									//Sumatoria de los puntaje de las tareas
 									sumatoriaValoresBloque = sumatoriaValoresBloque + valor;
 								}
-								
+
 								//reiniciar valor
 								valor = 0;
 						}
@@ -656,6 +656,10 @@ public class Reuniones extends Controller {
 			return ok(mensajeReunion.render(session("email"), puntajeReunion, hora, fin, fecha1, fecha2, fecha3, grupo, duracion, diasUso, horasUso, asistenciaMinima, finalReunion));
 
 		}else{
+			Tarea tarea = new Tarea();
+			tarea.nombre = "";
+			String [] reunion = new String[6];
+
 			return ok(views.html.grupo.grupo_reuniones.render(
 						Usuario.find.byId(session("email")),
 						Grupo.getGrupo(session("email"), grupo),
@@ -665,7 +669,9 @@ public class Reuniones extends Controller {
 						Reunion.find.where().eq("grupo_id", grupo).findList(),
 						"",
 						Integrante.contarMiembros(grupo),
-						grupo.toString()
+						grupo.toString(),
+						tarea,
+						reunion
 						));
 		}
 	 }

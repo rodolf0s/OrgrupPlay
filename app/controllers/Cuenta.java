@@ -131,8 +131,7 @@ public class Cuenta extends Controller {
 			Form<Usuario> formPerfil = form(Usuario.class).bindFromRequest();
 
 			if (formPerfil.hasErrors()) {
-				// return badRequest();
-				return ok("error");
+				return badRequest();
 			} else {
 				Usuario user = formPerfil.get();
 
