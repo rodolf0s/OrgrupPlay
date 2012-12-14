@@ -81,6 +81,10 @@ public class Grupos extends Controller {
 		if (!verificaSession()) {
 			return redirect(routes.Application.index());
 		} else {
+			Tarea tarea = new Tarea();
+			tarea.nombre = "";
+			String [] reunion = new String[6];
+
 			// verifica que el usuario pertenesca al grupo. haciendo un INNER JOIN grupo con integrante
 			// si no pertenece al grupo lo redirecciona al home "/App"
 			if (Grupo.getGrupo(session("email"), id) != null) {
@@ -93,7 +97,9 @@ public class Grupos extends Controller {
 						Reunion.find.where().eq("grupo_id", id).findList(),
 						"",
 						Integrante.contarMiembros(id),
-						""
+						"",
+						tarea,
+						reunion
 						));
 			} else {
 				return redirect(routes.Home.index());
@@ -214,6 +220,10 @@ public class Grupos extends Controller {
 				String extension = "";
 				String [] error = new String[7];
 
+				Tarea tarea = new Tarea();
+				tarea.nombre = "";
+				String [] reunion = new String[6];
+
 				Grupo nuevoGrupo = new Grupo();
 
 				// Obtiene la imagen de la vista perfil.
@@ -291,7 +301,9 @@ public class Grupos extends Controller {
 									Reunion.find.where().eq("grupo_id", id).findList(),
 									"La imagen supera el limite",
 									Integrante.contarMiembros(id),
-									""
+									"",
+									tarea,
+									reunion
 									));
 					} else {
 						// Revisa que extension tiene la imagen subida por
@@ -366,7 +378,9 @@ public class Grupos extends Controller {
 										Reunion.find.where().eq("grupo_id", id).findList(),
 										"Debe seleccionar una imagen",
 										Integrante.contarMiembros(id),
-										""
+										"",
+										tarea,
+										reunion
 										));
 
 					    nuevoGrupo.nombre = creaGrupo.get().nombre;
@@ -741,6 +755,7 @@ public class Grupos extends Controller {
 		String horaInicio, String horaFin, String fechaInicio, Long id) throws ParseException {
 		DateFormat formatter;
 		Date hora_inicio, hora_fin, fecha_inicio;
+		String [] reunion = new String[6];
 
 		// Transforma las fechas y horas a Date
 		formatter = new SimpleDateFormat("HH:mm:ss");
@@ -750,10 +765,44 @@ public class Grupos extends Controller {
     	formatter = new SimpleDateFormat("dd/MM/yyyy");
     	fecha_inicio = formatter.parse(fechaInicio);
 
-    	// crea un usuario y guarda la reunion como tarea.
+    	// crea un usuario.
 		Usuario usuario = Usuario.find.byId(session("email"));
-		Tarea.setTarea(nombre, descripcion, prioridad, usuario, hora_inicio, hora_fin, fecha_inicio, fecha_inicio);
-		return redirect(routes.Grupos.muestraReuniones(id));
+
+		Tarea buscaTarea = Ebean.find(Tarea.class)
+                 .where()
+                 .eq("fecha_inicio", fecha_inicio)
+                 .eq("hora_inicio", hora_inicio)
+                 .eq("usuario_correo", usuario.correo)
+                 .findUnique();
+        try {
+	    	// Si hay una tarea en la misma hora que la reunion retorna
+	    	if (!buscaTarea.nombre.isEmpty()) {
+	    		reunion[0] = nombre;
+	    		reunion[1] = descripcion;
+	    		reunion[2] = prioridad.toString();
+	    		reunion[3] = horaInicio;
+	    		reunion[4] = horaFin;
+	    		reunion[5] = fechaInicio;
+
+	    		return ok(views.html.grupo.grupo_reuniones.render(
+					Usuario.find.byId(session("email")),
+					Grupo.getGrupo(session("email"), id),
+					Grupo.getGrupos(session("email")),
+					Integrante.find.where().eq("grupo_id", id).eq("estado", "activo").findList(),
+					Contacto.listaAmigos(session("email")),
+					Reunion.find.where().eq("grupo_id", id).findList(),
+					"",
+					Integrante.contarMiembros(id),
+					"",
+					buscaTarea,
+					reunion
+					));
+	    	}
+        } catch(Exception e) {
+        	Tarea.setTarea(nombre, descripcion, prioridad, usuario, hora_inicio, hora_fin, fecha_inicio, fecha_inicio);
+			return redirect(routes.Grupos.muestraReuniones(id));
+        }
+        return ok("2");
 	}
 
 	/**
@@ -786,6 +835,35 @@ public class Grupos extends Controller {
                  .findUnique();
         tarea.delete();
         return redirect(routes.Grupos.muestraReuniones(id));
+	}
+
+	/**
+	* Elimina una tarea para agregar la reunion en su lugar
+	*/
+	public static Result eliminaTareaAgregaReunion(String nombre, String descripcion, Integer prioridad,
+		String horaInicio, String horaFin, String fechaInicio, Long id, Long idTarea) throws ParseException {
+		DateFormat formatter;
+		Date hora_inicio, hora_fin, fecha_inicio;
+
+		// Busca la tarea a eliminar
+		Tarea tareaEliminar = Tarea.find.byId(idTarea);
+		tareaEliminar.delete();
+
+		// Transforma las fechas y horas a Date
+		formatter = new SimpleDateFormat("HH:mm:ss");
+  		hora_inicio = (Date)formatter.parse(horaInicio);
+  		formatter = new SimpleDateFormat("HH:mm:ss");
+  		hora_fin = (Date)formatter.parse(horaFin);
+    	formatter = new SimpleDateFormat("dd/MM/yyyy");
+    	fecha_inicio = formatter.parse(fechaInicio);
+
+    	// crea un usuario.
+		Usuario usuario = Usuario.find.byId(session("email"));
+
+		// Agrega la reunion como tarea
+		Tarea.setTarea(nombre, descripcion, prioridad, usuario, hora_inicio, hora_fin, fecha_inicio, fecha_inicio);
+		return redirect(routes.Grupos.muestraReuniones(id));
+		//return ok("Nombre: " + nombre + "- descripcion: " + "- prioridad: " + prioridad.toString() + "- hora_inicio: " + horaInicio + "- hora_fin: " + horaFin + "- fecha: " + fechaInicio);
 	}
 
 
