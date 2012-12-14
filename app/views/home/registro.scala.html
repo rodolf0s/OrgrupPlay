@@ -32,22 +32,7 @@
                                     </small>
                                 </div>
                             }
-                            <div class="alert alert-error" id="alerta2">
-                            	<button type="button" class="close" data-dismiss="alert">×</button>
-                                	<small>
-                                    	<strong>Error!</strong>
-                                        Las contraseñas no coinciden.
-                                     </small>
-                            </div>
-                            
-                            <div class="alert alert-error" id="alerta3">
-                            	<button type="button" class="close" data-dismiss="alert">×</button>
-                                	<small>
-                                    	<strong>Error!</strong>
-                                        Ingrese una direccion de correo valida.
-                                     </small>
-                            </div>
-                            
+           
                             <div class='section-body'>
                                 <form class="form" name="registro" action="@routes.Application.comprobarRegistro" method="post">
                                     <div class="control-group">
@@ -63,6 +48,14 @@
                                             <input class="input-xlarge" type="email" placeholder="me@@example.com" name="correo" id="correo" maxlength="50" required>
                                             <span>*</span>
                                         </div>
+                                        
+                                        <div class="alert alert-error" id="alerta3">
+                                			<small>
+                                    			<strong>Error!</strong>
+                                       	 		Ingrese una direcci&oacute;n de correo valida.
+                                     		</small>
+                            			</div>
+                            			
                                     </div>
                                     <div class="password-container">
                                         <div class="control-group">
@@ -78,24 +71,31 @@
                                                 <input class="input-xlarge strong-password" type="password" placeholder="Confirmar contraseña" id="password2" maxlength="20" required>
                                                 <span>*</span>
                                             </div>
+                                            
                                         </div>
                                         <div class="strength-indicator">
                                             <div class="meter">
                                             </div>
                                             Seguridad de la contraseña.
-                                           
-                                            <div class="alert alert-error" id="alerta">
-                                        		<button type="button" class="close" data-dismiss="alert">×</button>
-                                       			 <small>
-                                            		<strong>Error!</strong>
-                                            		La contraseña debe estar formada entre 6-20 carácteres.
-                                       			</small>
-                                    		</div>
-                                    		
                                     		                                     		 
                                         </div>
                                     </div>
                                     <div class="control-group">
+                                    
+                                    <div class="alert alert-error" id="alerta2">
+                                			<small>
+                                    			<strong>Error!</strong>
+                                        		Las contraseñas no coinciden.
+                                        	</small>
+                           			</div>
+                           			
+                           			<div class="alert alert-error" id="alerta">
+                                        	<small>
+                                            	<strong>Error!</strong>
+                                            	La contraseña debe contener entre 6-20 caracteres.
+                                       		</small>
+                                    </div>
+                                    
                                         <label class="control-label" for="ciudad">Ciudad</label>
                                         <div class="controls">
                                             <input class="input-xlarge" type="text" placeholder="Ciudad" name="ciudad" id="ciudad" maxlength="50" onkeypress="return soloLetras(event)" required/>
@@ -147,11 +147,13 @@
             var correo = $("input#correo").val().length;
             var ciudad = $("input#ciudad").val().length;
             var correo2 = $("input#correo").val();
+            
+            var passLetra1 = $("input#password").val();
+            var passLetra2 = $("input#password2").val();
+            var correoLetras = $("input#correo").val();
+            var correoLetra = correoLetras.substring(0,1);
             var a = 0;
             var b = 0;
-            passLetra1 = $("input#password").val();
-            passLetra2 = $("input#password2").val();
-            
             
             if(passLetra1 == "" && passLetra2 == ""){
             	$('#alert').hide();
@@ -192,7 +194,7 @@
             var ciudad = $("input#ciudad").val().length;
             
         	if(nombre > 1 && correo > 1 && pass > 1 && pass2 > 1 && ciudad > 1) {
-  				if(/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,4})+$/ .test(valor)){
+  				if(/^\D+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(valor)){
   					return true;
   				}else {
 					$("#alerta3").show("fast");
@@ -214,8 +216,12 @@
             $('#error').hide();
         });
         
+        $('#password').keypress(function() {
+            $('#alerta2').hide();
+        });
+        
         $('#password2').keypress(function() {
-            $('#alert2').hide();
+            $('#alerta2').hide();
         });
         
         $('#correo').keypress(function() {
