@@ -546,7 +546,7 @@ public class Grupos extends Controller {
 					    // crea el nombre de la imagen + la extension.
 					    fileName = editaGrupo.get().id.toString() + extension;
 
-					    String path = "./public/grupos/" + fileName;
+					    String path = "./public/grupos/" + editaGrupo.get().id.toString() + "/" + fileName;
 					    org.apache.commons.io.FileUtils.copyFile(file, new File(path));
 
 					    grupo.nombre = editaGrupo.get().nombre;
