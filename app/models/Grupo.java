@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -69,9 +70,10 @@ public class Grupo extends Model {
     }
 
     public static Page<Grupo> pageGrupos(int page) {
-        return find
-                .where()
-                .findPagingList(10)
-                .getPage(page);
+    		return find
+    				.where()
+                    .findPagingList(10)
+                    .getPage(page);
     }
+    
 }
