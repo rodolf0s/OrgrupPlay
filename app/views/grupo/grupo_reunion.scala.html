@@ -170,7 +170,8 @@
                                 <tr>
                                     <td>@ar.nombre</td>
                                     <td>@ar.fecha.format("dd/MM/yyyy") @ar.hora.format("HH:mm")</td>
-                                    <td>@Usuario.getNombre(ar.usuario.correo)</td>
+                                    <td><a href="@routes.Contactos.muestraElPerfil(ar.usuario.correo)" rel="tooltip" title="Ver perfil">
+                                        @Usuario.getNombre(ar.usuario.correo)</td>
                                     <td><a class="btn btn-primary" href='@routes.Grupos.descargarArchivo(ar.id, grupo.getString("id").toLong)'>descargar</a></td>
                                     @if(Integrante.esAdmin(grupo.getString("id").toLong, usuario.correo)) {
                                     <td><button class="btn btn-danger" onClick='modalConfirmar(@ar.id, @reunion.id, @grupo.getString("id").toLong, "@ar.nombre")'>eliminar</button></td>
