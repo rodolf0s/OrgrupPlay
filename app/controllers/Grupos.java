@@ -193,7 +193,7 @@ public class Grupos extends Controller {
 			return redirect(routes.Application.index());
 		} else {
 			return ok(muestra_grupos.render(Usuario.find.byId(session("email")),
-						Grupo.pageGrupos(page),
+						Grupo.getGrupos(session("email")),
 						""
 					)
 				);
@@ -252,7 +252,7 @@ public class Grupos extends Controller {
 				    	else if (pag == 2)
 				    		return badRequest(muestra_grupos.render(
 									Usuario.find.byId(session("email")),
-									Grupo.pageGrupos(0),
+									Grupo.getGrupos(session("email")),
 									"La imagen supera el limite"
 									));
 				    	else if (pag == 3)
@@ -329,7 +329,7 @@ public class Grupos extends Controller {
 					    	else if (pag == 2)
 					    		return badRequest(muestra_grupos.render(
 										Usuario.find.byId(session("email")),
-										Grupo.pageGrupos(0),
+										Grupo.getGrupos(session("email")),
 										"Debe seleccionar una imagen"
 										));
 					    	else if (pag == 3)

@@ -1,4 +1,4 @@
-@(user: Usuario, grupos: Page[Grupo], errorImagen: String)
+@(user: Usuario, grupos: List[SqlRow], errorImagen: String)
 
 @****************************************
 * Ayuda a generar los link de navegacion*
@@ -32,52 +32,24 @@
                     </h3>
                     <div class="row">
                         <table class="table-hover span8">
-                            @if(grupos.getTotalRowCount > 0) {
-                                @for(g <- grupos.getList) {
-                                    @if(Integrante.esIntegrante(user.correo, g.id) == false) {
-                                        <tr>
-                                            <td>
-                                                <a href='@routes.Grupos.index(g.id)' rel="tooltip" title='@g.descripcion'>
-                                                    <img class="img-rounded" style="width: 35px; height: 35px;" src='/assets/grupos/@g.id/@g.imagen' alt="imagen grupo">
-                                                    @g.nombre
-                                                </a>
-                                            </td>
-                                            <td>
-                                                @if(Integrante.esAdmin(g.id, user.correo)==false){
-                                                    <a class="btn btn-danger pull-right" href="#" data-toggle="modal" onClick="modalConfirmar('@g.id', '@g.nombre')">Dejar Grupo</a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
+                            @for(g <- grupos) {
+                                @if(Integrante.esIntegrante(user.correo, g.getString("id").toLong) == false) {
+                                    <tr>
+                                        <td>
+                                            <a href='@routes.Grupos.index(g.getString("id").toLong)' rel="tooltip" title='@g.getString("descripcion")'>
+                                                <img class="img-rounded" style="width: 35px; height: 35px;" src='/assets/grupos/@g.getString("id")/@g.getString("imagen")' alt="imagen grupo">
+                                                    @g.getString("nombre")
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @if(Integrante.esAdmin(g.getString("id").toLong, user.correo)==false){
+                                                <a class="btn btn-danger pull-right" href="#" data-toggle="modal" onClick="modalConfirmar('@g.getString("id")', '@g.getString("nombre")')">Dejar Grupo</a>
+                                            }
+                                        </td>
+                                    </tr>
                                 }
                             }
                         </table>
-                    </div>
-
-                    <div id="pagination" class="pagination pull-right">
-                        <ul>
-                            @if(grupos.hasPrev) {
-                                <li class="prev">
-                                    <a href="@link(grupos.getPageIndex - 1)">&larr; Anterior</a>
-                                </li>
-                            } else {
-                                <li class="prev disabled">
-                                    <a>&larr; Anterior</a>
-                                </li>
-                            }
-                            <li class="current">
-                                <a>Mostrando @grupos.getDisplayXtoYofZ(" hasta "," de ")</a>
-                            </li>
-                            @if(grupos.hasNext) {
-                                <li class="next">
-                                    <a href="@link(grupos.getPageIndex + 1)">Siguente &rarr;</a>
-                                </li>
-                            } else {
-                                <li class="next disabled">
-                                    <a>Siguente &rarr;</a>
-                                </li>
-                            }
-                        </ul>
                     </div>
                 </div>
             </div>

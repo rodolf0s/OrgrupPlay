@@ -69,11 +69,11 @@ public class Grupo extends Model {
         return Ebean.createSqlQuery(sql).setParameter("correo", correo).setParameter("id", id).findUnique();
     }
 
-    public static Page<Grupo> pageGrupos(int page) {
-    		return find
-    				.where()
-                    .findPagingList(10)
-                    .getPage(page);
-    }
-    
+    // public static Page<Grupo> pageGrupos(int page) {
+    // 		return find
+    // 				.where()
+    //                 .findPagingList(10)
+    //                 .getPage(page);
+    // }
+
 }
