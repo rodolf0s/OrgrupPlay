@@ -63,7 +63,7 @@ public class Reunion extends Model {
 
 	@ManyToOne
 	public Grupo grupo;
-	
+
 	@Formats.NonEmpty
     @Column(length=2, nullable=false)
     public String notificado;

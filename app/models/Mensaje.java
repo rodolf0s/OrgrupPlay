@@ -38,11 +38,9 @@ public class Mensaje extends Model{
     @Column(length=50, nullable=false)
     public String destinatario;
 
-    @Formats.NonEmpty
     @Column(length=50, nullable=false)
     public String asunto;
 
-    @Formats.NonEmpty
     @Column(length=300, nullable=false)
     public String mensaje;
 
